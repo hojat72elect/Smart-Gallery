@@ -2,14 +2,18 @@ package com.simplemobiletools.gallery.pro.activities
 
 import android.os.Bundle
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.ManageFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
 
 class ExcludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
 
@@ -21,9 +25,15 @@ class ExcludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
         setContentView(binding.root)
         updateFolders()
         setupOptionsMenu()
-        binding.manageFoldersToolbar.title = getString(com.simplemobiletools.commons.R.string.excluded_folders)
+        binding.manageFoldersToolbar.title =
+            getString(com.simplemobiletools.commons.R.string.excluded_folders)
 
-        updateMaterialActivityViews(binding.manageFoldersCoordinator, binding.manageFoldersList, useTransparentNavigation = true, useTopSearchMenu = false)
+        updateMaterialActivityViews(
+            binding.manageFoldersCoordinator,
+            binding.manageFoldersList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
         setupMaterialScrollListener(binding.manageFoldersList, binding.manageFoldersToolbar)
     }
 
@@ -75,7 +85,7 @@ class ExcludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
             canAddShowHiddenButton = true,
             enforceStorageRestrictions = false,
         ) {
-            config.lastFilepickerPath = it
+            config.lastFilePickerPath = it
             config.addExcludedFolder(it)
             updateFolders()
         }

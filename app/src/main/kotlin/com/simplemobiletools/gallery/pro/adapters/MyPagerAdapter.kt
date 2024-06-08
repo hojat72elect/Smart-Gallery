@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.media3.common.util.UnstableApi
 import androidx.viewpager.widget.PagerAdapter
 import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.fragments.PhotoFragment
@@ -15,7 +16,12 @@ import com.simplemobiletools.gallery.pro.helpers.MEDIUM
 import com.simplemobiletools.gallery.pro.helpers.SHOULD_INIT_FRAGMENT
 import com.simplemobiletools.gallery.pro.models.Medium
 
-class MyPagerAdapter(val activity: ViewPagerActivity, fm: FragmentManager, val media: MutableList<Medium>) : FragmentStatePagerAdapter(fm) {
+@UnstableApi
+class MyPagerAdapter(
+    val activity: ViewPagerActivity,
+    fm: FragmentManager,
+    val media: MutableList<Medium>
+) : FragmentStatePagerAdapter(fm) {
     private val fragments = HashMap<Int, ViewPagerFragment>()
     var shouldInitFragment = true
 

@@ -8,19 +8,36 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.RemoteViews
+import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.signature.ObjectKey
 import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityWidgetConfigBinding
 import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
-import com.simplemobiletools.gallery.pro.extensions.*
+import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.directoryDB
+import com.simplemobiletools.gallery.pro.extensions.getCachedDirectories
+import com.simplemobiletools.gallery.pro.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.extensions.getFolderNameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.loadImageBase
+import com.simplemobiletools.gallery.pro.extensions.onSeekBarChangeListener
+import com.simplemobiletools.gallery.pro.extensions.setBackgroundColor
+import com.simplemobiletools.gallery.pro.extensions.setFillWithStroke
+import com.simplemobiletools.gallery.pro.extensions.updateTextColors
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.extensions.widgetsDB
 import com.simplemobiletools.gallery.pro.helpers.MyWidgetProvider
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_NONE
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Widget
 
+@UnstableApi
 class WidgetConfigureActivity : SimpleActivity() {
     private var mBgAlpha = 0f
     private var mWidgetId = 0
@@ -39,7 +56,8 @@ class WidgetConfigureActivity : SimpleActivity() {
         setContentView(binding.root)
         initVariables()
 
-        mWidgetId = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        mWidgetId = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID)
+            ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
         if (mWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish()
@@ -63,7 +81,7 @@ class WidgetConfigureActivity : SimpleActivity() {
             handleFolderNameDisplay()
         }
 
-        getCachedDirectories(false, false) {
+        getCachedDirectories(getVideosOnly = false, getImagesOnly = false) {
             mDirectories = it
             val path = it.firstOrNull()?.path
             if (path != null) {
@@ -76,7 +94,8 @@ class WidgetConfigureActivity : SimpleActivity() {
         mBgColor = config.widgetBgColor
         mBgAlpha = Color.alpha(mBgColor) / 255f
 
-        mBgColorWithoutTransparency = Color.rgb(Color.red(mBgColor), Color.green(mBgColor), Color.blue(mBgColor))
+        mBgColorWithoutTransparency =
+            Color.rgb(Color.red(mBgColor), Color.green(mBgColor), Color.blue(mBgColor))
         binding.configBgSeekbar.apply {
             progress = (mBgAlpha * 100).toInt()
 
@@ -89,7 +108,8 @@ class WidgetConfigureActivity : SimpleActivity() {
 
         mTextColor = config.widgetTextColor
         if (mTextColor == resources.getColor(com.simplemobiletools.commons.R.color.default_widget_text_color) && config.isUsingSystemTheme) {
-            mTextColor = resources.getColor(com.simplemobiletools.commons.R.color.you_primary_color, theme)
+            mTextColor =
+                resources.getColor(com.simplemobiletools.commons.R.color.you_primary_color, theme)
         }
 
         updateTextColor()
@@ -123,7 +143,12 @@ class WidgetConfigureActivity : SimpleActivity() {
     }
 
     private fun requestWidgetUpdate() {
-        Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, MyWidgetProvider::class.java).apply {
+        Intent(
+            AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+            null,
+            this,
+            MyWidgetProvider::class.java
+        ).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(mWidgetId))
             sendBroadcast(this)
         }
@@ -161,7 +186,13 @@ class WidgetConfigureActivity : SimpleActivity() {
     }
 
     private fun changeSelectedFolder() {
-        PickDirectoryDialog(this, "", false, true, false, true) {
+        PickDirectoryDialog(
+            this, "",
+            showOtherFolderButton = false,
+            showFavoritesBin = true,
+            isPickingCopyMoveDestination = false,
+            isPickingFolderForWidget = true
+        ) {
             updateFolderImage(it)
         }
     }
@@ -178,7 +209,13 @@ class WidgetConfigureActivity : SimpleActivity() {
             if (path != null) {
                 runOnUiThread {
                     val signature = ObjectKey(System.currentTimeMillis().toString())
-                    loadImageBase(path, binding.configImage, config.cropThumbnails, ROUNDED_CORNERS_NONE, signature)
+                    loadImageBase(
+                        path,
+                        binding.configImage,
+                        config.cropThumbnails,
+                        ROUNDED_CORNERS_NONE,
+                        signature
+                    )
                 }
             }
         }

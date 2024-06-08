@@ -1,9 +1,9 @@
 package com.simplemobiletools.gallery.pro.activities
 
 import android.os.Bundle
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.R
@@ -23,7 +23,12 @@ class IncludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
         setupOptionsMenu()
         binding.manageFoldersToolbar.title = getString(R.string.include_folders)
 
-        updateMaterialActivityViews(binding.manageFoldersCoordinator, binding.manageFoldersList, useTransparentNavigation = true, useTopSearchMenu = false)
+        updateMaterialActivityViews(
+            binding.manageFoldersCoordinator,
+            binding.manageFoldersList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
         setupMaterialScrollListener(binding.manageFoldersList, binding.manageFoldersToolbar)
     }
 

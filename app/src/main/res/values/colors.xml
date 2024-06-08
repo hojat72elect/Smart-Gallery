@@ -2,4 +2,5 @@
 <resources>
     <color name="crop_image_view_background">#BB000000</color>
     <color name="circle_black_background">#66000000</color>
+    <color name="color_primary">#FFF57C00</color>
 </resources>

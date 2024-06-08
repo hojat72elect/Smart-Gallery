@@ -1,22 +1,167 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.simplemobiletools.commons.dialogs.*
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.dialogs.ChangeDateTimeFormatDialog
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.dialogs.FilePickerDialog
+import com.simplemobiletools.commons.dialogs.RadioGroupDialog
+import com.simplemobiletools.commons.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.extensions.toBoolean
+import com.simplemobiletools.gallery.pro.extensions.toInt
+import com.simplemobiletools.gallery.pro.extensions.toStringSet
+import com.simplemobiletools.gallery.pro.extensions.writeLn
+import com.simplemobiletools.commons.helpers.ACCENT_COLOR
+import com.simplemobiletools.commons.helpers.APP_ICON_COLOR
+import com.simplemobiletools.commons.helpers.BACKGROUND_COLOR
+import com.simplemobiletools.commons.helpers.DATE_FORMAT
+import com.simplemobiletools.commons.helpers.ENABLE_PULL_TO_REFRESH
+import com.simplemobiletools.commons.helpers.IS_USING_SHARED_THEME
+import com.simplemobiletools.commons.helpers.KEEP_LAST_MODIFIED
+import com.simplemobiletools.commons.helpers.LAST_CONFLICT_APPLY_TO_ALL
+import com.simplemobiletools.commons.helpers.LAST_CONFLICT_RESOLUTION
+import com.simplemobiletools.commons.helpers.NavigationIcon
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_STORAGE
+import com.simplemobiletools.commons.helpers.PERMISSION_WRITE_STORAGE
+import com.simplemobiletools.commons.helpers.PRIMARY_COLOR
+import com.simplemobiletools.commons.helpers.PROTECTION_FINGERPRINT
+import com.simplemobiletools.commons.helpers.SCROLL_HORIZONTALLY
+import com.simplemobiletools.commons.helpers.SHOW_ALL_TABS
+import com.simplemobiletools.commons.helpers.SKIP_DELETE_CONFIRMATION
+import com.simplemobiletools.commons.helpers.SORT_ORDER
+import com.simplemobiletools.commons.helpers.TEXT_COLOR
+import com.simplemobiletools.commons.helpers.USE_24_HOUR_FORMAT
+import com.simplemobiletools.commons.helpers.USE_ENGLISH
+import com.simplemobiletools.commons.helpers.WAS_USE_ENGLISH_TOGGLED
+import com.simplemobiletools.commons.helpers.WIDGET_BG_COLOR
+import com.simplemobiletools.commons.helpers.WIDGET_TEXT_COLOR
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isPiePlus
+import com.simplemobiletools.commons.helpers.isQPlus
+import com.simplemobiletools.commons.helpers.isRPlus
+import com.simplemobiletools.commons.helpers.isTiramisuPlus
+import com.simplemobiletools.commons.helpers.sumByLong
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivitySettingsBinding
-import com.simplemobiletools.gallery.pro.dialogs.*
-import com.simplemobiletools.gallery.pro.extensions.*
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.dialogs.ChangeFileThumbnailStyleDialog
+import com.simplemobiletools.gallery.pro.dialogs.ChangeFolderThumbnailStyleDialog
+import com.simplemobiletools.gallery.pro.dialogs.ExportFavoritesDialog
+import com.simplemobiletools.gallery.pro.dialogs.GrantAllFilesDialog
+import com.simplemobiletools.gallery.pro.dialogs.ManageBottomActionsDialog
+import com.simplemobiletools.gallery.pro.dialogs.ManageExtendedDetailsDialog
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.beGoneIf
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.checkAppIconColor
+import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.emptyTheRecycleBin
+import com.simplemobiletools.gallery.pro.extensions.favoritesDB
+import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.gallery.pro.extensions.getAppIconColors
+import com.simplemobiletools.gallery.pro.extensions.getCurrentFormattedDateTime
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getFavoriteFromPath
+import com.simplemobiletools.gallery.pro.extensions.getFileOutputStream
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.getProperSize
+import com.simplemobiletools.gallery.pro.extensions.handleExcludedFolderPasswordProtection
+import com.simplemobiletools.gallery.pro.extensions.handleHiddenFolderPasswordProtection
+import com.simplemobiletools.gallery.pro.extensions.handleMediaManagementPrompt
+import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
+import com.simplemobiletools.gallery.pro.extensions.isVisible
+import com.simplemobiletools.gallery.pro.extensions.mediaDB
+import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.showRecycleBinEmptyingDialog
+import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.updateTextColors
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.helpers.ALBUM_COVERS
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_DOWN_GESTURE
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_INSTANT_CHANGE
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_ONE_TO_ONE_ZOOM
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_PHOTO_GESTURES
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_ROTATING_WITH_GESTURES
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_VIDEO_GESTURES
+import com.simplemobiletools.gallery.pro.helpers.ALLOW_ZOOMING_IMAGES
+import com.simplemobiletools.gallery.pro.helpers.ANIMATE_GIFS
+import com.simplemobiletools.gallery.pro.helpers.AUTOPLAY_VIDEOS
+import com.simplemobiletools.gallery.pro.helpers.BLACK_BACKGROUND
+import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTIONS
+import com.simplemobiletools.gallery.pro.helpers.CROP_THUMBNAILS
+import com.simplemobiletools.gallery.pro.helpers.DEFAULT_BOTTOM_ACTIONS
+import com.simplemobiletools.gallery.pro.helpers.DELETE_EMPTY_FOLDERS
+import com.simplemobiletools.gallery.pro.helpers.DIRECTORY_SORT_ORDER
+import com.simplemobiletools.gallery.pro.helpers.DIR_COLUMN_CNT
+import com.simplemobiletools.gallery.pro.helpers.DISPLAY_FILE_NAMES
+import com.simplemobiletools.gallery.pro.helpers.EDITOR_BRUSH_COLOR
+import com.simplemobiletools.gallery.pro.helpers.EDITOR_BRUSH_HARDNESS
+import com.simplemobiletools.gallery.pro.helpers.EDITOR_BRUSH_SIZE
+import com.simplemobiletools.gallery.pro.helpers.EXCLUDED_FOLDERS
+import com.simplemobiletools.gallery.pro.helpers.EXTENDED_DETAILS
+import com.simplemobiletools.gallery.pro.helpers.FILE_LOADING_PRIORITY
+import com.simplemobiletools.gallery.pro.helpers.FILE_ROUNDED_CORNERS
+import com.simplemobiletools.gallery.pro.helpers.FILTER_MEDIA
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_COUNT
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_SQUARE
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_THUMBNAIL_STYLE
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_DIRECT_SUBFOLDERS
+import com.simplemobiletools.gallery.pro.helpers.HIDE_EXTENDED_DETAILS
+import com.simplemobiletools.gallery.pro.helpers.HIDE_SYSTEM_UI
+import com.simplemobiletools.gallery.pro.helpers.INCLUDED_FOLDERS
+import com.simplemobiletools.gallery.pro.helpers.LAST_EDITOR_CROP_ASPECT_RATIO
+import com.simplemobiletools.gallery.pro.helpers.LAST_EDITOR_CROP_OTHER_ASPECT_RATIO_X
+import com.simplemobiletools.gallery.pro.helpers.LAST_EDITOR_CROP_OTHER_ASPECT_RATIO_Y
+import com.simplemobiletools.gallery.pro.helpers.LIMIT_FOLDER_TITLE
+import com.simplemobiletools.gallery.pro.helpers.LOOP_VIDEOS
+import com.simplemobiletools.gallery.pro.helpers.MARK_FAVORITE_ITEMS
+import com.simplemobiletools.gallery.pro.helpers.MAX_BRIGHTNESS
+import com.simplemobiletools.gallery.pro.helpers.MEDIA_COLUMN_CNT
+import com.simplemobiletools.gallery.pro.helpers.OPEN_VIDEOS_ON_SEPARATE_SCREEN
+import com.simplemobiletools.gallery.pro.helpers.PINNED_FOLDERS
+import com.simplemobiletools.gallery.pro.helpers.PRIORITY_COMPROMISE
+import com.simplemobiletools.gallery.pro.helpers.PRIORITY_SPEED
+import com.simplemobiletools.gallery.pro.helpers.PRIORITY_VALIDITY
+import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.helpers.REMEMBER_LAST_VIDEO_POSITION
+import com.simplemobiletools.gallery.pro.helpers.ROTATE_BY_ASPECT_RATIO
+import com.simplemobiletools.gallery.pro.helpers.ROTATE_BY_DEVICE_ROTATION
+import com.simplemobiletools.gallery.pro.helpers.ROTATE_BY_SYSTEM_SETTING
+import com.simplemobiletools.gallery.pro.helpers.SCREEN_ROTATION
+import com.simplemobiletools.gallery.pro.helpers.SEARCH_ALL_FILES_BY_DEFAULT
+import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
+import com.simplemobiletools.gallery.pro.helpers.SHOW_EXTENDED_DETAILS
+import com.simplemobiletools.gallery.pro.helpers.SHOW_HIDDEN_MEDIA
+import com.simplemobiletools.gallery.pro.helpers.SHOW_HIGHEST_QUALITY
+import com.simplemobiletools.gallery.pro.helpers.SHOW_NOTCH
+import com.simplemobiletools.gallery.pro.helpers.SHOW_RECYCLE_BIN_AT_FOLDERS
+import com.simplemobiletools.gallery.pro.helpers.SHOW_RECYCLE_BIN_LAST
+import com.simplemobiletools.gallery.pro.helpers.SHOW_THUMBNAIL_FILE_TYPES
+import com.simplemobiletools.gallery.pro.helpers.SHOW_THUMBNAIL_VIDEO_DURATION
+import com.simplemobiletools.gallery.pro.helpers.SHOW_WIDGET_FOLDER_NAME
+import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_INCLUDE_GIFS
+import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_INCLUDE_VIDEOS
+import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_INTERVAL
+import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_LOOP
+import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_MOVE_BACKWARDS
+import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_RANDOM_ORDER
+import com.simplemobiletools.gallery.pro.helpers.THUMBNAIL_SPACING
+import com.simplemobiletools.gallery.pro.helpers.USE_RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_FILES
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_FOLDERS
+import com.simplemobiletools.gallery.pro.helpers.VISIBLE_BOTTOM_ACTIONS
 import com.simplemobiletools.gallery.pro.models.AlbumCover
 import java.io.File
 import java.io.InputStream
@@ -24,6 +169,7 @@ import java.io.OutputStream
 import java.util.Locale
 import kotlin.system.exitProcess
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class SettingsActivity : SimpleActivity() {
     companion object {
         private const val PICK_IMPORT_SOURCE_INTENT = 1
@@ -39,7 +185,12 @@ class SettingsActivity : SimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        updateMaterialActivityViews(binding.settingsCoordinator, binding.settingsHolder, useTransparentNavigation = true, useTopSearchMenu = false)
+        updateMaterialActivityViews(
+            binding.settingsCoordinator,
+            binding.settingsHolder,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
         setupMaterialScrollListener(binding.settingsNestedScrollview, binding.settingsToolbar)
     }
 
@@ -125,6 +276,7 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == PICK_IMPORT_SOURCE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
@@ -194,6 +346,7 @@ class SettingsActivity : SimpleActivity() {
         }
     )
 
+    @SuppressLint("SetTextI18n")
     private fun setupManageIncludedFolders() {
         if (isRPlus() && !isExternalStorageManager()) {
             binding.settingsManageIncludedFolders.text =
@@ -228,10 +381,15 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupShowHiddenItems() {
         if (isRPlus() && !isExternalStorageManager()) {
             binding.settingsShowHiddenItems.text =
-                "${getString(com.simplemobiletools.commons.R.string.show_hidden_items)} (${getString(com.simplemobiletools.commons.R.string.no_permission)})"
+                "${getString(com.simplemobiletools.commons.R.string.show_hidden_items)} (${
+                    getString(
+                        com.simplemobiletools.commons.R.string.no_permission
+                    )
+                })"
         } else {
             binding.settingsShowHiddenItems.setText(com.simplemobiletools.commons.R.string.show_hidden_items)
         }
@@ -352,7 +510,8 @@ class SettingsActivity : SimpleActivity() {
         binding.settingsHiddenItemPasswordProtectionHolder.beGoneIf(isRPlus() && !isExternalStorageManager())
         binding.settingsHiddenItemPasswordProtection.isChecked = config.isHiddenPasswordProtectionOn
         binding.settingsHiddenItemPasswordProtectionHolder.setOnClickListener {
-            val tabToShow = if (config.isHiddenPasswordProtectionOn) config.hiddenProtectionType else SHOW_ALL_TABS
+            val tabToShow =
+                if (config.isHiddenPasswordProtectionOn) config.hiddenProtectionType else SHOW_ALL_TABS
             SecurityDialog(this, config.hiddenPasswordHash, tabToShow) { hash, type, success ->
                 if (success) {
                     val hasPasswordProtection = config.isHiddenPasswordProtectionOn
@@ -362,9 +521,16 @@ class SettingsActivity : SimpleActivity() {
                     config.hiddenProtectionType = type
 
                     if (config.isHiddenPasswordProtectionOn) {
-                        val confirmationTextId = if (config.hiddenProtectionType == PROTECTION_FINGERPRINT)
-                            com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
-                        ConfirmationDialog(this, "", confirmationTextId, com.simplemobiletools.commons.R.string.ok, 0) { }
+                        val confirmationTextId =
+                            if (config.hiddenProtectionType == PROTECTION_FINGERPRINT)
+                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                        ConfirmationDialog(
+                            this,
+                            "",
+                            confirmationTextId,
+                            com.simplemobiletools.commons.R.string.ok,
+                            0
+                        ) { }
                     }
                 }
             }
@@ -373,21 +539,31 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupExcludedItemPasswordProtection() {
         binding.settingsExcludedItemPasswordProtectionHolder.beGoneIf(binding.settingsHiddenItemPasswordProtectionHolder.isVisible())
-        binding.settingsExcludedItemPasswordProtection.isChecked = config.isExcludedPasswordProtectionOn
+        binding.settingsExcludedItemPasswordProtection.isChecked =
+            config.isExcludedPasswordProtectionOn
         binding.settingsExcludedItemPasswordProtectionHolder.setOnClickListener {
-            val tabToShow = if (config.isExcludedPasswordProtectionOn) config.excludedProtectionType else SHOW_ALL_TABS
+            val tabToShow =
+                if (config.isExcludedPasswordProtectionOn) config.excludedProtectionType else SHOW_ALL_TABS
             SecurityDialog(this, config.excludedPasswordHash, tabToShow) { hash, type, success ->
                 if (success) {
                     val hasPasswordProtection = config.isExcludedPasswordProtectionOn
-                    binding.settingsExcludedItemPasswordProtection.isChecked = !hasPasswordProtection
+                    binding.settingsExcludedItemPasswordProtection.isChecked =
+                        !hasPasswordProtection
                     config.isExcludedPasswordProtectionOn = !hasPasswordProtection
                     config.excludedPasswordHash = if (hasPasswordProtection) "" else hash
                     config.excludedProtectionType = type
 
                     if (config.isExcludedPasswordProtectionOn) {
-                        val confirmationTextId = if (config.excludedProtectionType == PROTECTION_FINGERPRINT)
-                            com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
-                        ConfirmationDialog(this, "", confirmationTextId, com.simplemobiletools.commons.R.string.ok, 0) { }
+                        val confirmationTextId =
+                            if (config.excludedProtectionType == PROTECTION_FINGERPRINT)
+                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                        ConfirmationDialog(
+                            this,
+                            "",
+                            confirmationTextId,
+                            com.simplemobiletools.commons.R.string.ok,
+                            0
+                        ) { }
                     }
                 }
             }
@@ -397,7 +573,8 @@ class SettingsActivity : SimpleActivity() {
     private fun setupAppPasswordProtection() {
         binding.settingsAppPasswordProtection.isChecked = config.isAppPasswordProtectionOn
         binding.settingsAppPasswordProtectionHolder.setOnClickListener {
-            val tabToShow = if (config.isAppPasswordProtectionOn) config.appProtectionType else SHOW_ALL_TABS
+            val tabToShow =
+                if (config.isAppPasswordProtectionOn) config.appProtectionType else SHOW_ALL_TABS
             SecurityDialog(this, config.appPasswordHash, tabToShow) { hash, type, success ->
                 if (success) {
                     val hasPasswordProtection = config.isAppPasswordProtectionOn
@@ -407,9 +584,16 @@ class SettingsActivity : SimpleActivity() {
                     config.appProtectionType = type
 
                     if (config.isAppPasswordProtectionOn) {
-                        val confirmationTextId = if (config.appProtectionType == PROTECTION_FINGERPRINT)
-                            com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
-                        ConfirmationDialog(this, "", confirmationTextId, com.simplemobiletools.commons.R.string.ok, 0) { }
+                        val confirmationTextId =
+                            if (config.appProtectionType == PROTECTION_FINGERPRINT)
+                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                        ConfirmationDialog(
+                            this,
+                            "",
+                            confirmationTextId,
+                            com.simplemobiletools.commons.R.string.ok,
+                            0
+                        ) { }
                     }
                 }
             }
@@ -417,21 +601,31 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupFileDeletionPasswordProtection() {
-        binding.settingsFileDeletionPasswordProtection.isChecked = config.isDeletePasswordProtectionOn
+        binding.settingsFileDeletionPasswordProtection.isChecked =
+            config.isDeletePasswordProtectionOn
         binding.settingsFileDeletionPasswordProtectionHolder.setOnClickListener {
-            val tabToShow = if (config.isDeletePasswordProtectionOn) config.deleteProtectionType else SHOW_ALL_TABS
+            val tabToShow =
+                if (config.isDeletePasswordProtectionOn) config.deleteProtectionType else SHOW_ALL_TABS
             SecurityDialog(this, config.deletePasswordHash, tabToShow) { hash, type, success ->
                 if (success) {
                     val hasPasswordProtection = config.isDeletePasswordProtectionOn
-                    binding.settingsFileDeletionPasswordProtection.isChecked = !hasPasswordProtection
+                    binding.settingsFileDeletionPasswordProtection.isChecked =
+                        !hasPasswordProtection
                     config.isDeletePasswordProtectionOn = !hasPasswordProtection
                     config.deletePasswordHash = if (hasPasswordProtection) "" else hash
                     config.deleteProtectionType = type
 
                     if (config.isDeletePasswordProtectionOn) {
-                        val confirmationTextId = if (config.deleteProtectionType == PROTECTION_FINGERPRINT)
-                            com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
-                        ConfirmationDialog(this, "", confirmationTextId, com.simplemobiletools.commons.R.string.ok, 0) { }
+                        val confirmationTextId =
+                            if (config.deleteProtectionType == PROTECTION_FINGERPRINT)
+                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                        ConfirmationDialog(
+                            this,
+                            "",
+                            confirmationTextId,
+                            com.simplemobiletools.commons.R.string.ok,
+                            0
+                        ) { }
                     }
                 }
             }
@@ -612,8 +806,14 @@ class SettingsActivity : SimpleActivity() {
         binding.settingsScreenRotation.text = getScreenRotationText()
         binding.settingsScreenRotationHolder.setOnClickListener {
             val items = arrayListOf(
-                RadioItem(ROTATE_BY_SYSTEM_SETTING, getString(R.string.screen_rotation_system_setting)),
-                RadioItem(ROTATE_BY_DEVICE_ROTATION, getString(R.string.screen_rotation_device_rotation)),
+                RadioItem(
+                    ROTATE_BY_SYSTEM_SETTING,
+                    getString(R.string.screen_rotation_system_setting)
+                ),
+                RadioItem(
+                    ROTATE_BY_DEVICE_ROTATION,
+                    getString(R.string.screen_rotation_device_rotation)
+                ),
                 RadioItem(ROTATE_BY_ASPECT_RATIO, getString(R.string.screen_rotation_aspect_ratio))
             )
 
@@ -696,7 +896,8 @@ class SettingsActivity : SimpleActivity() {
                 mRecycleBinContentSize = mediaDB.getDeletedMedia().sumByLong { medium ->
                     val size = medium.size
                     if (size == 0L) {
-                        val path = medium.path.removePrefix(RECYCLE_BIN).prependIndent(recycleBinPath)
+                        val path =
+                            medium.path.removePrefix(RECYCLE_BIN).prependIndent(recycleBinPath)
                         File(path).length()
                     } else {
                         size
@@ -753,7 +954,10 @@ class SettingsActivity : SimpleActivity() {
                         try {
                             startActivityForResult(this, SELECT_EXPORT_FAVORITES_FILE_INTENT)
                         } catch (e: ActivityNotFoundException) {
-                            toast(com.simplemobiletools.commons.R.string.system_service_disabled, Toast.LENGTH_LONG)
+                            toast(
+                                com.simplemobiletools.commons.R.string.system_service_disabled,
+                                Toast.LENGTH_LONG
+                            )
                         } catch (e: Exception) {
                             showErrorToast(e)
                         }
@@ -762,7 +966,11 @@ class SettingsActivity : SimpleActivity() {
             } else {
                 handlePermission(PERMISSION_WRITE_STORAGE) {
                     if (it) {
-                        ExportFavoritesDialog(this, getExportFavoritesFilename(), false) { path, filename ->
+                        ExportFavoritesDialog(
+                            this,
+                            getExportFavoritesFilename(),
+                            false
+                        ) { path, filename ->
                             val file = File(path)
                             getFileOutputStream(file.toFileDirItem(this), true) {
                                 exportFavoritesTo(it)
@@ -797,7 +1005,8 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun getExportFavoritesFilename(): String {
-        val appName = baseConfig.appId.removeSuffix(".debug").removeSuffix(".pro").removePrefix("com.simplemobiletools.")
+        val appName = baseConfig.appId.removeSuffix(".debug").removeSuffix(".pro")
+            .removePrefix("com.simplemobiletools.")
         return "$appName-favorites_${getCurrentFormattedDateTime()}"
     }
 
@@ -1016,11 +1225,15 @@ class SettingsActivity : SimpleActivity() {
                 AUTOPLAY_VIDEOS -> config.autoplayVideos = value.toBoolean()
                 REMEMBER_LAST_VIDEO_POSITION -> config.rememberLastVideoPosition = value.toBoolean()
                 LOOP_VIDEOS -> config.loopVideos = value.toBoolean()
-                OPEN_VIDEOS_ON_SEPARATE_SCREEN -> config.openVideosOnSeparateScreen = value.toBoolean()
+                OPEN_VIDEOS_ON_SEPARATE_SCREEN -> config.openVideosOnSeparateScreen =
+                    value.toBoolean()
+
                 ALLOW_VIDEO_GESTURES -> config.allowVideoGestures = value.toBoolean()
                 ANIMATE_GIFS -> config.animateGifs = value.toBoolean()
                 CROP_THUMBNAILS -> config.cropThumbnails = value.toBoolean()
-                SHOW_THUMBNAIL_VIDEO_DURATION -> config.showThumbnailVideoDuration = value.toBoolean()
+                SHOW_THUMBNAIL_VIDEO_DURATION -> config.showThumbnailVideoDuration =
+                    value.toBoolean()
+
                 SHOW_THUMBNAIL_FILE_TYPES -> config.showThumbnailFileTypes = value.toBoolean()
                 MARK_FAVORITE_ITEMS -> config.markFavoriteItems = value.toBoolean()
                 SCROLL_HORIZONTALLY -> config.scrollHorizontally = value.toBoolean()
@@ -1068,8 +1281,12 @@ class SettingsActivity : SimpleActivity() {
                 SLIDESHOW_MOVE_BACKWARDS -> config.slideshowMoveBackwards = value.toBoolean()
                 SLIDESHOW_LOOP -> config.loopSlideshow = value.toBoolean()
                 LAST_EDITOR_CROP_ASPECT_RATIO -> config.lastEditorCropAspectRatio = value.toInt()
-                LAST_EDITOR_CROP_OTHER_ASPECT_RATIO_X -> config.lastEditorCropOtherAspectRatioX = value.toString().toFloat()
-                LAST_EDITOR_CROP_OTHER_ASPECT_RATIO_Y -> config.lastEditorCropOtherAspectRatioY = value.toString().toFloat()
+                LAST_EDITOR_CROP_OTHER_ASPECT_RATIO_X -> config.lastEditorCropOtherAspectRatioX =
+                    value.toString().toFloat()
+
+                LAST_EDITOR_CROP_OTHER_ASPECT_RATIO_Y -> config.lastEditorCropOtherAspectRatioY =
+                    value.toString().toFloat()
+
                 LAST_CONFLICT_RESOLUTION -> config.lastConflictResolution = value.toInt()
                 LAST_CONFLICT_APPLY_TO_ALL -> config.lastConflictApplyToAll = value.toBoolean()
                 EDITOR_BRUSH_COLOR -> config.editorBrushColor = value.toInt()
@@ -1083,13 +1300,16 @@ class SettingsActivity : SimpleActivity() {
                 SEARCH_ALL_FILES_BY_DEFAULT -> config.searchAllFilesByDefault = value.toBoolean()
                 ALBUM_COVERS -> {
                     val existingCovers = config.parseAlbumCovers()
-                    val existingCoverPaths = existingCovers.map { it.path }.toMutableList() as ArrayList<String>
+                    val existingCoverPaths =
+                        existingCovers.map { it.path }.toMutableList() as ArrayList<String>
 
                     val listType = object : TypeToken<List<AlbumCover>>() {}.type
-                    val covers = Gson().fromJson<ArrayList<AlbumCover>>(value.toString(), listType) ?: ArrayList(1)
-                    covers.filter { !existingCoverPaths.contains(it.path) && getDoesFilePathExist(it.tmb) }.forEach {
-                        existingCovers.add(it)
-                    }
+                    val covers = Gson().fromJson<ArrayList<AlbumCover>>(value.toString(), listType)
+                        ?: ArrayList(1)
+                    covers.filter { !existingCoverPaths.contains(it.path) && getDoesFilePathExist(it.tmb) }
+                        .forEach {
+                            existingCovers.add(it)
+                        }
 
                     config.albumCovers = Gson().toJson(existingCovers)
                 }

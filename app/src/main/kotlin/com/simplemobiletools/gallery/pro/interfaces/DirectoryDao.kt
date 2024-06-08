@@ -22,10 +22,24 @@ interface DirectoryDao {
     fun deleteDirPath(path: String)
 
     @Query("UPDATE OR REPLACE directories SET thumbnail = :thumbnail, media_count = :mediaCnt, last_modified = :lastModified, date_taken = :dateTaken, size = :size, media_types = :mediaTypes, sort_value = :sortValue WHERE path = :path COLLATE NOCASE")
-    fun updateDirectory(path: String, thumbnail: String, mediaCnt: Int, lastModified: Long, dateTaken: Long, size: Long, mediaTypes: Int, sortValue: String)
+    fun updateDirectory(
+        path: String,
+        thumbnail: String,
+        mediaCnt: Int,
+        lastModified: Long,
+        dateTaken: Long,
+        size: Long,
+        mediaTypes: Int,
+        sortValue: String
+    )
 
     @Query("UPDATE directories SET thumbnail = :thumbnail, filename = :name, path = :newPath WHERE path = :oldPath COLLATE NOCASE")
-    fun updateDirectoryAfterRename(thumbnail: String, name: String, newPath: String, oldPath: String)
+    fun updateDirectoryAfterRename(
+        thumbnail: String,
+        name: String,
+        newPath: String,
+        oldPath: String
+    )
 
     @Query("DELETE FROM directories WHERE path = \'$RECYCLE_BIN\' COLLATE NOCASE")
     fun deleteRecycleBin()

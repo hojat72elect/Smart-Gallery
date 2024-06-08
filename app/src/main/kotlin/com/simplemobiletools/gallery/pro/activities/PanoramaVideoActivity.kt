@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
@@ -13,20 +14,27 @@ import android.widget.RelativeLayout
 import android.widget.SeekBar
 import com.google.vr.sdk.widgets.video.VrVideoEventListener
 import com.google.vr.sdk.widgets.video.VrVideoView
-import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityPanoramaVideoBinding
+import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getFormattedDuration
 import com.simplemobiletools.gallery.pro.extensions.hasNavBar
 import com.simplemobiletools.gallery.pro.extensions.hideSystemUI
+import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
+import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
+import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.showSystemUI
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.MIN_SKIP_LENGTH
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import java.io.File
 
 open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListener {
-    private val CARDBOARD_DISPLAY_MODE = 3
+
 
     private var mIsFullscreen = false
     private var mIsExploreEnabled = true
@@ -50,7 +58,10 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         checkIntent()
 
         if (isRPlus()) {
-            window.insetsController?.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+            window.insetsController?.setSystemBarsAppearance(
+                0,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
         }
     }
 
@@ -186,7 +197,8 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
                 if (mIsPlaying && !mIsDragged) {
                     mCurrTime = (binding.vrVideoView.currentPosition / 1000).toInt()
                     binding.bottomVideoTimeHolder.videoSeekbar.progress = mCurrTime
-                    binding.bottomVideoTimeHolder.videoCurrTime.text = mCurrTime.getFormattedDuration()
+                    binding.bottomVideoTimeHolder.videoCurrTime.text =
+                        mCurrTime.getFormattedDuration()
                 }
 
                 mTimerHandler.postDelayed(this, 1000)
@@ -231,11 +243,13 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
     private fun videoCompleted() {
         mIsPlaying = false
         mCurrTime = (binding.vrVideoView.duration / 1000).toInt()
-        binding.bottomVideoTimeHolder.videoSeekbar.progress = binding.bottomVideoTimeHolder.videoSeekbar.max
+        binding.bottomVideoTimeHolder.videoSeekbar.progress =
+            binding.bottomVideoTimeHolder.videoSeekbar.max
         binding.bottomVideoTimeHolder.videoCurrTime.text = mDuration.getFormattedDuration()
         pauseVideo()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupButtons() {
         var right = 0
         var bottom = 0
@@ -250,11 +264,15 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         }
 
         binding.bottomVideoTimeHolder.root.setPadding(0, 0, right, bottom)
-        binding.bottomVideoTimeHolder.root.background = resources.getDrawable(R.drawable.gradient_background)
+        binding.bottomVideoTimeHolder.root.background =
+            resources.getDrawable(R.drawable.gradient_background)
         binding.bottomVideoTimeHolder.root.onGlobalLayout {
-            val newBottomMargin = binding.bottomVideoTimeHolder.root.height - resources.getDimension(R.dimen.video_player_play_pause_size)
-                .toInt() - resources.getDimension(com.simplemobiletools.commons.R.dimen.activity_margin).toInt()
-            (binding.explore.layoutParams as RelativeLayout.LayoutParams).bottomMargin = newBottomMargin
+            val newBottomMargin =
+                binding.bottomVideoTimeHolder.root.height - resources.getDimension(R.dimen.video_player_play_pause_size)
+                    .toInt() - resources.getDimension(com.simplemobiletools.commons.R.dimen.activity_margin)
+                    .toInt()
+            (binding.explore.layoutParams as RelativeLayout.LayoutParams).bottomMargin =
+                newBottomMargin
 
             (binding.cardboard.layoutParams as RelativeLayout.LayoutParams).apply {
                 bottomMargin = newBottomMargin
@@ -299,9 +317,9 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         mIsFullscreen = !mIsFullscreen
         toggleButtonVisibility()
         if (mIsFullscreen) {
-            hideSystemUI(false)
+            hideSystemUI()
         } else {
-            showSystemUI(false)
+            showSystemUI()
         }
     }
 
@@ -314,7 +332,8 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         val twoPercents = Math.max((binding.vrVideoView.duration / 50).toInt(), MIN_SKIP_LENGTH)
         val newProgress = if (forward) curr + twoPercents else curr - twoPercents
         val roundProgress = Math.round(newProgress / 1000f)
-        val limitedProgress = Math.max(Math.min(binding.vrVideoView.duration.toInt(), roundProgress), 0)
+        val limitedProgress =
+            Math.max(Math.min(binding.vrVideoView.duration.toInt(), roundProgress), 0)
         setVideoProgress(limitedProgress)
         if (!mIsPlaying) {
             togglePlayPause()
@@ -336,5 +355,9 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         mIsPlaying = true
         resumeVideo()
         mIsDragged = false
+    }
+
+    companion object {
+        private const val CARDBOARD_DISPLAY_MODE = 3
     }
 }

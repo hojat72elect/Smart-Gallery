@@ -15,10 +15,10 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Video
-import com.simplemobiletools.commons.extensions.getParentPath
-import com.simplemobiletools.commons.extensions.getStringValue
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.extensions.addPathToDB
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.getStringValue
 import com.simplemobiletools.gallery.pro.extensions.updateDirectoryPath
 
 // based on https://developer.android.com/reference/android/app/job/JobInfo.Builder.html#addTriggerContentUri(android.app.job.JobInfo.TriggerContentUri)
@@ -44,8 +44,18 @@ class NewPhotoFetcher : JobService() {
         val photoUri = Images.Media.EXTERNAL_CONTENT_URI
         val videoUri = Video.Media.EXTERNAL_CONTENT_URI
         JobInfo.Builder(PHOTO_VIDEO_CONTENT_JOB, componentName).apply {
-            addTriggerContentUri(TriggerContentUri(photoUri, TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
-            addTriggerContentUri(TriggerContentUri(videoUri, TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
+            addTriggerContentUri(
+                TriggerContentUri(
+                    photoUri,
+                    TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS
+                )
+            )
+            addTriggerContentUri(
+                TriggerContentUri(
+                    videoUri,
+                    TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS
+                )
+            )
             addTriggerContentUri(TriggerContentUri(MEDIA_URI, 0))
 
             try {
@@ -86,9 +96,18 @@ class NewPhotoFetcher : JobService() {
                     var cursor: Cursor? = null
                     try {
                         val projection = arrayOf(Images.ImageColumns.DATA)
-                        val uris = arrayListOf(Images.Media.EXTERNAL_CONTENT_URI, Video.Media.EXTERNAL_CONTENT_URI)
+                        val uris = arrayListOf(
+                            Images.Media.EXTERNAL_CONTENT_URI,
+                            Video.Media.EXTERNAL_CONTENT_URI
+                        )
                         uris.forEach {
-                            cursor = contentResolver.query(it, projection, selection.toString(), null, null)
+                            cursor = contentResolver.query(
+                                it,
+                                projection,
+                                selection.toString(),
+                                null,
+                                null
+                            )
                             while (cursor!!.moveToNext()) {
                                 val path = cursor!!.getStringValue(Images.ImageColumns.DATA)
                                 affectedFolderPaths.add(path.getParentPath())

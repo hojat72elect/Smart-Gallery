@@ -2,16 +2,31 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.content.DialogInterface
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.beGoneIf
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.isVisible
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.commons.helpers.SORT_BY_CUSTOM
+import com.simplemobiletools.commons.helpers.SORT_BY_DATE_MODIFIED
+import com.simplemobiletools.commons.helpers.SORT_BY_DATE_TAKEN
+import com.simplemobiletools.commons.helpers.SORT_BY_NAME
+import com.simplemobiletools.commons.helpers.SORT_BY_PATH
+import com.simplemobiletools.commons.helpers.SORT_BY_RANDOM
+import com.simplemobiletools.commons.helpers.SORT_BY_SIZE
+import com.simplemobiletools.commons.helpers.SORT_DESCENDING
+import com.simplemobiletools.commons.helpers.SORT_USE_NUMERIC_VALUE
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeSortingBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
 
 class ChangeSortingDialog(
-    val activity: BaseSimpleActivity, val isDirectorySorting: Boolean, val showFolderCheckbox: Boolean,
-    val path: String = "", val callback: () -> Unit
+    val activity: BaseSimpleActivity,
+    private val isDirectorySorting: Boolean,
+    private val showFolderCheckbox: Boolean,
+    val path: String = "",
+    val callback: () -> Unit
 ) :
     DialogInterface.OnClickListener {
     private var currSorting = 0
@@ -20,7 +35,8 @@ class ChangeSortingDialog(
     private val binding: DialogChangeSortingBinding
 
     init {
-        currSorting = if (isDirectorySorting) config.directorySorting else config.getFolderSorting(pathToUse)
+        currSorting =
+            if (isDirectorySorting) config.directorySorting else config.getFolderSorting(pathToUse)
         binding = DialogChangeSortingBinding.inflate(activity.layoutInflater).apply {
             sortingDialogOrderDivider.beVisibleIf(showFolderCheckbox || (currSorting and SORT_BY_NAME != 0 || currSorting and SORT_BY_PATH != 0))
 
@@ -37,7 +53,11 @@ class ChangeSortingDialog(
             .setPositiveButton(com.simplemobiletools.commons.R.string.ok, this)
             .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
             .apply {
-                activity.setupDialogStuff(binding.root, this, com.simplemobiletools.commons.R.string.sort_by)
+                activity.setupDialogStuff(
+                    binding.root,
+                    this,
+                    com.simplemobiletools.commons.R.string.sort_by
+                )
             }
 
         setupSortRadio()
@@ -47,11 +67,13 @@ class ChangeSortingDialog(
     private fun setupSortRadio() {
         val sortingRadio = binding.sortingDialogRadioSorting
         sortingRadio.setOnCheckedChangeListener { _, checkedId ->
-            val isSortingByNameOrPath = checkedId == binding.sortingDialogRadioName.id || checkedId == binding.sortingDialogRadioPath.id
+            val isSortingByNameOrPath =
+                checkedId == binding.sortingDialogRadioName.id || checkedId == binding.sortingDialogRadioPath.id
             binding.sortingDialogNumericSorting.beVisibleIf(isSortingByNameOrPath)
             binding.sortingDialogOrderDivider.beVisibleIf(binding.sortingDialogNumericSorting.isVisible() || binding.sortingDialogUseForThisFolder.isVisible())
 
-            val hideSortOrder = checkedId == binding.sortingDialogRadioCustom.id || checkedId == binding.sortingDialogRadioRandom.id
+            val hideSortOrder =
+                checkedId == binding.sortingDialogRadioCustom.id || checkedId == binding.sortingDialogRadioRandom.id
             binding.sortingDialogRadioOrder.beGoneIf(hideSortOrder)
             binding.sortingDialogSortingDivider.beGoneIf(hideSortOrder)
         }

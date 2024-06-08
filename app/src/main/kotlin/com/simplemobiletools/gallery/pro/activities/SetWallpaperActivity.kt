@@ -8,9 +8,9 @@ import android.net.Uri
 import android.os.Bundle
 import com.canhub.cropper.CropImageView
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.checkAppSideloading
-import com.simplemobiletools.commons.extensions.toast
-import com.simplemobiletools.commons.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isNougatPlus
@@ -19,16 +19,12 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
 
 class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener {
-    private val RATIO_PORTRAIT = 0
-    private val RATIO_LANDSCAPE = 1
-    private val RATIO_SQUARE = 2
 
-    private val PICK_IMAGE = 1
     private var aspectRatio = RATIO_PORTRAIT
     private var wallpaperFlag = -1
 
     lateinit var uri: Uri
-    lateinit var wallpaperManager: WallpaperManager
+    private lateinit var wallpaperManager: WallpaperManager
 
     private val binding by viewBinding(ActivitySetWallpaperBinding::inflate)
 
@@ -58,6 +54,7 @@ class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageComplete
         setupToolbar(binding.setWallpaperToolbar, NavigationIcon.Arrow)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == PICK_IMAGE) {
             if (resultCode == Activity.RESULT_OK && resultData != null) {
@@ -131,7 +128,10 @@ class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageComplete
             val items = arrayListOf(
                 RadioItem(WallpaperManager.FLAG_SYSTEM, getString(R.string.home_screen)),
                 RadioItem(WallpaperManager.FLAG_LOCK, getString(R.string.lock_screen)),
-                RadioItem(WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK, getString(R.string.home_and_lock_screen))
+                RadioItem(
+                    WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK,
+                    getString(R.string.home_and_lock_screen)
+                )
             )
 
             RadioGroupDialog(this, items) {
@@ -155,7 +155,8 @@ class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageComplete
                 val ratio = wantedHeight / bitmap.height.toFloat()
                 val wantedWidth = (bitmap.width * ratio).toInt()
                 try {
-                    val scaledBitmap = Bitmap.createScaledBitmap(bitmap, wantedWidth, wantedHeight, true)
+                    val scaledBitmap =
+                        Bitmap.createScaledBitmap(bitmap, wantedWidth, wantedHeight, true)
                     if (isNougatPlus()) {
                         wallpaperManager.setBitmap(scaledBitmap, null, true, wallpaperFlag)
                     } else {
@@ -171,5 +172,12 @@ class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageComplete
         } else {
             toast("${getString(R.string.image_editing_failed)}: ${result.error?.message}")
         }
+    }
+
+    companion object {
+        private const val RATIO_PORTRAIT = 0
+        private const val RATIO_LANDSCAPE = 1
+        private const val RATIO_SQUARE = 2
+        private const val PICK_IMAGE = 1
     }
 }

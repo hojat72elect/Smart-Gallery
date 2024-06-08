@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -21,9 +23,19 @@ import com.google.gson.Gson
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.dialogs.*
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.dialogs.FolderLockingNoticeDialog
+import com.simplemobiletools.commons.dialogs.PropertiesDialog
+import com.simplemobiletools.commons.dialogs.RenameItemDialog
+import com.simplemobiletools.commons.dialogs.RenameItemsDialog
+import com.simplemobiletools.commons.dialogs.SecurityDialog
+import com.simplemobiletools.commons.helpers.FAVORITES
+import com.simplemobiletools.commons.helpers.SHOW_ALL_TABS
+import com.simplemobiletools.commons.helpers.SORT_BY_CUSTOM
+import com.simplemobiletools.commons.helpers.VIEW_TYPE_LIST
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isOreoPlus
+import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.commons.interfaces.ItemMoveCallback
 import com.simplemobiletools.commons.interfaces.ItemTouchHelperContract
 import com.simplemobiletools.commons.interfaces.StartReorderDragListener
@@ -37,19 +49,81 @@ import com.simplemobiletools.gallery.pro.databinding.DirectoryItemListBinding
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmDeleteFolderDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExcludeFolderDialog
 import com.simplemobiletools.gallery.pro.dialogs.PickMediumDialog
-import com.simplemobiletools.gallery.pro.extensions.*
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.addNoMedia
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.beVisible
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.checkAppendingHidden
+import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.containsNoMedia
+import com.simplemobiletools.gallery.pro.extensions.convertToBitmap
+import com.simplemobiletools.gallery.pro.extensions.directoryDB
+import com.simplemobiletools.gallery.pro.extensions.doesThisOrParentHaveNoMedia
+import com.simplemobiletools.gallery.pro.extensions.emptyAndDisableTheRecycleBin
+import com.simplemobiletools.gallery.pro.extensions.emptyTheRecycleBin
+import com.simplemobiletools.gallery.pro.extensions.favoritesDB
+import com.simplemobiletools.gallery.pro.extensions.fixDateTaken
+import com.simplemobiletools.gallery.pro.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.extensions.getShortcutImage
+import com.simplemobiletools.gallery.pro.extensions.getTimeFormat
+import com.simplemobiletools.gallery.pro.extensions.handleDeletePasswordProtection
+import com.simplemobiletools.gallery.pro.extensions.handleLockedFolderOpening
+import com.simplemobiletools.gallery.pro.extensions.isAStorageRootFolder
+import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
+import com.simplemobiletools.gallery.pro.extensions.isGif
+import com.simplemobiletools.gallery.pro.extensions.isImageFast
+import com.simplemobiletools.gallery.pro.extensions.isMediaFile
+import com.simplemobiletools.gallery.pro.extensions.isRawFast
+import com.simplemobiletools.gallery.pro.extensions.isSvg
+import com.simplemobiletools.gallery.pro.extensions.isThisOrParentFolderHidden
+import com.simplemobiletools.gallery.pro.extensions.isVideoFast
+import com.simplemobiletools.gallery.pro.extensions.isVisible
+import com.simplemobiletools.gallery.pro.extensions.loadImage
+import com.simplemobiletools.gallery.pro.extensions.mediaDB
+import com.simplemobiletools.gallery.pro.extensions.removeNoMedia
+import com.simplemobiletools.gallery.pro.extensions.rescanPaths
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.showRecycleBinEmptyingDialog
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.tryCopyMoveFilesTo
+import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_BRACKETS
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_LINE
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_ROUNDED_CORNERS
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_SQUARE
+import com.simplemobiletools.gallery.pro.helpers.LOCATION_INTERNAL
+import com.simplemobiletools.gallery.pro.helpers.LOCATION_SD
+import com.simplemobiletools.gallery.pro.helpers.PATH
+import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_BIG
+import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_NONE
+import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_SMALL
+import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_IMAGES
+import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.models.AlbumCover
 import com.simplemobiletools.gallery.pro.models.Directory
 import java.io.File
-import java.util.*
+import java.util.Collections
 
+@UnstableApi
 class DirectoryAdapter(
-    activity: BaseSimpleActivity, var dirs: ArrayList<Directory>, val listener: DirectoryOperationsListener?, recyclerView: MyRecyclerView,
-    val isPickIntent: Boolean, val swipeRefreshLayout: SwipeRefreshLayout? = null, itemClick: (Any) -> Unit
+    activity: BaseSimpleActivity,
+    var dirs: ArrayList<Directory>,
+    val listener: DirectoryOperationsListener?,
+    recyclerView: MyRecyclerView,
+    private val isPickIntent: Boolean,
+    private val swipeRefreshLayout: SwipeRefreshLayout? = null,
+    itemClick: (Any) -> Unit
 ) :
-    MyRecyclerViewAdapter(activity, recyclerView, itemClick), ItemTouchHelperContract, RecyclerViewFastScroller.OnPopupTextUpdate {
+    MyRecyclerViewAdapter(activity, recyclerView, itemClick), ItemTouchHelperContract,
+    RecyclerViewFastScroller.OnPopupTextUpdate {
 
     private val config = activity.config
     private val isListViewType = config.viewTypeFolders == VIEW_TYPE_LIST
@@ -57,7 +131,7 @@ class DirectoryAdapter(
     private var scrollHorizontally = config.scrollHorizontally
     private var animateGifs = config.animateGifs
     private var cropThumbnails = config.cropThumbnails
-    private var groupDirectSubfolders = config.groupDirectSubfolders
+    private var groupDirectSubFolders = config.groupDirectSubfolders
     private var currentDirectoriesHash = dirs.hashCode()
     private var lockedFolderPaths = ArrayList<String>()
     private var isDragAndDropping = false
@@ -80,7 +154,12 @@ class DirectoryAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = when {
             isListViewType -> DirectoryItemListBinding.inflate(layoutInflater, parent, false)
-            folderStyle == FOLDER_STYLE_SQUARE -> DirectoryItemGridSquareBinding.inflate(layoutInflater, parent, false)
+            folderStyle == FOLDER_STYLE_SQUARE -> DirectoryItemGridSquareBinding.inflate(
+                layoutInflater,
+                parent,
+                false
+            )
+
             else -> DirectoryItemGridRoundedCornersBinding.inflate(layoutInflater, parent, false)
         }
 
@@ -89,7 +168,7 @@ class DirectoryAdapter(
 
     override fun onBindViewHolder(holder: MyRecyclerViewAdapter.ViewHolder, position: Int) {
         val dir = dirs.getOrNull(position) ?: return
-        holder.bindView(dir, true, !isPickIntent) { itemView, adapterPosition ->
+        holder.bindView(dir, true, !isPickIntent) { itemView, _ ->
             setupView(itemView, dir, holder)
         }
         bindViewHolder(holder)
@@ -108,14 +187,17 @@ class DirectoryAdapter(
             findItem(R.id.cab_move_to_top).isVisible = isDragAndDropping
             findItem(R.id.cab_move_to_bottom).isVisible = isDragAndDropping
 
-            findItem(R.id.cab_rename).isVisible = !selectedPaths.contains(FAVORITES) && !selectedPaths.contains(RECYCLE_BIN)
+            findItem(R.id.cab_rename).isVisible =
+                !selectedPaths.contains(FAVORITES) && !selectedPaths.contains(RECYCLE_BIN)
             findItem(R.id.cab_change_cover_image).isVisible = isOneItemSelected
 
             findItem(R.id.cab_lock).isVisible = selectedPaths.any { !config.isFolderProtected(it) }
             findItem(R.id.cab_unlock).isVisible = selectedPaths.any { config.isFolderProtected(it) }
 
-            findItem(R.id.cab_empty_recycle_bin).isVisible = isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
-            findItem(R.id.cab_empty_disable_recycle_bin).isVisible = isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
+            findItem(R.id.cab_empty_recycle_bin).isVisible =
+                isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
+            findItem(R.id.cab_empty_disable_recycle_bin).isVisible =
+                isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
 
             findItem(R.id.cab_create_shortcut).isVisible = isOreoPlus() && isOneItemSelected
 
@@ -164,6 +246,7 @@ class DirectoryAdapter(
 
     override fun onActionModeCreated() {}
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onActionModeDestroyed() {
         if (isDragAndDropping) {
             notifyDataSetChanged()
@@ -185,10 +268,20 @@ class DirectoryAdapter(
 
     private fun checkHideBtnVisibility(menu: Menu, selectedPaths: ArrayList<String>) {
         menu.findItem(R.id.cab_hide).isVisible =
-            (!isRPlus() || isExternalStorageManager()) && selectedPaths.any { !it.doesThisOrParentHaveNoMedia(HashMap(), null) }
+            (!isRPlus() || isExternalStorageManager()) && selectedPaths.any {
+                !it.doesThisOrParentHaveNoMedia(
+                    HashMap(),
+                    null
+                )
+            }
 
         menu.findItem(R.id.cab_unhide).isVisible =
-            (!isRPlus() || isExternalStorageManager()) && selectedPaths.any { it.doesThisOrParentHaveNoMedia(HashMap(), null) }
+            (!isRPlus() || isExternalStorageManager()) && selectedPaths.any {
+                it.doesThisOrParentHaveNoMedia(
+                    HashMap(),
+                    null
+                )
+            }
     }
 
     private fun checkPinBtnVisibility(menu: Menu, selectedPaths: ArrayList<String>) {
@@ -197,6 +290,7 @@ class DirectoryAdapter(
         menu.findItem(R.id.cab_unpin).isVisible = selectedPaths.any { pinnedFolders.contains(it) }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun moveSelectedItemsToTop() {
         selectedKeys.reversed().forEach { key ->
             val position = dirs.indexOfFirst { it.path.hashCode() == key }
@@ -208,6 +302,7 @@ class DirectoryAdapter(
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun moveSelectedItemsToBottom() {
         selectedKeys.forEach { key ->
             val position = dirs.indexOfFirst { it.path.hashCode() == key }
@@ -258,7 +353,12 @@ class DirectoryAdapter(
                             updateDirs(dirs)
                             ensureBackgroundThread {
                                 try {
-                                    activity.directoryDB.updateDirectoryAfterRename(firstDir.tmb, firstDir.name, firstDir.path, sourcePath)
+                                    activity.directoryDB.updateDirectoryAfterRename(
+                                        firstDir.tmb,
+                                        firstDir.name,
+                                        firstDir.path,
+                                        sourcePath
+                                    )
                                     listener?.refreshItems()
                                 } catch (e: Exception) {
                                     activity.showErrorToast(e)
@@ -269,7 +369,9 @@ class DirectoryAdapter(
                 }
             }
         } else {
-            val paths = getSelectedPaths().filter { !activity.isAStorageRootFolder(it) && !config.isFolderProtected(it) } as ArrayList<String>
+            val paths = getSelectedPaths().filter {
+                !activity.isAStorageRootFolder(it) && !config.isFolderProtected(it)
+            } as ArrayList<String>
             RenameItemsDialog(activity, paths) {
                 listener?.refreshItems()
             }
@@ -297,11 +399,21 @@ class DirectoryAdapter(
             }
         } else {
             if (selectedPaths.any { it.isThisOrParentFolderHidden() }) {
-                ConfirmationDialog(activity, "", R.string.cant_unhide_folder, com.simplemobiletools.commons.R.string.ok, 0) {}
+                ConfirmationDialog(
+                    activity,
+                    "",
+                    R.string.cant_unhide_folder,
+                    com.simplemobiletools.commons.R.string.ok,
+                    0
+                ) {}
                 return
             }
 
-            selectedPaths.filter { it != FAVORITES && it != RECYCLE_BIN && (selectedPaths.size == 1 || !config.isFolderProtected(it)) }.forEach {
+            selectedPaths.filter {
+                it != FAVORITES && it != RECYCLE_BIN && (selectedPaths.size == 1 || !config.isFolderProtected(
+                    it
+                ))
+            }.forEach {
                 val path = it
                 activity.handleLockedFolderOpening(path) { success ->
                     if (success) {
@@ -385,7 +497,10 @@ class DirectoryAdapter(
                 val affectedPositions = ArrayList<Int>()
                 val includedFolders = config.includedFolders
                 val newDirs = dirs.filterIndexed { index, directory ->
-                    val removeDir = directory.path.doesThisOrParentHaveNoMedia(HashMap(), null) && !includedFolders.contains(directory.path)
+                    val removeDir = directory.path.doesThisOrParentHaveNoMedia(
+                        HashMap(),
+                        null
+                    ) && !includedFolders.contains(directory.path)
                     if (removeDir) {
                         affectedPositions.add(index)
                     }
@@ -409,7 +524,8 @@ class DirectoryAdapter(
 
     private fun tryExcludeFolder() {
         val selectedPaths = getSelectedPaths()
-        val paths = selectedPaths.filter { it != PATH && it != RECYCLE_BIN && it != FAVORITES }.toSet()
+        val paths =
+            selectedPaths.filter { it != PATH && it != RECYCLE_BIN && it != FAVORITES }.toSet()
         if (selectedPaths.contains(RECYCLE_BIN)) {
             config.showRecycleBinAtFolders = false
             if (selectedPaths.size == 1) {
@@ -459,9 +575,13 @@ class DirectoryAdapter(
         val firstPath = paths.first()
         val tabToShow = config.getFolderProtectionType(firstPath)
         val hashToCheck = config.getFolderProtectionHash(firstPath)
-        SecurityDialog(activity, hashToCheck, tabToShow) { hash, type, success ->
+        SecurityDialog(activity, hashToCheck, tabToShow) { _, _, success ->
             if (success) {
-                paths.filter { config.isFolderProtected(it) && config.getFolderProtectionType(it) == tabToShow && config.getFolderProtectionHash(it) == hashToCheck }
+                paths.filter {
+                    config.isFolderProtected(it) && config.getFolderProtectionType(it) == tabToShow && config.getFolderProtectionHash(
+                        it
+                    ) == hashToCheck
+                }
                     .forEach {
                         config.removeFolderProtection(it)
                         lockedFolderPaths.remove(it)
@@ -485,6 +605,7 @@ class DirectoryAdapter(
         listener?.recheckPinnedFolders()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun changeOrder() {
         isDragAndDropping = true
         notifyDataSetChanged()
@@ -523,19 +644,21 @@ class DirectoryAdapter(
             val filter = config.filterMedia
             File(it).listFiles()?.filter {
                 !File(it.absolutePath).isDirectory &&
-                    it.absolutePath.isMediaFile() && (showHidden || !it.name.startsWith('.')) &&
-                    ((it.isImageFast() && filter and TYPE_IMAGES != 0) ||
-                        (it.isVideoFast() && filter and TYPE_VIDEOS != 0) ||
-                        (it.isGif() && filter and TYPE_GIFS != 0) ||
-                        (it.isRawFast() && filter and TYPE_RAWS != 0) ||
-                        (it.isSvg() && filter and TYPE_SVGS != 0))
+                        it.absolutePath.isMediaFile() && (showHidden || !it.name.startsWith('.')) &&
+                        ((it.isImageFast() && filter and TYPE_IMAGES != 0) ||
+                                (it.isVideoFast() && filter and TYPE_VIDEOS != 0) ||
+                                (it.isGif() && filter and TYPE_GIFS != 0) ||
+                                (it.isRawFast() && filter and TYPE_RAWS != 0) ||
+                                (it.isSvg() && filter and TYPE_SVGS != 0))
             }?.mapTo(paths) { it.absolutePath }
         }
 
-        val fileDirItems = paths.map { FileDirItem(it, it.getFilenameFromPath()) } as ArrayList<FileDirItem>
+        val fileDirItems =
+            paths.map { FileDirItem(it, it.getFilenameFromPath()) } as ArrayList<FileDirItem>
         activity.tryCopyMoveFilesTo(fileDirItems, isCopyOperation) {
             val destinationPath = it
-            val newPaths = fileDirItems.map { "$destinationPath/${it.name}" }.toMutableList() as ArrayList<String>
+            val newPaths = fileDirItems.map { "$destinationPath/${it.name}" }
+                .toMutableList() as ArrayList<String>
             activity.rescanPaths(newPaths) {
                 activity.fixDateTaken(newPaths, false)
             }
@@ -558,6 +681,7 @@ class DirectoryAdapter(
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createShortcut() {
         val manager = activity.getSystemService(ShortcutManager::class.java)
@@ -565,11 +689,13 @@ class DirectoryAdapter(
             val dir = getFirstSelectedItem() ?: return
             val path = dir.path
             val drawable = resources.getDrawable(R.drawable.shortcut_image).mutate()
-            val coverThumbnail = config.parseAlbumCovers().firstOrNull { it.tmb == dir.path }?.tmb ?: dir.tmb
+            val coverThumbnail =
+                config.parseAlbumCovers().firstOrNull { it.tmb == dir.path }?.tmb ?: dir.tmb
             activity.getShortcutImage(coverThumbnail, drawable) {
                 val intent = Intent(activity, MediaActivity::class.java)
                 intent.action = Intent.ACTION_VIEW
-                intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.flags =
+                    intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra(DIRECTORY, path)
 
                 val shortcut = ShortcutInfo.Builder(activity, path)
@@ -609,18 +735,27 @@ class DirectoryAdapter(
                     val folder = getSelectedPaths().first().getFilenameFromPath()
                     "\"$folder\""
                 } else {
-                    resources.getQuantityString(com.simplemobiletools.commons.R.plurals.delete_items, itemsCnt, itemsCnt)
+                    resources.getQuantityString(
+                        com.simplemobiletools.commons.R.plurals.delete_items,
+                        itemsCnt,
+                        itemsCnt
+                    )
                 }
 
                 val fileDirItem = getFirstSelectedItem() ?: return
-                val baseString = if (!config.useRecycleBin || config.tempSkipRecycleBin || (isOneItemSelected() && fileDirItem.areFavorites())) {
-                    com.simplemobiletools.commons.R.string.deletion_confirmation
-                } else {
-                    com.simplemobiletools.commons.R.string.move_to_recycle_bin_confirmation
-                }
+                val baseString =
+                    if (!config.useRecycleBin || config.tempSkipRecycleBin || (isOneItemSelected() && fileDirItem.areFavorites())) {
+                        com.simplemobiletools.commons.R.string.deletion_confirmation
+                    } else {
+                        com.simplemobiletools.commons.R.string.move_to_recycle_bin_confirmation
+                    }
 
                 val question = String.format(resources.getString(baseString), items)
-                val warning = resources.getQuantityString(com.simplemobiletools.commons.R.plurals.delete_warning, itemsCnt, itemsCnt)
+                val warning = resources.getQuantityString(
+                    com.simplemobiletools.commons.R.plurals.delete_warning,
+                    itemsCnt,
+                    itemsCnt
+                )
                 ConfirmDeleteFolderDialog(activity, question, warning) {
                     deleteFolders()
                 }
@@ -633,19 +768,19 @@ class DirectoryAdapter(
             return
         }
 
-        val SAFPath = getFirstSelectedItemPath() ?: return
+        val sAFPath = getFirstSelectedItemPath() ?: return
         val selectedDirs = getSelectedItems()
-        activity.handleSAFDialog(SAFPath) {
+        activity.handleSAFDialog(sAFPath) {
             if (!it) {
                 return@handleSAFDialog
             }
 
-            activity.handleSAFDialogSdk30(SAFPath) {
+            activity.handleSAFDialogSdk30(sAFPath) {
                 if (!it) {
                     return@handleSAFDialogSdk30
                 }
 
-                var foldersToDelete = ArrayList<File>(selectedKeys.size)
+                val foldersToDelete = ArrayList<File>(selectedKeys.size)
                 selectedDirs.forEach {
                     if (it.areFavorites() || it.isRecycleBin()) {
                         if (it.isRecycleBin()) {
@@ -673,7 +808,10 @@ class DirectoryAdapter(
         }
     }
 
-    private fun handleLockedFolderOpeningForFolders(folders: Collection<String>, callback: (Collection<String>) -> Unit) {
+    private fun handleLockedFolderOpeningForFolders(
+        folders: Collection<String>,
+        callback: (Collection<String>) -> Unit
+    ) {
         if (folders.size == 1) {
             activity.handleLockedFolderOpening(folders.first()) { success ->
                 if (success) {
@@ -721,7 +859,8 @@ class DirectoryAdapter(
         }
     }
 
-    private fun getAlbumCoversWithout(path: String) = config.parseAlbumCovers().filterNot { it.path == path } as ArrayList
+    private fun getAlbumCoversWithout(path: String) =
+        config.parseAlbumCovers().filterNot { it.path == path } as ArrayList
 
     private fun storeCovers(albumCovers: ArrayList<AlbumCover>) {
         config.albumCovers = Gson().toJson(albumCovers)
@@ -729,7 +868,8 @@ class DirectoryAdapter(
         listener?.refreshItems()
     }
 
-    private fun getSelectedItems() = selectedKeys.mapNotNull { getItemWithKey(it) } as ArrayList<Directory>
+    private fun getSelectedItems() =
+        selectedKeys.mapNotNull { getItemWithKey(it) } as ArrayList<Directory>
 
     private fun getSelectedPaths() = getSelectedItems().map { it.path } as ArrayList<String>
 
@@ -737,7 +877,8 @@ class DirectoryAdapter(
 
     private fun getFirstSelectedItemPath() = getFirstSelectedItem()?.path
 
-    private fun getItemWithKey(key: Int): Directory? = dirs.firstOrNull { it.path.hashCode() == key }
+    private fun getItemWithKey(key: Int): Directory? =
+        dirs.firstOrNull { it.path.hashCode() == key }
 
     private fun fillLockedFolders() {
         lockedFolderPaths.clear()
@@ -746,6 +887,7 @@ class DirectoryAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateDirs(newDirs: ArrayList<Directory>) {
         val directories = newDirs.clone() as ArrayList<Directory>
         if (directories.hashCode() != currentDirectoriesHash) {
@@ -757,16 +899,19 @@ class DirectoryAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateAnimateGifs(animateGifs: Boolean) {
         this.animateGifs = animateGifs
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateCropThumbnails(cropThumbnails: Boolean) {
         this.cropThumbnails = cropThumbnails
         notifyDataSetChanged()
     }
 
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     private fun setupView(view: View, directory: Directory, holder: ViewHolder) {
         val isSelected = selectedKeys.contains(directory.path.hashCode())
         bindItem(view).apply {
@@ -790,7 +935,10 @@ class DirectoryAdapter(
             }
 
             if (scrollHorizontally && !isListViewType && folderStyle == FOLDER_STYLE_ROUNDED_CORNERS) {
-                (dirThumbnail.layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.ABOVE, dirName.id)
+                (dirThumbnail.layoutParams as RelativeLayout.LayoutParams).addRule(
+                    RelativeLayout.ABOVE,
+                    dirName.id
+                )
 
                 val photoCntParams = (photoCnt.layoutParams as RelativeLayout.LayoutParams)
                 val nameParams = (dirName.layoutParams as RelativeLayout.LayoutParams)
@@ -850,7 +998,7 @@ class DirectoryAdapter(
                 nameCount += " (${directory.subfoldersMediaCount})"
             }
 
-            if (groupDirectSubfolders) {
+            if (groupDirectSubFolders) {
                 if (directory.subfoldersCount > 1) {
                     nameCount += " [${directory.subfoldersCount}]"
                 }
@@ -875,7 +1023,7 @@ class DirectoryAdapter(
 
             if (isDragAndDropping) {
                 dirDragHandle.applyColorFilter(textColor)
-                dirDragHandle.setOnTouchListener { v, event ->
+                dirDragHandle.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         startReorderDragListener?.requestDrag(holder)
                     }
@@ -907,12 +1055,16 @@ class DirectoryAdapter(
         swipeRefreshLayout?.isEnabled = activity.config.enablePullToRefresh
     }
 
-    override fun onChange(position: Int) = dirs.getOrNull(position)?.getBubbleText(directorySorting, activity, dateFormat, timeFormat) ?: ""
+    override fun onChange(position: Int) =
+        dirs.getOrNull(position)?.getBubbleText(directorySorting, activity, dateFormat, timeFormat)
+            ?: ""
 
     private fun bindItem(view: View): DirectoryItemBinding {
         return when {
             isListViewType -> DirectoryItemListBinding.bind(view).toItemBinding()
-            folderStyle == FOLDER_STYLE_SQUARE -> DirectoryItemGridSquareBinding.bind(view).toItemBinding()
+            folderStyle == FOLDER_STYLE_SQUARE -> DirectoryItemGridSquareBinding.bind(view)
+                .toItemBinding()
+
             else -> DirectoryItemGridRoundedCornersBinding.bind(view).toItemBinding()
         }
     }

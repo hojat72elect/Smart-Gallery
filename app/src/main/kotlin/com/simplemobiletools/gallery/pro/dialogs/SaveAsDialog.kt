@@ -1,16 +1,37 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.databinding.DialogSaveAsBinding
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getFileUrisFromFileDirItems
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.getPicturesDirectoryPath
+import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
+import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
+import com.simplemobiletools.gallery.pro.extensions.isInDownloadDir
+import com.simplemobiletools.gallery.pro.extensions.isRestrictedWithSAFSdk30
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.value
 import java.io.File
 
+@SuppressLint("SetTextI18n")
 class SaveAsDialog(
-    val activity: BaseSimpleActivity, val path: String, val appendFilename: Boolean, val cancelCallback: (() -> Unit)? = null,
+    val activity: BaseSimpleActivity,
+    val path: String,
+    private val appendFilename: Boolean,
+    private val cancelCallback: (() -> Unit)? = null,
     val callback: (savePath: String) -> Unit
 ) {
     init {
@@ -39,7 +60,14 @@ class SaveAsDialog(
             filenameValue.setText(name)
             folderValue.setOnClickListener {
                 activity.hideKeyboard(folderValue)
-                FilePickerDialog(activity, realPath, false, false, true, true) {
+                FilePickerDialog(
+                    activity = activity,
+                    currPath = realPath,
+                    pickFile = false,
+                    showHidden = false,
+                    showFAB = true,
+                    canAddShowHiddenButton = true
+                ) {
                     folderValue.setText(activity.humanizePath(it))
                     realPath = it
                 }
@@ -48,10 +76,14 @@ class SaveAsDialog(
 
         activity.getAlertDialogBuilder()
             .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel) { dialog, which -> cancelCallback?.invoke() }
+            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel) { _, _ -> cancelCallback?.invoke() }
             .setOnCancelListener { cancelCallback?.invoke() }
             .apply {
-                activity.setupDialogStuff(binding.root, this, com.simplemobiletools.commons.R.string.save_as) { alertDialog ->
+                activity.setupDialogStuff(
+                    binding.root,
+                    this,
+                    com.simplemobiletools.commons.R.string.save_as
+                ) { alertDialog ->
                     alertDialog.showKeyboard(binding.filenameValue)
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         val filename = binding.filenameValue.value
@@ -75,10 +107,14 @@ class SaveAsDialog(
                         }
 
                         if (activity.getDoesFilePathExist(newPath)) {
-                            val title = String.format(activity.getString(com.simplemobiletools.commons.R.string.file_already_exists_overwrite), newFilename)
+                            val title = String.format(
+                                activity.getString(com.simplemobiletools.commons.R.string.file_already_exists_overwrite),
+                                newFilename
+                            )
                             ConfirmationDialog(activity, title) {
                                 if ((isRPlus() && !isExternalStorageManager())) {
-                                    val fileDirItem = arrayListOf(File(newPath).toFileDirItem(activity))
+                                    val fileDirItem =
+                                        arrayListOf(File(newPath).toFileDirItem(activity))
                                     val fileUris = activity.getFileUrisFromFileDirItems(fileDirItem)
                                     activity.updateSDK30Uris(fileUris) { success ->
                                         if (success) {

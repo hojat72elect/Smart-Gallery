@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.views
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.media.AudioManager
@@ -11,14 +12,15 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.simplemobiletools.commons.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.audioManager
 import com.simplemobiletools.gallery.pro.helpers.DRAG_THRESHOLD
+import kotlin.math.abs
 
 // allow horizontal swipes through the layout, else it can cause glitches at zoomed in images
 class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
-    private val SLIDE_INFO_FADE_DELAY = 1000L
+
     private var mTouchDownX = 0f
     private var mTouchDownY = 0f
     private var mTouchDownTime = 0L
@@ -40,7 +42,11 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
     private lateinit var singleTap: (Float, Float) -> Unit
 
     fun initialize(
-        activity: Activity, slideInfoView: TextView, isBrightness: Boolean, parentView: ViewGroup?, singleTap: (x: Float, y: Float) -> Unit,
+        activity: Activity,
+        slideInfoView: TextView,
+        isBrightness: Boolean,
+        parentView: ViewGroup?,
+        singleTap: (x: Float, y: Float) -> Unit,
         doubleTap: ((x: Float, y: Float) -> Unit)? = null
     ) {
         this.activity = activity
@@ -49,25 +55,27 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
         this.doubleTap = doubleTap
         mParentView = parentView
         mIsBrightnessScroll = isBrightness
-        mSlideInfoText = activity.getString(if (isBrightness) R.string.brightness else R.string.volume)
+        mSlideInfoText =
+            activity.getString(if (isBrightness) R.string.brightness else R.string.volume)
         onGlobalLayout {
             mViewHeight = height
         }
     }
 
-    private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            singleTap(e.rawX, e.rawY)
-            return true
-        }
-
-        override fun onDoubleTap(e: MotionEvent): Boolean {
-            if (doubleTap != null) {
-                doubleTap!!.invoke(e.rawX, e.rawY)
+    private val gestureDetector =
+        GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                singleTap(e.rawX, e.rawY)
+                return true
             }
-            return true
-        }
-    })
+
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                if (doubleTap != null) {
+                    doubleTap!!.invoke(e.rawX, e.rawY)
+                }
+                return true
+            }
+        })
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (mPassTouches) {
@@ -79,6 +87,7 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
         return super.dispatchTouchEvent(ev)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (mPassTouches && activity == null) {
             return false
@@ -104,17 +113,18 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
                 val diffX = mTouchDownX - event.rawX
                 val diffY = mTouchDownY - event.rawY
 
-                if (Math.abs(diffY) > dragThreshold && Math.abs(diffY) > Math.abs(diffX)) {
+                if (abs(diffY) > dragThreshold && abs(diffY) > abs(diffX)) {
                     var percent = ((diffY / mViewHeight) * 100).toInt() * 3
-                    percent = Math.min(100, Math.max(-100, percent))
+                    percent = 100.coerceAtMost((-100).coerceAtLeast(percent))
 
                     if ((percent == 100 && event.rawY > mLastTouchY) || (percent == -100 && event.rawY < mLastTouchY)) {
                         mTouchDownY = event.rawY
-                        mTouchDownValue = if (mIsBrightnessScroll) mTempBrightness else getCurrentVolume()
+                        mTouchDownValue =
+                            if (mIsBrightnessScroll) mTempBrightness else getCurrentVolume()
                     }
 
                     percentChanged(percent)
-                } else if (Math.abs(diffX) > dragThreshold || Math.abs(diffY) > dragThreshold) {
+                } else if (abs(diffX) > dragThreshold || abs(diffY) > dragThreshold) {
                     if (!mPassTouches) {
                         event.action = MotionEvent.ACTION_DOWN
                         event.setLocation(event.rawX, event.rawY)
@@ -136,7 +146,8 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
         return true
     }
 
-    private fun getCurrentVolume() = activity?.audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
+    private fun getCurrentVolume() =
+        activity?.audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
 
     private fun getCurrentBrightness(): Int {
         return try {
@@ -163,7 +174,7 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
         }
 
         val addPoints = percent / percentPerPoint
-        val newVolume = Math.min(maxVolume, Math.max(0, mTouchDownValue + addPoints))
+        val newVolume = maxVolume.coerceAtMost(0.coerceAtLeast(mTouchDownValue + addPoints))
         activity!!.audioManager.setStreamVolume(stream, newVolume, 0)
 
         val absolutePercent = ((newVolume / maxVolume.toFloat()) * 100).toInt()
@@ -178,7 +189,7 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
     private fun brightnessPercentChanged(percent: Int) {
         val maxBrightness = 255f
         var newBrightness = (mTouchDownValue + 2.55 * percent).toFloat()
-        newBrightness = Math.min(maxBrightness, Math.max(0f, newBrightness))
+        newBrightness = maxBrightness.coerceAtMost(0f.coerceAtLeast(newBrightness))
         mTempBrightness = newBrightness.toInt()
 
         val absolutePercent = ((newBrightness / maxBrightness) * 100).toInt()
@@ -194,10 +205,15 @@ class MediaSideScroll(context: Context, attrs: AttributeSet) : RelativeLayout(co
         }, SLIDE_INFO_FADE_DELAY)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showValue(percent: Int) {
         slideInfoView.apply {
             text = "$mSlideInfoText:\n$percent%"
             alpha = 1f
         }
+    }
+
+    companion object {
+        private const val SLIDE_INFO_FADE_DELAY = 1000L
     }
 }

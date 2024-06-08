@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <com.simplemobiletools.gallery.pro.views.MyTextView
             android:id="@+id/search_empty_text_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -2,7 +2,7 @@ package com.simplemobiletools.gallery.pro
 
 import android.app.Application
 import com.github.ajalt.reprint.core.Reprint
-import com.simplemobiletools.commons.extensions.checkUseEnglish
+import com.simplemobiletools.gallery.pro.extensions.checkUseEnglish
 import com.squareup.picasso.Downloader
 import com.squareup.picasso.Picasso
 import okhttp3.Request

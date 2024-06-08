@@ -6,11 +6,32 @@ import android.provider.MediaStore.Images
 import android.view.MotionEvent
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.formatAsResolution
+import com.simplemobiletools.gallery.pro.extensions.formatDate
+import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getExifCameraModel
+import com.simplemobiletools.gallery.pro.extensions.getExifDateTaken
+import com.simplemobiletools.gallery.pro.extensions.getExifProperties
+import com.simplemobiletools.gallery.pro.extensions.getLongValue
+import com.simplemobiletools.gallery.pro.extensions.getOTGPublicPath
+import com.simplemobiletools.gallery.pro.extensions.getResolution
+import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
+import com.simplemobiletools.gallery.pro.helpers.EXT_CAMERA_MODEL
+import com.simplemobiletools.gallery.pro.helpers.EXT_DATE_TAKEN
+import com.simplemobiletools.gallery.pro.helpers.EXT_EXIF_PROPERTIES
+import com.simplemobiletools.gallery.pro.helpers.EXT_GPS
+import com.simplemobiletools.gallery.pro.helpers.EXT_LAST_MODIFIED
+import com.simplemobiletools.gallery.pro.helpers.EXT_NAME
+import com.simplemobiletools.gallery.pro.helpers.EXT_PATH
+import com.simplemobiletools.gallery.pro.helpers.EXT_RESOLUTION
+import com.simplemobiletools.gallery.pro.helpers.EXT_SIZE
+import com.simplemobiletools.gallery.pro.helpers.MAX_CLOSE_DOWN_GESTURE_DURATION
 import com.simplemobiletools.gallery.pro.models.Medium
 import java.io.File
+import kotlin.math.abs
 
 abstract class ViewPagerFragment : Fragment() {
     var listener: FragmentListener? = null
@@ -43,7 +64,7 @@ abstract class ViewPagerFragment : Fragment() {
             return ""
         }
 
-        val path = "${file.parent.trimEnd('/')}/"
+        val path = "${file.parent?.trimEnd('/')}/"
         val exif = try {
             ExifInterface(medium.path)
         } catch (e: Exception) {
@@ -51,59 +72,63 @@ abstract class ViewPagerFragment : Fragment() {
         }
 
         val details = StringBuilder()
-        val detailsFlag = context!!.config.extendedDetails
+        val detailsFlag = requireContext().config.extendedDetails
         if (detailsFlag and EXT_NAME != 0) {
-            medium.name.let { if (it.isNotEmpty()) details.appendln(it) }
+            medium.name.let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_PATH != 0) {
-            path.let { if (it.isNotEmpty()) details.appendln(it) }
+            path.let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_SIZE != 0) {
-            file.length().formatSize().let { if (it.isNotEmpty()) details.appendln(it) }
+            file.length().formatSize().let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_RESOLUTION != 0) {
-            context!!.getResolution(file.absolutePath)?.formatAsResolution().let { if (it?.isNotEmpty() == true) details.appendln(it) }
+            requireContext().getResolution(file.absolutePath)?.formatAsResolution()
+                .let { if (it?.isNotEmpty() == true) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_LAST_MODIFIED != 0) {
-            getFileLastModified(file).let { if (it.isNotEmpty()) details.appendln(it) }
+            getFileLastModified(file).let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_DATE_TAKEN != 0) {
-            exif.getExifDateTaken(context!!).let { if (it.isNotEmpty()) details.appendln(it) }
+            exif.getExifDateTaken(requireContext())
+                .let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_CAMERA_MODEL != 0) {
-            exif.getExifCameraModel().let { if (it.isNotEmpty()) details.appendln(it) }
+            exif.getExifCameraModel().let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_EXIF_PROPERTIES != 0) {
-            exif.getExifProperties().let { if (it.isNotEmpty()) details.appendln(it) }
+            exif.getExifProperties().let { if (it.isNotEmpty()) details.appendLine(it) }
         }
 
         if (detailsFlag and EXT_GPS != 0) {
-            getLatLonAltitude(medium.path).let { if (it.isNotEmpty()) details.appendln(it) }
+            getLatLonAltitude(medium.path).let { if (it.isNotEmpty()) details.appendLine(it) }
         }
         return details.toString().trim()
     }
 
-    fun getPathToLoad(medium: Medium) = if (context?.isPathOnOTG(medium.path) == true) medium.path.getOTGPublicPath(context!!) else medium.path
+    fun getPathToLoad(medium: Medium) =
+        if (context?.isPathOnOTG(medium.path) == true) medium.path.getOTGPublicPath(requireContext()) else medium.path
 
     private fun getFileLastModified(file: File): String {
         val projection = arrayOf(Images.Media.DATE_MODIFIED)
         val uri = Files.getContentUri("external")
         val selection = "${MediaStore.MediaColumns.DATA} = ?"
         val selectionArgs = arrayOf(file.absolutePath)
-        val cursor = context!!.contentResolver.query(uri, projection, selection, selectionArgs, null)
+        val cursor =
+            requireContext().contentResolver.query(uri, projection, selection, selectionArgs, null)
         cursor?.use {
             return if (cursor.moveToFirst()) {
                 val dateModified = cursor.getLongValue(Images.Media.DATE_MODIFIED) * 1000L
-                dateModified.formatDate(context!!)
+                dateModified.formatDate(requireContext())
             } else {
-                file.lastModified().formatDate(context!!)
+                file.lastModified().formatDate(requireContext())
             }
         }
         return ""
@@ -145,9 +170,12 @@ abstract class ViewPagerFragment : Fragment() {
                 val diffY = mTouchDownY - event.rawY
 
                 val downGestureDuration = System.currentTimeMillis() - mTouchDownTime
-                if (!mIgnoreCloseDown && (Math.abs(diffY) > Math.abs(diffX)) && (diffY < -mCloseDownThreshold) && downGestureDuration < MAX_CLOSE_DOWN_GESTURE_DURATION && context?.config?.allowDownGesture == true) {
+                if (!mIgnoreCloseDown && (abs(diffY) > abs(diffX)) && (diffY < -mCloseDownThreshold) && downGestureDuration < MAX_CLOSE_DOWN_GESTURE_DURATION && context?.config?.allowDownGesture == true) {
                     activity?.finish()
-                    activity?.overridePendingTransition(0, com.simplemobiletools.commons.R.anim.slide_down)
+                    activity?.overridePendingTransition(
+                        0,
+                        R.anim.slide_down
+                    )
                 }
                 mIgnoreCloseDown = false
             }

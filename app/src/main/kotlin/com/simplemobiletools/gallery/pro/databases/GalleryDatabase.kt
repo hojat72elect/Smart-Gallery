@@ -6,10 +6,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.simplemobiletools.gallery.pro.interfaces.*
-import com.simplemobiletools.gallery.pro.models.*
+import com.simplemobiletools.gallery.pro.interfaces.DateTakensDao
+import com.simplemobiletools.gallery.pro.interfaces.DirectoryDao
+import com.simplemobiletools.gallery.pro.interfaces.FavoritesDao
+import com.simplemobiletools.gallery.pro.interfaces.MediumDao
+import com.simplemobiletools.gallery.pro.interfaces.WidgetsDao
+import com.simplemobiletools.gallery.pro.models.DateTaken
+import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.models.Favorite
+import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.models.Widget
 
-@Database(entities = [Directory::class, Medium::class, Widget::class, DateTaken::class, Favorite::class], version = 10)
+@Database(
+    entities = [Directory::class, Medium::class, Widget::class, DateTaken::class, Favorite::class],
+    version = 10
+)
 abstract class GalleryDatabase : RoomDatabase() {
 
     abstract fun DirectoryDao(): DirectoryDao
@@ -18,7 +29,7 @@ abstract class GalleryDatabase : RoomDatabase() {
 
     abstract fun WidgetsDao(): WidgetsDao
 
-    abstract fun DateTakensDao(): DateTakensDao
+    abstract fun dateTokensDao(): DateTakensDao
 
     abstract fun FavoritesDao(): FavoritesDao
 
@@ -29,7 +40,11 @@ abstract class GalleryDatabase : RoomDatabase() {
             if (db == null) {
                 synchronized(GalleryDatabase::class) {
                     if (db == null) {
-                        db = Room.databaseBuilder(context.applicationContext, GalleryDatabase::class.java, "gallery.db")
+                        db = Room.databaseBuilder(
+                            context.applicationContext,
+                            GalleryDatabase::class.java,
+                            "gallery.db"
+                        )
                             .fallbackToDestructiveMigration()
                             .addMigrations(MIGRATION_4_5)
                             .addMigrations(MIGRATION_5_6)

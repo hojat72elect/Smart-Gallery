@@ -1,17 +1,35 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.annotation.SuppressLint
 import android.graphics.Point
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeImageWithPathBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
+import com.simplemobiletools.gallery.pro.extensions.onTextChangeListener
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.extensions.toInt
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.value
 
-class ResizeWithPathDialog(val activity: BaseSimpleActivity, val size: Point, val path: String, val callback: (newSize: Point, newPath: String) -> Unit) {
+@SuppressLint("SetTextI18n")
+class ResizeWithPathDialog(
+    val activity: BaseSimpleActivity,
+    val size: Point,
+    val path: String,
+    val callback: (newSize: Point, newPath: String) -> Unit
+) {
     init {
         var realPath = path.getParentPath()
         val binding = DialogResizeImageWithPathBinding.inflate(activity.layoutInflater).apply {
@@ -29,7 +47,14 @@ class ResizeWithPathDialog(val activity: BaseSimpleActivity, val size: Point, va
 
             filenameValue.setText(name)
             folder.setOnClickListener {
-                FilePickerDialog(activity, realPath, false, activity.config.shouldShowHidden, true, true) {
+                FilePickerDialog(
+                    activity = activity,
+                    currPath = realPath,
+                    pickFile = false,
+                    showHidden = activity.config.shouldShowHidden,
+                    showFAB = true,
+                    canAddShowHiddenButton = true
+                ) {
                     folder.setText(activity.humanizePath(it))
                     realPath = it
                 }
@@ -104,7 +129,10 @@ class ResizeWithPathDialog(val activity: BaseSimpleActivity, val size: Point, va
                         }
 
                         if (activity.getDoesFilePathExist(newPath)) {
-                            val title = String.format(activity.getString(com.simplemobiletools.commons.R.string.file_already_exists_overwrite), newFilename)
+                            val title = String.format(
+                                activity.getString(com.simplemobiletools.commons.R.string.file_already_exists_overwrite),
+                                newFilename
+                            )
                             ConfirmationDialog(activity, title) {
                                 callback(newSize, newPath)
                                 alertDialog.dismiss()

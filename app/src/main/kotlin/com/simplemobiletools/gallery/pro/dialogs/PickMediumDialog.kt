@@ -1,16 +1,17 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import androidx.appcompat.app.AlertDialog
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.commons.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.commons.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.MediaAdapter
-import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsynctask
+import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.DialogMediumPickerBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getCachedMedia
@@ -20,7 +21,12 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
 
-class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val callback: (path: String) -> Unit) {
+@UnstableApi
+class PickMediumDialog(
+    val activity: BaseSimpleActivity,
+    val path: String,
+    val callback: (path: String) -> Unit
+) {
     private var dialog: AlertDialog? = null
     private var shownMedia = ArrayList<ThumbnailItem>()
     private val binding = DialogMediumPickerBinding.inflate(activity.layoutInflater)
@@ -30,7 +36,8 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
 
     init {
         (binding.mediaGrid.layoutManager as MyGridLayoutManager).apply {
-            orientation = if (config.scrollHorizontally && isGridViewType) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL
+            orientation =
+                if (config.scrollHorizontally && isGridViewType) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL
             spanCount = if (isGridViewType) config.mediaColumnCnt else 1
         }
 
@@ -39,9 +46,13 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
         activity.getAlertDialogBuilder()
             .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
             .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
-            .setNeutralButton(R.string.other_folder) { dialogInterface, i -> showOtherFolder() }
+            .setNeutralButton(R.string.other_folder) { _, _ -> showOtherFolder() }
             .apply {
-                activity.setupDialogStuff(binding.root, this, com.simplemobiletools.commons.R.string.select_photo) { alertDialog ->
+                activity.setupDialogStuff(
+                    binding.root,
+                    this,
+                    com.simplemobiletools.commons.R.string.select_photo
+                ) { alertDialog ->
                     dialog = alertDialog
                 }
             }
@@ -55,13 +66,26 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
             }
         }
 
-        GetMediaAsynctask(activity, path, false, false, false) {
+        GetMediaAsyncTask(
+            context = activity,
+            mPath = path,
+            isPickImage = false,
+            isPickVideo = false,
+            showAll = false
+        ) {
             gotMedia(it)
         }.execute()
     }
 
     private fun showOtherFolder() {
-        PickDirectoryDialog(activity, path, true, true, false, false) {
+        PickDirectoryDialog(
+            activity = activity,
+            sourcePath = path,
+            showOtherFolderButton = true,
+            showFavoritesBin = true,
+            isPickingCopyMoveDestination = false,
+            isPickingFolderForWidget = false
+        ) {
             callback(it)
             dialog?.dismiss()
         }
@@ -72,7 +96,15 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
             return
 
         shownMedia = media
-        val adapter = MediaAdapter(activity, shownMedia.clone() as ArrayList<ThumbnailItem>, null, true, false, path, binding.mediaGrid) {
+        val adapter = MediaAdapter(
+            activity = activity,
+            media = shownMedia.clone() as ArrayList<ThumbnailItem>,
+            listener = null,
+            isAGetIntent = true,
+            allowMultiplePicks = false,
+            path = path,
+            recyclerView = binding.mediaGrid
+        ) {
             if (it is Medium) {
                 callback(it.path)
                 dialog?.dismiss()
@@ -95,11 +127,19 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
 
             var currentGridDecoration: GridSpacingItemDecoration? = null
             if (binding.mediaGrid.itemDecorationCount > 0) {
-                currentGridDecoration = binding.mediaGrid.getItemDecorationAt(0) as GridSpacingItemDecoration
+                currentGridDecoration =
+                    binding.mediaGrid.getItemDecorationAt(0) as GridSpacingItemDecoration
                 currentGridDecoration.items = media
             }
 
-            val newGridDecoration = GridSpacingItemDecoration(spanCount, spacing, config.scrollHorizontally, config.fileRoundedCorners, media, useGridPosition)
+            val newGridDecoration = GridSpacingItemDecoration(
+                spanCount,
+                spacing,
+                config.scrollHorizontally,
+                config.fileRoundedCorners,
+                media,
+                useGridPosition
+            )
             if (currentGridDecoration.toString() != newGridDecoration.toString()) {
                 if (currentGridDecoration != null) {
                     binding.mediaGrid.removeItemDecoration(currentGridDecoration)

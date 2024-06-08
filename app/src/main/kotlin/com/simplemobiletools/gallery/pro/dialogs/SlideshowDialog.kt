@@ -3,14 +3,14 @@ package com.simplemobiletools.gallery.pro.dialogs
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.hideKeyboard
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.extensions.value
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogSlideshowBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.value
 import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_FADE
 import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_NONE
 import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_SLIDE
@@ -21,7 +21,9 @@ class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit
 
     init {
         binding = DialogSlideshowBinding.inflate(activity.layoutInflater).apply {
-            intervalHint.hint = activity.getString(com.simplemobiletools.commons.R.string.seconds_raw).replaceFirstChar { it.uppercaseChar() }
+            intervalHint.hint =
+                activity.getString(com.simplemobiletools.commons.R.string.seconds_raw)
+                    .replaceFirstChar { it.uppercaseChar() }
             intervalValue.setOnClickListener {
                 intervalValue.selectAll()
             }

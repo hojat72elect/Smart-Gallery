@@ -1,11 +1,16 @@
 package com.simplemobiletools.gallery.pro.views
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.models.PaintOptions
 
@@ -54,6 +59,7 @@ class EditorDrawCanvas(context: Context, attrs: AttributeSet) : View(context, at
         canvas.restore()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
@@ -120,7 +126,8 @@ class EditorDrawCanvas(context: Context, attrs: AttributeSet) : View(context, at
     }
 
     fun updateBrushSize(newBrushSize: Int) {
-        mPaintOptions.strokeWidth = resources.getDimension(R.dimen.full_brush_size) * (newBrushSize / 100f)
+        mPaintOptions.strokeWidth =
+            resources.getDimension(R.dimen.full_brush_size) * (newBrushSize / 100f)
     }
 
     fun updateBackgroundBitmap(bitmap: Bitmap) {

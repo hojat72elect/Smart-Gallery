@@ -1,11 +1,20 @@
 package com.simplemobiletools.gallery.pro.models
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.commons.extensions.formatDate
-import com.simplemobiletools.commons.extensions.formatSize
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.formatDate
+import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.commons.helpers.FAVORITES
+import com.simplemobiletools.commons.helpers.SORT_BY_DATE_MODIFIED
+import com.simplemobiletools.commons.helpers.SORT_BY_NAME
+import com.simplemobiletools.commons.helpers.SORT_BY_PATH
+import com.simplemobiletools.commons.helpers.SORT_BY_RANDOM
+import com.simplemobiletools.commons.helpers.SORT_BY_SIZE
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
 
 @Entity(tableName = "directories", indices = [Index(value = ["path"], unique = true)])
@@ -30,11 +39,21 @@ data class Directory(
 
     constructor() : this(null, "", "", "", 0, 0L, 0L, 0L, 0, 0, "", 0, 0)
 
-    fun getBubbleText(sorting: Int, context: Context, dateFormat: String? = null, timeFormat: String? = null) = when {
+    fun getBubbleText(
+        sorting: Int,
+        context: Context,
+        dateFormat: String? = null,
+        timeFormat: String? = null
+    ) = when {
         sorting and SORT_BY_NAME != 0 -> name
         sorting and SORT_BY_PATH != 0 -> path
         sorting and SORT_BY_SIZE != 0 -> size.formatSize()
-        sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(context, dateFormat, timeFormat)
+        sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
+            context,
+            dateFormat,
+            timeFormat
+        )
+
         sorting and SORT_BY_RANDOM != 0 -> name
         else -> taken.formatDate(context)
     }

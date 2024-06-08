@@ -3,13 +3,20 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.graphics.Point
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeMultipleImagesBinding
 import com.simplemobiletools.gallery.pro.extensions.ensureWriteAccess
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.rescanPathsAndUpdateLastModified
 import com.simplemobiletools.gallery.pro.extensions.resizeImage
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.extensions.toInt
+import com.simplemobiletools.gallery.pro.extensions.toast
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -38,7 +45,11 @@ class ResizeMultipleImagesDialog(
             .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
             .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
             .apply {
-                activity.setupDialogStuff(binding.root, this, R.string.resize_multiple_images) { alertDialog ->
+                activity.setupDialogStuff(
+                    binding.root,
+                    this,
+                    R.string.resize_multiple_images
+                ) { alertDialog ->
                     dialog = alertDialog
                     alertDialog.showKeyboard(resizeFactorEditText)
 
@@ -54,7 +65,11 @@ class ResizeMultipleImagesDialog(
                         val resizeFactor = resizeFactorText.toFloat().div(100)
 
                         alertDialog.setCanceledOnTouchOutside(false)
-                        arrayOf(binding.resizeFactorInputLayout, positiveButton, negativeButton).forEach {
+                        arrayOf(
+                            binding.resizeFactorInputLayout,
+                            positiveButton,
+                            negativeButton
+                        ).forEach {
                             it.isEnabled = false
                             it.alpha = 0.6f
                         }
@@ -103,7 +118,13 @@ class ResizeMultipleImagesDialog(
 
                     val failureCount = imagePaths.size - pathsToRescan.size
                     if (failureCount > 0) {
-                        toast(resources.getQuantityString(R.plurals.failed_to_resize_images, failureCount, failureCount))
+                        toast(
+                            resources.getQuantityString(
+                                R.plurals.failed_to_resize_images,
+                                failureCount,
+                                failureCount
+                            )
+                        )
                     } else {
                         toast(R.string.images_resized_successfully)
                     }

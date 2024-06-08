@@ -10,21 +10,83 @@ import android.provider.MediaStore
 import android.text.Html
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.commons.dialogs.PropertiesDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.helpers.IS_FROM_GALLERY
+import com.simplemobiletools.commons.helpers.NOMEDIA
+import com.simplemobiletools.commons.helpers.REAL_FILE_PATH
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.FragmentHolderBinding
-import com.simplemobiletools.gallery.pro.extensions.*
+import com.simplemobiletools.gallery.pro.extensions.actionBarHeight
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.beVisible
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
+import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getColoredDrawableWithColor
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromUri
+import com.simplemobiletools.gallery.pro.extensions.getFinalUriFromPath
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.getRealPathFromURI
+import com.simplemobiletools.gallery.pro.extensions.getUriMimeType
+import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.extensions.hideSystemUI
+import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
+import com.simplemobiletools.gallery.pro.extensions.isGif
+import com.simplemobiletools.gallery.pro.extensions.isGone
+import com.simplemobiletools.gallery.pro.extensions.isImageFast
+import com.simplemobiletools.gallery.pro.extensions.isPortrait
+import com.simplemobiletools.gallery.pro.extensions.isRawFast
+import com.simplemobiletools.gallery.pro.extensions.isSvg
+import com.simplemobiletools.gallery.pro.extensions.isVideoFast
+import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
+import com.simplemobiletools.gallery.pro.extensions.navigationBarOnSide
+import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
+import com.simplemobiletools.gallery.pro.extensions.openEditor
+import com.simplemobiletools.gallery.pro.extensions.openPath
+import com.simplemobiletools.gallery.pro.extensions.parseFileChannel
+import com.simplemobiletools.gallery.pro.extensions.portrait
+import com.simplemobiletools.gallery.pro.extensions.rescanPath
+import com.simplemobiletools.gallery.pro.extensions.rescanPaths
+import com.simplemobiletools.gallery.pro.extensions.setAs
+import com.simplemobiletools.gallery.pro.extensions.sharePath
+import com.simplemobiletools.gallery.pro.extensions.showFileOnMap
+import com.simplemobiletools.gallery.pro.extensions.showSystemUI
+import com.simplemobiletools.gallery.pro.extensions.statusBarHeight
+import com.simplemobiletools.gallery.pro.extensions.toHex
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.fragments.PhotoFragment
 import com.simplemobiletools.gallery.pro.fragments.VideoFragment
 import com.simplemobiletools.gallery.pro.fragments.ViewPagerFragment
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_EDIT
+import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_PROPERTIES
+import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_SET_AS
+import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_SHARE
+import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_SHOW_ON_MAP
+import com.simplemobiletools.gallery.pro.helpers.IS_IN_RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.helpers.IS_VIEW_INTENT
+import com.simplemobiletools.gallery.pro.helpers.MEDIUM
+import com.simplemobiletools.gallery.pro.helpers.PATH
+import com.simplemobiletools.gallery.pro.helpers.SHOW_FAVORITES
+import com.simplemobiletools.gallery.pro.helpers.SKIP_AUTHENTICATION
+import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_IMAGES
+import com.simplemobiletools.gallery.pro.helpers.TYPE_PORTRAITS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
+import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.models.Medium
 import java.io.File
 import java.io.FileInputStream
 
+@UnstableApi
 open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentListener {
     private var mMedium: Medium? = null
     private var mIsFullScreen = false
@@ -76,7 +138,8 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         initBottomActionsLayout()
 
         binding.topShadow.layoutParams.height = statusBarHeight + actionBarHeight
-        (binding.fragmentViewerAppbar.layoutParams as RelativeLayout.LayoutParams).topMargin = statusBarHeight
+        (binding.fragmentViewerAppbar.layoutParams as RelativeLayout.LayoutParams).topMargin =
+            statusBarHeight
         if (!portrait && navigationBarOnSide && navigationBarWidth > 0) {
             binding.fragmentViewerToolbar.setPadding(0, 0, navigationBarWidth, 0)
         } else {
@@ -88,20 +151,31 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         val visibleBottomActions = if (config.bottomActions) config.visibleBottomActions else 0
 
         binding.fragmentViewerToolbar.menu.apply {
-            findItem(R.id.menu_set_as).isVisible = mMedium?.isImage() == true && visibleBottomActions and BOTTOM_ACTION_SET_AS == 0
-            findItem(R.id.menu_edit).isVisible = mMedium?.isImage() == true && mUri?.scheme == "file" && visibleBottomActions and BOTTOM_ACTION_EDIT == 0
-            findItem(R.id.menu_properties).isVisible = mUri?.scheme == "file" && visibleBottomActions and BOTTOM_ACTION_PROPERTIES == 0
+            findItem(R.id.menu_set_as).isVisible =
+                mMedium?.isImage() == true && visibleBottomActions and BOTTOM_ACTION_SET_AS == 0
+            findItem(R.id.menu_edit).isVisible =
+                mMedium?.isImage() == true && mUri?.scheme == "file" && visibleBottomActions and BOTTOM_ACTION_EDIT == 0
+            findItem(R.id.menu_properties).isVisible =
+                mUri?.scheme == "file" && visibleBottomActions and BOTTOM_ACTION_PROPERTIES == 0
             findItem(R.id.menu_share).isVisible = visibleBottomActions and BOTTOM_ACTION_SHARE == 0
-            findItem(R.id.menu_show_on_map).isVisible = visibleBottomActions and BOTTOM_ACTION_SHOW_ON_MAP == 0
+            findItem(R.id.menu_show_on_map).isVisible =
+                visibleBottomActions and BOTTOM_ACTION_SHOW_ON_MAP == 0
         }
     }
 
     private fun setupOptionsMenu() {
-        (binding.fragmentViewerAppbar.layoutParams as RelativeLayout.LayoutParams).topMargin = statusBarHeight
+        (binding.fragmentViewerAppbar.layoutParams as RelativeLayout.LayoutParams).topMargin =
+            statusBarHeight
         binding.fragmentViewerToolbar.apply {
             setTitleTextColor(Color.WHITE)
-            overflowIcon = resources.getColoredDrawableWithColor(com.simplemobiletools.commons.R.drawable.ic_three_dots_vector, Color.WHITE)
-            navigationIcon = resources.getColoredDrawableWithColor(com.simplemobiletools.commons.R.drawable.ic_arrow_left_vector, Color.WHITE)
+            overflowIcon = resources.getColoredDrawableWithColor(
+                com.simplemobiletools.commons.R.drawable.ic_three_dots_vector,
+                Color.WHITE
+            )
+            navigationIcon = resources.getColoredDrawableWithColor(
+                com.simplemobiletools.commons.R.drawable.ic_arrow_left_vector,
+                Color.WHITE
+            )
         }
 
         updateMenuItemColors(binding.fragmentViewerToolbar.menu, forceWhiteIcons = true)
@@ -137,7 +211,11 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
 
         mUri = intent.data ?: return
         val uri = mUri.toString()
-        if (uri.startsWith("content:/") && uri.contains("/storage/") && !intent.getBooleanExtra(IS_IN_RECYCLE_BIN, false)) {
+        if (uri.startsWith("content:/") && uri.contains("/storage/") && !intent.getBooleanExtra(
+                IS_IN_RECYCLE_BIN,
+                false
+            )
+        ) {
             val guessedPath = uri.substring(uri.indexOf("/storage/"))
             if (getDoesFilePathExist(guessedPath)) {
                 val extras = intent.extras ?: Bundle()
@@ -158,8 +236,12 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         if (intent.extras?.containsKey(REAL_FILE_PATH) == true) {
             val realPath = intent.extras!!.getString(REAL_FILE_PATH)
             if (realPath != null && getDoesFilePathExist(realPath)) {
-                val isFileFolderHidden = (File(realPath).isHidden || File(realPath.getParentPath(), NOMEDIA).exists() || realPath.contains("/."))
-                val preventShowingHiddenFile = (isRPlus() && !isExternalStorageManager()) && isFileFolderHidden
+                val isFileFolderHidden = (File(realPath).isHidden || File(
+                    realPath.getParentPath(),
+                    NOMEDIA
+                ).exists() || realPath.contains("/."))
+                val preventShowingHiddenFile =
+                    (isRPlus() && !isExternalStorageManager()) && isFileFolderHidden
                 if (!preventShowingHiddenFile) {
                     if (realPath.getFilenameFromPath().contains('.') || filename.contains('.')) {
                         if (isFileTypeVisible(realPath)) {
@@ -185,10 +267,17 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
             return
         } else {
             val realPath = applicationContext.getRealPathFromURI(mUri!!) ?: ""
-            val isFileFolderHidden = (File(realPath).isHidden || File(realPath.getParentPath(), NOMEDIA).exists() || realPath.contains("/."))
-            val preventShowingHiddenFile = (isRPlus() && !isExternalStorageManager()) && isFileFolderHidden
+            val isFileFolderHidden = (File(realPath).isHidden || File(
+                realPath.getParentPath(),
+                NOMEDIA
+            ).exists() || realPath.contains("/."))
+            val preventShowingHiddenFile =
+                (isRPlus() && !isExternalStorageManager()) && isFileFolderHidden
             if (!preventShowingHiddenFile) {
-                if (realPath != mUri.toString() && realPath.isNotEmpty() && mUri!!.authority != "mms" && filename.contains('.') && getDoesFilePathExist(realPath)) {
+                if (realPath != mUri.toString() && realPath.isNotEmpty() && mUri!!.authority != "mms" && filename.contains(
+                        '.'
+                    ) && getDoesFilePathExist(realPath)
+                ) {
                     if (isFileTypeVisible(realPath)) {
                         binding.bottomActions.root.beGone()
                         rescanPaths(arrayListOf(mUri!!.path!!))
@@ -208,7 +297,7 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         }
 
         checkNotchSupport()
-        showSystemUI(true)
+        showSystemUI()
         val bundle = Bundle()
         val file = File(mUri.toString())
         val intentType = intent.type ?: ""
@@ -222,15 +311,30 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         }
 
         mIsVideo = type == TYPE_VIDEOS
-        mMedium = Medium(null, filename, mUri.toString(), mUri!!.path!!.getParentPath(), 0, 0, file.length(), type, 0, false, 0L, 0)
-        binding.fragmentViewerToolbar.title = Html.fromHtml("<font color='${Color.WHITE.toHex()}'>${mMedium!!.name}</font>")
+        mMedium = Medium(
+            null,
+            filename,
+            mUri.toString(),
+            mUri!!.path!!.getParentPath(),
+            0,
+            0,
+            file.length(),
+            type,
+            0,
+            false,
+            0L,
+            0
+        )
+        binding.fragmentViewerToolbar.title =
+            Html.fromHtml("<font color='${Color.WHITE.toHex()}'>${mMedium!!.name}</font>")
         bundle.putSerializable(MEDIUM, mMedium)
 
         if (savedInstanceState == null) {
             mFragment = if (mIsVideo) VideoFragment() else PhotoFragment()
             mFragment!!.listener = this
             mFragment!!.arguments = bundle
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_placeholder, mFragment!!).commit()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_placeholder, mFragment!!).commit()
         }
 
         if (config.blackBackground) {
@@ -331,7 +435,7 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
             cursor?.use {
                 return cursor.moveToFirst()
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
 
         return false
@@ -344,11 +448,11 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
     private fun isFileTypeVisible(path: String): Boolean {
         val filter = config.filterMedia
         return !(path.isImageFast() && filter and TYPE_IMAGES == 0 ||
-            path.isVideoFast() && filter and TYPE_VIDEOS == 0 ||
-            path.isGif() && filter and TYPE_GIFS == 0 ||
-            path.isRawFast() && filter and TYPE_RAWS == 0 ||
-            path.isSvg() && filter and TYPE_SVGS == 0 ||
-            path.isPortrait() && filter and TYPE_PORTRAITS == 0)
+                path.isVideoFast() && filter and TYPE_VIDEOS == 0 ||
+                path.isGif() && filter and TYPE_GIFS == 0 ||
+                path.isRawFast() && filter and TYPE_RAWS == 0 ||
+                path.isSvg() && filter and TYPE_SVGS == 0 ||
+                path.isPortrait() && filter and TYPE_PORTRAITS == 0)
     }
 
     private fun initBottomActions() {
@@ -357,7 +461,8 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
     }
 
     private fun initBottomActionsLayout() {
-        binding.bottomActions.root.layoutParams.height = resources.getDimension(R.dimen.bottom_actions_height).toInt() + navigationBarHeight
+        binding.bottomActions.root.layoutParams.height =
+            resources.getDimension(R.dimen.bottom_actions_height).toInt() + navigationBarHeight
         if (config.bottomActions) {
             binding.bottomActions.root.beVisible()
         } else {
@@ -412,9 +517,9 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
     override fun fragmentClicked() {
         mIsFullScreen = !mIsFullScreen
         if (mIsFullScreen) {
-            hideSystemUI(true)
+            hideSystemUI()
         } else {
-            showSystemUI(true)
+            showSystemUI()
         }
 
         val newAlpha = if (mIsFullScreen) 0f else 1f

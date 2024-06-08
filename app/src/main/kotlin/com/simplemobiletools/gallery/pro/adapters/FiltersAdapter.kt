@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,16 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.EditorFilterItemBinding
 import com.simplemobiletools.gallery.pro.models.FilterItem
 
-class FiltersAdapter(val context: Context, val filterItems: ArrayList<FilterItem>, val itemClick: (Int) -> Unit) :
+class FiltersAdapter(
+    val context: Context,
+    private val filterItems: ArrayList<FilterItem>,
+    private val itemClick: (Int) -> Unit
+) :
     RecyclerView.Adapter<FiltersAdapter.ViewHolder>() {
 
     private var currentSelection = filterItems.first()
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     private var strokeBackground = context.resources.getDrawable(R.drawable.stroke_background)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -20,7 +27,8 @@ class FiltersAdapter(val context: Context, val filterItems: ArrayList<FilterItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = EditorFilterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            EditorFilterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -28,6 +36,7 @@ class FiltersAdapter(val context: Context, val filterItems: ArrayList<FilterItem
 
     fun getCurrentFilter() = currentSelection
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setCurrentFilter(position: Int) {
         val filterItem = filterItems.getOrNull(position) ?: return
         if (currentSelection != filterItem) {
@@ -37,7 +46,8 @@ class FiltersAdapter(val context: Context, val filterItems: ArrayList<FilterItem
         }
     }
 
-    inner class ViewHolder(private val binding: EditorFilterItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: EditorFilterItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bindView(filterItem: FilterItem): View {
             binding.apply {
                 editorFilterItemLabel.text = filterItem.filter.name

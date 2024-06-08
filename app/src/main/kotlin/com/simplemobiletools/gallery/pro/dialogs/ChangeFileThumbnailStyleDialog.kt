@@ -1,15 +1,17 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeFileThumbnailStyleBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 
-class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) : DialogInterface.OnClickListener {
+class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) :
+    DialogInterface.OnClickListener {
     private var config = activity.config
     private val binding: DialogChangeFileThumbnailStyleBinding
     private var thumbnailSpacing = config.thumbnailSpacing
@@ -57,12 +59,14 @@ class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) : DialogI
 
     override fun onClick(dialog: DialogInterface, which: Int) {
         config.fileRoundedCorners = binding.dialogFileStyleRoundedCorners.isChecked
-        config.showThumbnailVideoDuration = binding.dialogFileStyleShowThumbnailVideoDuration.isChecked
+        config.showThumbnailVideoDuration =
+            binding.dialogFileStyleShowThumbnailVideoDuration.isChecked
         config.showThumbnailFileTypes = binding.dialogFileStyleShowThumbnailFileTypes.isChecked
         config.markFavoriteItems = binding.dialogFileStyleMarkFavoriteItems.isChecked
         config.thumbnailSpacing = thumbnailSpacing
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateThumbnailSpacingText() {
         binding.dialogFileStyleSpacing.text = "${thumbnailSpacing}x"
     }

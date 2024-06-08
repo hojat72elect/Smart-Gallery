@@ -10,7 +10,7 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import com.davemorrissey.labs.subscaleview.ImageDecoder
 
-class MyGlideImageDecoder(val degrees: Int, val signature: ObjectKey) : ImageDecoder {
+class MyGlideImageDecoder(private val degrees: Int, private val signature: ObjectKey) : ImageDecoder {
 
     override fun decode(context: Context, uri: Uri): Bitmap {
         val options = RequestOptions()

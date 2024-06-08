@@ -1,6 +1,11 @@
 package com.simplemobiletools.gallery.pro.extensions
 
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_IMAGES
+import com.simplemobiletools.gallery.pro.helpers.TYPE_PORTRAITS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.models.Medium
 
 fun ArrayList<Medium>.getDirMediaTypes(): Int {
@@ -30,4 +35,10 @@ fun ArrayList<Medium>.getDirMediaTypes(): Int {
     }
 
     return types
+}
+
+
+fun <T> java.util.ArrayList<T>.moveLastItemToFront() {
+    val last = removeAt(size - 1)
+    add(0, last)
 }

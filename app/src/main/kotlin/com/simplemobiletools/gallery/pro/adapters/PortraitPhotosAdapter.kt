@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,28 +11,38 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.commons.extensions.getFileKey
+import com.simplemobiletools.gallery.pro.extensions.getFileKey
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.PortraitPhotoItemBinding
 
-class PortraitPhotosAdapter(val context: Context, val photos: ArrayList<String>, val sideElementWidth: Int, val itemClick: (Int, Int) -> Unit) :
+
+@SuppressLint("UseCompatLoadingForDrawables", "NotifyDataSetChanged")
+class PortraitPhotosAdapter(
+    val context: Context,
+    val photos: ArrayList<String>,
+    val sideElementWidth: Int,
+    val itemClick: (Int, Int) -> Unit
+) :
     RecyclerView.Adapter<PortraitPhotosAdapter.ViewHolder>() {
 
     var currentSelectionIndex = -1
     var views = HashMap<Int, View>()
     private var strokeBackground = context.resources.getDrawable(R.drawable.stroke_background)
-    private val itemWidth = context.resources.getDimension(R.dimen.portrait_photos_stripe_height).toInt()
+    private val itemWidth =
+        context.resources.getDimension(R.dimen.portrait_photos_stripe_height).toInt()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindView(photos[position], position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = PortraitPhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            PortraitPhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding.root)
     }
 
     override fun getItemCount() = photos.size
+
 
     fun setCurrentPhoto(position: Int) {
         if (currentSelectionIndex != position) {
@@ -47,17 +58,19 @@ class PortraitPhotosAdapter(val context: Context, val photos: ArrayList<String>,
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(photo: String, position: Int): View {
             PortraitPhotoItemBinding.bind(itemView).apply {
-                portraitPhotoItemThumbnail.layoutParams.width = if (position == 0 || position == photos.lastIndex) {
-                    sideElementWidth
-                } else {
-                    itemWidth
-                }
+                portraitPhotoItemThumbnail.layoutParams.width =
+                    if (position == 0 || position == photos.lastIndex) {
+                        sideElementWidth
+                    } else {
+                        itemWidth
+                    }
 
-                portraitPhotoItemThumbnail.background = if (photo.isEmpty() || position != currentSelectionIndex) {
-                    null
-                } else {
-                    strokeBackground
-                }
+                portraitPhotoItemThumbnail.background =
+                    if (photo.isEmpty() || position != currentSelectionIndex) {
+                        null
+                    } else {
+                        strokeBackground
+                    }
 
                 val options = RequestOptions()
                     .signature(ObjectKey(photo.getFileKey()))

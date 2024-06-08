@@ -27,7 +27,7 @@
             android:scrollbars="none"
             app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager" />
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <com.simplemobiletools.gallery.pro.views.MyTextView
             android:id="@+id/manage_folders_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,6 +1,10 @@
 package com.simplemobiletools.gallery.pro.interfaces
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.simplemobiletools.gallery.pro.models.Medium
 
 @Dao
@@ -36,7 +40,12 @@ interface MediumDao {
     fun deleteMediumPath(path: String)
 
     @Query("UPDATE OR REPLACE media SET filename = :newFilename, full_path = :newFullPath, parent_path = :newParentPath WHERE full_path = :oldPath COLLATE NOCASE")
-    fun updateMedium(oldPath: String, newParentPath: String, newFilename: String, newFullPath: String)
+    fun updateMedium(
+        oldPath: String,
+        newParentPath: String,
+        newFilename: String,
+        newFullPath: String
+    )
 
     @Query("UPDATE OR REPLACE media SET full_path = :newPath, deleted_ts = :deletedTS WHERE full_path = :oldPath COLLATE NOCASE")
     fun updateDeleted(newPath: String, deletedTS: Long, oldPath: String)

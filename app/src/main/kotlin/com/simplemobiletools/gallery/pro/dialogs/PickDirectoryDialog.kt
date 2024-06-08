@@ -5,22 +5,42 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.commons.views.MyGridLayoutManager
 import com.simplemobiletools.commons.views.MySearchMenu
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogDirectoryPickerBinding
-import com.simplemobiletools.gallery.pro.extensions.*
+import com.simplemobiletools.gallery.pro.extensions.addTempFolderIfNeeded
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.beInvisible
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getCachedDirectories
+import com.simplemobiletools.gallery.pro.extensions.getDefaultCopyDestinationPath
+import com.simplemobiletools.gallery.pro.extensions.getDirsToShow
+import com.simplemobiletools.gallery.pro.extensions.getDistinctPath
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.getSortedDirectories
+import com.simplemobiletools.gallery.pro.extensions.handleHiddenFolderPasswordProtection
+import com.simplemobiletools.gallery.pro.extensions.handleLockedFolderOpening
+import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.extensions.isGone
+import com.simplemobiletools.gallery.pro.extensions.isInDownloadDir
+import com.simplemobiletools.gallery.pro.extensions.isRestrictedWithSAFSdk30
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.models.Directory
 
+@UnstableApi
 class PickDirectoryDialog(
     val activity: BaseSimpleActivity,
-    val sourcePath: String,
+    private val sourcePath: String,
     showOtherFolderButton: Boolean,
     val showFavoritesBin: Boolean,
     val isPickingCopyMoveDestination: Boolean,
@@ -42,7 +62,8 @@ class PickDirectoryDialog(
 
     init {
         (binding.directoriesGrid.layoutManager as MyGridLayoutManager).apply {
-            orientation = if (activity.config.scrollHorizontally && isGridViewType) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL
+            orientation =
+                if (activity.config.scrollHorizontally && isGridViewType) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL
             spanCount = if (isGridViewType) activity.config.dirColumnCnt else 1
         }
 
@@ -53,7 +74,7 @@ class PickDirectoryDialog(
         val builder = activity.getAlertDialogBuilder()
             .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
             .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
-            .setOnKeyListener { dialogInterface, i, keyEvent ->
+            .setOnKeyListener { _, i, keyEvent ->
                 if (keyEvent.action == KeyEvent.ACTION_UP && i == KeyEvent.KEYCODE_BACK) {
                     backPressed()
                 }
@@ -61,11 +82,15 @@ class PickDirectoryDialog(
             }
 
         if (showOtherFolderButton) {
-            builder.setNeutralButton(R.string.other_folder) { dialogInterface, i -> showOtherFolder() }
+            builder.setNeutralButton(R.string.other_folder) { _, _ -> showOtherFolder() }
         }
 
         builder.apply {
-            activity.setupDialogStuff(binding.root, this, com.simplemobiletools.commons.R.string.select_destination) { alertDialog ->
+            activity.setupDialogStuff(
+                binding.root,
+                this,
+                com.simplemobiletools.commons.R.string.select_destination
+            ) { alertDialog ->
                 dialog = alertDialog
                 binding.directoriesShowHidden.beVisibleIf(!context.config.shouldShowHidden)
                 binding.directoriesShowHidden.setOnClickListener {
@@ -114,17 +139,19 @@ class PickDirectoryDialog(
         }
     }
 
-    private fun updateSearchViewLeftIcon(iconResId: Int) = with(searchView.binding.topToolbarSearchIcon) {
-        post {
-            setImageResource(iconResId)
+    private fun updateSearchViewLeftIcon(iconResId: Int) =
+        with(searchView.binding.topToolbarSearchIcon) {
+            post {
+                setImageResource(iconResId)
+            }
         }
-    }
 
     private fun filterFolderListBySearchQuery(query: String) {
         val adapter = binding.directoriesGrid.adapter as? DirectoryAdapter
         var dirsToShow = allDirectories
         if (query.isNotEmpty()) {
-            dirsToShow = dirsToShow.filter { it.name.contains(query, true) }.toMutableList() as ArrayList
+            dirsToShow =
+                dirsToShow.filter { it.name.contains(query, true) }.toMutableList() as ArrayList
         }
         dirsToShow = activity.getSortedDirectories(dirsToShow)
         checkPlaceholderVisibility(dirsToShow)
@@ -145,14 +172,18 @@ class PickDirectoryDialog(
         directoriesEmptyPlaceholder.beVisibleIf(dirs.isEmpty())
 
         if (folderSearchView.isSearchOpen) {
-            directoriesEmptyPlaceholder.text = root.context.getString(com.simplemobiletools.commons.R.string.no_items_found)
+            directoriesEmptyPlaceholder.text =
+                root.context.getString(com.simplemobiletools.commons.R.string.no_items_found)
         }
 
         directoriesFastscroller.beVisibleIf(directoriesEmptyPlaceholder.isGone())
     }
 
     private fun fetchDirectories(forceShowHiddenAndExcluded: Boolean) {
-        activity.getCachedDirectories(forceShowHidden = forceShowHiddenAndExcluded, forceShowExcluded = forceShowHiddenAndExcluded) {
+        activity.getCachedDirectories(
+            forceShowHidden = forceShowHiddenAndExcluded,
+            forceShowExcluded = forceShowHiddenAndExcluded
+        ) {
             if (it.isNotEmpty()) {
                 it.forEach {
                     it.subfoldersMediaCount = it.mediaCnt
@@ -189,24 +220,39 @@ class PickDirectoryDialog(
             allDirectories = newDirs.clone() as ArrayList<Directory>
         }
 
-        val distinctDirs = newDirs.filter { showFavoritesBin || (!it.isRecycleBin() && !it.areFavorites()) }.distinctBy { it.path.getDistinctPath() }
-            .toMutableList() as ArrayList<Directory>
+        val distinctDirs =
+            newDirs.filter { showFavoritesBin || (!it.isRecycleBin() && !it.areFavorites()) }
+                .distinctBy { it.path.getDistinctPath() }
+                .toMutableList() as ArrayList<Directory>
         val sortedDirs = activity.getSortedDirectories(distinctDirs)
-        val dirs = activity.getDirsToShow(sortedDirs, allDirectories, currentPathPrefix).clone() as ArrayList<Directory>
+        val dirs = activity.getDirsToShow(sortedDirs, allDirectories, currentPathPrefix)
+            .clone() as ArrayList<Directory>
         if (dirs.hashCode() == shownDirectories.hashCode()) {
             return
         }
 
         shownDirectories = dirs
-        val adapter = DirectoryAdapter(activity, dirs.clone() as ArrayList<Directory>, null, binding.directoriesGrid, true) {
+        val adapter = DirectoryAdapter(
+            activity,
+            dirs.clone() as ArrayList<Directory>,
+            null,
+            binding.directoriesGrid,
+            true
+        ) {
             val clickedDir = it as Directory
             val path = clickedDir.path
             if (clickedDir.subfoldersCount == 1 || !activity.config.groupDirectSubfolders) {
                 if (isPickingCopyMoveDestination && path.trimEnd('/') == sourcePath) {
                     activity.toast(com.simplemobiletools.commons.R.string.source_and_destination_same)
                     return@DirectoryAdapter
-                } else if (isPickingCopyMoveDestination && activity.isRestrictedWithSAFSdk30(path) && !activity.isInDownloadDir(path)) {
-                    activity.toast(com.simplemobiletools.commons.R.string.system_folder_copy_restriction, Toast.LENGTH_LONG)
+                } else if (isPickingCopyMoveDestination && activity.isRestrictedWithSAFSdk30(path) && !activity.isInDownloadDir(
+                        path
+                    )
+                ) {
+                    activity.toast(
+                        com.simplemobiletools.commons.R.string.system_folder_copy_restriction,
+                        Toast.LENGTH_LONG
+                    )
                     return@DirectoryAdapter
                 } else {
                     activity.handleLockedFolderOpening(path) { success ->

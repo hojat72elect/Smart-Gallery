@@ -1,13 +1,18 @@
 package com.simplemobiletools.gallery.pro.helpers
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Shader
 import com.squareup.picasso.Transformation
 
 // taken from https://stackoverflow.com/a/35241525/1967672
 class PicassoRoundedCornersTransformation(private val radius: Float) : Transformation {
 
     override fun transform(source: Bitmap): Bitmap {
-        val size = Math.min(source.width, source.height)
+        val size = source.width.coerceAtMost(source.height)
         val x = (source.width - size) / 2
         val y = (source.height - size) / 2
         val squaredBitmap = Bitmap.createBitmap(source, x, y, size, size)

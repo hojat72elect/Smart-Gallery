@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.helpers
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -10,30 +11,41 @@ import android.widget.RemoteViews
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getFileSignature
-import com.simplemobiletools.commons.extensions.setText
-import com.simplemobiletools.commons.extensions.setVisibleIf
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.MediaActivity
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.directoryDB
+import com.simplemobiletools.gallery.pro.extensions.getFileSignature
 import com.simplemobiletools.gallery.pro.extensions.getFolderNameFromPath
+import com.simplemobiletools.gallery.pro.extensions.setText
+import com.simplemobiletools.gallery.pro.extensions.setVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.widgetsDB
 import com.simplemobiletools.gallery.pro.models.Widget
 
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class MyWidgetProvider : AppWidgetProvider() {
     private fun setupAppOpenIntent(context: Context, views: RemoteViews, id: Int, widget: Widget) {
         val intent = Intent(context, MediaActivity::class.java).apply {
             putExtra(DIRECTORY, widget.folderPath)
         }
 
-        val pendingIntent = PendingIntent.getActivity(context, widget.widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            widget.widgetId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         views.setOnClickPendingIntent(id, pendingIntent)
     }
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    @SuppressLint("CheckResult")
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         ensureBackgroundThread {
             val config = context.config
@@ -45,7 +57,8 @@ class MyWidgetProvider : AppWidgetProvider() {
                     setText(R.id.widget_folder_name, context.getFolderNameFromPath(it.folderPath))
                 }
 
-                val path = context.directoryDB.getDirectoryThumbnail(it.folderPath) ?: return@forEach
+                val path =
+                    context.directoryDB.getDirectoryThumbnail(it.folderPath) ?: return@forEach
                 val options = RequestOptions()
                     .signature(path.getFileSignature())
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -61,7 +74,7 @@ class MyWidgetProvider : AppWidgetProvider() {
                 val width = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
                 val height = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
 
-                val widgetSize = (Math.max(width, height) * density).toInt()
+                val widgetSize = (width.coerceAtLeast(height) * density).toInt()
                 try {
                     val image = Glide.with(context)
                         .asBitmap()
@@ -70,7 +83,7 @@ class MyWidgetProvider : AppWidgetProvider() {
                         .submit(widgetSize, widgetSize)
                         .get()
                     views.setImageViewBitmap(R.id.widget_imageview, image)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
 
                 setupAppOpenIntent(context, views, R.id.widget_holder, it)
@@ -83,7 +96,12 @@ class MyWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle
+    ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
         onUpdate(context, appWidgetManager, intArrayOf(appWidgetId))
     }

@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
@@ -7,20 +8,30 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.beVisible
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.toItemBinding
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeFolderThumbnailStyleBinding
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridRoundedCornersBinding
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridSquareBinding
 import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_BRACKETS
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_LINE
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_NONE
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_ROUNDED_CORNERS
+import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_SQUARE
 
-class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val callback: () -> Unit) : DialogInterface.OnClickListener {
+class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val callback: () -> Unit) :
+    DialogInterface.OnClickListener {
     private var config = activity.config
-    private val binding = DialogChangeFolderThumbnailStyleBinding.inflate(activity.layoutInflater).apply {
-        dialogFolderLimitTitle.isChecked = config.limitFolderTitle
-    }
+    private val binding =
+        DialogChangeFolderThumbnailStyleBinding.inflate(activity.layoutInflater).apply {
+            dialogFolderLimitTitle.isChecked = config.limitFolderTitle
+        }
 
     init {
         activity.getAlertDialogBuilder()
@@ -37,7 +48,7 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
 
     private fun setupStyle() {
         val styleRadio = binding.dialogRadioFolderStyle
-        styleRadio.setOnCheckedChangeListener { group, checkedId ->
+        styleRadio.setOnCheckedChangeListener { _, _ ->
             updateSample()
         }
 
@@ -51,7 +62,7 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
 
     private fun setupMediaCount() {
         val countRadio = binding.dialogRadioFolderCountHolder
-        countRadio.setOnCheckedChangeListener { group, checkedId ->
+        countRadio.setOnCheckedChangeListener { _, _ ->
             updateSample()
         }
 
@@ -64,22 +75,26 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
         countBtn.isChecked = true
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateSample() {
         val photoCount = 36
         val folderName = "Camera"
         binding.apply {
-            val useRoundedCornersLayout = binding.dialogRadioFolderStyle.checkedRadioButtonId == R.id.dialog_radio_folder_rounded_corners
+            val useRoundedCornersLayout =
+                binding.dialogRadioFolderStyle.checkedRadioButtonId == R.id.dialog_radio_folder_rounded_corners
             binding.dialogFolderSampleHolder.removeAllViews()
 
             val sampleBinding = if (useRoundedCornersLayout) {
-                DirectoryItemGridRoundedCornersBinding.inflate(activity.layoutInflater).toItemBinding()
+                DirectoryItemGridRoundedCornersBinding.inflate(activity.layoutInflater)
+                    .toItemBinding()
             } else {
                 DirectoryItemGridSquareBinding.inflate(activity.layoutInflater).toItemBinding()
             }
             val sampleView = sampleBinding.root
             binding.dialogFolderSampleHolder.addView(sampleView)
 
-            sampleView.layoutParams.width = activity.resources.getDimension(R.dimen.sample_thumbnail_size).toInt()
+            sampleView.layoutParams.width =
+                activity.resources.getDimension(R.dimen.sample_thumbnail_size).toInt()
             (sampleView.layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.CENTER_HORIZONTAL)
 
             when (binding.dialogRadioFolderCountHolder.checkedRadioButtonId) {
@@ -106,7 +121,9 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
                 .apply(options)
 
             if (useRoundedCornersLayout) {
-                val cornerRadius = root.resources.getDimension(com.simplemobiletools.commons.R.dimen.rounded_corner_radius_big).toInt()
+                val cornerRadius =
+                    root.resources.getDimension(com.simplemobiletools.commons.R.dimen.rounded_corner_radius_big)
+                        .toInt()
                 builder = builder.transform(CenterCrop(), RoundedCorners(cornerRadius))
                 sampleBinding.dirName.setTextColor(activity.getProperTextColor())
                 sampleBinding.photoCnt.setTextColor(activity.getProperTextColor())

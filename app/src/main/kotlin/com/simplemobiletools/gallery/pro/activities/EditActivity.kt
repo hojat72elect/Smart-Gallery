@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
@@ -27,7 +28,8 @@ import com.bumptech.glide.request.target.Target
 import com.canhub.cropper.CropImageView
 import com.simplemobiletools.commons.dialogs.ColorPickerDialog
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.extensions.sharePathIntent
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.REAL_FILE_PATH
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -40,15 +42,54 @@ import com.simplemobiletools.gallery.pro.databinding.ActivityEditBinding
 import com.simplemobiletools.gallery.pro.dialogs.OtherAspectRatioDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeDialog
 import com.simplemobiletools.gallery.pro.dialogs.SaveAsDialog
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.beGoneIf
+import com.simplemobiletools.gallery.pro.extensions.beVisible
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.copyNonDimensionAttributesTo
 import com.simplemobiletools.gallery.pro.extensions.fixDateTaken
+import com.simplemobiletools.gallery.pro.extensions.getCompressionFormat
+import com.simplemobiletools.gallery.pro.extensions.getCurrentFormattedDateTime
+import com.simplemobiletools.gallery.pro.extensions.getFileOutputStream
+import com.simplemobiletools.gallery.pro.extensions.getFilenameExtension
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromContentUri
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.getRealPathFromURI
+import com.simplemobiletools.gallery.pro.extensions.isGone
+import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
+import com.simplemobiletools.gallery.pro.extensions.isVisible
+import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.extensions.onSeekBarChangeListener
 import com.simplemobiletools.gallery.pro.extensions.openEditor
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.rescanPaths
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_FOUR_THREE
+import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_FREE
+import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_ONE_ONE
+import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_OTHER
+import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_SIXTEEN_NINE
+import com.simplemobiletools.gallery.pro.helpers.FilterThumbnailsManager
+import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.models.FilterItem
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import kotlin.math.max
 
 class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener {
@@ -112,7 +153,11 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
     override fun onResume() {
         super.onResume()
         isEditingWithThirdParty = false
-        binding.bottomEditorDrawActions.bottomDrawWidth.setColors(getProperTextColor(), getProperPrimaryColor(), getProperBackgroundColor())
+        binding.bottomEditorDrawActions.bottomDrawWidth.setColors(
+            getProperTextColor(),
+            getProperPrimaryColor(),
+            getProperBackgroundColor()
+        )
         setupToolbar(binding.editorToolbar, NavigationIcon.Arrow)
     }
 
@@ -164,14 +209,20 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         }
 
         saveUri = when {
-            intent.extras?.containsKey(MediaStore.EXTRA_OUTPUT) == true && intent.extras!!.get(MediaStore.EXTRA_OUTPUT) is Uri -> intent.extras!!.get(MediaStore.EXTRA_OUTPUT) as Uri
+            intent.extras?.containsKey(MediaStore.EXTRA_OUTPUT) == true && intent.extras!!.get(
+                MediaStore.EXTRA_OUTPUT
+            ) is Uri -> intent.extras!!.get(MediaStore.EXTRA_OUTPUT) as Uri
+
             else -> uri!!
         }
 
         isCropIntent = intent.extras?.get(CROP) == "true"
         if (isCropIntent) {
             binding.bottomEditorPrimaryActions.root.beGone()
-            (binding.bottomEditorCropRotateActions.root.layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 1)
+            (binding.bottomEditorCropRotateActions.root.layoutParams as RelativeLayout.LayoutParams).addRule(
+                RelativeLayout.ALIGN_PARENT_BOTTOM,
+                1
+            )
         }
 
         loadDefaultImageView()
@@ -186,7 +237,8 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                 config.lastEditorCropOtherAspectRatioY = 1f
             }
 
-            lastOtherAspectRatio = Pair(config.lastEditorCropOtherAspectRatioX, config.lastEditorCropOtherAspectRatioY)
+            lastOtherAspectRatio =
+                Pair(config.lastEditorCropOtherAspectRatioX, config.lastEditorCropOtherAspectRatioY)
         }
         updateAspectRatio(config.lastEditorCropAspectRatio)
         binding.cropImageView.guidelines = CropImageView.Guidelines.ON
@@ -207,7 +259,12 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
             .load(uri)
             .apply(options)
             .listener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Bitmap>,
+                    isFirstResource: Boolean
+                ): Boolean {
                     if (uri != originalUri) {
                         uri = originalUri
                         Handler().post {
@@ -230,7 +287,10 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                         bottomCropRotateClicked()
                     }
 
-                    if (filterInitialBitmap != null && currentFilter != null && currentFilter.filter.name != getString(com.simplemobiletools.commons.R.string.none)) {
+                    if (filterInitialBitmap != null && currentFilter != null && currentFilter.filter.name != getString(
+                            com.simplemobiletools.commons.R.string.none
+                        )
+                    ) {
                         binding.defaultImageView.onGlobalLayout {
                             applyFilter(currentFilter)
                         }
@@ -343,7 +403,8 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
 
                 ensureBackgroundThread {
                     try {
-                        val originalBitmap = Glide.with(applicationContext).asBitmap().load(uri).submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
+                        val originalBitmap = Glide.with(applicationContext).asBitmap().load(uri)
+                            .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
                         currentFilter.filter.processFilter(originalBitmap)
                         saveBitmapToFile(originalBitmap, it, false)
                     } catch (e: OutOfMemoryError) {
@@ -378,7 +439,8 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                         return@ensureBackgroundThread
                     }
 
-                    val originalBitmap = Glide.with(applicationContext).asBitmap().load(uri).submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
+                    val originalBitmap = Glide.with(applicationContext).asBitmap().load(uri)
+                        .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
                     currentFilter.filter.processFilter(originalBitmap)
                     shareBitmap(originalBitmap)
                 }
@@ -407,7 +469,8 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
             }
         }
 
-        val filename = applicationContext.getFilenameFromContentUri(saveUri) ?: "tmp-${System.currentTimeMillis()}.jpg"
+        val filename = applicationContext.getFilenameFromContentUri(saveUri)
+            ?: "tmp-${System.currentTimeMillis()}.jpg"
         val newPath = "$folder/$filename"
         val fileDirItem = FileDirItem(newPath, filename)
         getFileOutputStream(fileDirItem, true) {
@@ -435,7 +498,8 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         }
     }
 
-    private fun getFiltersAdapter() = binding.bottomEditorFilterActions.bottomActionsFilterList.adapter as? FiltersAdapter
+    private fun getFiltersAdapter() =
+        binding.bottomEditorFilterActions.bottomActionsFilterList.adapter as? FiltersAdapter
 
     private fun setupBottomActions() {
         setupPrimaryActionButtons()
@@ -593,6 +657,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         binding.bottomEditorDrawActions.bottomDrawColor.scaleY = scale
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updatePrimaryActionButtons() {
         if (binding.cropImageView.isGone() && currPrimaryAction == PRIMARY_ACTION_CROP_ROTATE) {
             loadCropImageView()
@@ -624,13 +689,19 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
 
         if (currPrimaryAction == PRIMARY_ACTION_FILTER && binding.bottomEditorFilterActions.bottomActionsFilterList.adapter == null) {
             ensureBackgroundThread {
-                val thumbnailSize = resources.getDimension(R.dimen.bottom_filters_thumbnail_size).toInt()
+                val thumbnailSize =
+                    resources.getDimension(R.dimen.bottom_filters_thumbnail_size).toInt()
 
                 val bitmap = try {
                     Glide.with(this)
                         .asBitmap()
                         .load(uri).listener(object : RequestListener<Bitmap> {
-                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Bitmap>,
+                                isFirstResource: Boolean
+                            ): Boolean {
                                 showErrorToast(e.toString())
                                 return false
                             }
@@ -665,13 +736,20 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
 
                     val filterItems = filterThumbnailsManager.processThumbs()
                     val adapter = FiltersAdapter(applicationContext, filterItems) {
-                        val layoutManager = binding.bottomEditorFilterActions.bottomActionsFilterList.layoutManager as LinearLayoutManager
+                        val layoutManager =
+                            binding.bottomEditorFilterActions.bottomActionsFilterList.layoutManager as LinearLayoutManager
                         applyFilter(filterItems[it])
 
                         if (it == layoutManager.findLastCompletelyVisibleItemPosition() || it == layoutManager.findLastVisibleItemPosition()) {
-                            binding.bottomEditorFilterActions.bottomActionsFilterList.smoothScrollBy(thumbnailSize, 0)
+                            binding.bottomEditorFilterActions.bottomActionsFilterList.smoothScrollBy(
+                                thumbnailSize,
+                                0
+                            )
                         } else if (it == layoutManager.findFirstCompletelyVisibleItemPosition() || it == layoutManager.findFirstVisibleItemPosition()) {
-                            binding.bottomEditorFilterActions.bottomActionsFilterList.smoothScrollBy(-thumbnailSize, 0)
+                            binding.bottomEditorFilterActions.bottomActionsFilterList.smoothScrollBy(
+                                -thumbnailSize,
+                                0
+                            )
                         }
                     }
 
@@ -855,14 +933,18 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
             val filename = applicationContext.getFilenameFromContentUri(saveUri) ?: ""
             if (filename.isNotEmpty()) {
                 val path =
-                    if (intent.extras?.containsKey(REAL_FILE_PATH) == true) intent.getStringExtra(REAL_FILE_PATH)?.getParentPath() else internalStoragePath
+                    if (intent.extras?.containsKey(REAL_FILE_PATH) == true) intent.getStringExtra(
+                        REAL_FILE_PATH
+                    )?.getParentPath() else internalStoragePath
                 newPath = "$path/$filename"
                 shouldAppendFilename = false
             }
         }
 
         if (newPath.isEmpty()) {
-            newPath = "$internalStoragePath/${getCurrentFormattedDateTime()}.${saveUri.toString().getFilenameExtension()}"
+            newPath = "$internalStoragePath/${getCurrentFormattedDateTime()}.${
+                saveUri.toString().getFilenameExtension()
+            }"
             shouldAppendFilename = false
         }
 
@@ -875,7 +957,12 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                 val label =
                     "sknahT .moc.slootelibomelpmis.www morf eno lanigiro eht daolnwod ytefas nwo ruoy roF .ppa eht fo noisrev ekaf a gnisu era uoY".reversed()
                 runOnUiThread {
-                    ConfirmationDialog(this, label, positive = com.simplemobiletools.commons.R.string.ok, negative = 0) {
+                    ConfirmationDialog(
+                        this,
+                        label,
+                        positive = com.simplemobiletools.commons.R.string.ok,
+                        negative = 0
+                    ) {
                         launchViewIntent("6629852208836920709=di?ved/sppa/erots/moc.elgoog.yalp//:sptth".reversed())
                     }
                 }
@@ -908,7 +995,12 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private fun saveBitmap(file: File, bitmap: Bitmap, out: OutputStream, showSavingToast: Boolean) {
+    private fun saveBitmap(
+        file: File,
+        bitmap: Bitmap,
+        out: OutputStream,
+        showSavingToast: Boolean
+    ) {
         if (showSavingToast) {
             toast(com.simplemobiletools.commons.R.string.saving)
         }

@@ -2,15 +2,29 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.content.DialogInterface
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeGroupingBinding
 import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_DAILY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_EXTENSION
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_FILE_TYPE
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_FOLDER
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_LAST_MODIFIED_DAILY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_LAST_MODIFIED_MONTHLY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_NONE
+import com.simplemobiletools.gallery.pro.helpers.GROUP_DESCENDING
+import com.simplemobiletools.gallery.pro.helpers.GROUP_SHOW_FILE_COUNT
+import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
 
-class ChangeGroupingDialog(val activity: BaseSimpleActivity, val path: String = "", val callback: () -> Unit) :
+class ChangeGroupingDialog(
+    val activity: BaseSimpleActivity,
+    val path: String = "",
+    val callback: () -> Unit
+) :
     DialogInterface.OnClickListener {
     private var currGrouping = 0
     private var config = activity.config

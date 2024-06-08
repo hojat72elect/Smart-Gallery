@@ -2,9 +2,9 @@ package com.simplemobiletools.gallery.pro.activities
 
 import android.os.Bundle
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
@@ -26,7 +26,12 @@ class HiddenFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
         setupOptionsMenu()
         binding.manageFoldersToolbar.title = getString(R.string.hidden_folders)
 
-        updateMaterialActivityViews(binding.manageFoldersCoordinator, binding.manageFoldersList, useTransparentNavigation = true, useTopSearchMenu = false)
+        updateMaterialActivityViews(
+            binding.manageFoldersCoordinator,
+            binding.manageFoldersList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
         setupMaterialScrollListener(binding.manageFoldersList, binding.manageFoldersToolbar)
     }
 
@@ -44,7 +49,8 @@ class HiddenFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
                     setTextColor(getProperTextColor())
                 }
 
-                val adapter = ManageHiddenFoldersAdapter(this, it, this, binding.manageFoldersList) {}
+                val adapter =
+                    ManageHiddenFoldersAdapter(this, it, this, binding.manageFoldersList) {}
                 binding.manageFoldersList.adapter = adapter
             }
         }
@@ -65,8 +71,15 @@ class HiddenFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
     }
 
     private fun addFolder() {
-        FilePickerDialog(this, config.lastFilepickerPath, false, config.shouldShowHidden, false, true) {
-            config.lastFilepickerPath = it
+        FilePickerDialog(
+            activity = this,
+            currPath = config.lastFilePickerPath,
+            pickFile = false,
+            showHidden = config.shouldShowHidden,
+            showFAB = false,
+            canAddShowHiddenButton = true
+        ) {
+            config.lastFilePickerPath = it
             ensureBackgroundThread {
                 addNoMedia(it) {
                     updateFolders()

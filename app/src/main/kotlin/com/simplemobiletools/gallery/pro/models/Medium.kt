@@ -1,12 +1,36 @@
 package com.simplemobiletools.gallery.pro.models
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.formatDate
+import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.gallery.pro.extensions.getFilenameExtension
+import com.simplemobiletools.gallery.pro.extensions.isApng
+import com.simplemobiletools.gallery.pro.extensions.isWebP
+import com.simplemobiletools.commons.helpers.SORT_BY_DATE_MODIFIED
+import com.simplemobiletools.commons.helpers.SORT_BY_NAME
+import com.simplemobiletools.commons.helpers.SORT_BY_PATH
+import com.simplemobiletools.commons.helpers.SORT_BY_RANDOM
+import com.simplemobiletools.commons.helpers.SORT_BY_SIZE
 import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_DAILY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_EXTENSION
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_FILE_TYPE
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_FOLDER
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_LAST_MODIFIED_DAILY
+import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_LAST_MODIFIED_MONTHLY
+import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_IMAGES
+import com.simplemobiletools.gallery.pro.helpers.TYPE_PORTRAITS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
+import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
 import java.io.File
 import java.io.Serializable
 import java.util.Calendar
@@ -32,10 +56,6 @@ data class Medium(
 
     constructor() : this(null, "", "", "", 0L, 0L, 0L, 0, 0, false, 0L, 0L, 0)
 
-    companion object {
-        private const val serialVersionUID = -6553149366975655L
-    }
-
     fun isWebP() = name.isWebP()
 
     fun isGIF() = type == TYPE_GIFS
@@ -54,16 +74,20 @@ data class Medium(
 
     fun isHidden() = name.startsWith('.')
 
-    fun isHeic() = name.toLowerCase().endsWith(".heic") || name.toLowerCase().endsWith(".heif")
+    fun getBubbleText(sorting: Int, context: Context, dateFormat: String, timeFormat: String) =
+        when {
+            sorting and SORT_BY_NAME != 0 -> name
+            sorting and SORT_BY_PATH != 0 -> path
+            sorting and SORT_BY_SIZE != 0 -> size.formatSize()
+            sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
+                context,
+                dateFormat,
+                timeFormat
+            )
 
-    fun getBubbleText(sorting: Int, context: Context, dateFormat: String, timeFormat: String) = when {
-        sorting and SORT_BY_NAME != 0 -> name
-        sorting and SORT_BY_PATH != 0 -> path
-        sorting and SORT_BY_SIZE != 0 -> size.formatSize()
-        sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(context, dateFormat, timeFormat)
-        sorting and SORT_BY_RANDOM != 0 -> name
-        else -> taken.formatDate(context)
-    }
+            sorting and SORT_BY_RANDOM != 0 -> name
+            else -> taken.formatDate(context)
+        }
 
     fun getGroupingKey(groupBy: Int): String {
         return when {
@@ -72,7 +96,7 @@ data class Medium(
             groupBy and GROUP_BY_DATE_TAKEN_DAILY != 0 -> getDayStartTS(taken, false)
             groupBy and GROUP_BY_DATE_TAKEN_MONTHLY != 0 -> getDayStartTS(taken, true)
             groupBy and GROUP_BY_FILE_TYPE != 0 -> type.toString()
-            groupBy and GROUP_BY_EXTENSION != 0 -> name.getFilenameExtension().toLowerCase()
+            groupBy and GROUP_BY_EXTENSION != 0 -> name.getFilenameExtension().lowercase()
             groupBy and GROUP_BY_FOLDER != 0 -> parentPath
             else -> ""
         }
