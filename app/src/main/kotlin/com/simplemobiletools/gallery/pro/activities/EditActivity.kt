@@ -15,6 +15,7 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -26,14 +27,10 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.canhub.cropper.CropImageView
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.extensions.internalStoragePath
-import com.simplemobiletools.gallery.pro.extensions.sharePathIntent
-import com.simplemobiletools.commons.helpers.NavigationIcon
-import com.simplemobiletools.commons.helpers.REAL_FILE_PATH
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.commons.models.FileDirItem
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
@@ -71,6 +68,7 @@ import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.extensions.onSeekBarChangeListener
 import com.simplemobiletools.gallery.pro.extensions.openEditor
 import com.simplemobiletools.gallery.pro.extensions.rescanPaths
+import com.simplemobiletools.gallery.pro.extensions.sharePathIntent
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
@@ -80,7 +78,10 @@ import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_ONE_ONE
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_OTHER
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_SIXTEEN_NINE
 import com.simplemobiletools.gallery.pro.helpers.FilterThumbnailsManager
+import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
+import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.FilterItem
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
@@ -92,6 +93,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlin.math.max
 
+@RequiresApi(Build.VERSION_CODES.O)
 class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener {
     companion object {
         init {

@@ -3,7 +3,7 @@ package com.simplemobiletools.gallery.pro.adapters
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.simplemobiletools.commons.views.MySquareImageView
+import com.simplemobiletools.gallery.pro.views.MySquareImageView
 import com.simplemobiletools.gallery.pro.databinding.PhotoItemGridBinding
 import com.simplemobiletools.gallery.pro.databinding.PhotoItemListBinding
 import com.simplemobiletools.gallery.pro.databinding.VideoItemGridBinding

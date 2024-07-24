@@ -36,7 +36,8 @@
     <string name="volume">Volume</string>
     <string name="brightness">Brightness</string>
     <string name="authentication_failed">Authentication failed</string>
-
+    <string name="close">Close</string>
+    <string name="back">Back</string>
     <string name="authenticate">Authenticate</string>
     <string name="lock_orientation">Lock orientation</string>
     <string name="unlock_orientation">Unlock orientation</string>
@@ -56,7 +57,11 @@
     <string name="reorder_by_dragging">Reorder folders by dragging</string>
     <string name="reorder_by_dragging_pro">Reorder folders by dragging (Pro)</string>
     <string name="restore_to_path">Restoring to \'%s\'</string>
-
+    <string name="telegram">Telegram</string>
+    <string name="viber">Viber</string>
+    <string name="phone_storage">Phone storage</string>
+    <string name="updating">Updating…</string>
+    <string name="search">Search</string>
     <!-- Filter -->
     <string name="filter_media">Filter media</string>
     <string name="images">Images</string>

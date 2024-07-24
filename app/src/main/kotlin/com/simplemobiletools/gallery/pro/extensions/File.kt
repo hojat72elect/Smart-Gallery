@@ -1,12 +1,12 @@
 package com.simplemobiletools.gallery.pro.extensions
 
 import android.content.Context
-import com.simplemobiletools.commons.helpers.MD5
-import com.simplemobiletools.commons.helpers.NOMEDIA
-import com.simplemobiletools.commons.helpers.audioExtensions
-import com.simplemobiletools.commons.helpers.photoExtensions
-import com.simplemobiletools.commons.helpers.rawExtensions
-import com.simplemobiletools.commons.helpers.videoExtensions
+import com.simplemobiletools.gallery.pro.helpers.MD5
+import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
+import com.simplemobiletools.gallery.pro.helpers.audioExtensions
+import com.simplemobiletools.gallery.pro.helpers.photoExtensions
+import com.simplemobiletools.gallery.pro.helpers.rawExtensions
+import com.simplemobiletools.gallery.pro.helpers.videoExtensions
 import com.simplemobiletools.commons.models.FileDirItem
 import java.io.File
 import java.util.HashMap

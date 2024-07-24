@@ -1,10 +1,10 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.value
 import com.simplemobiletools.gallery.pro.R
@@ -18,6 +18,7 @@ import com.simplemobiletools.gallery.pro.extensions.humanizePath
 import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
 import com.simplemobiletools.gallery.pro.extensions.toast
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ExportFavoritesDialog(
     val activity: BaseSimpleActivity,
     private val defaultFilename: String,

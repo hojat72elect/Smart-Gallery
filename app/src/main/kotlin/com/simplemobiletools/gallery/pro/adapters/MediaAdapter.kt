@@ -5,29 +5,30 @@ import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.allViews
 import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.PropertiesDialog
-import com.simplemobiletools.commons.dialogs.RenameDialog
-import com.simplemobiletools.commons.dialogs.RenameItemDialog
-import com.simplemobiletools.commons.helpers.FAVORITES
-import com.simplemobiletools.commons.helpers.VIEW_TYPE_LIST
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isOreoPlus
-import com.simplemobiletools.commons.helpers.isRPlus
-import com.simplemobiletools.commons.helpers.sumByLong
+import com.simplemobiletools.gallery.pro.dialogs.RenameDialog
+import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
+import com.simplemobiletools.gallery.pro.helpers.FAVORITES
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.commons.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.databinding.PhotoItemGridBinding
@@ -95,6 +96,7 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class MediaAdapter(
     activity: BaseSimpleActivity,
@@ -308,6 +310,7 @@ class MediaAdapter(
             renameFile()
         }
     }
+
 
     private fun renameFile() {
         val firstPath = getFirstSelectedItemPath() ?: return

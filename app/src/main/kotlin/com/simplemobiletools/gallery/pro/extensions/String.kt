@@ -4,25 +4,28 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
+import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import android.provider.MediaStore
 import android.telephony.PhoneNumberUtils
+import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.widget.TextView
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.commons.helpers.NOMEDIA
-import com.simplemobiletools.commons.helpers.audioExtensions
-import com.simplemobiletools.commons.helpers.extensionsSupportingEXIF
-import com.simplemobiletools.commons.helpers.getDateFormats
-import com.simplemobiletools.commons.helpers.isRPlus
-import com.simplemobiletools.commons.helpers.normalizeRegex
-import com.simplemobiletools.commons.helpers.photoExtensions
-import com.simplemobiletools.commons.helpers.rawExtensions
-import com.simplemobiletools.commons.helpers.videoExtensions
+import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
+import com.simplemobiletools.gallery.pro.helpers.audioExtensions
+import com.simplemobiletools.gallery.pro.helpers.extensionsSupportingEXIF
+import com.simplemobiletools.gallery.pro.helpers.getDateFormats
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.normalizeRegex
+import com.simplemobiletools.gallery.pro.helpers.photoExtensions
+import com.simplemobiletools.gallery.pro.helpers.rawExtensions
+import com.simplemobiletools.gallery.pro.helpers.videoExtensions
 import java.io.File
 import java.io.IOException
 import java.text.DateFormat
@@ -41,6 +44,15 @@ fun String.isThisOrParentIncluded(includedPaths: MutableSet<String>) =
             true
         )
     }
+
+operator fun String.times(x: Int): String {
+    val stringBuilder = StringBuilder()
+    for (i in 1..x) {
+        stringBuilder.append(this)
+    }
+    return stringBuilder.toString()
+}
+
 
 fun String.isThisOrParentExcluded(excludedPaths: MutableSet<String>) =
     excludedPaths.any { equals(it, true) } || excludedPaths.any {
@@ -157,6 +169,14 @@ fun String.isThisOrParentFolderHidden(): Boolean {
 fun String.isWebP() = endsWith(".webp", true)
 
 fun String.isSvg() = endsWith(".svg", true)
+
+fun String?.fromHtml(): Spanned =
+    when {
+        this == null -> SpannableString("")
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+        else -> Html.fromHtml(this)
+    }
+
 
 fun String.isGif() = endsWith(".gif", true)
 

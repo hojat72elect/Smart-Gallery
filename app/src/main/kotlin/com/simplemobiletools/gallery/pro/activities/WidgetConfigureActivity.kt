@@ -10,8 +10,8 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityWidgetConfigBinding
 import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog

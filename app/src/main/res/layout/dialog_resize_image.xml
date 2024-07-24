@@ -61,7 +61,7 @@
 
     </com.simplemobiletools.gallery.pro.views.MyTextInputLayout>
 
-    <com.simplemobiletools.commons.views.MyAppCompatCheckbox
+    <com.simplemobiletools.gallery.pro.views.MyAppCompatCheckbox
         android:id="@+id/keep_aspect_ratio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

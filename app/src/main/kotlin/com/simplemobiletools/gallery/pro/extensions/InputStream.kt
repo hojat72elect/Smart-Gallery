@@ -1,6 +1,6 @@
 package com.simplemobiletools.gallery.pro.extensions
 
-import com.simplemobiletools.commons.helpers.MD5
+import com.simplemobiletools.gallery.pro.helpers.MD5
 import java.io.InputStream
 import java.security.MessageDigest
 

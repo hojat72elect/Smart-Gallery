@@ -2,11 +2,11 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.annotation.SuppressLint
 import android.graphics.Point
+import android.os.Build
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeImageWithPathBinding
 import com.simplemobiletools.gallery.pro.extensions.config
@@ -23,6 +23,7 @@ import com.simplemobiletools.gallery.pro.extensions.toInt
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")
 class ResizeWithPathDialog(
     val activity: BaseSimpleActivity,

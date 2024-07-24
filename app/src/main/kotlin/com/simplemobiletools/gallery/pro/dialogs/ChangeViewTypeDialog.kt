@@ -1,11 +1,11 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.commons.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.commons.helpers.VIEW_TYPE_LIST
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeViewTypeBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL

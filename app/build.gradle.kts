@@ -43,6 +43,11 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     buildTypes {
@@ -77,13 +82,21 @@ android {
     }
 
     compileOptions {
-        val currentJavaVersionFromLibs = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get().toString())
+        val currentJavaVersionFromLibs = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
         sourceCompatibility = currentJavaVersionFromLibs
         targetCompatibility = currentJavaVersionFromLibs
     }
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = project.libs.versions.app.build.kotlinJVMTarget.get()
+        kotlinOptions.freeCompilerArgs = listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi",
+            "-Xcontext-receivers"
+        )
     }
 
     namespace = libs.versions.app.version.appId.get()
@@ -113,17 +126,24 @@ dependencies {
     implementation(libs.imagefilters)
     implementation(libs.androidsvg.aar)
     implementation(libs.gestureviews)
+    implementation(libs.compose.view.binding)
+    implementation(libs.bundles.lifecycle)
+    implementation(libs.bundles.compose)
     implementation(libs.subsamplingscaleimageview)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.awebp)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.apng)
     implementation(libs.okio)
+    api(libs.kotlin.immutable.collections)
     implementation(libs.picasso) {
         exclude(group = "com.squareup.okhttp3", module = "okhttp")
     }
     compileOnly(libs.okhttp)
 
     ksp(libs.glide.compiler)
+    implementation(libs.glide.compose)
+    api(libs.glide)
     implementation(libs.zjupure.webpdecoder)
 
     implementation(libs.bundles.room)

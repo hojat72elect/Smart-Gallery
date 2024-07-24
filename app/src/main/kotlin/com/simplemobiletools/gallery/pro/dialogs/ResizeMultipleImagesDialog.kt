@@ -1,10 +1,11 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import android.graphics.Point
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeMultipleImagesBinding
 import com.simplemobiletools.gallery.pro.extensions.ensureWriteAccess
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
@@ -17,11 +18,13 @@ import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toInt
 import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import java.io.File
 import kotlin.math.roundToInt
 
 private const val DEFAULT_RESIZE_FACTOR = "75"
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ResizeMultipleImagesDialog(
     private val activity: BaseSimpleActivity,
     private val imagePaths: List<String>,
@@ -78,6 +81,7 @@ class ResizeMultipleImagesDialog(
                 }
             }
     }
+
 
     private fun resizeImages(factor: Float) {
         progressView.show()

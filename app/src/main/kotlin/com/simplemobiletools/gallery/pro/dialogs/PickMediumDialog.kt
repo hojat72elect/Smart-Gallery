@@ -1,14 +1,16 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.commons.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.commons.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
+import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.MediaAdapter
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
@@ -21,6 +23,7 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class PickMediumDialog(
     val activity: BaseSimpleActivity,
@@ -76,6 +79,7 @@ class PickMediumDialog(
             gotMedia(it)
         }.execute()
     }
+
 
     private fun showOtherFolder() {
         PickDirectoryDialog(

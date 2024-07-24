@@ -3,7 +3,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.graphics.Point
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeImageBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder

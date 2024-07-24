@@ -21,26 +21,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FolderLockingNoticeDialog
 import com.simplemobiletools.commons.dialogs.PropertiesDialog
-import com.simplemobiletools.commons.dialogs.RenameItemDialog
-import com.simplemobiletools.commons.dialogs.RenameItemsDialog
+import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
+import com.simplemobiletools.gallery.pro.dialogs.RenameItemsDialog
 import com.simplemobiletools.commons.dialogs.SecurityDialog
-import com.simplemobiletools.commons.helpers.FAVORITES
-import com.simplemobiletools.commons.helpers.SHOW_ALL_TABS
-import com.simplemobiletools.commons.helpers.SORT_BY_CUSTOM
-import com.simplemobiletools.commons.helpers.VIEW_TYPE_LIST
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isOreoPlus
-import com.simplemobiletools.commons.helpers.isRPlus
-import com.simplemobiletools.commons.interfaces.ItemMoveCallback
-import com.simplemobiletools.commons.interfaces.ItemTouchHelperContract
-import com.simplemobiletools.commons.interfaces.StartReorderDragListener
+import com.simplemobiletools.gallery.pro.interfaces.ItemMoveCallback
+import com.simplemobiletools.gallery.pro.interfaces.ItemTouchHelperContract
+import com.simplemobiletools.gallery.pro.interfaces.StartReorderDragListener
 import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.MediaActivity
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridRoundedCornersBinding
@@ -90,6 +81,7 @@ import com.simplemobiletools.gallery.pro.extensions.showRecycleBinEmptyingDialog
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.tryCopyMoveFilesTo
 import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
+import com.simplemobiletools.gallery.pro.helpers.FAVORITES
 import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_BRACKETS
 import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_LINE
 import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_ROUNDED_CORNERS
@@ -101,17 +93,25 @@ import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_BIG
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_NONE
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_SMALL
+import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL_TABS
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_CUSTOM
 import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_IMAGES
 import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.models.AlbumCover
 import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
 import java.util.Collections
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class DirectoryAdapter(
     activity: BaseSimpleActivity,
@@ -330,6 +330,7 @@ class DirectoryAdapter(
             }.toMutableList(), config.shouldShowHidden)
         }
     }
+
 
     private fun renameDir() {
         if (selectedKeys.size == 1) {
@@ -1033,6 +1034,10 @@ class DirectoryAdapter(
         }
     }
 
+    override fun onRowClear(myViewHolder: MyRecyclerViewAdapter.ViewHolder?) {
+        swipeRefreshLayout?.isEnabled = activity.config.enablePullToRefresh
+    }
+
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
@@ -1047,12 +1052,8 @@ class DirectoryAdapter(
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    override fun onRowSelected(myViewHolder: ViewHolder?) {
+    override fun onRowSelected(myViewHolder: MyRecyclerViewAdapter.ViewHolder?) {
         swipeRefreshLayout?.isEnabled = false
-    }
-
-    override fun onRowClear(myViewHolder: ViewHolder?) {
-        swipeRefreshLayout?.isEnabled = activity.config.enablePullToRefresh
     }
 
     override fun onChange(position: Int) =

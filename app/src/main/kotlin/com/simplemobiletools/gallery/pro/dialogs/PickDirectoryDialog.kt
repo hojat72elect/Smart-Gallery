@@ -1,17 +1,18 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import android.graphics.Color
+import android.os.Build
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.commons.views.MyGridLayoutManager
-import com.simplemobiletools.commons.views.MySearchMenu
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
+import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.views.MySearchMenu
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogDirectoryPickerBinding
@@ -37,6 +38,7 @@ import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.models.Directory
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class PickDirectoryDialog(
     val activity: BaseSimpleActivity,
@@ -195,6 +197,7 @@ class PickDirectoryDialog(
             }
         }
     }
+
 
     private fun showOtherFolder() {
         activity.hideKeyboard(searchEditText)

@@ -58,78 +58,96 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.commons.databinding.DialogTitleBinding
-import com.simplemobiletools.commons.dialogs.AppSideloadedDialog
-import com.simplemobiletools.commons.dialogs.ConfirmationAdvancedDialog
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.dialogs.CustomIntervalPickerDialog
-import com.simplemobiletools.commons.dialogs.DonateDialog
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
+import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.dialogs.CustomIntervalPickerDialog
+import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
 import com.simplemobiletools.commons.dialogs.RateStarsDialog
 import com.simplemobiletools.commons.dialogs.SecurityDialog
 import com.simplemobiletools.commons.dialogs.UpgradeToProDialog
 import com.simplemobiletools.commons.dialogs.WhatsNewDialog
 import com.simplemobiletools.commons.dialogs.WritePermissionDialog
+import com.simplemobiletools.commons.extensions.baseConfig
+import com.simplemobiletools.commons.extensions.buildDocumentUriSdk30
+import com.simplemobiletools.commons.extensions.createAndroidDataOrObbUri
+import com.simplemobiletools.commons.extensions.createFirstParentTreeUriUsingRootTree
+import com.simplemobiletools.commons.extensions.getAndroidTreeUri
+import com.simplemobiletools.commons.extensions.getFilenameFromPath
+import com.simplemobiletools.commons.extensions.getFirstParentLevel
+import com.simplemobiletools.commons.extensions.getFirstParentPath
 import com.simplemobiletools.commons.extensions.getInternalStoragePath
-import com.simplemobiletools.commons.helpers.CREATE_DOCUMENT_SDK_30
-import com.simplemobiletools.commons.helpers.EXTRA_SHOW_ADVANCED
-import com.simplemobiletools.commons.helpers.IS_FROM_GALLERY
-import com.simplemobiletools.commons.helpers.LICENSE_APNG
-import com.simplemobiletools.commons.helpers.LICENSE_CROPPER
-import com.simplemobiletools.commons.helpers.LICENSE_EXOPLAYER
-import com.simplemobiletools.commons.helpers.LICENSE_FILTERS
-import com.simplemobiletools.commons.helpers.LICENSE_GESTURE_VIEWS
-import com.simplemobiletools.commons.helpers.LICENSE_GIF_DRAWABLE
-import com.simplemobiletools.commons.helpers.LICENSE_GLIDE
-import com.simplemobiletools.commons.helpers.LICENSE_PANORAMA_VIEW
-import com.simplemobiletools.commons.helpers.LICENSE_PATTERN
-import com.simplemobiletools.commons.helpers.LICENSE_PICASSO
-import com.simplemobiletools.commons.helpers.LICENSE_REPRINT
-import com.simplemobiletools.commons.helpers.LICENSE_RTL
-import com.simplemobiletools.commons.helpers.LICENSE_SANSELAN
-import com.simplemobiletools.commons.helpers.LICENSE_SUBSAMPLING
-import com.simplemobiletools.commons.helpers.MINUTE_SECONDS
-import com.simplemobiletools.commons.helpers.MyContentProvider
-import com.simplemobiletools.commons.helpers.NOMEDIA
-import com.simplemobiletools.commons.helpers.OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB
-import com.simplemobiletools.commons.helpers.OPEN_DOCUMENT_TREE_FOR_SDK_30
-import com.simplemobiletools.commons.helpers.OPEN_DOCUMENT_TREE_OTG
-import com.simplemobiletools.commons.helpers.OPEN_DOCUMENT_TREE_SD
-import com.simplemobiletools.commons.helpers.PERMISSION_CALL_PHONE
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_STORAGE
-import com.simplemobiletools.commons.helpers.PROTECTION_FINGERPRINT
-import com.simplemobiletools.commons.helpers.REAL_FILE_PATH
-import com.simplemobiletools.commons.helpers.REQUEST_EDIT_IMAGE
-import com.simplemobiletools.commons.helpers.REQUEST_SET_AS
-import com.simplemobiletools.commons.helpers.SIDELOADING_FALSE
-import com.simplemobiletools.commons.helpers.SIDELOADING_TRUE
-import com.simplemobiletools.commons.helpers.SILENT
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isNougatPlus
-import com.simplemobiletools.commons.helpers.isOnMainThread
-import com.simplemobiletools.commons.helpers.isRPlus
-import com.simplemobiletools.commons.helpers.isSPlus
-import com.simplemobiletools.commons.models.AlarmSound
-import com.simplemobiletools.commons.models.Android30RenameFormat
-import com.simplemobiletools.commons.models.FAQItem
+import com.simplemobiletools.commons.extensions.getParentPath
+import com.simplemobiletools.commons.extensions.hasProperStoredAndroidTreeUri
+import com.simplemobiletools.commons.extensions.hasProperStoredDocumentUriSdk30
+import com.simplemobiletools.commons.extensions.hasProperStoredFirstParentUri
+import com.simplemobiletools.commons.extensions.hasProperStoredTreeUri
+import com.simplemobiletools.commons.extensions.isAccessibleWithSAFSdk30
+import com.simplemobiletools.commons.extensions.isPathOnOTG
+import com.simplemobiletools.commons.extensions.isPathOnSD
+import com.simplemobiletools.commons.extensions.isRestrictedSAFOnlyRoot
+import com.simplemobiletools.commons.extensions.isSDCardSetAsDefaultStorage
+import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.Release
-import com.simplemobiletools.commons.models.SharedTheme
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.activities.MediaActivity
 import com.simplemobiletools.gallery.pro.activities.SettingsActivity
 import com.simplemobiletools.gallery.pro.activities.SimpleActivity
+import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
 import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeMultipleImagesDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeWithPathDialog
+import com.simplemobiletools.gallery.pro.helpers.CREATE_DOCUMENT_SDK_30
 import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
+import com.simplemobiletools.gallery.pro.helpers.EXTRA_SHOW_ADVANCED
+import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_APNG
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_CROPPER
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_EXOPLAYER
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_FILTERS
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_GESTURE_VIEWS
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_GIF_DRAWABLE
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_GLIDE
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_PANORAMA_VIEW
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_PATTERN
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_PICASSO
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_REPRINT
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_RTL
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_SANSELAN
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_SUBSAMPLING
+import com.simplemobiletools.gallery.pro.helpers.MINUTE_SECONDS
+import com.simplemobiletools.gallery.pro.helpers.MyContentProvider
+import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
+import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB
+import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_FOR_SDK_30
+import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_OTG
+import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_SD
+import com.simplemobiletools.gallery.pro.helpers.PERMISSION_CALL_PHONE
+import com.simplemobiletools.gallery.pro.helpers.PERMISSION_READ_STORAGE
+import com.simplemobiletools.gallery.pro.helpers.PROTECTION_FINGERPRINT
+import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.helpers.REQUEST_EDIT_IMAGE
+import com.simplemobiletools.gallery.pro.helpers.REQUEST_SET_AS
+import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_FALSE
+import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_TRUE
+import com.simplemobiletools.gallery.pro.helpers.SILENT
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.helpers.isOnMainThread
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.isSPlus
+import com.simplemobiletools.gallery.pro.models.AlarmSound
+import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.DateTaken
+import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.models.SharedTheme
 import com.simplemobiletools.gallery.pro.views.MyTextView
 import com.squareup.picasso.Picasso
 import java.io.File
@@ -185,6 +203,7 @@ fun SimpleActivity.launchSettings() {
     startActivity(Intent(applicationContext, SettingsActivity::class.java))
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun SimpleActivity.launchAbout() {
     val licenses =
         LICENSE_GLIDE or LICENSE_CROPPER or LICENSE_RTL or LICENSE_SUBSAMPLING or LICENSE_PATTERN or LICENSE_REPRINT or LICENSE_GIF_DRAWABLE or
@@ -326,6 +345,7 @@ fun AppCompatActivity.hideSystemUI() {
             View.SYSTEM_UI_FLAG_IMMERSIVE
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.addNoMedia(path: String, callback: () -> Unit) {
     val file = File(path, NOMEDIA)
     if (getDoesFilePathExist(file.absolutePath)) {
@@ -403,6 +423,7 @@ fun BaseSimpleActivity.removeNoMedia(path: String, callback: (() -> Unit)? = nul
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.toggleFileVisibility(
     oldPath: String,
     hide: Boolean,
@@ -433,6 +454,7 @@ fun BaseSimpleActivity.toggleFileVisibility(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 fun BaseSimpleActivity.tryCopyMoveFilesTo(
     fileDirItems: ArrayList<FileDirItem>,
@@ -556,6 +578,7 @@ fun BaseSimpleActivity.movePathsInRecycleBin(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.restoreRecycleBinPath(path: String, callback: () -> Unit) {
     restoreRecycleBinPaths(arrayListOf(path), callback)
 }
@@ -656,6 +679,7 @@ fun Activity.setupDialogStuff(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.restoreRecycleBinPaths(paths: ArrayList<String>, callback: () -> Unit) {
     ensureBackgroundThread {
         val newPaths = ArrayList<String>()
@@ -907,6 +931,7 @@ fun AppCompatActivity.fixDateTaken(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.saveRotatedImageToFile(
     oldPath: String,
     newPath: String,
@@ -1030,6 +1055,7 @@ fun BaseSimpleActivity.copyFile(source: String, destination: String) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.ensureWriteAccess(path: String, callback: () -> Unit) {
     when {
         isRestrictedSAFOnlyRoot(path) -> {
@@ -1065,6 +1091,7 @@ fun BaseSimpleActivity.ensureWriteAccess(path: String, callback: () -> Unit) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.launchResizeMultipleImagesDialog(
     paths: List<String>,
     callback: (() -> Unit)? = null
@@ -1088,6 +1115,7 @@ fun BaseSimpleActivity.launchResizeMultipleImagesDialog(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.launchResizeImageDialog(path: String, callback: (() -> Unit)? = null) {
     val originalSize = path.getImageResolution(this) ?: return
     ResizeWithPathDialog(this, originalSize, path) { newSize, newPath ->
@@ -1118,6 +1146,7 @@ fun BaseSimpleActivity.launchResizeImageDialog(path: String, callback: (() -> Un
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.resizeImage(
     oldPath: String,
     newPath: String,
@@ -1259,6 +1288,7 @@ fun Activity.getAlertDialogBuilder() = if (baseConfig.isUsingSystemTheme) {
     AlertDialog.Builder(this)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.deleteFiles(
     files: List<FileDirItem>,
     allowDeleteFolder: Boolean = false,
@@ -1269,6 +1299,7 @@ fun BaseSimpleActivity.deleteFiles(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.deleteFilesBg(
     files: List<FileDirItem>,
     allowDeleteFolder: Boolean = false,
@@ -1550,6 +1581,7 @@ fun Activity.isAppInstalledOnSDCard(): Boolean = try {
     false
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.isShowingSAFDialog(path: String): Boolean {
     return if ((!isRPlus() && isPathOnSD(path) && !isSDCardSetAsDefaultStorage() && (baseConfig.sdTreeUri.isEmpty() || !hasProperStoredTreeUri(
             false
@@ -1674,6 +1706,7 @@ fun BaseSimpleActivity.isShowingSAFCreateDocumentDialogSdk30(path: String): Bool
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.isShowingAndroidSAFDialog(path: String): Boolean {
     return if (isRestrictedSAFOnlyRoot(path) && (getAndroidTreeUri(path).isEmpty() || !hasProperStoredAndroidTreeUri(
             path
@@ -1728,6 +1761,7 @@ fun BaseSimpleActivity.isShowingAndroidSAFDialog(path: String): Boolean {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.isShowingOTGDialog(path: String): Boolean {
     return if (!isRPlus() && isPathOnOTG(path) && (baseConfig.OTGTreeUri.isEmpty() || !hasProperStoredTreeUri(
             true
@@ -1740,6 +1774,7 @@ fun BaseSimpleActivity.isShowingOTGDialog(path: String): Boolean {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.showOTGPermissionDialog(path: String) {
     runOnUiThread {
         if (!isDestroyed && !isFinishing) {
@@ -2048,6 +2083,7 @@ fun Activity.launchViewContactIntent(uri: Uri) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.launchCallIntent(recipient: String, handle: PhoneAccountHandle? = null) {
     handlePermission(PERMISSION_CALL_PHONE) {
         val action = if (it) Intent.ACTION_CALL else Intent.ACTION_DIAL
@@ -2128,6 +2164,7 @@ fun BaseSimpleActivity.checkWhatsNew(releases: List<Release>, currVersion: Int) 
     baseConfig.lastVersion = currVersion
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.deleteFolders(
     folders: List<FileDirItem>,
     deleteMediaOnly: Boolean = true,
@@ -2138,6 +2175,7 @@ fun BaseSimpleActivity.deleteFolders(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.deleteFoldersBg(
     folders: List<FileDirItem>,
     deleteMediaOnly: Boolean = true,
@@ -2215,6 +2253,7 @@ fun BaseSimpleActivity.deleteFolderBg(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.deleteFile(
     file: FileDirItem,
     allowDeleteFolder: Boolean = false,
@@ -2223,6 +2262,7 @@ fun BaseSimpleActivity.deleteFile(
     deleteFiles(arrayListOf(file), allowDeleteFolder, callback)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 private fun BaseSimpleActivity.deleteSdk30(
     fileDirItem: FileDirItem,
     callback: ((wasSuccess: Boolean) -> Unit)?
@@ -2270,6 +2310,7 @@ fun Activity.rescanPath(path: String, callback: (() -> Unit)? = null) {
     applicationContext.rescanPath(path, callback)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.renameFile(
     oldPath: String,
     newPath: String,
@@ -2595,6 +2636,7 @@ fun Activity.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.getFileOutputStream(
     fileDirItem: FileDirItem,
     allowCreatingNewFile: Boolean = false,
@@ -2854,7 +2896,7 @@ fun Activity.showPickSecondsDialog(
         items.add(RadioItem(-3, getString(R.string.during_day_at_hh_mm)))
     }
 
-    RadioGroupDialog(
+    com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog(
         this,
         items,
         selectedIndex,
@@ -2883,6 +2925,7 @@ fun Activity.showPickSecondsDialog(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun BaseSimpleActivity.getAlarmSounds(
     type: Int,
     callback: (java.util.ArrayList<AlarmSound>) -> Unit

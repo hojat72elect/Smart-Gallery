@@ -6,7 +6,7 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import com.simplemobiletools.commons.helpers.SHORT_ANIMATION_DURATION
+import com.simplemobiletools.gallery.pro.helpers.SHORT_ANIMATION_DURATION
 import com.simplemobiletools.gallery.pro.R
 
 fun View.sendFakeClick(x: Float, y: Float) {

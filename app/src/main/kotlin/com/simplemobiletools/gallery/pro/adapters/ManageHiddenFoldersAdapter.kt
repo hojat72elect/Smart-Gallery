@@ -1,19 +1,21 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.os.Build
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.gallery.pro.extensions.setupViewBackground
-import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
-import com.simplemobiletools.commons.views.MyRecyclerView
+import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.ItemManageFolderBinding
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.isPathOnSD
 import com.simplemobiletools.gallery.pro.extensions.removeNoMedia
+import com.simplemobiletools.gallery.pro.extensions.setupViewBackground
+import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
+import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ManageHiddenFoldersAdapter(
     activity: BaseSimpleActivity,
     var folders: ArrayList<String>,
@@ -79,6 +81,7 @@ class ManageHiddenFoldersAdapter(
             }
         }
     }
+
 
     private fun tryUnhideFolders() {
         val removeFolders = ArrayList<String>(selectedKeys.size)

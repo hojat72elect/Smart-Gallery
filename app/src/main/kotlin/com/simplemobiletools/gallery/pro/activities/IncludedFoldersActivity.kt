@@ -1,16 +1,19 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.commons.helpers.NavigationIcon
-import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
+import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
+import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.ManageFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 
+@RequiresApi(Build.VERSION_CODES.O)
 class IncludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)

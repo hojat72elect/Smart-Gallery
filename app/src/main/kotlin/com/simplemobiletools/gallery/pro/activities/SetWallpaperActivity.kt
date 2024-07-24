@@ -5,19 +5,26 @@ import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
+import androidx.media3.common.util.UnstableApi
 import com.canhub.cropper.CropImageView
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
+import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
+import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.commons.helpers.NavigationIcon
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isNougatPlus
-import com.simplemobiletools.commons.models.RadioItem
-import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
+import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.models.RadioItem
 
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(UnstableApi::class)
 class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener {
 
     private var aspectRatio = RATIO_PORTRAIT
@@ -48,6 +55,7 @@ class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageComplete
 
         handleImage(intent)
     }
+
 
     override fun onResume() {
         super.onResume()

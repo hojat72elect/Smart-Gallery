@@ -9,12 +9,12 @@ import androidx.room.PrimaryKey
 import com.bumptech.glide.signature.ObjectKey
 import com.simplemobiletools.gallery.pro.extensions.formatDate
 import com.simplemobiletools.gallery.pro.extensions.formatSize
-import com.simplemobiletools.commons.helpers.FAVORITES
-import com.simplemobiletools.commons.helpers.SORT_BY_DATE_MODIFIED
-import com.simplemobiletools.commons.helpers.SORT_BY_NAME
-import com.simplemobiletools.commons.helpers.SORT_BY_PATH
-import com.simplemobiletools.commons.helpers.SORT_BY_RANDOM
-import com.simplemobiletools.commons.helpers.SORT_BY_SIZE
+import com.simplemobiletools.gallery.pro.helpers.FAVORITES
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_DATE_MODIFIED
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_NAME
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_PATH
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_RANDOM
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_SIZE
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
 
 @Entity(tableName = "directories", indices = [Index(value = ["path"], unique = true)])

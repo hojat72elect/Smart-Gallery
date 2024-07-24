@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.simplemobiletools.commons.views.MyTextView
+<com.simplemobiletools.gallery.pro.views.MyTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/thumbnail_section"
     android:layout_width="match_parent"

@@ -10,8 +10,8 @@ import android.text.format.DateFormat
 import android.text.format.DateUtils
 import android.text.format.Time
 import androidx.core.os.postDelayed
-import com.simplemobiletools.commons.helpers.DARK_GREY
-import com.simplemobiletools.commons.helpers.SORT_DESCENDING
+import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
+import com.simplemobiletools.gallery.pro.helpers.SORT_DESCENDING
 import java.text.DecimalFormat
 import java.util.Calendar
 import java.util.Locale

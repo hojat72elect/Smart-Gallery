@@ -12,11 +12,11 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.commons.dialogs.PropertiesDialog
-import com.simplemobiletools.commons.helpers.IS_FROM_GALLERY
-import com.simplemobiletools.commons.helpers.NOMEDIA
-import com.simplemobiletools.commons.helpers.REAL_FILE_PATH
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
+import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
+import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.FragmentHolderBinding

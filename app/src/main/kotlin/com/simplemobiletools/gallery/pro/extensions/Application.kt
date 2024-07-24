@@ -1,7 +1,7 @@
 package com.simplemobiletools.gallery.pro.extensions
 
 import android.app.Application
-import com.simplemobiletools.commons.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import java.util.Locale
 
 fun Application.checkUseEnglish() {

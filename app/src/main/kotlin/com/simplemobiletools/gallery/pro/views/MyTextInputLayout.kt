@@ -5,8 +5,8 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputLayout
 import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
-import com.simplemobiletools.commons.helpers.HIGHER_ALPHA
-import com.simplemobiletools.commons.helpers.MEDIUM_ALPHA
+import com.simplemobiletools.gallery.pro.helpers.HIGHER_ALPHA
+import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
 import com.simplemobiletools.gallery.pro.extensions.value
 
 class MyTextInputLayout : TextInputLayout {
