@@ -6,7 +6,7 @@ import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.MediaStore
 import com.simplemobiletools.gallery.pro.extensions.contactsDB
-import com.simplemobiletools.commons.extensions.getByteArray
+import com.simplemobiletools.gallery.pro.extensions.getByteArray
 import com.simplemobiletools.gallery.pro.extensions.getEmptyContact
 import com.simplemobiletools.gallery.pro.models.SimpleContact
 import com.simplemobiletools.gallery.pro.models.contacts.Contact

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
-import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 
 @SuppressLint("AppCompatCustomView")
 class MySeekBar : SeekBar {

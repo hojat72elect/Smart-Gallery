@@ -1,7 +1,9 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import android.app.Activity
+import android.os.Build
 import android.text.Html
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -9,18 +11,19 @@ import androidx.compose.ui.Modifier
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.commons.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.commons.compose.extensions.MyDevices
-import com.simplemobiletools.commons.compose.theme.AppThemeSurface
-import com.simplemobiletools.commons.databinding.DialogWritePermissionBinding
-import com.simplemobiletools.commons.databinding.DialogWritePermissionOtgBinding
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.humanizePath
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.databinding.DialogWritePermissionBinding
+import com.simplemobiletools.gallery.pro.databinding.DialogWritePermissionOtgBinding
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 class WritePermissionDialog(activity: Activity, val mode: Mode, val callback: () -> Unit) {
 
     @Immutable

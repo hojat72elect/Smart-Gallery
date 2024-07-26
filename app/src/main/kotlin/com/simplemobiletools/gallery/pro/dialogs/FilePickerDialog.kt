@@ -50,7 +50,7 @@ import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.commons.views.Breadcrumbs
+import com.simplemobiletools.gallery.pro.views.Breadcrumbs
 import java.io.File
 
 /**
@@ -109,7 +109,7 @@ class FilePickerDialog(
 
         val builder = activity.getAlertDialogBuilder()
             .setNegativeButton(R.string.cancel, null)
-            .setOnKeyListener { dialogInterface, i, keyEvent ->
+            .setOnKeyListener { _, i, keyEvent ->
                 if (keyEvent.action == KeyEvent.ACTION_UP && i == KeyEvent.KEYCODE_BACK) {
                     val breadcrumbs = mDialogView.filepickerBreadcrumbs
                     if (breadcrumbs.getItemCount() > 1) {

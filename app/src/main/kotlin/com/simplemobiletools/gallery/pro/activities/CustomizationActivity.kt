@@ -9,11 +9,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.databinding.ActivityCustomizationBinding
+import com.simplemobiletools.gallery.pro.databinding.ActivityCustomizationBinding
 import com.simplemobiletools.gallery.pro.dialogs.LineColorPickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.PurchaseThankYouDialog
 import com.simplemobiletools.commons.extensions.getThemeId
-import com.simplemobiletools.commons.models.MyTheme
+import com.simplemobiletools.gallery.pro.models.MyTheme
 import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog

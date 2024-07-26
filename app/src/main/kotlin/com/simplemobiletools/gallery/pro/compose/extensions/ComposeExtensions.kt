@@ -25,11 +25,11 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LifecycleStartEffect
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.compose.system_ui_controller.rememberSystemUiController
-import com.simplemobiletools.commons.compose.theme.SimpleTheme
-import com.simplemobiletools.commons.compose.theme.isLitWell
-import com.simplemobiletools.commons.extensions.darkenColor
-import com.simplemobiletools.commons.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.compose.system_ui_controller.rememberSystemUiController
+import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.compose.theme.isLitWell
+import com.simplemobiletools.gallery.pro.extensions.darkenColor
+import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
 
 fun Context.getActivity(): Activity {
     return when (this) {

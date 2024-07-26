@@ -43,7 +43,7 @@ import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.dialogs.FeatureLockedDialog
 import com.simplemobiletools.gallery.pro.dialogs.FileConflictDialog
 import com.simplemobiletools.commons.extensions.getThemeId
-import com.simplemobiletools.commons.helpers.MyContextWrapper
+import com.simplemobiletools.gallery.pro.helpers.MyContextWrapper
 import com.simplemobiletools.gallery.pro.asynctasks.CopyMoveTask
 import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog

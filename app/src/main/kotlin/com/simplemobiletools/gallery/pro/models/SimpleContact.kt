@@ -1,11 +1,10 @@
 package com.simplemobiletools.gallery.pro.models
 
 import android.telephony.PhoneNumberUtils
-import com.simplemobiletools.commons.extensions.normalizePhoneNumber
-import com.simplemobiletools.commons.extensions.normalizeString
-import com.simplemobiletools.commons.helpers.SORT_BY_FULL_NAME
-import com.simplemobiletools.commons.helpers.SORT_DESCENDING
-import com.simplemobiletools.gallery.pro.models.PhoneNumber
+import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
+import com.simplemobiletools.gallery.pro.extensions.normalizeString
+import com.simplemobiletools.gallery.pro.helpers.SORT_BY_FULL_NAME
+import com.simplemobiletools.gallery.pro.helpers.SORT_DESCENDING
 
 data class SimpleContact(
     val rawId: Int,

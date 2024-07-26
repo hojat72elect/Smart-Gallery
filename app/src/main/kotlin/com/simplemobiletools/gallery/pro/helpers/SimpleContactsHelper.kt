@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.helpers
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
@@ -36,6 +37,7 @@ import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
 import com.simplemobiletools.gallery.pro.extensions.queryCursor
 import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import com.simplemobiletools.gallery.pro.models.SimpleContact
+import kotlin.math.abs
 
 class SimpleContactsHelper(val context: Context) {
     fun getAvailableContacts(favoritesOnly: Boolean, callback: (ArrayList<SimpleContact>) -> Unit) {
@@ -273,7 +275,7 @@ class SimpleContactsHelper(val context: Context) {
     }
 
     fun getNameFromPhoneNumber(number: String): String {
-        if (!context.hasPermission(com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS)) {
+        if (!context.hasPermission(PERMISSION_READ_CONTACTS)) {
             return number
         }
 
@@ -296,7 +298,7 @@ class SimpleContactsHelper(val context: Context) {
     }
 
     fun getPhotoUriFromPhoneNumber(number: String): String {
-        if (!context.hasPermission(com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS)) {
+        if (!context.hasPermission(PERMISSION_READ_CONTACTS)) {
             return ""
         }
 
@@ -353,7 +355,7 @@ class SimpleContactsHelper(val context: Context) {
 
         val circlePaint = Paint().apply {
             color =
-                com.simplemobiletools.commons.helpers.letterBackgroundColors[Math.abs(name.hashCode()) % com.simplemobiletools.commons.helpers.letterBackgroundColors.size].toInt()
+                letterBackgroundColors[abs(name.hashCode()) % letterBackgroundColors.size].toInt()
             isAntiAlias = true
         }
 
@@ -375,10 +377,11 @@ class SimpleContactsHelper(val context: Context) {
         return bitmap
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun getColoredGroupIcon(title: String): Drawable {
         val icon = context.resources.getDrawable(R.drawable.ic_group_circle_bg)
         val bgColor =
-            com.simplemobiletools.commons.helpers.letterBackgroundColors[Math.abs(title.hashCode()) % com.simplemobiletools.commons.helpers.letterBackgroundColors.size].toInt()
+            letterBackgroundColors[Math.abs(title.hashCode()) % letterBackgroundColors.size].toInt()
         (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background)
             .applyColorFilter(bgColor)
         return icon
@@ -403,11 +406,11 @@ class SimpleContactsHelper(val context: Context) {
     }
 
     fun deleteContactRawIDs(ids: ArrayList<Int>, callback: () -> Unit) {
-        com.simplemobiletools.commons.helpers.ensureBackgroundThread {
+        ensureBackgroundThread {
             val uri = Data.CONTENT_URI
             ids.chunked(30).forEach { chunk ->
                 val selection = "${Data.RAW_CONTACT_ID} IN (${
-                    com.simplemobiletools.commons.helpers.getQuestionMarks(chunk.size)
+                    getQuestionMarks(chunk.size)
                 })"
                 val selectionArgs = chunk.map { it.toString() }.toTypedArray()
                 context.contentResolver.delete(uri, selection, selectionArgs)

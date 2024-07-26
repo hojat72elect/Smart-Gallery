@@ -1,6 +1,5 @@
 package com.simplemobiletools.gallery.pro.helpers
 
-import com.simplemobiletools.commons.helpers.ExportResult
 import com.simplemobiletools.gallery.pro.models.BlockedNumber
 import java.io.OutputStream
 

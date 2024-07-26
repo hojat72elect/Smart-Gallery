@@ -60,6 +60,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
@@ -90,8 +91,6 @@ import com.bumptech.glide.signature.ObjectKey
 import com.github.ajalt.reprint.core.Reprint
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.simplemobiletools.gallery.pro.models.BlockedNumber
-import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
@@ -217,8 +216,10 @@ import com.simplemobiletools.gallery.pro.interfaces.MediumDao
 import com.simplemobiletools.gallery.pro.interfaces.WidgetsDao
 import com.simplemobiletools.gallery.pro.models.AlarmSound
 import com.simplemobiletools.gallery.pro.models.AlbumCover
+import com.simplemobiletools.gallery.pro.models.BlockedNumber
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Favorite
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.SharedTheme
@@ -454,7 +455,9 @@ fun Context.getDirsToShow(
 }
 
 fun getInternalStoragePath() =
-    if (File("/storage/emulated/0").exists()) "/storage/emulated/0" else Environment.getExternalStorageDirectory().absolutePath.trimEnd('/')
+    if (File("/storage/emulated/0").exists()) "/storage/emulated/0" else Environment.getExternalStorageDirectory().absolutePath.trimEnd(
+        '/'
+    )
 
 
 private fun Context.addParentWithoutMediaFiles(into: ArrayList<Directory>, path: String): Boolean {
@@ -1464,6 +1467,13 @@ fun Context.getDirectorySortingValue(
     }
 
     return result.toString()
+}
+
+fun Context.isBiometricIdAvailable(): Boolean = when (BiometricManager.from(this).canAuthenticate(
+    BiometricManager.Authenticators.BIOMETRIC_WEAK
+)) {
+    BiometricManager.BIOMETRIC_SUCCESS, BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> true
+    else -> false
 }
 
 fun Context.updateDirectoryPath(path: String) {

@@ -36,7 +36,7 @@ import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
-import com.simplemobiletools.commons.databinding.DialogCallConfirmationBinding
+import com.simplemobiletools.gallery.pro.databinding.DialogCallConfirmationBinding
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor

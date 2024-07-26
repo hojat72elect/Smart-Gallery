@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.databinding.DialogDonateBinding
+import com.simplemobiletools.gallery.pro.databinding.DialogDonateBinding
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent

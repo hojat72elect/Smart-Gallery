@@ -20,15 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalLayoutDirection
-import com.simplemobiletools.commons.compose.extensions.onEventValue
-import com.simplemobiletools.commons.compose.system_ui_controller.rememberSystemUiController
-import com.simplemobiletools.commons.compose.theme.LocalTheme
-import com.simplemobiletools.commons.compose.theme.SimpleTheme
-import com.simplemobiletools.commons.compose.theme.isNotLitWell
-import com.simplemobiletools.commons.compose.theme.isSurfaceLitWell
-import com.simplemobiletools.commons.compose.theme.model.Theme
-import com.simplemobiletools.commons.extensions.getColoredMaterialStatusBarColor
-import com.simplemobiletools.commons.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.compose.system_ui_controller.rememberSystemUiController
+import com.simplemobiletools.gallery.pro.compose.extensions.onEventValue
+import com.simplemobiletools.gallery.pro.compose.theme.LocalTheme
+import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.compose.theme.isNotLitWell
+import com.simplemobiletools.gallery.pro.compose.theme.isSurfaceLitWell
+import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
+import com.simplemobiletools.gallery.pro.extensions.getColoredMaterialStatusBarColor
+import com.simplemobiletools.gallery.pro.extensions.getContrastColor
 
 @Composable
 internal fun SystemUISettingsScaffoldStatusBarColor(scrolledColor: Color) {

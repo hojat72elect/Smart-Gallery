@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.commons.compose.components.RadioGroupDialogComponent
-import com.simplemobiletools.commons.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.commons.databinding.DialogFileConflictBinding
+import com.simplemobiletools.gallery.pro.compose.components.RadioGroupDialogComponent
+import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.databinding.DialogFileConflictBinding
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.DialogSurface
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogTextColor
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState

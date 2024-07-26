@@ -7,7 +7,7 @@ import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.databinding.DialogRadioGroupBinding
+import com.simplemobiletools.gallery.pro.databinding.DialogRadioGroupBinding
 import com.simplemobiletools.gallery.pro.databinding.RadioButtonBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getBasePath

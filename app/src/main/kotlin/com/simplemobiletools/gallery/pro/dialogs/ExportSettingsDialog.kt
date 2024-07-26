@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.databinding.DialogExportSettingsBinding
+import com.simplemobiletools.gallery.pro.databinding.DialogExportSettingsBinding
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.beGone

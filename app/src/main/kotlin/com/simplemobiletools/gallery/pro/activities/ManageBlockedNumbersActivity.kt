@@ -44,8 +44,8 @@ import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
 import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.helpers.BlockedNumbersExporter
-import com.simplemobiletools.commons.helpers.BlockedNumbersImporter
-import com.simplemobiletools.commons.helpers.ExportResult
+import com.simplemobiletools.gallery.pro.helpers.BlockedNumbersImporter
+import com.simplemobiletools.gallery.pro.helpers.ExportResult
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_READ_STORAGE
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_WRITE_STORAGE
 import com.simplemobiletools.gallery.pro.helpers.REQUEST_CODE_SET_DEFAULT_CALLER_ID

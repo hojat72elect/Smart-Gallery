@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.AutoCompleteTextView
-import com.simplemobiletools.commons.extensions.adjustAlpha
-import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 
 @SuppressLint("AppCompatCustomView")
 class MyAutoCompleteTextView : AutoCompleteTextView {

@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.simplemobiletools.gallery.pro.compose.lists.SimpleLazyListScaffold
-import com.simplemobiletools.commons.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.commons.models.License
+import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.models.License
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface

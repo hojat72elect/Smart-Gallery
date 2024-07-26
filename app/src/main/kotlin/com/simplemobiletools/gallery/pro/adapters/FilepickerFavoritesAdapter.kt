@@ -1,14 +1,17 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.os.Build
 import android.util.TypedValue
 import android.view.Menu
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.databinding.FilepickerFavoriteBinding
+import com.simplemobiletools.gallery.pro.extensions.getTextSize
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.databinding.FilepickerFavoriteBinding
-import com.simplemobiletools.commons.extensions.getTextSize
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
+@RequiresApi(Build.VERSION_CODES.O)
 class FilepickerFavoritesAdapter(
     activity: BaseSimpleActivity, val paths: List<String>, recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit
@@ -22,11 +25,16 @@ class FilepickerFavoritesAdapter(
 
     override fun getActionMenuId() = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.filepicker_favorite, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        createViewHolder(R.layout.filepicker_favorite, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val path = paths[position]
-        holder.bindView(path, allowSingleClick = true, allowLongClick = false) { itemView, adapterPosition ->
+        holder.bindView(
+            path,
+            allowSingleClick = true,
+            allowLongClick = false
+        ) { itemView, adapterPosition ->
             setupView(FilepickerFavoriteBinding.bind(itemView), path)
         }
         bindViewHolder(holder)

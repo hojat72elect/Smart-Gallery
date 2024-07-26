@@ -1,13 +1,23 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -18,21 +28,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.compose.alert_dialog.*
-import com.simplemobiletools.commons.compose.extensions.MyDevices
-import com.simplemobiletools.commons.compose.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.commons.databinding.DialogCreateNewFolderBinding
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.ShowKeyboardWhenDialogIsOpenedAndRequestFocus
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogBorder
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogContainerColor
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogElevation
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogShape
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogTextColor
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.databinding.DialogCreateNewFolderBinding
+import com.simplemobiletools.gallery.pro.extensions.createAndroidSAFDirectory
+import com.simplemobiletools.gallery.pro.extensions.createSAFDirectorySdk30
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getDocumentFile
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.extensions.isAStorageRootFolder
+import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
+import com.simplemobiletools.gallery.pro.extensions.isAccessibleWithSAFSdk30
+import com.simplemobiletools.gallery.pro.extensions.isRestrictedSAFOnlyRoot
+import com.simplemobiletools.gallery.pro.extensions.needsStupidWritePermissions
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import java.io.File
 
+@RequiresApi(Build.VERSION_CODES.O)
 class CreateNewFolderDialog(
     val activity: BaseSimpleActivity,
     val path: String,
@@ -73,6 +101,7 @@ class CreateNewFolderDialog(
                 }
             }
     }
+
 
     private fun createFolder(path: String, alertDialog: AlertDialog) {
         try {

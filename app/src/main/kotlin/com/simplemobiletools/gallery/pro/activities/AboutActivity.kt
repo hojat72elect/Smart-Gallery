@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.activities.ContributorsActivity
 import com.simplemobiletools.gallery.pro.dialogs.RateStarsAlertDialog
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.enableEdgeToEdgeSimple

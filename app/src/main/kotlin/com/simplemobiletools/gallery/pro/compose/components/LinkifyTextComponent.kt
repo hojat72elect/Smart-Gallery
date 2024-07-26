@@ -16,7 +16,7 @@ import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.commons.extensions.removeUnderlines
+import com.simplemobiletools.gallery.pro.extensions.removeUnderlines
 import com.simplemobiletools.gallery.pro.extensions.fromHtml
 
 @Composable

@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.databinding.ItemFilepickerListBinding
+import com.simplemobiletools.gallery.pro.databinding.ItemFilepickerListBinding
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.formatSize
 import com.simplemobiletools.gallery.pro.extensions.getAndroidSAFUri
@@ -27,7 +27,7 @@ import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
 import com.simplemobiletools.gallery.pro.extensions.isGif
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRestrictedSAFOnlyRoot
-import com.simplemobiletools.commons.helpers.getFilePlaceholderDrawables
+import com.simplemobiletools.gallery.pro.helpers.getFilePlaceholderDrawables
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView

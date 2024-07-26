@@ -36,9 +36,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.compose.components.RadioGroupDialogComponent
-import com.simplemobiletools.commons.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.commons.databinding.DialogChangeDateTimeFormatBinding
+import com.simplemobiletools.gallery.pro.compose.components.RadioGroupDialogComponent
+import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.databinding.DialogChangeDateTimeFormatBinding
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices

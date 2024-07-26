@@ -10,15 +10,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.commons.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.commons.compose.extensions.MyDevices
-import com.simplemobiletools.commons.compose.extensions.andThen
-import com.simplemobiletools.commons.compose.theme.AppThemeSurface
-import com.simplemobiletools.commons.databinding.DialogTextviewBinding
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.extensions.andThen
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.databinding.DialogTextviewBinding
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 
 class FolderLockingNoticeDialog(val activity: Activity, val callback: () -> Unit) {
     init {

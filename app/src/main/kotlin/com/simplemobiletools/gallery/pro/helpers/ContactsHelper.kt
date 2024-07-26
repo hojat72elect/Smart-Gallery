@@ -26,7 +26,7 @@ import android.util.SparseArray
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getAllContactSources
-import com.simplemobiletools.commons.extensions.getByteArray
+import com.simplemobiletools.gallery.pro.extensions.getByteArray
 import com.simplemobiletools.gallery.pro.extensions.getIntValue
 import com.simplemobiletools.gallery.pro.extensions.getLongValue
 import com.simplemobiletools.gallery.pro.extensions.getPhotoThumbnailSize
@@ -41,7 +41,6 @@ import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
 import com.simplemobiletools.gallery.pro.extensions.queryCursor
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.commons.helpers.ExportResult
 import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import com.simplemobiletools.gallery.pro.models.contacts.Address
 import com.simplemobiletools.gallery.pro.models.contacts.Contact

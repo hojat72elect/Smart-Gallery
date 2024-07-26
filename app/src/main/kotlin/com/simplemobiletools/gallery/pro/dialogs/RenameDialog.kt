@@ -5,8 +5,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameBinding
-import com.simplemobiletools.commons.extensions.onPageChangeListener
-import com.simplemobiletools.commons.extensions.onTabSelectionChanged
+import com.simplemobiletools.gallery.pro.extensions.onPageChangeListener
+import com.simplemobiletools.gallery.pro.extensions.onTabSelectionChanged
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.adapters.RenameAdapter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig

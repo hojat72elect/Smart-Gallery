@@ -18,10 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.gallery.pro.adapters.setupSimpleListItem
-import com.simplemobiletools.commons.databinding.ItemSimpleListBinding
 import com.simplemobiletools.commons.fragments.BaseBottomSheetDialogFragment
-import com.simplemobiletools.gallery.pro.models.SimpleListItem
+import com.simplemobiletools.gallery.pro.adapters.setupSimpleListItem
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetColumnDialogSurface
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetDialogState
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetSpacerEdgeToEdge
@@ -29,6 +27,8 @@ import com.simplemobiletools.gallery.pro.compose.bottom_sheet.rememberBottomShee
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.databinding.ItemSimpleListBinding
+import com.simplemobiletools.gallery.pro.models.SimpleListItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

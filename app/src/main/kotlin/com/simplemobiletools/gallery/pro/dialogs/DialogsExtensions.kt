@@ -15,14 +15,14 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.simplemobiletools.commons.compose.theme.LocalTheme
-import com.simplemobiletools.commons.compose.theme.Shapes
-import com.simplemobiletools.commons.compose.theme.SimpleTheme
-import com.simplemobiletools.commons.compose.theme.light_grey_stroke
-import com.simplemobiletools.commons.compose.theme.model.Theme
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.compose.theme.LocalTheme
+import com.simplemobiletools.gallery.pro.compose.theme.Shapes
+import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.compose.theme.light_grey_stroke
+import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.helpers.isSPlus
 import kotlinx.coroutines.android.awaitFrame
 
 

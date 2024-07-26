@@ -1,15 +1,17 @@
 package com.simplemobiletools.gallery.pro.helpers
 
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Looper
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
-import com.simplemobiletools.gallery.pro.extensions.normalizeString
-import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
-import com.simplemobiletools.gallery.pro.extensions.times
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.extensions.normalizeString
+import com.simplemobiletools.gallery.pro.extensions.times
+import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
 
 const val HOUR_MINUTES = 60
 const val MINUTE_SECONDS = 60
@@ -299,7 +301,8 @@ const val KEY_PHONE = "phone"
 const val KEY_MAILTO = "mailto"
 const val CONTACT_ID = "contact_id"
 const val IS_PRIVATE = "is_private"
-const val SMT_PRIVATE = "smt_private"   // used at the contact source of local contacts hidden from other apps
+const val SMT_PRIVATE =
+    "smt_private"   // used at the contact source of local contacts hidden from other apps
 const val FIRST_GROUP_ID = 10000L
 const val MD5 = "MD5"
 const val SHORT_ANIMATION_DURATION = 150L
@@ -312,9 +315,6 @@ const val HIGHER_ALPHA = 0.75f
 // alpha values on a scale 0 - 255
 const val LOWER_ALPHA_INT = 30
 const val MEDIUM_ALPHA_INT = 90
-
-
-
 
 
 // shared preferences
@@ -519,7 +519,8 @@ const val REQUEST_CODE_SET_DEFAULT_CALLER_ID = 1010
 
 // sorting
 const val SORT_ORDER = "sort_order"
-const val SORT_FOLDER_PREFIX = "sort_folder_"       // storing folder specific values at using "Use for this folder only"
+const val SORT_FOLDER_PREFIX =
+    "sort_folder_"       // storing folder specific values at using "Use for this folder only"
 const val SORT_BY_NAME = 1
 const val SORT_BY_DATE_MODIFIED = 2
 const val SORT_BY_SIZE = 4
@@ -601,7 +602,8 @@ const val THURSDAY_BIT = 8
 const val FRIDAY_BIT = 16
 const val SATURDAY_BIT = 32
 const val SUNDAY_BIT = 64
-const val EVERY_DAY_BIT = MONDAY_BIT or TUESDAY_BIT or WEDNESDAY_BIT or THURSDAY_BIT or FRIDAY_BIT or SATURDAY_BIT or SUNDAY_BIT
+const val EVERY_DAY_BIT =
+    MONDAY_BIT or TUESDAY_BIT or WEDNESDAY_BIT or THURSDAY_BIT or FRIDAY_BIT or SATURDAY_BIT or SUNDAY_BIT
 const val WEEK_DAYS_BIT = MONDAY_BIT or TUESDAY_BIT or WEDNESDAY_BIT or THURSDAY_BIT or FRIDAY_BIT
 const val WEEKENDS_BIT = SATURDAY_BIT or SUNDAY_BIT
 
@@ -619,12 +621,60 @@ const val TAB_FILES = 16
 const val TAB_RECENT_FILES = 32
 const val TAB_STORAGE_ANALYSIS = 64
 
-val photoExtensions: Array<String> get() = arrayOf(".jpg", ".png", ".jpeg", ".bmp", ".webp", ".heic", ".heif", ".apng", ".avif")
-val videoExtensions: Array<String> get() = arrayOf(".mp4", ".mkv", ".webm", ".avi", ".3gp", ".mov", ".m4v", ".3gpp")
-val audioExtensions: Array<String> get() = arrayOf(".mp3", ".wav", ".wma", ".ogg", ".m4a", ".opus", ".flac", ".aac", ".m4b")
-val rawExtensions: Array<String> get() = arrayOf(".dng", ".orf", ".nef", ".arw", ".rw2", ".cr2", ".cr3")
+val photoExtensions: Array<String>
+    get() = arrayOf(
+        ".jpg",
+        ".png",
+        ".jpeg",
+        ".bmp",
+        ".webp",
+        ".heic",
+        ".heif",
+        ".apng",
+        ".avif"
+    )
+val videoExtensions: Array<String>
+    get() = arrayOf(
+        ".mp4",
+        ".mkv",
+        ".webm",
+        ".avi",
+        ".3gp",
+        ".mov",
+        ".m4v",
+        ".3gpp"
+    )
+val audioExtensions: Array<String>
+    get() = arrayOf(
+        ".mp3",
+        ".wav",
+        ".wma",
+        ".ogg",
+        ".m4a",
+        ".opus",
+        ".flac",
+        ".aac",
+        ".m4b"
+    )
+val rawExtensions: Array<String>
+    get() = arrayOf(
+        ".dng",
+        ".orf",
+        ".nef",
+        ".arw",
+        ".rw2",
+        ".cr2",
+        ".cr3"
+    )
 
-val extensionsSupportingEXIF: Array<String> get() = arrayOf(".jpg", ".jpeg", ".png", ".webp", ".dng")
+val extensionsSupportingEXIF: Array<String>
+    get() = arrayOf(
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".webp",
+        ".dng"
+    )
 
 const val DATE_FORMAT_ONE = "dd.MM.yyyy"
 const val DATE_FORMAT_TWO = "dd/MM/yyyy"
@@ -847,4 +897,57 @@ fun getEmptyLocalContact() = LocalContact(
     null
 )
 
-fun getProperText(text: String, shouldNormalize: Boolean) = if (shouldNormalize) text.normalizeString() else text
+fun getProperText(text: String, shouldNormalize: Boolean) =
+    if (shouldNormalize) text.normalizeString() else text
+
+fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {
+    val fileDrawables = HashMap<String, Drawable>()
+    hashMapOf<String, Int>().apply {
+        put("aep", R.drawable.ic_file_aep)
+        put("ai", R.drawable.ic_file_ai)
+        put("avi", R.drawable.ic_file_avi)
+        put("css", R.drawable.ic_file_css)
+        put("csv", R.drawable.ic_file_csv)
+        put("dbf", R.drawable.ic_file_dbf)
+        put("doc", R.drawable.ic_file_doc)
+        put("docx", R.drawable.ic_file_doc)
+        put("dwg", R.drawable.ic_file_dwg)
+        put("exe", R.drawable.ic_file_exe)
+        put("fla", R.drawable.ic_file_fla)
+        put("flv", R.drawable.ic_file_flv)
+        put("htm", R.drawable.ic_file_html)
+        put("html", R.drawable.ic_file_html)
+        put("ics", R.drawable.ic_file_ics)
+        put("indd", R.drawable.ic_file_indd)
+        put("iso", R.drawable.ic_file_iso)
+        put("jpg", R.drawable.ic_file_jpg)
+        put("jpeg", R.drawable.ic_file_jpg)
+        put("js", R.drawable.ic_file_js)
+        put("json", R.drawable.ic_file_json)
+        put("m4a", R.drawable.ic_file_m4a)
+        put("mp3", R.drawable.ic_file_mp3)
+        put("mp4", R.drawable.ic_file_mp4)
+        put("ogg", R.drawable.ic_file_ogg)
+        put("pdf", R.drawable.ic_file_pdf)
+        put("plproj", R.drawable.ic_file_plproj)
+        put("ppt", R.drawable.ic_file_ppt)
+        put("pptx", R.drawable.ic_file_ppt)
+        put("prproj", R.drawable.ic_file_prproj)
+        put("psd", R.drawable.ic_file_psd)
+        put("rtf", R.drawable.ic_file_rtf)
+        put("sesx", R.drawable.ic_file_sesx)
+        put("sql", R.drawable.ic_file_sql)
+        put("svg", R.drawable.ic_file_svg)
+        put("txt", R.drawable.ic_file_txt)
+        put("vcf", R.drawable.ic_file_vcf)
+        put("wav", R.drawable.ic_file_wav)
+        put("wmv", R.drawable.ic_file_wmv)
+        put("xls", R.drawable.ic_file_xls)
+        put("xlsx", R.drawable.ic_file_xls)
+        put("xml", R.drawable.ic_file_xml)
+        put("zip", R.drawable.ic_file_zip)
+    }.forEach { (key, value) ->
+        fileDrawables[key] = context.resources.getDrawable(value)
+    }
+    return fileDrawables
+}

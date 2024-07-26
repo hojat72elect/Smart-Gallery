@@ -44,7 +44,7 @@ import com.simplemobiletools.gallery.pro.helpers.LICENSE_SMS_MMS
 import com.simplemobiletools.gallery.pro.helpers.LICENSE_STETHO
 import com.simplemobiletools.gallery.pro.helpers.LICENSE_SUBSAMPLING
 import com.simplemobiletools.gallery.pro.helpers.LICENSE_ZIP4J
-import com.simplemobiletools.commons.models.License
+import com.simplemobiletools.gallery.pro.models.License
 import com.simplemobiletools.gallery.pro.compose.screens.LicenseScreen
 import com.simplemobiletools.gallery.pro.helpers.LICENSE_KOTLIN
 import kotlinx.collections.immutable.toImmutableList

@@ -15,6 +15,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.drawable.Drawable
@@ -58,7 +59,13 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.simplemobiletools.commons.databinding.DialogTitleBinding
+import com.simplemobiletools.commons.extensions.baseConfig
+import com.simplemobiletools.commons.extensions.getContrastColor
+import com.simplemobiletools.commons.extensions.isBlackAndWhiteTheme
+import com.simplemobiletools.commons.extensions.isUsingSystemDarkTheme
+import com.simplemobiletools.commons.extensions.isWhiteTheme
+import com.simplemobiletools.commons.helpers.DARK_GREY
+import com.simplemobiletools.gallery.pro.databinding.DialogTitleBinding
 import com.simplemobiletools.gallery.pro.dialogs.RateStarsDialog
 import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.BuildConfig
@@ -3034,3 +3041,5 @@ fun BaseSimpleActivity.copyOldLastModified(sourcePath: String, destinationPath: 
         }
     }
 }
+
+

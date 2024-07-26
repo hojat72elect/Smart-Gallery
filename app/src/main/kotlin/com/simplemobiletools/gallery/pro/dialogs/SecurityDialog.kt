@@ -8,18 +8,17 @@ import androidx.fragment.app.FragmentActivity
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.gallery.pro.adapters.PasswordTypesAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogSecurityBinding
-import com.simplemobiletools.commons.extensions.isBiometricIdAvailable
-import com.simplemobiletools.commons.extensions.onPageChangeListener
-import com.simplemobiletools.commons.extensions.onTabSelectionChanged
-import com.simplemobiletools.commons.views.MyDialogViewPager
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.isBiometricIdAvailable
 import com.simplemobiletools.gallery.pro.extensions.isFingerPrintSensorAvailable
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.extensions.onPageChangeListener
+import com.simplemobiletools.gallery.pro.extensions.onTabSelectionChanged
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.helpers.PROTECTION_FINGERPRINT
 import com.simplemobiletools.gallery.pro.helpers.PROTECTION_PATTERN
@@ -27,6 +26,7 @@ import com.simplemobiletools.gallery.pro.helpers.PROTECTION_PIN
 import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL_TABS
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
+import com.simplemobiletools.gallery.pro.views.MyDialogViewPager
 
 class SecurityDialog(
     private val activity: Activity,

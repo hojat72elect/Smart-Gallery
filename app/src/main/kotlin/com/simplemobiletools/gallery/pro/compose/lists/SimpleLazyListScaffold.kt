@@ -28,11 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.simplemobiletools.commons.compose.extensions.AdjustNavigationBarColors
-import com.simplemobiletools.commons.compose.extensions.MyDevices
-import com.simplemobiletools.commons.compose.extensions.plus
-import com.simplemobiletools.commons.compose.extensions.rememberMutableInteractionSource
-import com.simplemobiletools.commons.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.compose.extensions.AdjustNavigationBarColors
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.extensions.plus
+import com.simplemobiletools.gallery.pro.compose.extensions.rememberMutableInteractionSource
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 
 @Composable
 fun SimpleLazyListScaffold(

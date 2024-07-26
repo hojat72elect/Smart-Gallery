@@ -1,8 +1,12 @@
-package com.simplemobiletools.commons.compose.settings
+package com.simplemobiletools.gallery.pro.compose.settings
 
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
@@ -13,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.simplemobiletools.commons.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 
 @Composable
 fun SettingsLazyGroup(
@@ -41,7 +45,7 @@ fun SettingsLazyGroup(
     ) {
         if (title != null) {
             item(key = "SettingsLazyGroupTitle") {
-                com.simplemobiletools.gallery.pro.compose.settings.SettingsGroupTitle(
+                SettingsGroupTitle(
                     title = title
                 )
             }
