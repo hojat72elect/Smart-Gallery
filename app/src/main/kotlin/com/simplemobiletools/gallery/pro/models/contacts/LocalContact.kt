@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.gallery.pro.models.PhoneNumber
 
 @Entity(tableName = "contacts", indices = [(Index(value = ["id"], unique = true))])
 data class LocalContact(

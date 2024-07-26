@@ -31,7 +31,7 @@ import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.FiltersAdapter
@@ -145,7 +145,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         setupOptionsMenu()
         handlePermission(getPermissionToRequest()) {
             if (!it) {
-                toast(com.simplemobiletools.commons.R.string.no_storage_permissions)
+                toast(R.string.no_storage_permissions)
                 finish()
             }
             initEditActivity()

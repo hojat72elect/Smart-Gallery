@@ -44,8 +44,6 @@ import androidx.core.view.children
 import androidx.core.view.updateLayoutParams
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.databinding.DialogColorPickerBinding
-import com.simplemobiletools.commons.dialogs.DialogSurface
-import com.simplemobiletools.commons.dialogs.dialogBorder
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices

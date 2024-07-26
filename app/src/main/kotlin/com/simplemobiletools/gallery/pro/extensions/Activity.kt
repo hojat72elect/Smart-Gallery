@@ -59,38 +59,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.simplemobiletools.commons.databinding.DialogTitleBinding
-import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
-import com.simplemobiletools.gallery.pro.dialogs.CustomIntervalPickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
-import com.simplemobiletools.commons.dialogs.RateStarsDialog
-import com.simplemobiletools.commons.dialogs.SecurityDialog
-import com.simplemobiletools.commons.dialogs.UpgradeToProDialog
-import com.simplemobiletools.commons.dialogs.WhatsNewDialog
-import com.simplemobiletools.commons.dialogs.WritePermissionDialog
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.buildDocumentUriSdk30
-import com.simplemobiletools.commons.extensions.createAndroidDataOrObbUri
-import com.simplemobiletools.commons.extensions.createFirstParentTreeUriUsingRootTree
-import com.simplemobiletools.commons.extensions.getAndroidTreeUri
-import com.simplemobiletools.commons.extensions.getFilenameFromPath
-import com.simplemobiletools.commons.extensions.getFirstParentLevel
-import com.simplemobiletools.commons.extensions.getFirstParentPath
-import com.simplemobiletools.commons.extensions.getInternalStoragePath
-import com.simplemobiletools.commons.extensions.getParentPath
-import com.simplemobiletools.commons.extensions.hasProperStoredAndroidTreeUri
-import com.simplemobiletools.commons.extensions.hasProperStoredDocumentUriSdk30
-import com.simplemobiletools.commons.extensions.hasProperStoredFirstParentUri
-import com.simplemobiletools.commons.extensions.hasProperStoredTreeUri
-import com.simplemobiletools.commons.extensions.isAccessibleWithSAFSdk30
-import com.simplemobiletools.commons.extensions.isPathOnOTG
-import com.simplemobiletools.commons.extensions.isPathOnSD
-import com.simplemobiletools.commons.extensions.isRestrictedSAFOnlyRoot
-import com.simplemobiletools.commons.extensions.isSDCardSetAsDefaultStorage
-import com.simplemobiletools.commons.extensions.toast
-import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.commons.models.Release
+import com.simplemobiletools.gallery.pro.dialogs.RateStarsDialog
+import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
@@ -99,9 +69,17 @@ import com.simplemobiletools.gallery.pro.activities.SettingsActivity
 import com.simplemobiletools.gallery.pro.activities.SimpleActivity
 import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
+import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.dialogs.CustomIntervalPickerDialog
+import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
 import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeMultipleImagesDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeWithPathDialog
+import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.dialogs.WhatsNewDialog
+import com.simplemobiletools.gallery.pro.dialogs.WritePermissionDialog
 import com.simplemobiletools.gallery.pro.helpers.CREATE_DOCUMENT_SDK_30
 import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
 import com.simplemobiletools.gallery.pro.helpers.EXTRA_SHOW_ADVANCED
@@ -146,7 +124,9 @@ import com.simplemobiletools.gallery.pro.models.AlarmSound
 import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.DateTaken
 import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.models.Release
 import com.simplemobiletools.gallery.pro.models.SharedTheme
 import com.simplemobiletools.gallery.pro.views.MyTextView
 import com.squareup.picasso.Picasso
@@ -3032,8 +3012,8 @@ fun BaseSimpleActivity.copySingleFileSdk30(source: FileDirItem, destination: Fil
 
 fun BaseSimpleActivity.copyOldLastModified(sourcePath: String, destinationPath: String) {
     val projection =
-        arrayOf(MediaStore.Images.Media.DATE_TAKEN, MediaStore.Images.Media.DATE_MODIFIED)
-    val uri = MediaStore.Files.getContentUri("external")
+        arrayOf(Images.Media.DATE_TAKEN, Images.Media.DATE_MODIFIED)
+    val uri = Files.getContentUri("external")
     val selection = "${MediaStore.MediaColumns.DATA} = ?"
     var selectionArgs = arrayOf(sourcePath)
     val cursor =
@@ -3041,12 +3021,12 @@ fun BaseSimpleActivity.copyOldLastModified(sourcePath: String, destinationPath: 
 
     cursor?.use {
         if (cursor.moveToFirst()) {
-            val dateTaken = cursor.getLongValue(MediaStore.Images.Media.DATE_TAKEN)
-            val dateModified = cursor.getIntValue(MediaStore.Images.Media.DATE_MODIFIED)
+            val dateTaken = cursor.getLongValue(Images.Media.DATE_TAKEN)
+            val dateModified = cursor.getIntValue(Images.Media.DATE_MODIFIED)
 
             val values = ContentValues().apply {
-                put(MediaStore.Images.Media.DATE_TAKEN, dateTaken)
-                put(MediaStore.Images.Media.DATE_MODIFIED, dateModified)
+                put(Images.Media.DATE_TAKEN, dateTaken)
+                put(Images.Media.DATE_MODIFIED, dateModified)
             }
 
             selectionArgs = arrayOf(destinationPath)

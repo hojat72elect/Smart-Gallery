@@ -3,7 +3,7 @@ package com.simplemobiletools.gallery.pro.helpers
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import com.simplemobiletools.gallery.pro.models.contacts.Address
 import com.simplemobiletools.gallery.pro.models.contacts.Email
 import com.simplemobiletools.gallery.pro.models.contacts.Event

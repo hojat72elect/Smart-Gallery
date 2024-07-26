@@ -5,13 +5,15 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Html
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
-import com.simplemobiletools.commons.dialogs.PropertiesDialog
+import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
 import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
 import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
 import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
@@ -86,6 +88,7 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import java.io.File
 import java.io.FileInputStream
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentListener {
     private var mMedium: Medium? = null

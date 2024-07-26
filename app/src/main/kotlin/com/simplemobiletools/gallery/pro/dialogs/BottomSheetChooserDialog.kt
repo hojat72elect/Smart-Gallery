@@ -18,7 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.adapters.setupSimpleListItem
+import com.simplemobiletools.gallery.pro.adapters.setupSimpleListItem
+import com.simplemobiletools.commons.databinding.ItemSimpleListBinding
+import com.simplemobiletools.commons.fragments.BaseBottomSheetDialogFragment
+import com.simplemobiletools.gallery.pro.models.SimpleListItem
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetColumnDialogSurface
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetDialogState
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetSpacerEdgeToEdge
@@ -26,11 +29,6 @@ import com.simplemobiletools.gallery.pro.compose.bottom_sheet.rememberBottomShee
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.commons.databinding.ItemSimpleListBinding
-import com.simplemobiletools.commons.dialogs.dialogContainerColor
-import com.simplemobiletools.commons.dialogs.dialogTextColor
-import com.simplemobiletools.commons.fragments.BaseBottomSheetDialogFragment
-import com.simplemobiletools.commons.models.SimpleListItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -97,7 +95,8 @@ fun ChooserBottomSheetDialog(
                 .padding(top = SimpleTheme.dimens.padding.large)
         )
         for (item in items) {
-            val color = if (item.selected) SimpleTheme.colorScheme.primary else SimpleTheme.colorScheme.onSurface
+            val color =
+                if (item.selected) SimpleTheme.colorScheme.primary else SimpleTheme.colorScheme.onSurface
             ListItem(
                 modifier = Modifier
                     .clickable {
@@ -139,10 +138,18 @@ private fun ChooserBottomSheetDialogPreview() {
         val list = remember {
             listOf(
                 SimpleListItem(1, R.string.record_video, R.drawable.ic_camera_vector),
-                SimpleListItem(2, R.string.record_audio, R.drawable.ic_microphone_vector, selected = true),
+                SimpleListItem(
+                    2,
+                    R.string.record_audio,
+                    R.drawable.ic_microphone_vector,
+                    selected = true
+                ),
                 SimpleListItem(4, R.string.choose_contact, R.drawable.ic_add_person_vector)
             ).toImmutableList()
         }
-        ChooserBottomSheetDialog(bottomSheetDialogState = rememberBottomSheetDialogState(), items = list, onItemClicked = {})
+        ChooserBottomSheetDialog(
+            bottomSheetDialogState = rememberBottomSheetDialogState(),
+            items = list,
+            onItemClicked = {})
     }
 }

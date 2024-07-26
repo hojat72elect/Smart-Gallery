@@ -18,7 +18,7 @@ import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.dialogs.PropertiesDialog
+import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
 import com.simplemobiletools.gallery.pro.dialogs.RenameDialog
 import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
 import com.simplemobiletools.gallery.pro.helpers.FAVORITES
@@ -27,7 +27,7 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.helpers.sumByLong
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity

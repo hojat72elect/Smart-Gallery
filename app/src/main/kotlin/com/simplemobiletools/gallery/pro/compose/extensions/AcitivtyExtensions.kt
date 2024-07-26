@@ -10,9 +10,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.isOreoMr1Plus
-import com.simplemobiletools.commons.models.Release
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.checkAppIconColor
+import com.simplemobiletools.gallery.pro.extensions.getAppIconColors
+import com.simplemobiletools.gallery.pro.extensions.getCanAppBeUpgraded
+import com.simplemobiletools.gallery.pro.extensions.getInternalStoragePath
+import com.simplemobiletools.gallery.pro.extensions.isAProApp
+import com.simplemobiletools.gallery.pro.extensions.isAppInstalledOnSDCard
+import com.simplemobiletools.gallery.pro.extensions.isOrWasThankYouInstalled
+import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.extensions.random
+import com.simplemobiletools.gallery.pro.extensions.toggleAppIconColor
+import com.simplemobiletools.gallery.pro.extensions.updateSDCardPath
+import com.simplemobiletools.gallery.pro.helpers.isOreoMr1Plus
+import com.simplemobiletools.gallery.pro.models.Release
 
 fun ComponentActivity.appLaunchedCompose(
     appId: String,
@@ -34,14 +45,16 @@ fun ComponentActivity.appLaunchedCompose(
                 toggleAppIconColor(appId, index, color, false)
             }
 
-            val defaultClassName = "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity"
+            val defaultClassName =
+                "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity"
             packageManager.setComponentEnabledSetting(
                 ComponentName(baseConfig.appId, defaultClassName),
                 PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
                 PackageManager.DONT_KILL_APP
             )
 
-            val orangeClassName = "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity.Orange"
+            val orangeClassName =
+                "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity.Orange"
             packageManager.setComponentEnabledSetting(
                 ComponentName(baseConfig.appId, orangeClassName),
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -71,7 +84,11 @@ fun ComponentActivity.appLaunchedCompose(
     }
 }
 
-fun ComponentActivity.checkWhatsNewCompose(releases: List<Release>, currVersion: Int, showWhatsNewDialog: (List<Release>) -> Unit) {
+fun ComponentActivity.checkWhatsNewCompose(
+    releases: List<Release>,
+    currVersion: Int,
+    showWhatsNewDialog: (List<Release>) -> Unit
+) {
     if (baseConfig.lastVersion == 0) {
         baseConfig.lastVersion = currVersion
         return
@@ -120,7 +137,7 @@ fun Activity.setShowWhenLockedCompat(showWhenLocked: Boolean) {
     } else {
         val flagsToUpdate =
             WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
         if (showWhenLocked) {
             window.addFlags(flagsToUpdate)
         } else {
@@ -144,7 +161,8 @@ fun Activity.setTurnScreenOnCompat(turnScreenOn: Boolean) {
 
 fun Activity.setFullscreenCompat(fullScreen: Boolean) {
     if (isOreoMr1Plus()) {
-        WindowCompat.getInsetsController(window, window.decorView.rootView).hide(WindowInsetsCompat.Type.statusBars())
+        WindowCompat.getInsetsController(window, window.decorView.rootView)
+            .hide(WindowInsetsCompat.Type.statusBars())
     } else {
         val flagToUpdate = WindowManager.LayoutParams.FLAG_FULLSCREEN
         if (fullScreen) {

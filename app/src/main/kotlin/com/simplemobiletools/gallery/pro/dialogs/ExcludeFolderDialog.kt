@@ -2,9 +2,9 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.view.ViewGroup
 import android.widget.RadioGroup
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.databinding.RadioButtonBinding
+import com.simplemobiletools.gallery.pro.databinding.RadioButtonBinding
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getBasePath

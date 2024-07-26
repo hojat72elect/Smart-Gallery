@@ -2,6 +2,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.app.Activity
 import androidx.appcompat.app.AlertDialog
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogConfirmDeleteFolderBinding
@@ -20,7 +21,7 @@ class ConfirmDeleteFolderDialog(
         binding.messageWarning.text = warningMessage
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.yes) { _, _ -> dialogConfirmed() }
+            .setPositiveButton(R.string.yes) { _, _ -> dialogConfirmed() }
             .setNegativeButton(com.simplemobiletools.commons.R.string.no, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) { alertDialog ->

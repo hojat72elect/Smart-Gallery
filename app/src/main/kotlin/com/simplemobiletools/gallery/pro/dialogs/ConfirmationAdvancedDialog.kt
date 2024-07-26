@@ -11,18 +11,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.commons.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.commons.compose.extensions.MyDevices
-import com.simplemobiletools.commons.compose.theme.AppThemeSurface
 import com.simplemobiletools.commons.databinding.DialogMessageBinding
-import com.simplemobiletools.commons.dialogs.dialogBorder
-import com.simplemobiletools.commons.dialogs.dialogContainerColor
-import com.simplemobiletools.commons.dialogs.dialogElevation
-import com.simplemobiletools.commons.dialogs.dialogShape
-import com.simplemobiletools.commons.dialogs.dialogTextColor
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 
 // similar fo ConfirmationDialog, but has a callback for negative button too
 class ConfirmationAdvancedDialog(

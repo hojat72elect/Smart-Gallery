@@ -1038,7 +1038,7 @@ class MediaFetcher(val context: Context) {
         }
 
         if (result.isEmpty()) {
-            result = context.getString(com.simplemobiletools.commons.R.string.unknown)
+            result = context.getString(R.string.unknown)
         }
 
         return if (grouping and GROUP_SHOW_FILE_COUNT != 0) {

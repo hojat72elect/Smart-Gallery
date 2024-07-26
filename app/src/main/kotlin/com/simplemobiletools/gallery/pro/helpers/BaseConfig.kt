@@ -6,7 +6,7 @@ import android.os.Environment
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.extensions.getInternalStoragePath
+import com.simplemobiletools.gallery.pro.extensions.getInternalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.getSDCardPath
 import com.simplemobiletools.gallery.pro.extensions.getSharedPrefs
 import com.simplemobiletools.gallery.pro.extensions.sharedPreferencesCallback
@@ -83,7 +83,7 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getString(INTERNAL_STORAGE_PATH, getDefaultInternalPath())!!
         set(internalStoragePath) = prefs.edit().putString(INTERNAL_STORAGE_PATH, internalStoragePath).apply()
 
-    private fun getDefaultInternalPath() = if (prefs.contains(INTERNAL_STORAGE_PATH)) "" else context.getInternalStoragePath()
+    private fun getDefaultInternalPath() = if (prefs.contains(INTERNAL_STORAGE_PATH)) "" else getInternalStoragePath()
 
     var textColor: Int
         get() = prefs.getInt(TEXT_COLOR, ContextCompat.getColor(context, R.color.default_text_color))

@@ -34,7 +34,7 @@ import com.simplemobiletools.gallery.pro.extensions.getStringValue
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
 import com.simplemobiletools.gallery.pro.extensions.queryCursor
-import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import com.simplemobiletools.gallery.pro.models.SimpleContact
 
 class SimpleContactsHelper(val context: Context) {

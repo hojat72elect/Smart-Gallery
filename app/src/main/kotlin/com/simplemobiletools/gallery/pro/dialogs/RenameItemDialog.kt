@@ -4,20 +4,20 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.databinding.DialogRenameItemBinding
-import com.simplemobiletools.commons.extensions.beGone
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.getDoesFilePathExist
-import com.simplemobiletools.commons.extensions.getFilenameFromPath
-import com.simplemobiletools.commons.extensions.getIsPathDirectory
-import com.simplemobiletools.commons.extensions.getParentPath
-import com.simplemobiletools.commons.extensions.isAValidFilename
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.extensions.showKeyboard
-import com.simplemobiletools.commons.extensions.toast
-import com.simplemobiletools.commons.extensions.value
+import com.simplemobiletools.gallery.pro.databinding.DialogRenameItemBinding
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getIsPathDirectory
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
 import com.simplemobiletools.gallery.pro.extensions.renameFile
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.value
 
 @RequiresApi(Build.VERSION_CODES.O)
 class RenameItemDialog(

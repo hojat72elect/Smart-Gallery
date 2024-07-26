@@ -38,8 +38,6 @@ import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.compose.components.RadioGroupDialogComponent
 import com.simplemobiletools.commons.databinding.DialogCustomIntervalPickerBinding
-import com.simplemobiletools.commons.dialogs.DialogSurface
-import com.simplemobiletools.commons.dialogs.ShowKeyboardWhenDialogIsOpenedAndRequestFocus
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices

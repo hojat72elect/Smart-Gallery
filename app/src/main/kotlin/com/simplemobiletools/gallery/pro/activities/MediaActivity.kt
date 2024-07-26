@@ -19,7 +19,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.CreateNewFolderDialog
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView

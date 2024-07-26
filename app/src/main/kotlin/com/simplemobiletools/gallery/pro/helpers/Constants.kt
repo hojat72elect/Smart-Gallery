@@ -6,7 +6,7 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
-import com.simplemobiletools.commons.extensions.normalizeString
+import com.simplemobiletools.gallery.pro.extensions.normalizeString
 import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
 import com.simplemobiletools.gallery.pro.extensions.times
 import com.simplemobiletools.gallery.pro.R

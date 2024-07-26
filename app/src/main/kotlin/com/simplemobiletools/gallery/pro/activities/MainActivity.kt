@@ -21,8 +21,8 @@ import com.simplemobiletools.gallery.pro.dialogs.CreateNewFolderDialog
 import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
-import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.commons.models.Release
+import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.Release
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter

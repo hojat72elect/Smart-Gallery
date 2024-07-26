@@ -90,22 +90,15 @@ import com.bumptech.glide.signature.ObjectKey
 import com.github.ajalt.reprint.core.Reprint
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.dialogs.CallConfirmationDialog
-import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.getInternalStoragePath
-import com.simplemobiletools.gallery.pro.interfaces.ContactsDao
-import com.simplemobiletools.gallery.pro.interfaces.GroupsDao
-import com.simplemobiletools.commons.models.BlockedNumber
-import com.simplemobiletools.commons.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.RadioItem
-import com.simplemobiletools.gallery.pro.models.contacts.Contact
-import com.simplemobiletools.gallery.pro.models.contacts.Organization
-import com.simplemobiletools.gallery.pro.models.contacts.SocialAction
+import com.simplemobiletools.gallery.pro.models.BlockedNumber
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databases.ContactsDatabase
 import com.simplemobiletools.gallery.pro.databases.GalleryDatabase
+import com.simplemobiletools.gallery.pro.dialogs.CallConfirmationDialog
+import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.helpers.AlphanumericComparator
 import com.simplemobiletools.gallery.pro.helpers.BaseConfig
 import com.simplemobiletools.gallery.pro.helpers.Config
@@ -215,9 +208,11 @@ import com.simplemobiletools.gallery.pro.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.helpers.isUpsideDownCakePlus
 import com.simplemobiletools.gallery.pro.helpers.proPackages
 import com.simplemobiletools.gallery.pro.helpers.sumByLong
+import com.simplemobiletools.gallery.pro.interfaces.ContactsDao
 import com.simplemobiletools.gallery.pro.interfaces.DateTakensDao
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryDao
 import com.simplemobiletools.gallery.pro.interfaces.FavoritesDao
+import com.simplemobiletools.gallery.pro.interfaces.GroupsDao
 import com.simplemobiletools.gallery.pro.interfaces.MediumDao
 import com.simplemobiletools.gallery.pro.interfaces.WidgetsDao
 import com.simplemobiletools.gallery.pro.models.AlarmSound
@@ -225,9 +220,13 @@ import com.simplemobiletools.gallery.pro.models.AlbumCover
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Favorite
 import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.SharedTheme
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.models.contacts.Contact
 import com.simplemobiletools.gallery.pro.models.contacts.ContactSource
+import com.simplemobiletools.gallery.pro.models.contacts.Organization
+import com.simplemobiletools.gallery.pro.models.contacts.SocialAction
 import com.simplemobiletools.gallery.pro.svg.SvgSoftwareLayerSetter
 import com.simplemobiletools.gallery.pro.views.MyAppCompatCheckbox
 import com.simplemobiletools.gallery.pro.views.MyAppCompatSpinner
@@ -453,6 +452,10 @@ fun Context.getDirsToShow(
         dirs
     }
 }
+
+fun getInternalStoragePath() =
+    if (File("/storage/emulated/0").exists()) "/storage/emulated/0" else Environment.getExternalStorageDirectory().absolutePath.trimEnd('/')
+
 
 private fun Context.addParentWithoutMediaFiles(into: ArrayList<Directory>, path: String): Boolean {
     val isSortingAscending = config.sorting.isSortingAscending()

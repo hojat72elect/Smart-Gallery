@@ -1,7 +1,10 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.databinding.DialogSaveAsBinding
@@ -24,6 +27,7 @@ import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
 import java.io.File
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")
 class SaveAsDialog(
     val activity: BaseSimpleActivity,
@@ -73,7 +77,7 @@ class SaveAsDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
+            .setPositiveButton(R.string.ok, null)
             .setNegativeButton(com.simplemobiletools.commons.R.string.cancel) { _, _ -> cancelCallback?.invoke() }
             .setOnCancelListener { cancelCallback?.invoke() }
             .apply {

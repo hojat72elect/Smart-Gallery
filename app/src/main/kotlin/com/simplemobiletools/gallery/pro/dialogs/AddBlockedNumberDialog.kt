@@ -19,17 +19,11 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.commons.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.commons.compose.extensions.MyDevices
-import com.simplemobiletools.commons.compose.theme.AppThemeSurface
-import com.simplemobiletools.commons.dialogs.ShowKeyboardWhenDialogIsOpenedAndRequestFocus
-import com.simplemobiletools.commons.dialogs.dialogBorder
-import com.simplemobiletools.commons.dialogs.dialogContainerColor
-import com.simplemobiletools.commons.dialogs.dialogElevation
-import com.simplemobiletools.commons.dialogs.dialogShape
-import com.simplemobiletools.commons.dialogs.dialogTextColor
-import com.simplemobiletools.commons.models.BlockedNumber
+import com.simplemobiletools.gallery.pro.models.BlockedNumber
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 
 @Composable
 fun AddOrEditBlockedNumberAlertDialog(

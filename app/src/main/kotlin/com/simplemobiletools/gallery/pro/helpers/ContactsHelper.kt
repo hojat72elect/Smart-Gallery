@@ -42,7 +42,7 @@ import com.simplemobiletools.gallery.pro.extensions.queryCursor
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.commons.helpers.ExportResult
-import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import com.simplemobiletools.gallery.pro.models.contacts.Address
 import com.simplemobiletools.gallery.pro.models.contacts.Contact
 import com.simplemobiletools.gallery.pro.models.contacts.ContactSource

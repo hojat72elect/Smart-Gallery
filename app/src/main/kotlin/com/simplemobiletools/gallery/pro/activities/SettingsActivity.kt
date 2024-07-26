@@ -15,7 +15,7 @@ import com.simplemobiletools.gallery.pro.dialogs.ChangeDateTimeFormatDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
 import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.RadioItem

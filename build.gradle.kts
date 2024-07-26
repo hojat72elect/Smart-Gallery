@@ -3,4 +3,6 @@ plugins {
     alias(libs.plugins.kotlinAndroid).apply(false)
     alias(libs.plugins.ksp).apply(false)
     alias(libs.plugins.imgly).apply(false)
+    alias(libs.plugins.parcelize).apply(false)
+    alias(libs.plugins.kotlinSerialization).apply(false)
 }

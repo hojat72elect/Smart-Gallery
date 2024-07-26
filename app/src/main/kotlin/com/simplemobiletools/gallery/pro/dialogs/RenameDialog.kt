@@ -4,20 +4,20 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.adapters.RenameAdapter
-import com.simplemobiletools.commons.databinding.DialogRenameBinding
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.getProperBackgroundColor
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.databinding.DialogRenameBinding
 import com.simplemobiletools.commons.extensions.onPageChangeListener
 import com.simplemobiletools.commons.extensions.onTabSelectionChanged
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.helpers.RENAME_PATTERN
-import com.simplemobiletools.commons.helpers.RENAME_SIMPLE
-import com.simplemobiletools.commons.views.MyViewPager
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.adapters.RenameAdapter
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.helpers.RENAME_PATTERN
+import com.simplemobiletools.gallery.pro.helpers.RENAME_SIMPLE
+import com.simplemobiletools.gallery.pro.views.MyViewPager
 
 class RenameDialog(
     val activity: BaseSimpleActivity,

@@ -35,7 +35,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.simplemobiletools.commons.dialogs.PropertiesDialog
+import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
 import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
 import com.simplemobiletools.gallery.pro.helpers.FAVORITES
 import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
@@ -48,7 +48,7 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.MyPagerAdapter

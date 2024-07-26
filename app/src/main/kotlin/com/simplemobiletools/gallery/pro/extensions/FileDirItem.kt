@@ -1,7 +1,7 @@
 package com.simplemobiletools.gallery.pro.extensions
 
 import android.content.Context
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 
 fun FileDirItem.isDownloadsFolder() = path.isDownloadsFolder()
 

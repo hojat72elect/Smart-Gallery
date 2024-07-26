@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
     alias(libs.plugins.imgly).apply(false)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.parcelize)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")

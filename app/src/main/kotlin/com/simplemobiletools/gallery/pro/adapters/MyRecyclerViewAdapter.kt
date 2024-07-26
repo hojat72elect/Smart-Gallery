@@ -1,6 +1,7 @@
 package com.simplemobiletools.gallery.pro.adapters
 
 import android.graphics.Color
+import android.os.Build
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
@@ -8,23 +9,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.getContrastColor
-import com.simplemobiletools.commons.extensions.getProperBackgroundColor
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.interfaces.MyActionModeCallback
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import kotlin.math.max
 import kotlin.math.min
 
+@RequiresApi(Build.VERSION_CODES.O)
 abstract class MyRecyclerViewAdapter(
     val activity: BaseSimpleActivity,
     val recyclerView: MyRecyclerView,

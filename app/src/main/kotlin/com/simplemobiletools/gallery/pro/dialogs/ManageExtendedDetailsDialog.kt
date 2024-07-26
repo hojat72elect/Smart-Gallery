@@ -14,7 +14,7 @@ import com.simplemobiletools.gallery.pro.helpers.EXT_NAME
 import com.simplemobiletools.gallery.pro.helpers.EXT_PATH
 import com.simplemobiletools.gallery.pro.helpers.EXT_RESOLUTION
 import com.simplemobiletools.gallery.pro.helpers.EXT_SIZE
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 
 class ManageExtendedDetailsDialog(
     val activity: BaseSimpleActivity,

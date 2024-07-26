@@ -17,7 +17,7 @@ import com.simplemobiletools.gallery.pro.helpers.SORT_BY_NAME
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_PATH
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_RANDOM
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_SIZE
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_DAILY
 import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
 import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_EXTENSION

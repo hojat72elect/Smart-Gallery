@@ -1,14 +1,23 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.databinding.DialogRadioGroupBinding
-import com.simplemobiletools.commons.databinding.RadioButtonBinding
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.gallery.pro.databinding.RadioButtonBinding
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getBasePath
+import com.simplemobiletools.gallery.pro.extensions.hasExternalSDCard
+import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
+import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.extensions.otgPath
+import com.simplemobiletools.gallery.pro.extensions.sdCardPath
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 
 /**
  * A dialog for choosing between internal, root, SD card (optional) storage
@@ -19,8 +28,12 @@ import com.simplemobiletools.commons.extensions.*
  * @param callback an anonymous function
  *
  */
+@RequiresApi(Build.VERSION_CODES.O)
 class StoragePickerDialog(
-    val activity: BaseSimpleActivity, val currPath: String, val showRoot: Boolean, pickSingleOption: Boolean,
+    val activity: BaseSimpleActivity,
+    val currPath: String,
+    val showRoot: Boolean,
+    pickSingleOption: Boolean,
     val callback: (pickedPath: String) -> Unit
 ) {
     private val ID_INTERNAL = 1
@@ -51,7 +64,10 @@ class StoragePickerDialog(
     private fun initDialog() {
         val inflater = LayoutInflater.from(activity)
         val resources = activity.resources
-        val layoutParams = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = RadioGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         val view = DialogRadioGroupBinding.inflate(inflater, null, false)
         radioGroup = view.dialogRadioGroup
         val basePath = currPath.getBasePath(activity)
@@ -127,6 +143,7 @@ class StoragePickerDialog(
         dialog?.dismiss()
         callback(activity.sdCardPath)
     }
+
 
     private fun otgPicked() {
         activity.handleOTGPermission {

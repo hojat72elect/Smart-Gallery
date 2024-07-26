@@ -1,7 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
 import android.content.Intent
-import com.simplemobiletools.commons.activities.BaseSplashActivity
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.favoritesDB

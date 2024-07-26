@@ -2,9 +2,11 @@ package com.simplemobiletools.gallery.pro.adapters
 
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.TypedValue
 import android.view.Menu
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -13,24 +15,25 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.databinding.ItemFilepickerListBinding
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.formatSize
-import com.simplemobiletools.commons.extensions.getAndroidSAFUri
-import com.simplemobiletools.commons.extensions.getColoredDrawableWithColor
-import com.simplemobiletools.commons.extensions.getOTGPublicPath
-import com.simplemobiletools.commons.extensions.getTextSize
-import com.simplemobiletools.commons.extensions.getTimeFormat
-import com.simplemobiletools.commons.extensions.hasOTGConnected
-import com.simplemobiletools.commons.extensions.isGif
-import com.simplemobiletools.commons.extensions.isPathOnOTG
-import com.simplemobiletools.commons.extensions.isRestrictedSAFOnlyRoot
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.gallery.pro.extensions.getAndroidSAFUri
+import com.simplemobiletools.gallery.pro.extensions.getColoredDrawableWithColor
+import com.simplemobiletools.gallery.pro.extensions.getOTGPublicPath
+import com.simplemobiletools.gallery.pro.extensions.getTextSize
+import com.simplemobiletools.gallery.pro.extensions.getTimeFormat
+import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
+import com.simplemobiletools.gallery.pro.extensions.isGif
+import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
+import com.simplemobiletools.gallery.pro.extensions.isRestrictedSAFOnlyRoot
 import com.simplemobiletools.commons.helpers.getFilePlaceholderDrawables
-import com.simplemobiletools.commons.models.FileDirItem
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 class FilepickerItemsAdapter(
     activity: BaseSimpleActivity, val fileDirItems: List<FileDirItem>, recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit
