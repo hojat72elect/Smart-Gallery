@@ -35,8 +35,8 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
 
     init {
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, this)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, this)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) {
                     setupStyle()
@@ -122,7 +122,7 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
 
             if (useRoundedCornersLayout) {
                 val cornerRadius =
-                    root.resources.getDimension(com.simplemobiletools.commons.R.dimen.rounded_corner_radius_big)
+                    root.resources.getDimension(R.dimen.rounded_corner_radius_big)
                         .toInt()
                 builder = builder.transform(CenterCrop(), RoundedCorners(cornerRadius))
                 sampleBinding.dirName.setTextColor(activity.getProperTextColor())

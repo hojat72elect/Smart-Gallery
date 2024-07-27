@@ -11,7 +11,7 @@ import androidx.core.os.postDelayed
 import com.andrognito.patternlockview.PatternLockView
 import com.andrognito.patternlockview.listener.PatternLockViewListener
 import com.andrognito.patternlockview.utils.PatternLockUtils
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.TabPatternBinding
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor

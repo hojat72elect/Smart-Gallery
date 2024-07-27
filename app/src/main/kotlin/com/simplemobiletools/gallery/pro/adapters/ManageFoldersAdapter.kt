@@ -1,11 +1,14 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.annotation.RequiresApi
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
@@ -15,6 +18,7 @@ import com.simplemobiletools.gallery.pro.extensions.getPopupMenuTheme
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.setupViewBackground
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ManageFoldersAdapter(
     activity: BaseSimpleActivity,
     var folders: ArrayList<String>,
@@ -30,13 +34,13 @@ class ManageFoldersAdapter(
         setupDragListener(true)
     }
 
-    override fun getActionMenuId() = com.simplemobiletools.commons.R.menu.cab_remove_only
+    override fun getActionMenuId() = R.menu.cab_remove_only
 
     override fun prepareActionMode(menu: Menu) {}
 
     override fun actionItemPressed(id: Int) {
         when (id) {
-            com.simplemobiletools.commons.R.id.cab_remove -> removeSelection()
+            R.id.cab_remove -> removeSelection()
         }
     }
 
@@ -103,7 +107,7 @@ class ManageFoldersAdapter(
             setOnMenuItemClickListener { item ->
                 val eventTypeId = folder.hashCode()
                 when (item.itemId) {
-                    com.simplemobiletools.commons.R.id.cab_remove -> {
+                    R.id.cab_remove -> {
                         executeItemMenuOperation(eventTypeId) {
                             removeSelection()
                         }

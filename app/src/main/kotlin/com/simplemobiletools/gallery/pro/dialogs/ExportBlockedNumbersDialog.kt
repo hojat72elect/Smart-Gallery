@@ -1,9 +1,10 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogExportBlockedNumbersBinding
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
@@ -22,6 +23,7 @@ import com.simplemobiletools.gallery.pro.helpers.BLOCKED_NUMBERS_EXPORT_EXTENSIO
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import java.io.File
 
+@SuppressLint("SetTextI18n")
 @RequiresApi(Build.VERSION_CODES.O)
 class ExportBlockedNumbersDialog(
     val activity: BaseSimpleActivity,

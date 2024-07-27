@@ -19,7 +19,7 @@ class AllFilesPermissionDialog(
 
     init {
         val view = activity.layoutInflater.inflate(
-            com.simplemobiletools.commons.R.layout.dialog_message,
+            R.layout.dialog_message,
             null
         )
         view.findViewById<TextView>(R.id.message).text = message

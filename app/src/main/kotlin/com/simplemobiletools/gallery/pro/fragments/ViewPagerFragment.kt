@@ -6,7 +6,7 @@ import android.provider.MediaStore.Images
 import android.view.MotionEvent
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.formatAsResolution
 import com.simplemobiletools.gallery.pro.extensions.formatDate

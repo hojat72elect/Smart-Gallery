@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameItemsPatternBinding
 import com.simplemobiletools.gallery.pro.extensions.baseConfig

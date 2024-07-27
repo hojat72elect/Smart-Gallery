@@ -2,6 +2,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeFileThumbnailStyleBinding
 import com.simplemobiletools.gallery.pro.extensions.config
@@ -49,8 +50,8 @@ class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) :
         updateThumbnailSpacingText()
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, this)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, this)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this)
             }

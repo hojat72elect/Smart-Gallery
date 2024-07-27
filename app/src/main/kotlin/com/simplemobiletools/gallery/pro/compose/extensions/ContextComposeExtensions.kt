@@ -2,7 +2,7 @@ package com.simplemobiletools.gallery.pro.compose.extensions
 
 import android.app.Activity
 import android.content.Context
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.redirectToRateUs
 import com.simplemobiletools.gallery.pro.extensions.toast

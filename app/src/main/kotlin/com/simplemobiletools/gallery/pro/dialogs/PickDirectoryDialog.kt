@@ -74,8 +74,8 @@ class PickDirectoryDialog(
         configureSearchView()
 
         val builder = activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
             .setOnKeyListener { _, i, keyEvent ->
                 if (keyEvent.action == KeyEvent.ACTION_UP && i == KeyEvent.KEYCODE_BACK) {
                     backPressed()
@@ -91,7 +91,7 @@ class PickDirectoryDialog(
             activity.setupDialogStuff(
                 binding.root,
                 this,
-                com.simplemobiletools.commons.R.string.select_destination
+                R.string.select_destination
             ) { alertDialog ->
                 dialog = alertDialog
                 binding.directoriesShowHidden.beVisibleIf(!context.config.shouldShowHidden)
@@ -109,7 +109,7 @@ class PickDirectoryDialog(
     }
 
     private fun configureSearchView() = with(searchView) {
-        updateHintText(context.getString(com.simplemobiletools.commons.R.string.search_folders))
+        updateHintText(context.getString(R.string.search_folders))
         searchEditText.imeOptions = EditorInfo.IME_ACTION_DONE
 
         toggleHideOnScroll(!config.scrollHorizontally)
@@ -127,13 +127,13 @@ class PickDirectoryDialog(
 
     private fun MySearchMenu.setSearchViewListeners() {
         onSearchOpenListener = {
-            updateSearchViewLeftIcon(com.simplemobiletools.commons.R.drawable.ic_cross_vector)
+            updateSearchViewLeftIcon(R.drawable.ic_cross_vector)
         }
 
         onSearchClosedListener = {
             searchEditText.clearFocus()
             activity.hideKeyboard(searchEditText)
-            updateSearchViewLeftIcon(com.simplemobiletools.commons.R.drawable.ic_search_vector)
+            updateSearchViewLeftIcon(R.drawable.ic_search_vector)
         }
 
         onSearchTextChangedListener = { text ->
@@ -175,7 +175,7 @@ class PickDirectoryDialog(
 
         if (folderSearchView.isSearchOpen) {
             directoriesEmptyPlaceholder.text =
-                root.context.getString(com.simplemobiletools.commons.R.string.no_items_found)
+                root.context.getString(R.string.no_items_found)
         }
 
         directoriesFastscroller.beVisibleIf(directoriesEmptyPlaceholder.isGone())
@@ -246,14 +246,14 @@ class PickDirectoryDialog(
             val path = clickedDir.path
             if (clickedDir.subfoldersCount == 1 || !activity.config.groupDirectSubfolders) {
                 if (isPickingCopyMoveDestination && path.trimEnd('/') == sourcePath) {
-                    activity.toast(com.simplemobiletools.commons.R.string.source_and_destination_same)
+                    activity.toast(R.string.source_and_destination_same)
                     return@DirectoryAdapter
                 } else if (isPickingCopyMoveDestination && activity.isRestrictedWithSAFSdk30(path) && !activity.isInDownloadDir(
                         path
                     )
                 ) {
                     activity.toast(
-                        com.simplemobiletools.commons.R.string.system_folder_copy_restriction,
+                        R.string.system_folder_copy_restriction,
                         Toast.LENGTH_LONG
                     )
                     return@DirectoryAdapter

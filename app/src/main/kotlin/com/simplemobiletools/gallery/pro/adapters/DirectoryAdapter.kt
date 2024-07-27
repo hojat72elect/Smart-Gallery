@@ -338,7 +338,7 @@ class DirectoryAdapter(
             val sourcePath = firstDir.path
             val dir = File(sourcePath)
             if (activity.isAStorageRootFolder(dir.absolutePath)) {
-                activity.toast(com.simplemobiletools.commons.R.string.rename_folder_root)
+                activity.toast(R.string.rename_folder_root)
                 return
             }
 
@@ -404,7 +404,7 @@ class DirectoryAdapter(
                     activity,
                     "",
                     R.string.cant_unhide_folder,
-                    com.simplemobiletools.commons.R.string.ok,
+                    R.string.ok,
                     0
                 ) {}
                 return
@@ -723,9 +723,9 @@ class DirectoryAdapter(
                     ConfirmationDialog(
                         activity,
                         "",
-                        com.simplemobiletools.commons.R.string.empty_recycle_bin_confirmation,
-                        com.simplemobiletools.commons.R.string.yes,
-                        com.simplemobiletools.commons.R.string.no
+                        R.string.empty_recycle_bin_confirmation,
+                        R.string.yes,
+                        R.string.no
                     ) {
                         deleteFolders()
                     }
@@ -737,7 +737,7 @@ class DirectoryAdapter(
                     "\"$folder\""
                 } else {
                     resources.getQuantityString(
-                        com.simplemobiletools.commons.R.plurals.delete_items,
+                        R.plurals.delete_items,
                         itemsCnt,
                         itemsCnt
                     )
@@ -746,14 +746,14 @@ class DirectoryAdapter(
                 val fileDirItem = getFirstSelectedItem() ?: return
                 val baseString =
                     if (!config.useRecycleBin || config.tempSkipRecycleBin || (isOneItemSelected() && fileDirItem.areFavorites())) {
-                        com.simplemobiletools.commons.R.string.deletion_confirmation
+                        R.string.deletion_confirmation
                     } else {
-                        com.simplemobiletools.commons.R.string.move_to_recycle_bin_confirmation
+                        R.string.move_to_recycle_bin_confirmation
                     }
 
                 val question = String.format(resources.getString(baseString), items)
                 val warning = resources.getQuantityString(
-                    com.simplemobiletools.commons.R.plurals.delete_warning,
+                    R.plurals.delete_warning,
                     itemsCnt,
                     itemsCnt
                 )
@@ -983,7 +983,7 @@ class DirectoryAdapter(
             dirPin.beVisibleIf(pinnedFolders.contains(directory.path))
             dirLocation.beVisibleIf(directory.location != LOCATION_INTERNAL)
             if (dirLocation.isVisible()) {
-                dirLocation.setImageResource(if (directory.location == LOCATION_SD) com.simplemobiletools.commons.R.drawable.ic_sd_card_vector else com.simplemobiletools.commons.R.drawable.ic_usb_vector)
+                dirLocation.setImageResource(if (directory.location == LOCATION_SD) R.drawable.ic_sd_card_vector else R.drawable.ic_usb_vector)
             }
 
             photoCnt.text = directory.subfoldersMediaCount.toString()

@@ -29,7 +29,7 @@ class ExcludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
         updateFolders()
         setupOptionsMenu()
         binding.manageFoldersToolbar.title =
-            getString(com.simplemobiletools.commons.R.string.excluded_folders)
+            getString(R.string.excluded_folders)
 
         updateMaterialActivityViews(
             binding.manageFoldersCoordinator,

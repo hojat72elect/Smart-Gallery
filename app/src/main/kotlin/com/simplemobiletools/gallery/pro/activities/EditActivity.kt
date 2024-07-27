@@ -290,7 +290,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                     }
 
                     if (filterInitialBitmap != null && currentFilter != null && currentFilter.filter.name != getString(
-                            com.simplemobiletools.commons.R.string.none
+                            R.string.none
                         )
                     ) {
                         binding.defaultImageView.onGlobalLayout {
@@ -395,7 +395,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
             val currentFilter = getFiltersAdapter()?.getCurrentFilter() ?: return
             val filePathGetter = getNewFilePath()
             SaveAsDialog(this, filePathGetter.first, filePathGetter.second) {
-                toast(com.simplemobiletools.commons.R.string.saving)
+                toast(R.string.saving)
 
                 // clean up everything to free as much memory as possible
                 binding.defaultImageView.setImageResource(0)
@@ -410,14 +410,13 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                         currentFilter.filter.processFilter(originalBitmap)
                         saveBitmapToFile(originalBitmap, it, false)
                     } catch (e: OutOfMemoryError) {
-                        toast(com.simplemobiletools.commons.R.string.out_of_memory_error)
+                        toast(R.string.out_of_memory_error)
                     }
                 }
             }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     private fun setOldExif() {
         var inputStream: InputStream? = null
         try {
@@ -437,7 +436,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                 binding.defaultImageView.isVisible() -> {
                     val currentFilter = getFiltersAdapter()?.getCurrentFilter()
                     if (currentFilter == null) {
-                        toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                        toast(R.string.unknown_error_occurred)
                         return@ensureBackgroundThread
                     }
 
@@ -495,7 +494,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
             if (it != null) {
                 sharePathIntent(it, BuildConfig.APPLICATION_ID)
             } else {
-                toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                toast(R.string.unknown_error_occurred)
             }
         }
     }
@@ -728,7 +727,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                     val filterThumbnailsManager = FilterThumbnailsManager()
                     filterThumbnailsManager.clearThumbs()
 
-                    val noFilter = Filter(getString(com.simplemobiletools.commons.R.string.none))
+                    val noFilter = Filter(getString(R.string.none))
                     filterThumbnailsManager.addThumb(FilterItem(bitmap, noFilter))
 
                     FilterPack.getFilterPack(this).forEach {
@@ -839,7 +838,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
     private fun resizeImage() {
         val point = getAreaSize()
         if (point == null) {
-            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+            toast(R.string.unknown_error_occurred)
             return
         }
 
@@ -962,7 +961,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                     ConfirmationDialog(
                         this,
                         label,
-                        positive = com.simplemobiletools.commons.R.string.ok,
+                        positive = R.string.ok,
                         negative = 0
                     ) {
                         launchViewIntent("6629852208836920709=di?ved/sppa/erots/moc.elgoog.yalp//:sptth".reversed())
@@ -992,11 +991,10 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: OutOfMemoryError) {
-            toast(com.simplemobiletools.commons.R.string.out_of_memory_error)
+            toast(R.string.out_of_memory_error)
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     private fun saveBitmap(
         file: File,
         bitmap: Bitmap,
@@ -1004,7 +1002,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         showSavingToast: Boolean
     ) {
         if (showSavingToast) {
-            toast(com.simplemobiletools.commons.R.string.saving)
+            toast(R.string.saving)
         }
 
         if (resizeWidth > 0 && resizeHeight > 0) {
@@ -1037,7 +1035,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         rescanPaths(paths) {
             fixDateTaken(paths, false)
             setResult(Activity.RESULT_OK, intent)
-            toast(com.simplemobiletools.commons.R.string.file_saved)
+            toast(R.string.file_saved)
             finish()
         }
     }

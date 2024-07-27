@@ -2,6 +2,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogCustomAspectRatioBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
@@ -21,8 +22,8 @@ class CustomAspectRatioDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) { alertDialog ->
                     alertDialog.showKeyboard(binding.aspectRatioWidth)

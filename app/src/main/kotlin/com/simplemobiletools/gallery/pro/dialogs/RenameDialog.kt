@@ -3,7 +3,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameBinding
 import com.simplemobiletools.gallery.pro.extensions.onPageChangeListener
 import com.simplemobiletools.gallery.pro.extensions.onTabSelectionChanged

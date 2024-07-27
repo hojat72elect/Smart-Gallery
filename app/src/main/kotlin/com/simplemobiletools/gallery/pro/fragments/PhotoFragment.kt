@@ -239,7 +239,7 @@ class PhotoFragment : ViewPagerFragment() {
                     rotated.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     mMedium.path = file.absolutePath
                 } catch (e: Exception) {
-                    requireActivity().toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                    requireActivity().toast(R.string.unknown_error_occurred)
                     return mView
                 } finally {
                     out?.close()
@@ -587,7 +587,7 @@ class PhotoFragment : ViewPagerFragment() {
             val screenWidth = requireContext().realScreenSize.x
             val itemWidth =
                 resources.getDimension(R.dimen.portrait_photos_stripe_height)
-                    .toInt() + resources.getDimension(com.simplemobiletools.commons.R.dimen.one_dp)
+                    .toInt() + resources.getDimension(R.dimen.one_dp)
                     .toInt()
             val sideWidth = screenWidth / 2 - itemWidth / 2
             val fakeItemsCnt = ceil(sideWidth / itemWidth.toDouble()).toInt()
@@ -654,7 +654,7 @@ class PhotoFragment : ViewPagerFragment() {
 
     private fun setupStripeBottomMargin() {
         var bottomMargin =
-            requireContext().navigationBarHeight + resources.getDimension(com.simplemobiletools.commons.R.dimen.normal_margin)
+            requireContext().navigationBarHeight + resources.getDimension(R.dimen.normal_margin)
                 .toInt()
         if (requireContext().config.bottomActions) {
             bottomMargin += resources.getDimension(R.dimen.bottom_actions_height).toInt()
@@ -981,7 +981,7 @@ class PhotoFragment : ViewPagerFragment() {
 
     private fun getExtendedDetailsY(height: Int): Float {
         val smallMargin =
-            context?.resources?.getDimension(com.simplemobiletools.commons.R.dimen.small_margin)
+            context?.resources?.getDimension(R.dimen.small_margin)
                 ?: return 0f
         val fullscreenOffset =
             smallMargin + if (mIsFullscreen) 0 else requireContext().navigationBarHeight

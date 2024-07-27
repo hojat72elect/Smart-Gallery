@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.commons.fragments.BaseBottomSheetDialogFragment
 import com.simplemobiletools.gallery.pro.adapters.setupSimpleListItem
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetColumnDialogSurface

@@ -190,8 +190,8 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 ConfirmationDialog(
                     this,
                     "",
-                    com.simplemobiletools.commons.R.string.upgraded_from_free_gallery,
-                    com.simplemobiletools.commons.R.string.ok,
+                    R.string.upgraded_from_free_gallery,
+                    R.string.ok,
                     0,
                     false
                 ) {}
@@ -453,7 +453,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 runOnUiThread {
                     if (grouped.isEmpty()) {
                         binding.mediaEmptyTextPlaceholder.text =
-                            getString(com.simplemobiletools.commons.R.string.no_items_found)
+                            getString(R.string.no_items_found)
                         binding.mediaEmptyTextPlaceholder.beVisible()
                         binding.mediaFastscroller.beGone()
                     } else {
@@ -473,16 +473,16 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         handlePermission(getPermissionToRequest()) {
             if (it) {
                 val dirName = when {
-                    mPath == FAVORITES -> getString(com.simplemobiletools.commons.R.string.favorites)
-                    mPath == RECYCLE_BIN -> getString(com.simplemobiletools.commons.R.string.recycle_bin)
-                    mPath == config.OTGPath -> getString(com.simplemobiletools.commons.R.string.usb)
+                    mPath == FAVORITES -> getString(R.string.favorites)
+                    mPath == RECYCLE_BIN -> getString(R.string.recycle_bin)
+                    mPath == config.OTGPath -> getString(R.string.usb)
                     else -> getHumanizedFilename(mPath)
                 }
 
                 val searchHint = if (mShowAll) {
-                    getString(com.simplemobiletools.commons.R.string.search_files)
+                    getString(R.string.search_files)
                 } else {
-                    getString(com.simplemobiletools.commons.R.string.search_in_placeholder, dirName)
+                    getString(R.string.search_in_placeholder, dirName)
                 }
 
                 binding.mediaMenu.updateHintText(searchHint)
@@ -496,7 +496,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 getMedia()
                 setupLayoutManager()
             } else {
-                toast(com.simplemobiletools.commons.R.string.no_storage_permissions)
+                toast(R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -732,7 +732,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
             }
 
             if (mPath == RECYCLE_BIN) {
-                binding.mediaEmptyTextPlaceholder.setText(com.simplemobiletools.commons.R.string.no_items_found)
+                binding.mediaEmptyTextPlaceholder.setText(R.string.no_items_found)
                 binding.mediaEmptyTextPlaceholder.beVisible()
                 binding.mediaEmptyTextPlaceholder2.beGone()
             } else {
@@ -892,7 +892,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 RadioItem(
                     i,
                     resources.getQuantityString(
-                        com.simplemobiletools.commons.R.plurals.column_counts,
+                        R.plurals.column_counts,
                         i,
                         i
                     )
@@ -1039,7 +1039,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
             )
         ) {
             val movingItems = resources.getQuantityString(
-                com.simplemobiletools.commons.R.plurals.moving_items_into_bin,
+                R.plurals.moving_items_into_bin,
                 filtered.size,
                 filtered.size
             )
@@ -1049,12 +1049,12 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 if (it) {
                     deleteFilteredFiles(filtered)
                 } else {
-                    toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                    toast(R.string.unknown_error_occurred)
                 }
             }
         } else {
             val deletingItems = resources.getQuantityString(
-                com.simplemobiletools.commons.R.plurals.deleting_items,
+                R.plurals.deleting_items,
                 filtered.size,
                 filtered.size
             )
@@ -1068,7 +1068,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private fun deleteFilteredFiles(filtered: ArrayList<FileDirItem>) {
         deleteFiles(filtered) {
             if (!it) {
-                toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                toast(R.string.unknown_error_occurred)
                 return@deleteFiles
             }
 

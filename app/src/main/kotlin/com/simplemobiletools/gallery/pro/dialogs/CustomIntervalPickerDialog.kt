@@ -35,7 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.components.RadioGroupDialogComponent
 import com.simplemobiletools.gallery.pro.databinding.DialogCustomIntervalPickerBinding
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState

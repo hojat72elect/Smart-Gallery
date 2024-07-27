@@ -762,11 +762,11 @@ fun Context.checkAppendingHidden(
 
 fun Context.getFolderNameFromPath(path: String): String {
     return when (path) {
-        internalStoragePath -> getString(com.simplemobiletools.commons.R.string.internal)
-        sdCardPath -> getString(com.simplemobiletools.commons.R.string.sd_card)
-        otgPath -> getString(com.simplemobiletools.commons.R.string.usb)
-        FAVORITES -> getString(com.simplemobiletools.commons.R.string.favorites)
-        RECYCLE_BIN -> getString(com.simplemobiletools.commons.R.string.recycle_bin)
+        internalStoragePath -> getString(R.string.internal)
+        sdCardPath -> getString(R.string.sd_card)
+        otgPath -> getString(R.string.usb)
+        FAVORITES -> getString(R.string.favorites)
+        RECYCLE_BIN -> getString(R.string.recycle_bin)
         else -> path.getFilenameFromPath()
     }
 }
@@ -875,7 +875,7 @@ fun Context.loadImageBase(
 
     if (roundCorners != ROUNDED_CORNERS_NONE) {
         val cornerSize =
-            if (roundCorners == ROUNDED_CORNERS_SMALL) com.simplemobiletools.commons.R.dimen.rounded_corner_radius_small else com.simplemobiletools.commons.R.dimen.rounded_corner_radius_big
+            if (roundCorners == ROUNDED_CORNERS_SMALL) R.dimen.rounded_corner_radius_small else R.dimen.rounded_corner_radius_big
         val cornerRadius = resources.getDimension(cornerSize).toInt()
         val roundedCornersTransform = RoundedCorners(cornerRadius)
         options.optionalTransform(MultiTransformation(CenterCrop(), roundedCornersTransform))
@@ -942,7 +942,7 @@ fun Context.loadSVG(
 
     if (roundCorners != ROUNDED_CORNERS_NONE) {
         val cornerSize =
-            if (roundCorners == ROUNDED_CORNERS_SMALL) com.simplemobiletools.commons.R.dimen.rounded_corner_radius_small else com.simplemobiletools.commons.R.dimen.rounded_corner_radius_big
+            if (roundCorners == ROUNDED_CORNERS_SMALL) R.dimen.rounded_corner_radius_small else R.dimen.rounded_corner_radius_big
         val cornerRadius = resources.getDimension(cornerSize).toInt()
         builder = builder.transform(CenterCrop(), RoundedCorners(cornerRadius))
     }
@@ -974,7 +974,7 @@ fun Context.tryLoadingWithPicasso(
 
         if (roundCorners != ROUNDED_CORNERS_NONE) {
             val cornerSize =
-                if (roundCorners == ROUNDED_CORNERS_SMALL) com.simplemobiletools.commons.R.dimen.rounded_corner_radius_small else com.simplemobiletools.commons.R.dimen.rounded_corner_radius_big
+                if (roundCorners == ROUNDED_CORNERS_SMALL) R.dimen.rounded_corner_radius_small else R.dimen.rounded_corner_radius_big
             val cornerRadius = resources.getDimension(cornerSize).toInt()
             builder = builder.transform(PicassoRoundedCornersTransformation(cornerRadius.toFloat()))
         }
@@ -1231,7 +1231,7 @@ fun Context.updateFavorite(path: String, isFavorite: Boolean) {
             favoritesDB.deleteFavoritePath(path)
         }
     } catch (e: Exception) {
-        toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+        toast(R.string.unknown_error_occurred)
     }
 }
 
@@ -2789,16 +2789,16 @@ fun Context.hasContactPermissions() =
 
 fun Context.getPublicContactSource(source: String, callback: (String) -> Unit) {
     when (source) {
-        SMT_PRIVATE -> callback(getString(com.simplemobiletools.commons.R.string.phone_storage_hidden))
+        SMT_PRIVATE -> callback(getString(R.string.phone_storage_hidden))
         else -> {
             ContactsHelper(this).getContactSources {
                 var newSource = source
                 for (contactSource in it) {
                     if (contactSource.name == source && contactSource.type == TELEGRAM_PACKAGE) {
-                        newSource = getString(com.simplemobiletools.commons.R.string.telegram)
+                        newSource = getString(R.string.telegram)
                         break
                     } else if (contactSource.name == source && contactSource.type == VIBER_PACKAGE) {
-                        newSource = getString(com.simplemobiletools.commons.R.string.viber)
+                        newSource = getString(R.string.viber)
                         break
                     }
                 }
@@ -2815,15 +2815,15 @@ fun Context.getPublicContactSourceSync(
     contactSources: ArrayList<ContactSource>
 ): String {
     return when (source) {
-        SMT_PRIVATE -> getString(com.simplemobiletools.commons.R.string.phone_storage_hidden)
+        SMT_PRIVATE -> getString(R.string.phone_storage_hidden)
         else -> {
             var newSource = source
             for (contactSource in contactSources) {
                 if (contactSource.name == source && contactSource.type == TELEGRAM_PACKAGE) {
-                    newSource = getString(com.simplemobiletools.commons.R.string.telegram)
+                    newSource = getString(R.string.telegram)
                     break
                 } else if (contactSource.name == source && contactSource.type == VIBER_PACKAGE) {
-                    newSource = getString(com.simplemobiletools.commons.R.string.viber)
+                    newSource = getString(R.string.viber)
                     break
                 }
             }
@@ -2837,7 +2837,7 @@ fun Context.sendSMSToContacts(contacts: ArrayList<Contact>) {
     val numbers = StringBuilder()
     contacts.forEach {
         val number =
-            it.phoneNumbers.firstOrNull { it.type == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE }
+            it.phoneNumbers.firstOrNull { it.type == Phone.TYPE_MOBILE }
                 ?: it.phoneNumbers.firstOrNull()
         if (number != null) {
             numbers.append("${Uri.encode(number.value)};")
@@ -2871,7 +2871,7 @@ fun Context.getTempFile(filename: String = DEFAULT_FILE_NAME): File? {
     val folder = File(cacheDir, "contacts")
     if (!folder.exists()) {
         if (!folder.mkdir()) {
-            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+            toast(R.string.unknown_error_occurred)
             return null
         }
     }
@@ -2928,7 +2928,7 @@ fun Context.getAllContactSources(): ArrayList<ContactSource> {
 fun Context.getPrivateContactSource() = ContactSource(
     SMT_PRIVATE,
     SMT_PRIVATE,
-    getString(com.simplemobiletools.commons.R.string.phone_storage_hidden)
+    getString(R.string.phone_storage_hidden)
 )
 
 fun Context.getSocialActions(id: Int): ArrayList<SocialAction> {
@@ -3161,10 +3161,10 @@ fun Context.getStorageDirectories(): Array<String> {
 fun Context.getHumanReadablePath(path: String): String {
     return getString(
         when (path) {
-            "/" -> com.simplemobiletools.commons.R.string.root
-            internalStoragePath -> com.simplemobiletools.commons.R.string.internal
-            otgPath -> com.simplemobiletools.commons.R.string.usb
-            else -> com.simplemobiletools.commons.R.string.sd_card
+            "/" -> R.string.root
+            internalStoragePath -> R.string.internal
+            otgPath -> R.string.usb
+            else -> R.string.sd_card
         }
     )
 }
@@ -4191,7 +4191,7 @@ fun Context.getFileOutputStreamSync(
 
 fun Context.showFileCreateError(path: String) {
     val error =
-        String.format(getString(com.simplemobiletools.commons.R.string.could_not_create_file), path)
+        String.format(getString(R.string.could_not_create_file), path)
     baseConfig.sdTreeUri = ""
     showErrorToast(error)
 }
@@ -4482,14 +4482,14 @@ fun Context.getPicturesDirectoryPath(fullPath: String): String {
 }
 
 fun Context.getProperBackgroundColor() = if (baseConfig.isUsingSystemTheme) {
-    resources.getColor(com.simplemobiletools.commons.R.color.you_background_color, theme)
+    resources.getColor(R.color.you_background_color, theme)
 } else {
     baseConfig.backgroundColor
 }
 
 fun Context.getProperPrimaryColor() = when {
     baseConfig.isUsingSystemTheme -> resources.getColor(
-        com.simplemobiletools.commons.R.color.you_primary_color,
+        R.color.you_primary_color,
         theme
     )
 
@@ -4499,7 +4499,7 @@ fun Context.getProperPrimaryColor() = when {
 
 fun Context.getProperStatusBarColor() = when {
     baseConfig.isUsingSystemTheme -> resources.getColor(
-        com.simplemobiletools.commons.R.color.you_status_bar_color,
+        R.color.you_status_bar_color,
         theme
     )
 
@@ -4509,7 +4509,7 @@ fun Context.getProperStatusBarColor() = when {
 // get the color of the statusbar with material activity, if the layout is scrolled down a bit
 fun Context.getColoredMaterialStatusBarColor(): Int {
     return if (baseConfig.isUsingSystemTheme) {
-        resources.getColor(com.simplemobiletools.commons.R.color.you_status_bar_color, theme)
+        resources.getColor(R.color.you_status_bar_color, theme)
     } else {
         getProperPrimaryColor()
     }
@@ -4556,28 +4556,28 @@ fun Context.isUsingSystemDarkTheme() =
 
 fun Context.getTimePickerDialogTheme() = when {
     baseConfig.isUsingSystemTheme -> if (isUsingSystemDarkTheme()) {
-        com.simplemobiletools.commons.R.style.MyTimePickerMaterialTheme_Dark
+        R.style.MyTimePickerMaterialTheme_Dark
     } else {
-        com.simplemobiletools.commons.R.style.MyDateTimePickerMaterialTheme
+        R.style.MyDateTimePickerMaterialTheme
     }
 
-    baseConfig.backgroundColor.getContrastColor() == Color.WHITE -> com.simplemobiletools.commons.R.style.MyDialogTheme_Dark
-    else -> com.simplemobiletools.commons.R.style.MyDialogTheme
+    baseConfig.backgroundColor.getContrastColor() == Color.WHITE -> R.style.MyDialogTheme_Dark
+    else -> R.style.MyDialogTheme
 }
 
 fun Context.getDatePickerDialogTheme() = when {
-    baseConfig.isUsingSystemTheme -> com.simplemobiletools.commons.R.style.MyDateTimePickerMaterialTheme
-    baseConfig.backgroundColor.getContrastColor() == Color.WHITE -> com.simplemobiletools.commons.R.style.MyDialogTheme_Dark
-    else -> com.simplemobiletools.commons.R.style.MyDialogTheme
+    baseConfig.isUsingSystemTheme -> R.style.MyDateTimePickerMaterialTheme
+    baseConfig.backgroundColor.getContrastColor() == Color.WHITE -> R.style.MyDialogTheme_Dark
+    else -> R.style.MyDialogTheme
 }
 
 fun Context.getPopupMenuTheme(): Int {
     return if (isSPlus() && baseConfig.isUsingSystemTheme) {
-        com.simplemobiletools.commons.R.style.AppTheme_YouPopupMenuStyle
+        R.style.AppTheme_YouPopupMenuStyle
     } else if (isWhiteTheme()) {
-        com.simplemobiletools.commons.R.style.AppTheme_PopupMenuLightStyle
+        R.style.AppTheme_PopupMenuLightStyle
     } else {
-        com.simplemobiletools.commons.R.style.AppTheme_PopupMenuDarkStyle
+        R.style.AppTheme_PopupMenuDarkStyle
     }
 }
 
@@ -4637,7 +4637,7 @@ fun Context.toggleAppIconColor(appId: String, colorIndex: Int, color: Int, enabl
 }
 
 fun Context.getAppIconColors() =
-    resources.getIntArray(com.simplemobiletools.commons.R.array.md_app_icon_colors)
+    resources.getIntArray(R.array.md_app_icon_colors)
         .toCollection(ArrayList())
 
 @SuppressLint("NewApi")
@@ -4645,11 +4645,11 @@ fun Context.getBottomNavigationBackgroundColor(): Int {
     val baseColor = baseConfig.backgroundColor
     val bottomColor = when {
         baseConfig.isUsingSystemTheme -> resources.getColor(
-            com.simplemobiletools.commons.R.color.you_status_bar_color,
+            R.color.you_status_bar_color,
             theme
         )
 
-        baseColor == Color.WHITE -> resources.getColor(com.simplemobiletools.commons.R.color.bottom_tabs_light_background)
+        baseColor == Color.WHITE -> resources.getColor(R.color.bottom_tabs_light_background)
         else -> baseConfig.backgroundColor.lightenColor(4)
     }
     return bottomColor

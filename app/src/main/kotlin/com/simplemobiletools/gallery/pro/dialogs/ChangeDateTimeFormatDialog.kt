@@ -35,7 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.components.RadioGroupDialogComponent
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeDateTimeFormatBinding

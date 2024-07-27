@@ -6,7 +6,7 @@ import com.simplemobiletools.gallery.pro.extensions.beGoneIf
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogDeleteWithRememberBinding
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 
 class DeleteWithRememberDialog(
     private val activity: Activity,

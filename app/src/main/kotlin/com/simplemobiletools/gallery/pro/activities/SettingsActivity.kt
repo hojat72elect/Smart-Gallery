@@ -11,22 +11,19 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.simplemobiletools.gallery.pro.dialogs.ChangeDateTimeFormatDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
-import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
-import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
-import com.simplemobiletools.gallery.pro.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivitySettingsBinding
+import com.simplemobiletools.gallery.pro.dialogs.ChangeDateTimeFormatDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFileThumbnailStyleDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFolderThumbnailStyleDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExportFavoritesDialog
+import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.GrantAllFilesDialog
 import com.simplemobiletools.gallery.pro.dialogs.ManageBottomActionsDialog
 import com.simplemobiletools.gallery.pro.dialogs.ManageExtendedDetailsDialog
+import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
+import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.beGoneIf
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
@@ -110,6 +107,7 @@ import com.simplemobiletools.gallery.pro.helpers.LOOP_VIDEOS
 import com.simplemobiletools.gallery.pro.helpers.MARK_FAVORITE_ITEMS
 import com.simplemobiletools.gallery.pro.helpers.MAX_BRIGHTNESS
 import com.simplemobiletools.gallery.pro.helpers.MEDIA_COLUMN_CNT
+import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.OPEN_VIDEOS_ON_SEPARATE_SCREEN
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_READ_STORAGE
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_WRITE_STORAGE
@@ -162,7 +160,9 @@ import com.simplemobiletools.gallery.pro.helpers.isPiePlus
 import com.simplemobiletools.gallery.pro.helpers.isQPlus
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.helpers.isTiramisuPlus
+import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.AlbumCover
+import com.simplemobiletools.gallery.pro.models.RadioItem
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -350,7 +350,7 @@ class SettingsActivity : SimpleActivity() {
     private fun setupManageIncludedFolders() {
         if (isRPlus() && !isExternalStorageManager()) {
             binding.settingsManageIncludedFolders.text =
-                "${getString(R.string.manage_included_folders)} (${getString(com.simplemobiletools.commons.R.string.no_permission)})"
+                "${getString(R.string.manage_included_folders)} (${getString(R.string.no_permission)})"
         } else {
             binding.settingsManageIncludedFolders.setText(R.string.manage_included_folders)
         }
@@ -385,13 +385,13 @@ class SettingsActivity : SimpleActivity() {
     private fun setupShowHiddenItems() {
         if (isRPlus() && !isExternalStorageManager()) {
             binding.settingsShowHiddenItems.text =
-                "${getString(com.simplemobiletools.commons.R.string.show_hidden_items)} (${
+                "${getString(R.string.show_hidden_items)} (${
                     getString(
-                        com.simplemobiletools.commons.R.string.no_permission
+                        R.string.no_permission
                     )
                 })"
         } else {
-            binding.settingsShowHiddenItems.setText(com.simplemobiletools.commons.R.string.show_hidden_items)
+            binding.settingsShowHiddenItems.setText(R.string.show_hidden_items)
         }
 
         binding.settingsShowHiddenItems.isChecked = config.showHiddenMedia
@@ -523,12 +523,12 @@ class SettingsActivity : SimpleActivity() {
                     if (config.isHiddenPasswordProtectionOn) {
                         val confirmationTextId =
                             if (config.hiddenProtectionType == PROTECTION_FINGERPRINT)
-                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
                         ConfirmationDialog(
                             this,
                             "",
                             confirmationTextId,
-                            com.simplemobiletools.commons.R.string.ok,
+                            R.string.ok,
                             0
                         ) { }
                     }
@@ -556,12 +556,12 @@ class SettingsActivity : SimpleActivity() {
                     if (config.isExcludedPasswordProtectionOn) {
                         val confirmationTextId =
                             if (config.excludedProtectionType == PROTECTION_FINGERPRINT)
-                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
                         ConfirmationDialog(
                             this,
                             "",
                             confirmationTextId,
-                            com.simplemobiletools.commons.R.string.ok,
+                            R.string.ok,
                             0
                         ) { }
                     }
@@ -586,12 +586,12 @@ class SettingsActivity : SimpleActivity() {
                     if (config.isAppPasswordProtectionOn) {
                         val confirmationTextId =
                             if (config.appProtectionType == PROTECTION_FINGERPRINT)
-                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
                         ConfirmationDialog(
                             this,
                             "",
                             confirmationTextId,
-                            com.simplemobiletools.commons.R.string.ok,
+                            R.string.ok,
                             0
                         ) { }
                     }
@@ -618,12 +618,12 @@ class SettingsActivity : SimpleActivity() {
                     if (config.isDeletePasswordProtectionOn) {
                         val confirmationTextId =
                             if (config.deleteProtectionType == PROTECTION_FINGERPRINT)
-                                com.simplemobiletools.commons.R.string.fingerprint_setup_successfully else com.simplemobiletools.commons.R.string.protection_setup_successfully
+                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
                         ConfirmationDialog(
                             this,
                             "",
                             confirmationTextId,
-                            com.simplemobiletools.commons.R.string.ok,
+                            R.string.ok,
                             0
                         ) { }
                     }
@@ -913,7 +913,7 @@ class SettingsActivity : SimpleActivity() {
 
         binding.settingsEmptyRecycleBinHolder.setOnClickListener {
             if (mRecycleBinContentSize == 0L) {
-                toast(com.simplemobiletools.commons.R.string.recycle_bin_empty)
+                toast(R.string.recycle_bin_empty)
             } else {
                 showRecycleBinEmptyingDialog {
                     emptyTheRecycleBin()
@@ -955,7 +955,7 @@ class SettingsActivity : SimpleActivity() {
                             startActivityForResult(this, SELECT_EXPORT_FAVORITES_FILE_INTENT)
                         } catch (e: ActivityNotFoundException) {
                             toast(
-                                com.simplemobiletools.commons.R.string.system_service_disabled,
+                                R.string.system_service_disabled,
                                 Toast.LENGTH_LONG
                             )
                         } catch (e: Exception) {
@@ -984,7 +984,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun exportFavoritesTo(outputStream: OutputStream?) {
         if (outputStream == null) {
-            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+            toast(R.string.unknown_error_occurred)
             return
         }
 
@@ -997,9 +997,9 @@ class SettingsActivity : SimpleActivity() {
                     }
                 }
 
-                toast(com.simplemobiletools.commons.R.string.exporting_successful)
+                toast(R.string.exporting_successful)
             } else {
-                toast(com.simplemobiletools.commons.R.string.no_items_found)
+                toast(R.string.no_items_found)
             }
         }
     }
@@ -1034,7 +1034,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun importFavorites(inputStream: InputStream?) {
         if (inputStream == null) {
-            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+            toast(R.string.unknown_error_occurred)
             return
         }
 
@@ -1055,7 +1055,7 @@ class SettingsActivity : SimpleActivity() {
                 }
             }
 
-            toast(if (importedItems > 0) com.simplemobiletools.commons.R.string.importing_successful else com.simplemobiletools.commons.R.string.no_entries_for_importing)
+            toast(if (importedItems > 0) R.string.importing_successful else R.string.no_entries_for_importing)
         }
     }
 
@@ -1177,7 +1177,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun parseFile(inputStream: InputStream?) {
         if (inputStream == null) {
-            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+            toast(R.string.unknown_error_occurred)
             return
         }
 
@@ -1316,7 +1316,7 @@ class SettingsActivity : SimpleActivity() {
             }
         }
 
-        toast(if (configValues.size > 0) com.simplemobiletools.commons.R.string.settings_imported_successfully else com.simplemobiletools.commons.R.string.no_entries_for_importing)
+        toast(if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing)
         runOnUiThread {
             setupSettingItems()
         }

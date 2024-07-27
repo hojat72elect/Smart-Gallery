@@ -22,7 +22,7 @@ class ConfirmDeleteFolderDialog(
 
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.yes) { _, _ -> dialogConfirmed() }
-            .setNegativeButton(com.simplemobiletools.commons.R.string.no, null)
+            .setNegativeButton(R.string.no, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) { alertDialog ->
                     dialog = alertDialog

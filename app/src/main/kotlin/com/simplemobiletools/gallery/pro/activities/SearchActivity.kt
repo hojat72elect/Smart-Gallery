@@ -1,14 +1,14 @@
 package com.simplemobiletools.gallery.pro.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.MediaAdapter
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
@@ -36,10 +36,13 @@ import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
 import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import java.io.File
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class SearchActivity : SimpleActivity(), MediaOperationsListener {
     private var mLastSearchedText = ""
@@ -81,7 +84,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
         binding.searchMenu.setupMenu()
         binding.searchMenu.toggleForceArrowBackIcon(true)
         binding.searchMenu.focusView()
-        binding.searchMenu.updateHintText(getString(com.simplemobiletools.commons.R.string.search_files))
+        binding.searchMenu.updateHintText(getString(R.string.search_files))
 
         binding.searchMenu.onNavigateBackClickListener = {
             if (binding.searchMenu.getCurrentQuery().isEmpty()) {
@@ -121,7 +124,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
                 runOnUiThread {
                     if (grouped.isEmpty()) {
                         binding.searchEmptyTextPlaceholder.text =
-                            getString(com.simplemobiletools.commons.R.string.no_items_found)
+                            getString(R.string.no_items_found)
                         binding.searchEmptyTextPlaceholder.beVisible()
                     } else {
                         binding.searchEmptyTextPlaceholder.beGone()
@@ -296,7 +299,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
             )
         ) {
             val movingItems = resources.getQuantityString(
-                com.simplemobiletools.commons.R.plurals.moving_items_into_bin,
+                R.plurals.moving_items_into_bin,
                 filtered.size,
                 filtered.size
             )
@@ -306,12 +309,12 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
                 if (it) {
                     deleteFilteredFiles(filtered)
                 } else {
-                    toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                    toast(R.string.unknown_error_occurred)
                 }
             }
         } else {
             val deletingItems = resources.getQuantityString(
-                com.simplemobiletools.commons.R.plurals.deleting_items,
+                R.plurals.deleting_items,
                 filtered.size,
                 filtered.size
             )
@@ -323,7 +326,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
     private fun deleteFilteredFiles(filtered: ArrayList<FileDirItem>) {
         deleteFiles(filtered) {
             if (!it) {
-                toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                toast(R.string.unknown_error_occurred)
                 return@deleteFiles
             }
 

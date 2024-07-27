@@ -6,8 +6,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.signature.ObjectKey
 import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
@@ -37,6 +39,7 @@ import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_NONE
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Widget
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class WidgetConfigureActivity : SimpleActivity() {
     private var mBgAlpha = 0f
@@ -107,9 +110,9 @@ class WidgetConfigureActivity : SimpleActivity() {
         updateBackgroundColor()
 
         mTextColor = config.widgetTextColor
-        if (mTextColor == resources.getColor(com.simplemobiletools.commons.R.color.default_widget_text_color) && config.isUsingSystemTheme) {
+        if (mTextColor == resources.getColor(R.color.default_widget_text_color) && config.isUsingSystemTheme) {
             mTextColor =
-                resources.getColor(com.simplemobiletools.commons.R.color.you_primary_color, theme)
+                resources.getColor(R.color.you_primary_color, theme)
         }
 
         updateTextColor()
@@ -184,6 +187,7 @@ class WidgetConfigureActivity : SimpleActivity() {
             }
         }
     }
+
 
     private fun changeSelectedFolder() {
         PickDirectoryDialog(

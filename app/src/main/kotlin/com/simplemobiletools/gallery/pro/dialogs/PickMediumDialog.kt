@@ -47,14 +47,14 @@ class PickMediumDialog(
         binding.mediaFastscroller.updateColors(activity.getProperPrimaryColor())
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
             .setNeutralButton(R.string.other_folder) { _, _ -> showOtherFolder() }
             .apply {
                 activity.setupDialogStuff(
                     binding.root,
                     this,
-                    com.simplemobiletools.commons.R.string.select_photo
+                    R.string.select_photo
                 ) { alertDialog ->
                     dialog = alertDialog
                 }

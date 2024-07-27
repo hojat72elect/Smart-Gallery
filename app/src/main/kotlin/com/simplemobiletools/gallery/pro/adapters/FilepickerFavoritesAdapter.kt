@@ -5,7 +5,7 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.FilepickerFavoriteBinding
 import com.simplemobiletools.gallery.pro.extensions.getTextSize
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity

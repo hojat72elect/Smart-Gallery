@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -12,9 +13,9 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.SeekBar
+import androidx.annotation.RequiresApi
 import com.google.vr.sdk.widgets.video.VrVideoEventListener
 import com.google.vr.sdk.widgets.video.VrVideoView
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityPanoramaVideoBinding
 import com.simplemobiletools.gallery.pro.extensions.beVisible
@@ -31,8 +32,10 @@ import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.MIN_SKIP_LENGTH
 import com.simplemobiletools.gallery.pro.helpers.PATH
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import java.io.File
 
+@RequiresApi(Build.VERSION_CODES.O)
 open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListener {
 
 
@@ -64,6 +67,7 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
             )
         }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -160,7 +164,7 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
                             mIsPlaying = true
                             resumeVideo()
                         } else {
-                            binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+                            binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
                         }
                         binding.bottomVideoTimeHolder.videoTogglePlayPause.beVisible()
                     }
@@ -216,7 +220,7 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
     }
 
     private fun resumeVideo() {
-        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_pause_outline_vector)
+        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_pause_outline_vector)
         if (mCurrTime == mDuration) {
             setVideoProgress(0)
             mPlayOnReady = true
@@ -229,7 +233,7 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
 
     private fun pauseVideo() {
         binding.vrVideoView.pauseVideo()
-        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
@@ -269,7 +273,7 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         binding.bottomVideoTimeHolder.root.onGlobalLayout {
             val newBottomMargin =
                 binding.bottomVideoTimeHolder.root.height - resources.getDimension(R.dimen.video_player_play_pause_size)
-                    .toInt() - resources.getDimension(com.simplemobiletools.commons.R.dimen.activity_margin)
+                    .toInt() - resources.getDimension(R.dimen.activity_margin)
                     .toInt()
             (binding.explore.layoutParams as RelativeLayout.LayoutParams).bottomMargin =
                 newBottomMargin
@@ -280,7 +284,7 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
             }
             binding.explore.requestLayout()
         }
-        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
 
         binding.cardboard.setOnClickListener {
             binding.vrVideoView.displayMode = CARDBOARD_DISPLAY_MODE

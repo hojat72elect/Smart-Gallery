@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.Intent.ACTION_SEND
@@ -19,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.dialogs.RateStarsAlertDialog
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.enableEdgeToEdgeSimple
@@ -139,6 +140,7 @@ class AboutActivity : ComponentActivity() {
     private fun rememberFAQ() =
         remember { !(intent.getSerializableExtra(APP_FAQ) as? ArrayList<FAQItem>).isNullOrEmpty() }
 
+    @SuppressLint("StringFormatMatches")
     @Composable
     private fun showWebsiteAndFullVersion(
         resources: Resources,
@@ -242,6 +244,7 @@ class AboutActivity : ComponentActivity() {
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun launchEmailIntent() {
         val appVersion =
             String.format(getString(R.string.app_version, intent.getStringExtra(APP_VERSION_NAME)))

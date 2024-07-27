@@ -7,7 +7,7 @@ import android.provider.MediaStore
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.TabRenameSimpleBinding
 import com.simplemobiletools.gallery.pro.extensions.baseConfig

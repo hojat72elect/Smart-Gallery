@@ -39,15 +39,13 @@ import androidx.core.view.ScrollingView
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.commons.R
-import com.simplemobiletools.gallery.pro.dialogs.FeatureLockedDialog
-import com.simplemobiletools.gallery.pro.dialogs.FileConflictDialog
-import com.simplemobiletools.commons.extensions.getThemeId
-import com.simplemobiletools.gallery.pro.helpers.MyContextWrapper
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.asynctasks.CopyMoveTask
 import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExportSettingsDialog
+import com.simplemobiletools.gallery.pro.dialogs.FeatureLockedDialog
+import com.simplemobiletools.gallery.pro.dialogs.FileConflictDialog
 import com.simplemobiletools.gallery.pro.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.gallery.pro.dialogs.WritePermissionDialog
 import com.simplemobiletools.gallery.pro.extensions.addBit
@@ -75,6 +73,7 @@ import com.simplemobiletools.gallery.pro.extensions.getFirstParentPath
 import com.simplemobiletools.gallery.pro.extensions.getPermissionString
 import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperStatusBarColor
+import com.simplemobiletools.gallery.pro.extensions.getThemeId
 import com.simplemobiletools.gallery.pro.extensions.hasAllPermissions
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
@@ -119,6 +118,7 @@ import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.EXTERNAL_STORAGE_PROVIDER_AUTHORITY
 import com.simplemobiletools.gallery.pro.helpers.HIGHER_ALPHA
 import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
+import com.simplemobiletools.gallery.pro.helpers.MyContextWrapper
 import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB
 import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_FOR_SDK_30
@@ -298,7 +298,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         updateNavigationBarButtons(color)
     }
 
-    fun updateNavigationBarButtons(color: Int) {
+    private fun updateNavigationBarButtons(color: Int) {
         if (isOreoPlus()) {
             if (color.getContrastColor() == DARK_GREY) {
                 window.decorView.systemUiVisibility =
@@ -1197,6 +1197,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     fun getAlternativeFile(file: File): File {
         var fileIndex = 1
         var newFile: File?
@@ -1449,7 +1450,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                         this,
                         getExportSettingsFilename(),
                         false
-                    ) { path, filename ->
+                    ) { path, _ ->
                         val file = File(path)
                         getFileOutputStream(file.toFileDirItem(this), true) {
                             exportSettingsTo(it, configItems)

@@ -11,7 +11,7 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ItemBreadcrumbBinding
 import com.simplemobiletools.gallery.pro.databinding.ItemBreadcrumbFirstBinding
 import com.simplemobiletools.gallery.pro.extensions.adjustAlpha

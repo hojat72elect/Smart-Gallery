@@ -40,7 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogBorder
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogContainerColor
 import com.simplemobiletools.gallery.pro.compose.components.SimpleDropDownMenuItem

@@ -321,7 +321,7 @@ class MediaAdapter(
             )
         if (isRPlus() && isSDOrOtgRootFolder && !isExternalStorageManager()) {
             activity.toast(
-                com.simplemobiletools.commons.R.string.rename_in_sd_card_system_restriction,
+                R.string.rename_in_sd_card_system_restriction,
                 Toast.LENGTH_LONG
             )
             finishActMode()
@@ -435,7 +435,7 @@ class MediaAdapter(
     private fun handleRotate(paths: List<String>, degrees: Int) {
         var fileCnt = paths.size
         rotatedImagePaths.clear()
-        activity.toast(com.simplemobiletools.commons.R.string.saving)
+        activity.toast(R.string.saving)
         ensureBackgroundThread {
             paths.forEach {
                 rotatedImagePaths.add(it)
@@ -489,7 +489,7 @@ class MediaAdapter(
 
         if (!isCopyOperation && paths.any { it.startsWith(recycleBinPath) }) {
             activity.toast(
-                com.simplemobiletools.commons.R.string.moving_recycle_bin_items_disabled,
+                R.string.moving_recycle_bin_items_disabled,
                 Toast.LENGTH_LONG
             )
         }
@@ -590,7 +590,7 @@ class MediaAdapter(
             val fileSize = fileDirItems.sumByLong { it.getProperSize(activity, countHidden = true) }
                 .formatSize()
             val deleteItemsString = resources.getQuantityString(
-                com.simplemobiletools.commons.R.plurals.delete_items,
+                R.plurals.delete_items,
                 itemsCnt,
                 itemsCnt
             )
@@ -599,7 +599,7 @@ class MediaAdapter(
 
         val isRecycleBin = firstPath.startsWith(activity.recycleBinPath)
         val baseString =
-            if (config.useRecycleBin && !config.tempSkipRecycleBin && !isRecycleBin) com.simplemobiletools.commons.R.string.move_to_recycle_bin_confirmation else com.simplemobiletools.commons.R.string.deletion_confirmation
+            if (config.useRecycleBin && !config.tempSkipRecycleBin && !isRecycleBin) R.string.move_to_recycle_bin_confirmation else R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), itemsAndSize)
         val showSkipRecycleBinOption = config.useRecycleBin && !isRecycleBin
 
@@ -726,7 +726,7 @@ class MediaAdapter(
 
             playPortraitOutline?.beVisibleIf(medium.isVideo() || medium.isPortrait())
             if (medium.isVideo()) {
-                playPortraitOutline?.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+                playPortraitOutline?.setImageResource(R.drawable.ic_play_outline_vector)
                 playPortraitOutline?.beVisible()
             } else if (medium.isPortrait()) {
                 playPortraitOutline?.setImageResource(R.drawable.ic_portrait_photo_vector)

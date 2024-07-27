@@ -283,7 +283,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         // just request the permission, tryLoadGallery will then trigger in onResume
         handleMediaPermissions { success ->
             if (!success) {
-                toast(com.simplemobiletools.commons.R.string.no_storage_permissions)
+                toast(R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -380,9 +380,9 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
 
         if (config.searchAllFilesByDefault) {
-            binding.mainMenu.updateHintText(getString(com.simplemobiletools.commons.R.string.search_files))
+            binding.mainMenu.updateHintText(R.string.search_files.toString())
         } else {
-            binding.mainMenu.updateHintText(getString(com.simplemobiletools.commons.R.string.search_folders))
+            binding.mainMenu.updateHintText(R.string.search_folders.toString())
         }
     }
 
@@ -488,7 +488,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 findItem(R.id.open_recycle_bin).isVisible =
                     config.useRecycleBin && !config.showRecycleBinAtFolders
                 findItem(R.id.more_apps_from_us).isVisible =
-                    !resources.getBoolean(com.simplemobiletools.commons.R.bool.hide_google_relations)
+                    !resources.getBoolean(R.bool.hide_google_relations)
             }
         }
 
@@ -596,7 +596,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 ) {
                     toast(
                         String.format(
-                            getString(com.simplemobiletools.commons.R.string.deleting_folder),
+                            getString(R.string.deleting_folder),
                             config.tempFolderPath
                         ), Toast.LENGTH_LONG
                     )
@@ -663,8 +663,8 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                     ConfirmationDialog(
                         this,
                         "",
-                        com.simplemobiletools.commons.R.string.upgraded_from_free_gallery,
-                        com.simplemobiletools.commons.R.string.ok,
+                        R.string.upgraded_from_free_gallery,
+                        R.string.ok,
                         0,
                         false
                     ) {}
@@ -681,7 +681,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
                 setupLayoutManager()
             } else {
-                toast(com.simplemobiletools.commons.R.string.no_storage_permissions)
+                toast(R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -816,7 +816,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 try {
                     toast(
                         String.format(
-                            getString(com.simplemobiletools.commons.R.string.deleting_folder),
+                            getString(R.string.deleting_folder),
                             fileDirItems.first().name
                         )
                     )
@@ -827,7 +827,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
             else -> {
                 val baseString =
-                    if (config.useRecycleBin && !config.tempSkipRecycleBin) com.simplemobiletools.commons.R.plurals.moving_items_into_bin else com.simplemobiletools.commons.R.plurals.delete_items
+                    if (config.useRecycleBin && !config.tempSkipRecycleBin) R.plurals.moving_items_into_bin else R.plurals.delete_items
                 val deletingItems =
                     resources.getQuantityString(baseString, fileDirItems.size, fileDirItems.size)
                 toast(deletingItems)
@@ -857,7 +857,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 if (it) {
                     deleteFilteredFileDirItems(itemsToDelete, folders)
                 } else {
-                    toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                    toast(R.string.unknown_error_occurred)
                 }
             }
         } else {
@@ -991,7 +991,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 RadioItem(
                     i,
                     resources.getQuantityString(
-                        com.simplemobiletools.commons.R.plurals.column_counts,
+                        R.plurals.column_counts,
                         i,
                         i
                     )
@@ -1187,7 +1187,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 if (mediaDB.getDeletedMediaCount() > 0) {
                     val recycleBin = Directory().apply {
                         path = RECYCLE_BIN
-                        name = getString(com.simplemobiletools.commons.R.string.recycle_bin)
+                        name = getString(R.string.recycle_bin)
                         location = LOCATION_INTERNAL
                     }
 
@@ -1201,7 +1201,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             if (mediaDB.getFavoritesCount() > 0) {
                 val favorites = Directory().apply {
                     path = FAVORITES
-                    name = getString(com.simplemobiletools.commons.R.string.favorites)
+                    name = getString(R.string.favorites)
                     location = LOCATION_INTERNAL
                 }
 
@@ -1470,12 +1470,12 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
         if (binding.mainMenu.isSearchOpen) {
             binding.directoriesEmptyPlaceholder.text =
-                getString(com.simplemobiletools.commons.R.string.no_items_found)
+                getString(R.string.no_items_found)
             binding.directoriesEmptyPlaceholder2.beGone()
         } else if (dirs.isEmpty() && config.filterMedia == getDefaultFileFilter()) {
             if (isRPlus() && !isExternalStorageManager()) {
                 binding.directoriesEmptyPlaceholder.text =
-                    getString(com.simplemobiletools.commons.R.string.no_items_found)
+                    getString(R.string.no_items_found)
                 binding.directoriesEmptyPlaceholder2.beGone()
             } else {
                 binding.directoriesEmptyPlaceholder.text = getString(R.string.no_media_add_included)

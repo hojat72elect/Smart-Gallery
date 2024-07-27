@@ -21,7 +21,7 @@ class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit
     init {
         binding = DialogSlideshowBinding.inflate(activity.layoutInflater).apply {
             intervalHint.hint =
-                activity.getString(com.simplemobiletools.commons.R.string.seconds_raw)
+                activity.getString(R.string.seconds_raw)
                     .replaceFirstChar { it.uppercaseChar() }
             intervalValue.setOnClickListener {
                 intervalValue.selectAll()
@@ -73,8 +73,8 @@ class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit
         setupValues()
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) { alertDialog ->
                     alertDialog.hideKeyboard()

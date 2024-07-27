@@ -602,7 +602,7 @@ class VideoFragment : ViewPagerFragment(),
 
     private fun getExtendedDetailsY(height: Int): Float {
         val smallMargin =
-            context?.resources?.getDimension(com.simplemobiletools.commons.R.dimen.small_margin)
+            context?.resources?.getDimension(R.dimen.small_margin)
                 ?: return 0f
         val fullscreenOffset =
             smallMargin + if (mIsFullscreen) 0 else requireContext().navigationBarHeight
@@ -723,7 +723,7 @@ class VideoFragment : ViewPagerFragment(),
         }
 
         if (!wasEnded || !mConfig.loopVideos) {
-            mPlayPauseButton.setImageResource(com.simplemobiletools.commons.R.drawable.ic_pause_outline_vector)
+            mPlayPauseButton.setImageResource(R.drawable.ic_pause_outline_vector)
         }
 
         if (!mWasVideoStarted) {
@@ -749,7 +749,7 @@ class VideoFragment : ViewPagerFragment(),
             mExoPlayer?.playWhenReady = false
         }
 
-        mPlayPauseButton.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+        mPlayPauseButton.setImageResource(R.drawable.ic_play_outline_vector)
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         mPositionAtPause = mExoPlayer?.currentPosition ?: 0L
     }

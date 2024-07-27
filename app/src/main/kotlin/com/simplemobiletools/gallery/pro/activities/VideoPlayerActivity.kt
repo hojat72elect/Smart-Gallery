@@ -163,11 +163,11 @@ open class VideoPlayerActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListen
         binding.videoToolbar.apply {
             setTitleTextColor(Color.WHITE)
             overflowIcon = resources.getColoredDrawableWithColor(
-                com.simplemobiletools.commons.R.drawable.ic_three_dots_vector,
+                R.drawable.ic_three_dots_vector,
                 Color.WHITE
             )
             navigationIcon = resources.getColoredDrawableWithColor(
-                com.simplemobiletools.commons.R.drawable.ic_arrow_left_vector,
+                R.drawable.ic_arrow_left_vector,
                 Color.WHITE
             )
         }
@@ -389,7 +389,7 @@ open class VideoPlayerActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListen
             if (config.autoplayVideos) {
                 resumeVideo()
             } else {
-                binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+                binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
             }
         }
     }
@@ -404,7 +404,7 @@ open class VideoPlayerActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListen
     }
 
     private fun resumeVideo() {
-        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_pause_outline_vector)
+        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_pause_outline_vector)
         if (mExoPlayer == null) {
             return
         }
@@ -421,7 +421,7 @@ open class VideoPlayerActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListen
     }
 
     private fun pauseVideo() {
-        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(com.simplemobiletools.commons.R.drawable.ic_play_outline_vector)
+        binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
         if (mExoPlayer == null) {
             return
         }

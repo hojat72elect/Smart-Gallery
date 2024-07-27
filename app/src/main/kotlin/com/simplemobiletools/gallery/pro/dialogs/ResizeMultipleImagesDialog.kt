@@ -45,8 +45,8 @@ class ResizeMultipleImagesDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(
                     binding.root,
@@ -114,7 +114,7 @@ class ResizeMultipleImagesDialog(
                                 }
                             }
                         } catch (e: OutOfMemoryError) {
-                            toast(com.simplemobiletools.commons.R.string.out_of_memory_error)
+                            toast(R.string.out_of_memory_error)
                         } catch (e: Exception) {
                             showErrorToast(e)
                         }

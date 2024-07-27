@@ -116,7 +116,7 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
             if (it) {
                 checkIntent(savedInstanceState)
             } else {
-                toast(com.simplemobiletools.commons.R.string.no_storage_permissions)
+                toast(R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -172,11 +172,11 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         binding.fragmentViewerToolbar.apply {
             setTitleTextColor(Color.WHITE)
             overflowIcon = resources.getColoredDrawableWithColor(
-                com.simplemobiletools.commons.R.drawable.ic_three_dots_vector,
+                R.drawable.ic_three_dots_vector,
                 Color.WHITE
             )
             navigationIcon = resources.getColoredDrawableWithColor(
-                com.simplemobiletools.commons.R.drawable.ic_arrow_left_vector,
+                R.drawable.ic_arrow_left_vector,
                 Color.WHITE
             )
         }
@@ -361,7 +361,7 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
     private fun launchVideoPlayer() {
         val newUri = getFinalUriFromPath(mUri.toString(), BuildConfig.APPLICATION_ID)
         if (newUri == null) {
-            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+            toast(R.string.unknown_error_occurred)
             return
         }
 

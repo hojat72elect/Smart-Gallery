@@ -3,6 +3,11 @@
     <integer name="directory_columns_horizontal_scroll">3</integer>
     <integer name="media_columns_vertical_scroll">3</integer>
     <integer name="media_columns_horizontal_scroll">4</integer>
-
     <integer name="default_sorting">33794</integer>
+
+    <integer name="default_font_size">1</integer>
+    <integer name="default_viewpager_page">0</integer>
+    <integer name="contacts_grid_columns_count_portrait">3</integer>
+    <integer name="contacts_grid_columns_count_landscape">5</integer>
+
 </resources>

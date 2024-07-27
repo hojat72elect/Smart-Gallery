@@ -15,11 +15,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
-import com.simplemobiletools.commons.R
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.databinding.DialogWhatsNewBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
@@ -28,7 +28,7 @@ import com.simplemobiletools.gallery.pro.models.Release
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-class WhatsNewDialog(val activity: Activity, val releases: List<Release>) {
+class WhatsNewDialog(val activity: Activity, private val releases: List<Release>) {
     init {
         val view = DialogWhatsNewBinding.inflate(LayoutInflater.from(activity), null, false)
         view.whatsNewContent.text = getNewReleases()

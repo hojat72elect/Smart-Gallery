@@ -2,7 +2,7 @@ package com.simplemobiletools.gallery.pro.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.checkAppIconColor
 import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading

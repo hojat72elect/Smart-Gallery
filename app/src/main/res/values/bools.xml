@@ -5,4 +5,6 @@
     <bool name="hide_google_relations">true</bool>
     <bool name="hide_all_external_links">true</bool>
     <bool name="pretend_thank_you_installed">true</bool>
+    <bool name="default_vibrate_on_press">false</bool>
+
 </resources>

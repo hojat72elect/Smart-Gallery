@@ -28,7 +28,7 @@ class ChangeGroupingDialog(
     DialogInterface.OnClickListener {
     private var currGrouping = 0
     private var config = activity.config
-    private val pathToUse = if (path.isEmpty()) SHOW_ALL else path
+    private val pathToUse = path.ifEmpty { SHOW_ALL }
     private val binding: DialogChangeGroupingBinding
 
     init {
@@ -39,8 +39,8 @@ class ChangeGroupingDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, this)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, this)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this, R.string.group_by)
             }

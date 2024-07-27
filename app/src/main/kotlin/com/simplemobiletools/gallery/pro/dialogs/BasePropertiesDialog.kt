@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ItemPropertyBinding
 import com.simplemobiletools.gallery.pro.databinding.DialogPropertiesBinding
 import com.simplemobiletools.gallery.pro.extensions.copyToClipboard

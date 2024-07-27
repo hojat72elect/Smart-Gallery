@@ -68,7 +68,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.components.SimpleDropDownMenuItem
 import com.simplemobiletools.gallery.pro.compose.lists.SimpleNavigationIcon
 import com.simplemobiletools.gallery.pro.compose.lists.SimpleScaffold

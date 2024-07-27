@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.TextView
 import android.widget.Toast
 import androidx.biometric.auth.AuthPromptHost
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.TabPinBinding
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor

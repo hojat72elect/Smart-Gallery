@@ -1050,8 +1050,8 @@ class MediaFetcher(val context: Context) {
 
     private fun getFinalDate(date: String, today: String, yesterday: String): String {
         return when (date) {
-            today -> context.getString(com.simplemobiletools.commons.R.string.today)
-            yesterday -> context.getString(com.simplemobiletools.commons.R.string.yesterday)
+            today -> context.getString(R.string.today)
+            yesterday -> context.getString(R.string.yesterday)
             else -> date
         }
     }

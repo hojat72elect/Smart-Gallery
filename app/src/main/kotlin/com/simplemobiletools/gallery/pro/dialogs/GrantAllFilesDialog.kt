@@ -2,6 +2,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
@@ -17,8 +18,8 @@ class GrantAllFilesDialog(val activity: BaseSimpleActivity) {
         binding.grantAllFilesImage.applyColorFilter(activity.getProperTextColor())
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok) { _, _ -> activity.launchGrantAllFilesIntent() }
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok) { _, _ -> activity.launchGrantAllFilesIntent() }
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) { }
             }

@@ -78,13 +78,13 @@ class SaveAsDialog(
 
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel) { _, _ -> cancelCallback?.invoke() }
+            .setNegativeButton(R.string.cancel) { _, _ -> cancelCallback?.invoke() }
             .setOnCancelListener { cancelCallback?.invoke() }
             .apply {
                 activity.setupDialogStuff(
                     binding.root,
                     this,
-                    com.simplemobiletools.commons.R.string.save_as
+                    R.string.save_as
                 ) { alertDialog ->
                     alertDialog.showKeyboard(binding.filenameValue)
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
@@ -92,25 +92,25 @@ class SaveAsDialog(
                         val extension = binding.extensionValue.value
 
                         if (filename.isEmpty()) {
-                            activity.toast(com.simplemobiletools.commons.R.string.filename_cannot_be_empty)
+                            activity.toast(R.string.filename_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         if (extension.isEmpty()) {
-                            activity.toast(com.simplemobiletools.commons.R.string.extension_cannot_be_empty)
+                            activity.toast(R.string.extension_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         val newFilename = "$filename.$extension"
                         val newPath = "${realPath.trimEnd('/')}/$newFilename"
                         if (!newFilename.isAValidFilename()) {
-                            activity.toast(com.simplemobiletools.commons.R.string.filename_invalid_characters)
+                            activity.toast(R.string.filename_invalid_characters)
                             return@setOnClickListener
                         }
 
                         if (activity.getDoesFilePathExist(newPath)) {
                             val title = String.format(
-                                activity.getString(com.simplemobiletools.commons.R.string.file_already_exists_overwrite),
+                                activity.getString(R.string.file_already_exists_overwrite),
                                 newFilename
                             )
                             ConfirmationDialog(activity, title) {

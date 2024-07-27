@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.view.ActionMode
@@ -13,7 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getContrastColor
@@ -27,6 +28,7 @@ import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import kotlin.math.max
 import kotlin.math.min
 
+@SuppressLint("UseCompatLoadingForDrawables")
 @RequiresApi(Build.VERSION_CODES.O)
 abstract class MyRecyclerViewAdapter(
     val activity: BaseSimpleActivity,
@@ -290,6 +292,7 @@ abstract class MyRecyclerViewAdapter(
     fun setupZoomListener(zoomListener: MyRecyclerView.MyZoomListener?) {
         recyclerView.setupZoomListener(zoomListener)
     }
+
 
     fun addVerticalDividers(add: Boolean) {
         if (recyclerView.itemDecorationCount > 0) {

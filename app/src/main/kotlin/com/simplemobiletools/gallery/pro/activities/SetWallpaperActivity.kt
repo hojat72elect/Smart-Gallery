@@ -172,7 +172,7 @@ class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageComplete
                     }
                     setResult(Activity.RESULT_OK)
                 } catch (e: OutOfMemoryError) {
-                    toast(com.simplemobiletools.commons.R.string.out_of_memory_error)
+                    toast(R.string.out_of_memory_error)
                     setResult(Activity.RESULT_CANCELED)
                 }
                 finish()

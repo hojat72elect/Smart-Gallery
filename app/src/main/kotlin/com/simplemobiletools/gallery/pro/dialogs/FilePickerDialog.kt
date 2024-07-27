@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Environment
 import android.os.Parcelable
@@ -10,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.simplemobiletools.commons.R
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.adapters.FilepickerFavoritesAdapter
 import com.simplemobiletools.gallery.pro.adapters.FilepickerItemsAdapter
@@ -63,6 +64,7 @@ import java.io.File
  * @param showFAB toggle the displaying of a Floating Action Button for creating new folders
  * @param callback the callback used for returning the selected file/folder
  */
+@SuppressLint("SetTextI18n")
 @RequiresApi(Build.VERSION_CODES.O)
 class FilePickerDialog(
     val activity: BaseSimpleActivity,

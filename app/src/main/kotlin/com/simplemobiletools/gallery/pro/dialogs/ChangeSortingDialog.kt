@@ -50,13 +50,13 @@ class ChangeSortingDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, this)
-            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
+            .setPositiveButton(R.string.ok, this)
+            .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(
                     binding.root,
                     this,
-                    com.simplemobiletools.commons.R.string.sort_by
+                    R.string.sort_by
                 )
             }
 
