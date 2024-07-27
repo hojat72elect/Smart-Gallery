@@ -84,4 +84,6 @@
     <dimen name="popup_menu_elevation">4dp</dimen>
     <dimen name="divider_height">2px</dimen>
     <dimen name="contact_grid_item_max_size">100dp</dimen>
+
+    <dimen name="corner_radius">24dp</dimen>
 </resources>

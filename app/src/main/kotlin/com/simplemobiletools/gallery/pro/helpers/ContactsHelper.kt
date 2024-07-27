@@ -40,6 +40,7 @@ import com.simplemobiletools.gallery.pro.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
 import com.simplemobiletools.gallery.pro.extensions.queryCursor
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.times
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import com.simplemobiletools.gallery.pro.models.contacts.Address
@@ -50,7 +51,6 @@ import com.simplemobiletools.gallery.pro.models.contacts.Event
 import com.simplemobiletools.gallery.pro.models.contacts.Group
 import com.simplemobiletools.gallery.pro.models.contacts.IM
 import com.simplemobiletools.gallery.pro.models.contacts.Organization
-import com.simplemobiletools.commons.overloads.times
 import java.io.OutputStream
 import java.util.Locale
 import kotlinx.serialization.encodeToString

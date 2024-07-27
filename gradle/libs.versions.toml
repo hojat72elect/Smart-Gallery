@@ -13,8 +13,16 @@ androidx-constraintlayout = "2.1.4"
 androidx-biometricKtx = "1.2.0-alpha05"
 androidx-coreKtx = "1.12.0"
 androidx-lifecycle = "2.7.0-alpha02"
+#Material
+material = "1.10.0"
+#patternLockView
+patternLockView = "a90b0d4bf0"
 #exif
 exif = "1.0.1"
+#recyclerviewFastscroller
+recyclerviewFastscroller = "5a95285b1f"
+#rtlViewpager
+rtlViewpager = "940f12724f"
 #Compose
 composeActivity = "1.8.0"
 compose = "1.6.0-alpha07"
@@ -23,10 +31,14 @@ composeMaterial3 = "1.2.0-alpha09"
 #Glide
 glide = "4.16.0"
 glideCompose = "1.0.0-beta01"
+#reprint
+reprint = "2cb206415d"
+#jodaTime
+jodaTime = "2.12.5"
+#gson
+gson = "2.10.1"
 #Room
 room = "2.6.0-beta01"
-#Simple tools
-simple-commons = "9e60e24790"
 #Gradle
 gradlePlugins-agp = "8.5.0"
 #Other
@@ -63,7 +75,6 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-biometric-ktx = { module = "androidx.biometric:biometric-ktx", version.ref = "androidx-biometricKtx" }
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-coreKtx" }
 androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
@@ -78,7 +89,6 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
-compose-material2 = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
@@ -87,8 +97,6 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 compose-uiTooling-debug = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-uiTooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-view-binding = { module = "androidx.compose.ui:ui-viewbinding", version.ref = "compose" }
-#Simple Mobile Tools
-simple-tools-commons = { module = "com.github.SimpleMobileTools:Simple-Commons", version.ref = "simple-commons" }
 #Other
 android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
 android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
@@ -109,6 +117,14 @@ glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "g
 glide-compiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glideCompiler" }
 zjupure-webpdecoder = { module = "com.github.zjupure:webpdecoder", version.ref = "zjupureWebpdecoder" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+#Material
+material = { module = "com.google.android.material:material", version.ref = "material" }
+recyclerViewFastScroller = { module = "com.github.tibbi:RecyclerView-FastScroller", version.ref = "recyclerviewFastscroller" }
+rtl-viewpager = { module = "com.github.duolingo:rtl-viewpager", version.ref = "rtlViewpager" }
+patternLockView = { module = "com.github.aritraroy:patternLockView", version.ref = "patternLockView" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+reprint = { module = "com.github.tibbi:reprint", version.ref = "reprint" }
+joda-time = { module = "joda-time:joda-time", version.ref = "jodaTime" }
 # Kotlin
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable-collections" }
@@ -123,6 +139,7 @@ compose = [
     "compose-runtime",
     "compose-ui",
     "compose-uiTooling-preview",
+    "compose-uiTooling-debug",
 ]
 room = [
     "androidx-room-ktx",

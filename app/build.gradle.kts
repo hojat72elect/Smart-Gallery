@@ -116,7 +116,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.simple.tools.commons)
     implementation(libs.android.image.cropper)
     implementation(libs.exif)
     implementation(libs.android.gif.drawable)
@@ -130,9 +129,16 @@ dependencies {
     implementation(libs.gestureviews)
     implementation(libs.compose.view.binding)
     implementation(libs.bundles.lifecycle)
+    api(libs.patternLockView)
+    api(libs.rtl.viewpager)
     implementation(libs.bundles.compose)
     implementation(libs.subsamplingscaleimageview)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.material)
+    implementation(libs.recyclerViewFastScroller)
+    api(libs.gson)
+    api(libs.reprint)
+    api(libs.joda.time)
     implementation(libs.awebp)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.apng)

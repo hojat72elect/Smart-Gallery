@@ -14,7 +14,7 @@ import com.simplemobiletools.gallery.pro.models.contacts.Contact
 // used for sharing privately stored contacts in Simple Contacts with Simple Dialer, Simple SMS Messenger and Simple Calendar Pro
 class MyContactsContentProvider {
     companion object {
-        private const val AUTHORITY = "com.simplemobiletools.commons.contactsprovider"
+        private const val AUTHORITY = "com.simplemobiletools.gallery.pro.contactsprovider"
         val CONTACTS_CONTENT_URI = Uri.parse("content://$AUTHORITY/contacts")
 
         const val FAVORITES_ONLY = "favorites_only"

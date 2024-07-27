@@ -177,7 +177,6 @@ fun String?.fromHtml(): Spanned =
         else -> Html.fromHtml(this)
     }
 
-
 fun String.isGif() = endsWith(".gif", true)
 
 fun String.isApng() = endsWith(".apng", true)
