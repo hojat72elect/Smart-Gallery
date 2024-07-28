@@ -9,7 +9,6 @@ import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogGrantAllFilesBinding
-import com.simplemobiletools.gallery.pro.extensions.launchGrantAllFilesIntent
 
 @RequiresApi(Build.VERSION_CODES.R)
 class GrantAllFilesDialog(val activity: BaseSimpleActivity) {

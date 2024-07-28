@@ -40,7 +40,6 @@ import com.simplemobiletools.gallery.pro.databinding.DirectoryItemListBinding
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmDeleteFolderDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExcludeFolderDialog
 import com.simplemobiletools.gallery.pro.dialogs.PickMediumDialog
-import com.simplemobiletools.gallery.pro.extensions.addNoMedia
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.beVisible
@@ -51,8 +50,6 @@ import com.simplemobiletools.gallery.pro.extensions.containsNoMedia
 import com.simplemobiletools.gallery.pro.extensions.convertToBitmap
 import com.simplemobiletools.gallery.pro.extensions.directoryDB
 import com.simplemobiletools.gallery.pro.extensions.doesThisOrParentHaveNoMedia
-import com.simplemobiletools.gallery.pro.extensions.emptyAndDisableTheRecycleBin
-import com.simplemobiletools.gallery.pro.extensions.emptyTheRecycleBin
 import com.simplemobiletools.gallery.pro.extensions.favoritesDB
 import com.simplemobiletools.gallery.pro.extensions.fixDateTaken
 import com.simplemobiletools.gallery.pro.extensions.getContrastColor
@@ -74,12 +71,9 @@ import com.simplemobiletools.gallery.pro.extensions.isVideoFast
 import com.simplemobiletools.gallery.pro.extensions.isVisible
 import com.simplemobiletools.gallery.pro.extensions.loadImage
 import com.simplemobiletools.gallery.pro.extensions.mediaDB
-import com.simplemobiletools.gallery.pro.extensions.removeNoMedia
 import com.simplemobiletools.gallery.pro.extensions.rescanPaths
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
-import com.simplemobiletools.gallery.pro.extensions.showRecycleBinEmptyingDialog
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.tryCopyMoveFilesTo
 import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
 import com.simplemobiletools.gallery.pro.helpers.FAVORITES
 import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_BRACKETS

@@ -38,7 +38,7 @@ import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.models.Directory
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class PickDirectoryDialog(
     val activity: BaseSimpleActivity,
@@ -147,6 +147,7 @@ class PickDirectoryDialog(
                 setImageResource(iconResId)
             }
         }
+
 
     private fun filterFolderListBySearchQuery(query: String) {
         val adapter = binding.directoriesGrid.adapter as? DirectoryAdapter

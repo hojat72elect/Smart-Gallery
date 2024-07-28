@@ -9,6 +9,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
@@ -23,6 +24,7 @@ import android.provider.ContactsContract.Settings
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.SparseArray
+import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getAllContactSources
@@ -56,6 +58,7 @@ import java.util.Locale
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class ContactsHelper(val context: Context) {
     private val BATCH_SIZE = 50
     private var displayContactSources = ArrayList<String>()
@@ -163,6 +166,7 @@ class ContactsHelper(val context: Context) {
             sources.add(source)
         }
     }
+
 
     private fun getDeviceContacts(
         contacts: SparseArray<Contact>,

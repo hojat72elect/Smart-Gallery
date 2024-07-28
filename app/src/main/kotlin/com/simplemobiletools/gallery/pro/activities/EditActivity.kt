@@ -47,7 +47,6 @@ import com.simplemobiletools.gallery.pro.extensions.copyNonDimensionAttributesTo
 import com.simplemobiletools.gallery.pro.extensions.fixDateTaken
 import com.simplemobiletools.gallery.pro.extensions.getCompressionFormat
 import com.simplemobiletools.gallery.pro.extensions.getCurrentFormattedDateTime
-import com.simplemobiletools.gallery.pro.extensions.getFileOutputStream
 import com.simplemobiletools.gallery.pro.extensions.getFilenameExtension
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromContentUri
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath

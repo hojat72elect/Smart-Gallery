@@ -3,8 +3,10 @@ package com.simplemobiletools.gallery.pro.helpers
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.extensions.contactsDB
 import com.simplemobiletools.gallery.pro.extensions.getByteArray
 import com.simplemobiletools.gallery.pro.extensions.getEmptyContact
@@ -14,6 +16,7 @@ import com.simplemobiletools.gallery.pro.models.contacts.Group
 import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
 import com.simplemobiletools.gallery.pro.models.contacts.Organization
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class LocalContactsHelper(val context: Context) {
     fun getAllContacts(favoritesOnly: Boolean = false): ArrayList<Contact> {
         val contacts =
@@ -22,6 +25,7 @@ class LocalContactsHelper(val context: Context) {
         return (contacts.map { convertLocalContactToContact(it, storedGroups) }
             .toMutableList() as? ArrayList<Contact>) ?: arrayListOf()
     }
+
 
     fun getContactWithId(id: Int): Contact? {
         val storedGroups = ContactsHelper(context).getStoredGroupsSync()

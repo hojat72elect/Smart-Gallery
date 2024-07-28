@@ -13,7 +13,6 @@ import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
 import com.simplemobiletools.gallery.pro.extensions.getIsPathDirectory
 import com.simplemobiletools.gallery.pro.extensions.getParentPath
 import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
-import com.simplemobiletools.gallery.pro.extensions.renameFile
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toast

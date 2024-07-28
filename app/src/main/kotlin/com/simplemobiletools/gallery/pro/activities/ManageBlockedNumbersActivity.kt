@@ -34,7 +34,6 @@ import com.simplemobiletools.gallery.pro.extensions.copyToClipboard
 import com.simplemobiletools.gallery.pro.extensions.deleteBlockedNumber
 import com.simplemobiletools.gallery.pro.extensions.getBlockedNumbers
 import com.simplemobiletools.gallery.pro.extensions.getBlockedNumbersWithContact
-import com.simplemobiletools.gallery.pro.extensions.getFileOutputStream
 import com.simplemobiletools.gallery.pro.extensions.getTempFile
 import com.simplemobiletools.gallery.pro.extensions.isBlockedNumberPattern
 import com.simplemobiletools.gallery.pro.extensions.isDefaultDialer

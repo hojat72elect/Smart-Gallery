@@ -8,17 +8,22 @@ import android.app.ActivityManager
 import android.app.RecoverableSecurityException
 import android.app.role.RoleManager
 import android.content.ActivityNotFoundException
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.MediaStore.Files
+import android.provider.MediaStore.Images
 import android.provider.Settings
 import android.telecom.TelecomManager
 import android.view.Menu
@@ -38,15 +43,23 @@ import androidx.core.util.Pair
 import androidx.core.view.ScrollingView
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
+import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.asynctasks.CopyMoveTask
 import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
+import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExportSettingsDialog
 import com.simplemobiletools.gallery.pro.dialogs.FeatureLockedDialog
 import com.simplemobiletools.gallery.pro.dialogs.FileConflictDialog
 import com.simplemobiletools.gallery.pro.dialogs.PermissionRequiredDialog
+import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
+import com.simplemobiletools.gallery.pro.dialogs.ResizeMultipleImagesDialog
+import com.simplemobiletools.gallery.pro.dialogs.ResizeWithPathDialog
+import com.simplemobiletools.gallery.pro.dialogs.WhatsNewDialog
 import com.simplemobiletools.gallery.pro.dialogs.WritePermissionDialog
 import com.simplemobiletools.gallery.pro.extensions.addBit
 import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
@@ -54,55 +67,110 @@ import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.buildDocumentUriSdk30
 import com.simplemobiletools.gallery.pro.extensions.canManageMedia
+import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.copyNonDimensionAttributesTo
 import com.simplemobiletools.gallery.pro.extensions.createAndroidDataOrObbPath
 import com.simplemobiletools.gallery.pro.extensions.createAndroidDataOrObbUri
+import com.simplemobiletools.gallery.pro.extensions.createAndroidSAFFile
+import com.simplemobiletools.gallery.pro.extensions.createDirectorySync
+import com.simplemobiletools.gallery.pro.extensions.createDocumentUriUsingFirstParentTreeUri
 import com.simplemobiletools.gallery.pro.extensions.createFirstParentTreeUri
+import com.simplemobiletools.gallery.pro.extensions.createFirstParentTreeUriUsingRootTree
+import com.simplemobiletools.gallery.pro.extensions.createSAFFileSdk30
+import com.simplemobiletools.gallery.pro.extensions.deleteAndroidSAFDirectory
+import com.simplemobiletools.gallery.pro.extensions.deleteDBPath
+import com.simplemobiletools.gallery.pro.extensions.deleteDocumentWithSAFSdk30
 import com.simplemobiletools.gallery.pro.extensions.deleteFromMediaStore
+import com.simplemobiletools.gallery.pro.extensions.deleteRecursively
+import com.simplemobiletools.gallery.pro.extensions.directoryDB
+import com.simplemobiletools.gallery.pro.extensions.doesThisOrParentHaveNoMedia
+import com.simplemobiletools.gallery.pro.extensions.fileRotatedSuccessfully
+import com.simplemobiletools.gallery.pro.extensions.fixDateTaken
 import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.gallery.pro.extensions.getAndroidSAFUri
+import com.simplemobiletools.gallery.pro.extensions.getAndroidTreeUri
 import com.simplemobiletools.gallery.pro.extensions.getAppIconColors
 import com.simplemobiletools.gallery.pro.extensions.getAvailableStorageB
 import com.simplemobiletools.gallery.pro.extensions.getColoredDrawableWithColor
 import com.simplemobiletools.gallery.pro.extensions.getColoredMaterialStatusBarColor
+import com.simplemobiletools.gallery.pro.extensions.getCompressionFormat
 import com.simplemobiletools.gallery.pro.extensions.getContrastColor
 import com.simplemobiletools.gallery.pro.extensions.getCurrentFormattedDateTime
+import com.simplemobiletools.gallery.pro.extensions.getDocumentFile
 import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
-import com.simplemobiletools.gallery.pro.extensions.getFileOutputStream
+import com.simplemobiletools.gallery.pro.extensions.getFileInputStreamSync
+import com.simplemobiletools.gallery.pro.extensions.getFileOutputStreamSync
 import com.simplemobiletools.gallery.pro.extensions.getFileUrisFromFileDirItems
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
 import com.simplemobiletools.gallery.pro.extensions.getFirstParentLevel
 import com.simplemobiletools.gallery.pro.extensions.getFirstParentPath
+import com.simplemobiletools.gallery.pro.extensions.getImageResolution
+import com.simplemobiletools.gallery.pro.extensions.getIntValue
+import com.simplemobiletools.gallery.pro.extensions.getIsPathDirectory
+import com.simplemobiletools.gallery.pro.extensions.getItemSize
+import com.simplemobiletools.gallery.pro.extensions.getLongValue
+import com.simplemobiletools.gallery.pro.extensions.getMimeType
+import com.simplemobiletools.gallery.pro.extensions.getParentPath
 import com.simplemobiletools.gallery.pro.extensions.getPermissionString
+import com.simplemobiletools.gallery.pro.extensions.getPicturesDirectoryPath
 import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperStatusBarColor
+import com.simplemobiletools.gallery.pro.extensions.getSomeDocumentFile
 import com.simplemobiletools.gallery.pro.extensions.getThemeId
 import com.simplemobiletools.gallery.pro.extensions.hasAllPermissions
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
+import com.simplemobiletools.gallery.pro.extensions.hasProperStoredAndroidTreeUri
+import com.simplemobiletools.gallery.pro.extensions.hasProperStoredDocumentUriSdk30
+import com.simplemobiletools.gallery.pro.extensions.hasProperStoredFirstParentUri
+import com.simplemobiletools.gallery.pro.extensions.hasProperStoredTreeUri
 import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
 import com.simplemobiletools.gallery.pro.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.isAccessibleWithSAFSdk30
 import com.simplemobiletools.gallery.pro.extensions.isAppInstalledOnSDCard
+import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
+import com.simplemobiletools.gallery.pro.extensions.isInDownloadDir
+import com.simplemobiletools.gallery.pro.extensions.isJpg
 import com.simplemobiletools.gallery.pro.extensions.isOrWasThankYouInstalled
+import com.simplemobiletools.gallery.pro.extensions.isPathOnInternalStorage
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isPathOnSD
 import com.simplemobiletools.gallery.pro.extensions.isRecycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.isRestrictedSAFOnlyRoot
-import com.simplemobiletools.gallery.pro.extensions.isShowingAndroidSAFDialog
-import com.simplemobiletools.gallery.pro.extensions.isShowingOTGDialog
-import com.simplemobiletools.gallery.pro.extensions.isShowingSAFCreateDocumentDialogSdk30
-import com.simplemobiletools.gallery.pro.extensions.isShowingSAFDialog
-import com.simplemobiletools.gallery.pro.extensions.isShowingSAFDialogSdk30
+import com.simplemobiletools.gallery.pro.extensions.isRestrictedWithSAFSdk30
+import com.simplemobiletools.gallery.pro.extensions.isSDCardSetAsDefaultStorage
 import com.simplemobiletools.gallery.pro.extensions.isUsingGestureNavigation
 import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.extensions.mediaDB
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
-import com.simplemobiletools.gallery.pro.extensions.onApplyWindowInsets
+import com.simplemobiletools.gallery.pro.extensions.needsStupidWritePermissions
 import com.simplemobiletools.gallery.pro.extensions.openDeviceSettings
 import com.simplemobiletools.gallery.pro.extensions.openNotificationSettings
 import com.simplemobiletools.gallery.pro.extensions.random
+import com.simplemobiletools.gallery.pro.extensions.recycleBin
+import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.removeBit
+import com.simplemobiletools.gallery.pro.extensions.renameAndroidSAFDocument
+import com.simplemobiletools.gallery.pro.extensions.renameDocumentSdk30
+import com.simplemobiletools.gallery.pro.extensions.rescanAndDeletePath
+import com.simplemobiletools.gallery.pro.extensions.rescanFolderMedia
+import com.simplemobiletools.gallery.pro.extensions.rescanPath
+import com.simplemobiletools.gallery.pro.extensions.rescanPaths
+import com.simplemobiletools.gallery.pro.extensions.saveExifRotation
+import com.simplemobiletools.gallery.pro.extensions.saveFile
+import com.simplemobiletools.gallery.pro.extensions.saveImageRotation
+import com.simplemobiletools.gallery.pro.extensions.scanPathRecursively
+import com.simplemobiletools.gallery.pro.extensions.scanPathsRecursively
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.showFileCreateError
 import com.simplemobiletools.gallery.pro.extensions.statusBarHeight
 import com.simplemobiletools.gallery.pro.extensions.storeAndroidTreeUri
 import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.trySAFFileDelete
+import com.simplemobiletools.gallery.pro.extensions.updateDBMediaPath
+import com.simplemobiletools.gallery.pro.extensions.updateInMediaStore
+import com.simplemobiletools.gallery.pro.extensions.updateLastModified
 import com.simplemobiletools.gallery.pro.extensions.updateOTGPathFromPartition
 import com.simplemobiletools.gallery.pro.extensions.writeLn
 import com.simplemobiletools.gallery.pro.helpers.APP_FAQ
@@ -116,9 +184,11 @@ import com.simplemobiletools.gallery.pro.helpers.CONFLICT_SKIP
 import com.simplemobiletools.gallery.pro.helpers.CREATE_DOCUMENT_SDK_30
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.EXTERNAL_STORAGE_PROVIDER_AUTHORITY
+import com.simplemobiletools.gallery.pro.helpers.EXTRA_SHOW_ADVANCED
 import com.simplemobiletools.gallery.pro.helpers.HIGHER_ALPHA
 import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
 import com.simplemobiletools.gallery.pro.helpers.MyContextWrapper
+import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
 import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB
 import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_FOR_SDK_30
@@ -127,6 +197,7 @@ import com.simplemobiletools.gallery.pro.helpers.OPEN_DOCUMENT_TREE_SD
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_POST_NOTIFICATIONS
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_READ_MEDIA_VISUAL_USER_SELECTED
 import com.simplemobiletools.gallery.pro.helpers.PERMISSION_WRITE_STORAGE
+import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.helpers.REQUEST_CODE_SET_DEFAULT_CALLER_ID
 import com.simplemobiletools.gallery.pro.helpers.REQUEST_CODE_SET_DEFAULT_DIALER
 import com.simplemobiletools.gallery.pro.helpers.SD_OTG_SHORT
@@ -134,16 +205,24 @@ import com.simplemobiletools.gallery.pro.helpers.SELECT_EXPORT_SETTINGS_FILE_INT
 import com.simplemobiletools.gallery.pro.helpers.SHOW_FAQ_BEFORE_MAIL
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.getConflictResolution
+import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.helpers.isQPlus
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.helpers.isUpsideDownCakePlus
 import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
+import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FAQItem
 import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.Release
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.io.OutputStream
 import java.util.regex.Pattern
 
@@ -500,7 +579,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    fun updateRecentsAppIcon() {
+    private fun updateRecentsAppIcon() {
         if (baseConfig.isUsingModifiedAppIcon) {
             val appIconIDs = getAppIconIDs()
             val currentAppIconColorIndex = getCurrentAppIconColorIndex()
@@ -1039,7 +1118,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         funAfterManageMediaPermission = callback
     }
 
-    fun copyMoveFilesTo(
+    private fun copyMoveFilesTo(
         fileDirItems: ArrayList<FileDirItem>,
         source: String,
         destination: String,
@@ -1247,7 +1326,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    fun checkConflicts(
+    private fun checkConflicts(
         files: ArrayList<FileDirItem>,
         destinationPath: String,
         index: Int,
@@ -1349,7 +1428,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    fun handleNotificationPermission(callback: (granted: Boolean) -> Unit) {
+    private fun handleNotificationPermission(callback: (granted: Boolean) -> Unit) {
         if (!isTiramisuPlus()) {
             callback(true)
         } else {
@@ -1371,7 +1450,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    val copyMoveListener = object : CopyMoveListener {
+    private val copyMoveListener = object : CopyMoveListener {
         override fun copySucceeded(
             copyOnly: Boolean,
             copiedAll: Boolean,
@@ -1425,7 +1504,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     fun exportSettings(configItems: LinkedHashMap<String, Any>) {
         if (isQPlus()) {
             configItemsToExport = configItems
-            ExportSettingsDialog(this, getExportSettingsFilename(), true) { path, filename ->
+            ExportSettingsDialog(this, getExportSettingsFilename(), true) { _, filename ->
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TITLE, filename)
@@ -1522,4 +1601,1612 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_SET_DEFAULT_CALLER_ID)
         }
     }
+
+    fun handleMediaManagementPrompt(callback: () -> Unit) {
+
+        if (canManageMedia() || isExternalStorageManager()) {
+            callback()
+        } else if (isRPlus() && resources.getBoolean(R.bool.require_all_files_access) && !config.avoidShowingAllFilesPrompt) {
+            if (Environment.isExternalStorageManager()) {
+                callback()
+            } else {
+                var messagePrompt =
+                    getString(R.string.access_storage_prompt)
+                messagePrompt += if (isSPlus()) {
+                    "\n\n${getString(R.string.media_management_alternative)}"
+                } else {
+                    "\n\n${getString(R.string.alternative_media_access)}"
+                }
+
+                AllFilesPermissionDialog(this, messagePrompt, callback = { success ->
+                    if (success) {
+                        launchGrantAllFilesIntent()
+                    }
+                }, neutralPressed = {
+                    if (isSPlus()) {
+                        launchMediaManagementIntent(callback)
+                    } else {
+                        config.avoidShowingAllFilesPrompt = true
+                    }
+                })
+            }
+        } else {
+            callback()
+        }
+    }
+
+    fun launchGrantAllFilesIntent() {
+        try {
+            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+            intent.addCategory("android.intent.category.DEFAULT")
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
+        } catch (e: Exception) {
+            val intent = Intent()
+            intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun addNoMedia(path: String, callback: () -> Unit) {
+        val file = File(path, NOMEDIA)
+        if (getDoesFilePathExist(file.absolutePath)) {
+            callback()
+            return
+        }
+
+        if (needsStupidWritePermissions(path)) {
+            handleSAFDialog(file.absolutePath) {
+                if (!it) {
+                    return@handleSAFDialog
+                }
+
+                val fileDocument = getDocumentFile(path)
+                if (fileDocument?.exists() == true && fileDocument.isDirectory) {
+                    fileDocument.createFile("", NOMEDIA)
+                    addNoMediaIntoMediaStore(file.absolutePath)
+                    callback()
+                } else {
+                    toast(R.string.unknown_error_occurred)
+                    callback()
+                }
+            }
+        } else {
+            try {
+                if (file.createNewFile()) {
+                    ensureBackgroundThread {
+                        addNoMediaIntoMediaStore(file.absolutePath)
+                    }
+                } else {
+                    toast(R.string.unknown_error_occurred)
+                }
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
+            callback()
+        }
+    }
+
+    private fun addNoMediaIntoMediaStore(path: String) {
+        try {
+            val content = ContentValues().apply {
+                put(Files.FileColumns.TITLE, NOMEDIA)
+                put(Files.FileColumns.DATA, path)
+                put(Files.FileColumns.MEDIA_TYPE, Files.FileColumns.MEDIA_TYPE_NONE)
+            }
+            contentResolver.insert(Files.getContentUri("external"), content)
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
+    }
+
+    fun removeNoMedia(path: String, callback: (() -> Unit)? = null) {
+        val file = File(path, NOMEDIA)
+        if (!getDoesFilePathExist(file.absolutePath)) {
+            callback?.invoke()
+            return
+        }
+
+        tryDeleteFileDirItem(
+            fileDirItem = file.toFileDirItem(applicationContext),
+            allowDeleteFolder = false,
+            deleteFromDatabase = false
+        ) {
+            callback?.invoke()
+            deleteFromMediaStore(file.absolutePath) { needsRescan ->
+                if (needsRescan) {
+                    rescanAndDeletePath(path) {
+                        rescanFolderMedia(path)
+                    }
+                } else {
+                    rescanFolderMedia(path)
+                }
+            }
+        }
+    }
+
+    fun toggleFileVisibility(
+        oldPath: String,
+        hide: Boolean,
+        callback: ((newPath: String) -> Unit)? = null
+    ) {
+
+        val path = oldPath.getParentPath()
+        var filename = oldPath.getFilenameFromPath()
+        if ((hide && filename.startsWith('.')) || (!hide && !filename.startsWith('.'))) {
+            callback?.invoke(oldPath)
+            return
+        }
+
+        filename = if (hide) {
+            ".${filename.trimStart('.')}"
+        } else {
+            filename.substring(1, filename.length)
+        }
+
+        val newPath = "$path/$filename"
+        renameFile(oldPath, newPath, false) { _, _ ->
+            runOnUiThread {
+                callback?.invoke(newPath)
+            }
+
+            ensureBackgroundThread {
+                updateDBMediaPath(oldPath, newPath)
+            }
+        }
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    fun tryCopyMoveFilesTo(
+        fileDirItems: ArrayList<FileDirItem>,
+        isCopyOperation: Boolean,
+        callback: (destinationPath: String) -> Unit
+    ) {
+
+        if (fileDirItems.isEmpty()) {
+            toast(R.string.unknown_error_occurred)
+            return
+        }
+
+        val source = fileDirItems[0].getParentPath()
+        PickDirectoryDialog(
+            activity = this,
+            sourcePath = source,
+            showOtherFolderButton = true,
+            showFavoritesBin = false,
+            isPickingCopyMoveDestination = true,
+            isPickingFolderForWidget = false
+        ) {
+            val destination = it
+            handleSAFDialog(source) {
+                if (it) {
+                    copyMoveFilesTo(
+                        fileDirItems,
+                        source.trimEnd('/'),
+                        destination,
+                        isCopyOperation,
+                        config.shouldShowHidden,
+                        callback
+                    )
+                }
+            }
+        }
+    }
+
+    fun tryDeleteFileDirItem(
+        fileDirItem: FileDirItem,
+        allowDeleteFolder: Boolean = false,
+        deleteFromDatabase: Boolean,
+        callback: ((
+            wasSuccess: Boolean
+        ) -> Unit)? = null
+    ) {
+
+        deleteFile(fileDirItem, allowDeleteFolder, isDeletingMultipleFiles = false) {
+            if (deleteFromDatabase) {
+                ensureBackgroundThread {
+                    deleteDBPath(fileDirItem.path)
+                    runOnUiThread {
+                        callback?.invoke(it)
+                    }
+                }
+            } else {
+                callback?.invoke(it)
+            }
+        }
+    }
+
+    fun movePathsInRecycleBin(
+        paths: ArrayList<String>,
+        callback: ((wasSuccess: Boolean) -> Unit)?
+    ) {
+        ensureBackgroundThread {
+            var pathsCnt = paths.size
+            val OTGPath = config.OTGPath
+
+            for (source in paths) {
+                if (OTGPath.isNotEmpty() && source.startsWith(OTGPath)) {
+                    var inputStream: InputStream? = null
+                    var out: OutputStream? = null
+                    try {
+                        val destination = "$recycleBinPath/$source"
+                        val fileDocument = getSomeDocumentFile(source)
+                        inputStream =
+                            applicationContext.contentResolver.openInputStream(fileDocument?.uri!!)
+                        out = getFileOutputStreamSync(destination, source.getMimeType())
+
+                        var copiedSize = 0L
+                        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                        var bytes = inputStream!!.read(buffer)
+                        while (bytes >= 0) {
+                            out!!.write(buffer, 0, bytes)
+                            copiedSize += bytes
+                            bytes = inputStream.read(buffer)
+                        }
+
+                        out?.flush()
+
+                        if (fileDocument.getItemSize(true) == copiedSize && getDoesFilePathExist(
+                                destination
+                            )
+                        ) {
+                            mediaDB.updateDeleted(
+                                "$RECYCLE_BIN$source",
+                                System.currentTimeMillis(),
+                                source
+                            )
+                            pathsCnt--
+                        }
+                    } catch (e: Exception) {
+                        showErrorToast(e)
+                        return@ensureBackgroundThread
+                    } finally {
+                        inputStream?.close()
+                        out?.close()
+                    }
+                } else {
+                    val file = File(source)
+                    val internalFile = File(recycleBinPath, source)
+                    val lastModified = file.lastModified()
+                    try {
+                        if (file.copyRecursively(internalFile, true)) {
+                            mediaDB.updateDeleted(
+                                "$RECYCLE_BIN$source",
+                                System.currentTimeMillis(),
+                                source
+                            )
+                            pathsCnt--
+
+                            if (config.keepLastModified && lastModified != 0L) {
+                                internalFile.setLastModified(lastModified)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        showErrorToast(e)
+                        return@ensureBackgroundThread
+                    }
+                }
+            }
+            callback?.invoke(pathsCnt == 0)
+        }
+    }
+
+
+    fun restoreRecycleBinPath(path: String, callback: () -> Unit) {
+        restoreRecycleBinPaths(arrayListOf(path), callback)
+    }
+
+    fun restoreRecycleBinPaths(paths: ArrayList<String>, callback: () -> Unit) {
+        ensureBackgroundThread {
+            val newPaths = ArrayList<String>()
+            var shownRestoringToPictures = false
+            for (source in paths) {
+                var destination = source.removePrefix(recycleBinPath)
+
+                val destinationParent = destination.getParentPath()
+                if (isRestrictedWithSAFSdk30(destinationParent) && !isInDownloadDir(
+                        destinationParent
+                    )
+                ) {
+                    // if the file is not writeable on SDK30+, change it to Pictures
+                    val picturesDirectory = getPicturesDirectoryPath(destination)
+                    destination = File(picturesDirectory, destination.getFilenameFromPath()).path
+                    if (!shownRestoringToPictures) {
+                        toast(getString(R.string.restore_to_path, humanizePath(picturesDirectory)))
+                        shownRestoringToPictures = true
+                    }
+                }
+
+                val lastModified = File(source).lastModified()
+
+                val isShowingSAF = handleSAFDialog(destination) {}
+                if (isShowingSAF) {
+                    return@ensureBackgroundThread
+                }
+
+                val isShowingSAFSdk30 = handleSAFDialogSdk30(destination) {}
+                if (isShowingSAFSdk30) {
+                    return@ensureBackgroundThread
+                }
+
+                if (getDoesFilePathExist(destination)) {
+                    val newFile = getAlternativeFile(File(destination))
+                    destination = newFile.path
+                }
+
+                var inputStream: InputStream? = null
+                var out: OutputStream? = null
+                try {
+                    out = getFileOutputStreamSync(destination, source.getMimeType())
+                    inputStream = getFileInputStreamSync(source)
+
+                    var copiedSize = 0L
+                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                    var bytes = inputStream!!.read(buffer)
+                    while (bytes >= 0) {
+                        out!!.write(buffer, 0, bytes)
+                        copiedSize += bytes
+                        bytes = inputStream.read(buffer)
+                    }
+
+                    out?.flush()
+
+                    if (File(source).length() == copiedSize) {
+                        mediaDB.updateDeleted(
+                            destination.removePrefix(recycleBinPath),
+                            0,
+                            "$RECYCLE_BIN${source.removePrefix(recycleBinPath)}"
+                        )
+                    }
+                    newPaths.add(destination)
+
+                    if (config.keepLastModified && lastModified != 0L) {
+                        File(destination).setLastModified(lastModified)
+                    }
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                } finally {
+                    inputStream?.close()
+                    out?.close()
+                }
+            }
+
+            runOnUiThread {
+                callback()
+            }
+
+            rescanPaths(newPaths) {
+                fixDateTaken(newPaths, false)
+            }
+        }
+    }
+
+    fun emptyTheRecycleBin(callback: (() -> Unit)? = null) {
+        ensureBackgroundThread {
+            try {
+                recycleBin.deleteRecursively()
+                mediaDB.clearRecycleBin()
+                directoryDB.deleteRecycleBin()
+                toast(R.string.recycle_bin_emptied)
+                callback?.invoke()
+            } catch (e: Exception) {
+                toast(R.string.unknown_error_occurred)
+            }
+        }
+    }
+
+    fun emptyAndDisableTheRecycleBin(callback: () -> Unit) {
+        ensureBackgroundThread {
+            emptyTheRecycleBin {
+                config.useRecycleBin = false
+                callback()
+            }
+        }
+    }
+
+    fun showRecycleBinEmptyingDialog(callback: () -> Unit) {
+        ConfirmationDialog(
+            this,
+            "",
+            R.string.empty_recycle_bin_confirmation,
+            R.string.yes,
+            R.string.no
+        ) {
+            callback()
+        }
+    }
+
+    fun updateFavoritePaths(
+        fileDirItems: ArrayList<FileDirItem>,
+        destination: String
+    ) {
+        ensureBackgroundThread {
+            fileDirItems.forEach {
+                val newPath = "$destination/${it.name}"
+                updateDBMediaPath(it.path, newPath)
+            }
+        }
+    }
+
+
+    fun saveRotatedImageToFile(
+        oldPath: String,
+        newPath: String,
+        degrees: Int,
+        showToasts: Boolean,
+        callback: () -> Unit
+    ) {
+        var newDegrees = degrees
+        if (newDegrees < 0) {
+            newDegrees += 360
+        }
+
+        if (oldPath == newPath && oldPath.isJpg()) {
+            if (tryRotateByExif(oldPath, newDegrees, showToasts, callback)) {
+                return
+            }
+        }
+
+        val tmpPath = "$recycleBinPath/.tmp_${newPath.getFilenameFromPath()}"
+        val tmpFileDirItem = FileDirItem(tmpPath, tmpPath.getFilenameFromPath())
+        try {
+            getFileOutputStream(tmpFileDirItem) {
+                if (it == null) {
+                    if (showToasts) {
+                        toast(R.string.unknown_error_occurred)
+                    }
+                    return@getFileOutputStream
+                }
+
+                val oldLastModified = File(oldPath).lastModified()
+                if (oldPath.isJpg()) {
+                    copyFile(oldPath, tmpPath)
+                    saveExifRotation(ExifInterface(tmpPath), newDegrees)
+                } else {
+                    val inputstream = getFileInputStreamSync(oldPath)
+                    val bitmap = BitmapFactory.decodeStream(inputstream)
+                    saveFile(tmpPath, bitmap, it as FileOutputStream, newDegrees)
+                }
+
+                copyFile(tmpPath, newPath)
+                rescanPaths(arrayListOf(newPath))
+                fileRotatedSuccessfully(newPath, oldLastModified)
+
+                it.flush()
+                it.close()
+                callback.invoke()
+            }
+        } catch (e: OutOfMemoryError) {
+            if (showToasts) {
+                toast(R.string.out_of_memory_error)
+            }
+        } catch (e: Exception) {
+            if (showToasts) {
+                showErrorToast(e)
+            }
+        } finally {
+            tryDeleteFileDirItem(
+                fileDirItem = tmpFileDirItem,
+                allowDeleteFolder = false,
+                deleteFromDatabase = true
+            )
+        }
+    }
+
+
+    private fun copyFile(source: String, destination: String) {
+        var inputStream: InputStream? = null
+        var out: OutputStream? = null
+        try {
+            out = getFileOutputStreamSync(destination, source.getMimeType())
+            inputStream = getFileInputStreamSync(source)
+            inputStream!!.copyTo(out!!)
+        } catch (e: Exception) {
+            showErrorToast(e)
+        } finally {
+            inputStream?.close()
+            out?.close()
+        }
+    }
+
+
+    fun ensureWriteAccess(path: String, callback: () -> Unit) {
+        when {
+            isRestrictedSAFOnlyRoot(path) -> {
+                handleAndroidSAFDialog(path) {
+                    if (!it) {
+                        return@handleAndroidSAFDialog
+                    }
+                    callback.invoke()
+                }
+            }
+
+            needsStupidWritePermissions(path) -> {
+                handleSAFDialog(path) {
+                    if (!it) {
+                        return@handleSAFDialog
+                    }
+                    callback()
+                }
+            }
+
+            isAccessibleWithSAFSdk30(path) -> {
+                handleSAFDialogSdk30(path) {
+                    if (!it) {
+                        return@handleSAFDialogSdk30
+                    }
+                    callback()
+                }
+            }
+
+            else -> {
+                callback()
+            }
+        }
+    }
+
+
+    fun launchResizeMultipleImagesDialog(
+        paths: List<String>,
+        callback: (() -> Unit)? = null
+    ) {
+        ensureBackgroundThread {
+            val imagePaths = mutableListOf<String>()
+            val imageSizes = mutableListOf<Point>()
+            for (path in paths) {
+                val size = path.getImageResolution(this)
+                if (size != null) {
+                    imagePaths.add(path)
+                    imageSizes.add(size)
+                }
+            }
+
+            runOnUiThread {
+                ResizeMultipleImagesDialog(this, imagePaths, imageSizes) {
+                    callback?.invoke()
+                }
+            }
+        }
+    }
+
+
+    fun launchResizeImageDialog(path: String, callback: (() -> Unit)? = null) {
+        val originalSize = path.getImageResolution(this) ?: return
+        ResizeWithPathDialog(this, originalSize, path) { newSize, newPath ->
+            ensureBackgroundThread {
+                val file = File(newPath)
+                val pathLastModifiedMap = mapOf(file.absolutePath to file.lastModified())
+                try {
+                    resizeImage(path, newPath, newSize) { success ->
+                        if (success) {
+                            toast(R.string.file_saved)
+
+                            val paths = arrayListOf(file.absolutePath)
+                            rescanPathsAndUpdateLastModified(paths, pathLastModifiedMap) {
+                                runOnUiThread {
+                                    callback?.invoke()
+                                }
+                            }
+                        } else {
+                            toast(R.string.image_editing_failed)
+                        }
+                    }
+                } catch (e: OutOfMemoryError) {
+                    toast(R.string.out_of_memory_error)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
+            }
+        }
+    }
+
+
+    fun deleteFiles(
+        files: List<FileDirItem>,
+        allowDeleteFolder: Boolean = false,
+        callback: ((wasSuccess: Boolean) -> Unit)? = null
+    ) {
+        ensureBackgroundThread {
+            deleteFilesBg(files, allowDeleteFolder, callback)
+        }
+    }
+
+
+    private fun deleteFilesBg(
+        files: List<FileDirItem>,
+        allowDeleteFolder: Boolean = false,
+        callback: ((wasSuccess: Boolean) -> Unit)? = null
+    ) {
+        if (files.isEmpty()) {
+            runOnUiThread {
+                callback?.invoke(true)
+            }
+            return
+        }
+
+        val firstFile = files.first()
+        val firstFilePath = firstFile.path
+        handleSAFDialog(firstFilePath) {
+            if (!it) {
+                return@handleSAFDialog
+            }
+
+            checkManageMediaOrHandleSAFDialogSdk30(firstFilePath) {
+                if (!it) {
+                    return@checkManageMediaOrHandleSAFDialogSdk30
+                }
+
+                val recycleBinPath = firstFile.isRecycleBinPath(this)
+                if (canManageMedia() && !recycleBinPath && !firstFilePath.doesThisOrParentHaveNoMedia(
+                        java.util.HashMap(), null
+                    )
+                ) {
+                    val fileUris = getFileUrisFromFileDirItems(files)
+
+                    deleteSDK30Uris(fileUris) { success ->
+                        runOnUiThread {
+                            callback?.invoke(success)
+                        }
+                    }
+                } else {
+                    deleteFilesCasual(files, allowDeleteFolder, callback)
+                }
+            }
+        }
+    }
+
+    private fun deleteFilesCasual(
+        files: List<FileDirItem>,
+        allowDeleteFolder: Boolean = false,
+        callback: ((wasSuccess: Boolean) -> Unit)? = null
+    ) {
+        var wasSuccess = false
+        val failedFileDirItems = java.util.ArrayList<FileDirItem>()
+        files.forEachIndexed { index, file ->
+            deleteFileBg(file, allowDeleteFolder, true) {
+                if (it) {
+                    wasSuccess = true
+                } else {
+                    failedFileDirItems.add(file)
+                }
+
+                if (index == files.lastIndex) {
+                    if (isRPlus() && failedFileDirItems.isNotEmpty()) {
+                        val fileUris = getFileUrisFromFileDirItems(failedFileDirItems)
+                        deleteSDK30Uris(fileUris) { success ->
+                            runOnUiThread {
+                                callback?.invoke(success)
+                            }
+                        }
+                    } else {
+                        runOnUiThread {
+                            callback?.invoke(wasSuccess)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteFileBg(
+        fileDirItem: FileDirItem,
+        allowDeleteFolder: Boolean = false,
+        isDeletingMultipleFiles: Boolean,
+        callback: ((wasSuccess: Boolean) -> Unit)? = null,
+    ) {
+        val path = fileDirItem.path
+        if (isRestrictedSAFOnlyRoot(path)) {
+            deleteAndroidSAFDirectory(path, allowDeleteFolder, callback)
+        } else {
+            val file = File(path)
+            if (!isRPlus() && file.absolutePath.startsWith(internalStoragePath) && !file.canWrite()) {
+                callback?.invoke(false)
+                return
+            }
+
+            var fileDeleted =
+                !isPathOnOTG(path) && ((!file.exists() && file.length() == 0L) || file.delete())
+            if (fileDeleted) {
+                deleteFromMediaStore(path) { needsRescan ->
+                    if (needsRescan) {
+                        rescanAndDeletePath(path) {
+                            runOnUiThread {
+                                callback?.invoke(true)
+                            }
+                        }
+                    } else {
+                        runOnUiThread {
+                            callback?.invoke(true)
+                        }
+                    }
+                }
+            } else {
+                if (getIsPathDirectory(file.absolutePath) && allowDeleteFolder) {
+                    fileDeleted = deleteRecursively(file, this)
+                }
+
+                if (!fileDeleted) {
+                    if (needsStupidWritePermissions(path)) {
+                        handleSAFDialog(path) {
+                            if (it) {
+                                trySAFFileDelete(fileDirItem, allowDeleteFolder, callback)
+                            }
+                        }
+                    } else if (isAccessibleWithSAFSdk30(path)) {
+                        if (canManageMedia()) {
+                            deleteSdk30(fileDirItem, callback)
+                        } else {
+                            handleSAFDialogSdk30(path) {
+                                if (it) {
+                                    deleteDocumentWithSAFSdk30(
+                                        fileDirItem,
+                                        allowDeleteFolder,
+                                        callback
+                                    )
+                                }
+                            }
+                        }
+                    } else if (isRPlus() && !isDeletingMultipleFiles) {
+                        deleteSdk30(fileDirItem, callback)
+                    } else {
+                        callback?.invoke(false)
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun checkWhatsNew(releases: List<Release>, currVersion: Int) {
+        if (baseConfig.lastVersion == 0) {
+            baseConfig.lastVersion = currVersion
+            return
+        }
+
+        val newReleases = arrayListOf<Release>()
+        releases.filterTo(newReleases) { it.id > baseConfig.lastVersion }
+
+        if (newReleases.isNotEmpty()) {
+            WhatsNewDialog(this, newReleases)
+        }
+
+        baseConfig.lastVersion = currVersion
+    }
+
+
+    private fun deleteSdk30(
+        fileDirItem: FileDirItem,
+        callback: ((wasSuccess: Boolean) -> Unit)?
+    ) {
+        val fileUris = getFileUrisFromFileDirItems(arrayListOf(fileDirItem))
+        deleteSDK30Uris(fileUris) { success ->
+            runOnUiThread {
+                callback?.invoke(success)
+            }
+        }
+    }
+
+
+    fun renameFile(
+        oldPath: String,
+        newPath: String,
+        isRenamingMultipleFiles: Boolean,
+        callback: ((success: Boolean, android30RenameFormat: Android30RenameFormat) -> Unit)? = null
+    ) {
+        if (isRestrictedSAFOnlyRoot(oldPath)) {
+            handleAndroidSAFDialog(oldPath) {
+                if (!it) {
+                    runOnUiThread {
+                        callback?.invoke(false, Android30RenameFormat.NONE)
+                    }
+                    return@handleAndroidSAFDialog
+                }
+
+                try {
+                    ensureBackgroundThread {
+                        val success = renameAndroidSAFDocument(oldPath, newPath)
+                        runOnUiThread {
+                            callback?.invoke(success, Android30RenameFormat.NONE)
+                        }
+                    }
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                    runOnUiThread {
+                        callback?.invoke(false, Android30RenameFormat.NONE)
+                    }
+                }
+            }
+        } else if (isAccessibleWithSAFSdk30(oldPath)) {
+            if (canManageMedia() && !File(oldPath).isDirectory && isPathOnInternalStorage(oldPath)) {
+                renameCasually(oldPath, newPath, isRenamingMultipleFiles, callback)
+            } else {
+                handleSAFDialogSdk30(oldPath) {
+                    if (!it) {
+                        return@handleSAFDialogSdk30
+                    }
+
+                    try {
+                        ensureBackgroundThread {
+                            val success = renameDocumentSdk30(oldPath, newPath)
+                            if (success) {
+                                updateInMediaStore(oldPath, newPath)
+                                rescanPath(newPath) {
+                                    runOnUiThread {
+                                        callback?.invoke(true, Android30RenameFormat.NONE)
+                                    }
+                                    if (!oldPath.equals(newPath, true)) {
+                                        deleteFromMediaStore(oldPath)
+                                    }
+                                    scanPathRecursively(newPath)
+                                }
+                            } else {
+                                runOnUiThread {
+                                    callback?.invoke(false, Android30RenameFormat.NONE)
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        showErrorToast(e)
+                        runOnUiThread {
+                            callback?.invoke(false, Android30RenameFormat.NONE)
+                        }
+                    }
+                }
+            }
+        } else if (needsStupidWritePermissions(newPath)) {
+            handleSAFDialog(newPath) {
+                if (!it) {
+                    return@handleSAFDialog
+                }
+
+                val document = getSomeDocumentFile(oldPath)
+                if (document == null || (File(oldPath).isDirectory != document.isDirectory)) {
+                    runOnUiThread {
+                        toast(R.string.unknown_error_occurred)
+                        callback?.invoke(false, Android30RenameFormat.NONE)
+                    }
+                    return@handleSAFDialog
+                }
+
+                try {
+                    ensureBackgroundThread {
+                        try {
+                            DocumentsContract.renameDocument(
+                                applicationContext.contentResolver,
+                                document.uri,
+                                newPath.getFilenameFromPath()
+                            )
+                        } catch (ignored: FileNotFoundException) {
+                            // FileNotFoundException is thrown in some weird cases, but renaming works just fine
+                        } catch (e: Exception) {
+                            showErrorToast(e)
+                            callback?.invoke(false, Android30RenameFormat.NONE)
+                            return@ensureBackgroundThread
+                        }
+
+                        updateInMediaStore(oldPath, newPath)
+                        rescanPaths(arrayListOf(oldPath, newPath)) {
+                            if (!baseConfig.keepLastModified) {
+                                updateLastModified(newPath, System.currentTimeMillis())
+                            }
+                            deleteFromMediaStore(oldPath)
+                            runOnUiThread {
+                                callback?.invoke(true, Android30RenameFormat.NONE)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                    runOnUiThread {
+                        callback?.invoke(false, Android30RenameFormat.NONE)
+                    }
+                }
+            }
+        } else renameCasually(oldPath, newPath, isRenamingMultipleFiles, callback)
+    }
+
+    private fun renameCasually(
+        oldPath: String,
+        newPath: String,
+        isRenamingMultipleFiles: Boolean,
+        callback: ((success: Boolean, android30RenameFormat: Android30RenameFormat) -> Unit)?
+    ) {
+        val oldFile = File(oldPath)
+        val newFile = File(newPath)
+        val tempFile = try {
+            createTempFile(oldFile) ?: return
+        } catch (exception: Exception) {
+            if (isRPlus() && exception is java.nio.file.FileSystemException) {
+                // if we are renaming multiple files at once, we should give the Android 30+ permission dialog all uris together, not one by one
+                if (isRenamingMultipleFiles) {
+                    callback?.invoke(false, Android30RenameFormat.CONTENT_RESOLVER)
+                } else {
+                    val fileUris =
+                        getFileUrisFromFileDirItems(arrayListOf(File(oldPath).toFileDirItem(this)))
+                    updateSDK30Uris(fileUris) { success ->
+                        if (success) {
+                            val values = ContentValues().apply {
+                                put(Images.Media.DISPLAY_NAME, newPath.getFilenameFromPath())
+                            }
+
+                            try {
+                                contentResolver.update(fileUris.first(), values, null, null)
+                                callback?.invoke(true, Android30RenameFormat.NONE)
+                            } catch (e: Exception) {
+                                showErrorToast(e)
+                                callback?.invoke(false, Android30RenameFormat.NONE)
+                            }
+                        } else {
+                            callback?.invoke(false, Android30RenameFormat.NONE)
+                        }
+                    }
+                }
+            } else {
+                if (exception is IOException && File(oldPath).isDirectory && isRestrictedWithSAFSdk30(
+                        oldPath
+                    )
+                ) {
+                    toast(R.string.cannot_rename_folder)
+                } else {
+                    showErrorToast(exception)
+                }
+                callback?.invoke(false, Android30RenameFormat.NONE)
+            }
+            return
+        }
+
+        val oldToTempSucceeds = oldFile.renameTo(tempFile)
+        val tempToNewSucceeds = tempFile.renameTo(newFile)
+        if (oldToTempSucceeds && tempToNewSucceeds) {
+            if (newFile.isDirectory) {
+                updateInMediaStore(oldPath, newPath)
+                rescanPath(newPath) {
+                    runOnUiThread {
+                        callback?.invoke(true, Android30RenameFormat.NONE)
+                    }
+                    if (!oldPath.equals(newPath, true)) {
+                        deleteFromMediaStore(oldPath)
+                    }
+                    scanPathRecursively(newPath)
+                }
+            } else {
+                if (!baseConfig.keepLastModified) {
+                    newFile.setLastModified(System.currentTimeMillis())
+                }
+                updateInMediaStore(oldPath, newPath)
+                scanPathsRecursively(arrayListOf(newPath)) {
+                    if (!oldPath.equals(newPath, true)) {
+                        deleteFromMediaStore(oldPath)
+                    }
+                    runOnUiThread {
+                        callback?.invoke(true, Android30RenameFormat.NONE)
+                    }
+                }
+            }
+        } else {
+            tempFile.delete()
+            newFile.delete()
+            if (isRPlus()) {
+                // if we are renaming multiple files at once, we should give the Android 30+ permission dialog all uris together, not one by one
+                if (isRenamingMultipleFiles) {
+                    callback?.invoke(false, Android30RenameFormat.SAF)
+                } else {
+                    val fileUris =
+                        getFileUrisFromFileDirItems(arrayListOf(File(oldPath).toFileDirItem(this)))
+                    updateSDK30Uris(fileUris) { success ->
+                        if (!success) {
+                            return@updateSDK30Uris
+                        }
+                        try {
+                            val sourceUri = fileUris.first()
+                            val sourceFile = File(oldPath).toFileDirItem(this)
+
+                            if (oldPath.equals(newPath, true)) {
+                                val tempDestination = try {
+                                    createTempFile(
+                                        File(
+                                            sourceFile.path
+                                        )
+                                    ) ?: return@updateSDK30Uris
+                                } catch (exception: Exception) {
+                                    showErrorToast(exception)
+                                    callback?.invoke(false, Android30RenameFormat.NONE)
+                                    return@updateSDK30Uris
+                                }
+
+                                val copyTempSuccess =
+                                    copySingleFileSdk30(
+                                        sourceFile,
+                                        tempDestination.toFileDirItem(this)
+                                    )
+                                if (copyTempSuccess) {
+                                    contentResolver.delete(sourceUri, null)
+                                    tempDestination.renameTo(File(newPath))
+                                    if (!baseConfig.keepLastModified) {
+                                        newFile.setLastModified(System.currentTimeMillis())
+                                    }
+                                    updateInMediaStore(oldPath, newPath)
+                                    scanPathsRecursively(arrayListOf(newPath)) {
+                                        runOnUiThread {
+                                            callback?.invoke(true, Android30RenameFormat.NONE)
+                                        }
+                                    }
+                                } else {
+                                    callback?.invoke(false, Android30RenameFormat.NONE)
+                                }
+                            } else {
+                                val destinationFile = FileDirItem(
+                                    newPath,
+                                    newPath.getFilenameFromPath(),
+                                    sourceFile.isDirectory,
+                                    sourceFile.children,
+                                    sourceFile.size,
+                                    sourceFile.modified
+                                )
+                                val copySuccessful =
+                                    copySingleFileSdk30(sourceFile, destinationFile)
+                                if (copySuccessful) {
+                                    if (!baseConfig.keepLastModified) {
+                                        newFile.setLastModified(System.currentTimeMillis())
+                                    }
+                                    contentResolver.delete(sourceUri, null)
+                                    updateInMediaStore(oldPath, newPath)
+                                    scanPathsRecursively(arrayListOf(newPath)) {
+                                        runOnUiThread {
+                                            callback?.invoke(true, Android30RenameFormat.NONE)
+                                        }
+                                    }
+                                } else {
+                                    toast(R.string.unknown_error_occurred)
+                                    callback?.invoke(false, Android30RenameFormat.NONE)
+                                }
+                            }
+
+                        } catch (e: Exception) {
+                            showErrorToast(e)
+                            callback?.invoke(false, Android30RenameFormat.NONE)
+                        }
+                    }
+                }
+            } else {
+                toast(R.string.unknown_error_occurred)
+                callback?.invoke(false, Android30RenameFormat.NONE)
+            }
+        }
+    }
+
+    fun getFileOutputStream(
+        fileDirItem: FileDirItem,
+        allowCreatingNewFile: Boolean = false,
+        callback: (outputStream: OutputStream?) -> Unit
+    ) {
+        val targetFile = File(fileDirItem.path)
+        when {
+            isRestrictedSAFOnlyRoot(fileDirItem.path) -> {
+                handleAndroidSAFDialog(fileDirItem.path) {
+                    if (!it) {
+                        return@handleAndroidSAFDialog
+                    }
+
+                    val uri = getAndroidSAFUri(fileDirItem.path)
+                    if (!getDoesFilePathExist(fileDirItem.path)) {
+                        createAndroidSAFFile(fileDirItem.path)
+                    }
+                    callback.invoke(applicationContext.contentResolver.openOutputStream(uri, "wt"))
+                }
+            }
+
+            needsStupidWritePermissions(fileDirItem.path) -> {
+                handleSAFDialog(fileDirItem.path) {
+                    if (!it) {
+                        return@handleSAFDialog
+                    }
+
+                    var document = getDocumentFile(fileDirItem.path)
+                    if (document == null && allowCreatingNewFile) {
+                        document = getDocumentFile(fileDirItem.getParentPath())
+                    }
+
+                    if (document == null) {
+                        showFileCreateError(fileDirItem.path)
+                        callback(null)
+                        return@handleSAFDialog
+                    }
+
+                    if (!getDoesFilePathExist(fileDirItem.path)) {
+                        document = getDocumentFile(fileDirItem.path) ?: document.createFile(
+                            "",
+                            fileDirItem.name
+                        )
+                    }
+
+                    if (document?.exists() == true) {
+                        try {
+                            callback(
+                                applicationContext.contentResolver.openOutputStream(
+                                    document.uri,
+                                    "wt"
+                                )
+                            )
+                        } catch (e: FileNotFoundException) {
+                            showErrorToast(e)
+                            callback(null)
+                        }
+                    } else {
+                        showFileCreateError(fileDirItem.path)
+                        callback(null)
+                    }
+                }
+            }
+
+            isAccessibleWithSAFSdk30(fileDirItem.path) -> {
+                handleSAFDialogSdk30(fileDirItem.path) {
+                    if (!it) {
+                        return@handleSAFDialogSdk30
+                    }
+
+                    callback.invoke(
+                        try {
+                            val uri = createDocumentUriUsingFirstParentTreeUri(fileDirItem.path)
+                            if (!getDoesFilePathExist(fileDirItem.path)) {
+                                createSAFFileSdk30(fileDirItem.path)
+                            }
+                            applicationContext.contentResolver.openOutputStream(uri, "wt")
+                        } catch (e: Exception) {
+                            null
+                        } ?: createCasualFileOutputStream(targetFile)
+                    )
+                }
+            }
+
+            isRestrictedWithSAFSdk30(fileDirItem.path) -> {
+                callback.invoke(
+                    try {
+                        val fileUri = getFileUrisFromFileDirItems(arrayListOf(fileDirItem))
+                        applicationContext.contentResolver.openOutputStream(fileUri.first(), "wt")
+                    } catch (e: Exception) {
+                        null
+                    } ?: createCasualFileOutputStream(targetFile)
+                )
+            }
+
+            else -> {
+                callback.invoke(createCasualFileOutputStream(targetFile))
+            }
+        }
+    }
+
+
+    fun copySingleFileSdk30(source: FileDirItem, destination: FileDirItem): Boolean {
+        val directory = destination.getParentPath()
+        if (!createDirectorySync(directory)) {
+            val error = String.format(getString(R.string.could_not_create_folder), directory)
+            showErrorToast(error)
+            return false
+        }
+
+        var inputStream: InputStream? = null
+        var out: OutputStream? = null
+        try {
+
+            out = getFileOutputStreamSync(destination.path, source.path.getMimeType())
+            inputStream = getFileInputStreamSync(source.path)!!
+
+            var copiedSize = 0L
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            var bytes = inputStream.read(buffer)
+            while (bytes >= 0) {
+                out!!.write(buffer, 0, bytes)
+                copiedSize += bytes
+                bytes = inputStream.read(buffer)
+            }
+
+            out?.flush()
+
+            return if (source.size == copiedSize && getDoesFilePathExist(destination.path)) {
+                if (baseConfig.keepLastModified) {
+                    copyOldLastModified(source.path, destination.path)
+                    val lastModified = File(source.path).lastModified()
+                    if (lastModified != 0L) {
+                        File(destination.path).setLastModified(lastModified)
+                    }
+                }
+                true
+            } else {
+                false
+            }
+        } finally {
+            inputStream?.close()
+            out?.close()
+        }
+    }
+
+    private fun copyOldLastModified(sourcePath: String, destinationPath: String) {
+        val projection =
+            arrayOf(Images.Media.DATE_TAKEN, Images.Media.DATE_MODIFIED)
+        val uri = Files.getContentUri("external")
+        val selection = "${MediaStore.MediaColumns.DATA} = ?"
+        var selectionArgs = arrayOf(sourcePath)
+        val cursor =
+            applicationContext.contentResolver.query(
+                uri,
+                projection,
+                selection,
+                selectionArgs,
+                null
+            )
+
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                val dateTaken = cursor.getLongValue(Images.Media.DATE_TAKEN)
+                val dateModified = cursor.getIntValue(Images.Media.DATE_MODIFIED)
+
+                val values = ContentValues().apply {
+                    put(Images.Media.DATE_TAKEN, dateTaken)
+                    put(Images.Media.DATE_MODIFIED, dateModified)
+                }
+
+                selectionArgs = arrayOf(destinationPath)
+                applicationContext.contentResolver.update(uri, values, selection, selectionArgs)
+            }
+        }
+    }
+
+    private fun isShowingSAFDialog(path: String): Boolean {
+        return if ((!isRPlus() && isPathOnSD(path) && !isSDCardSetAsDefaultStorage() && (baseConfig.sdTreeUri.isEmpty() || !hasProperStoredTreeUri(
+                false
+            )))
+        ) {
+            runOnUiThread {
+                if (!isDestroyed && !isFinishing) {
+                    WritePermissionDialog(this, WritePermissionDialog.Mode.SdCard) {
+                        Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                            putExtra(EXTRA_SHOW_ADVANCED, true)
+                            try {
+                                startActivityForResult(this, OPEN_DOCUMENT_TREE_SD)
+                                checkedDocumentPath = path
+                                return@apply
+                            } catch (e: Exception) {
+                                type = "*/*"
+                            }
+
+                            try {
+                                startActivityForResult(this, OPEN_DOCUMENT_TREE_SD)
+                                checkedDocumentPath = path
+                            } catch (e: ActivityNotFoundException) {
+                                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                            } catch (e: Exception) {
+                                toast(R.string.unknown_error_occurred)
+                            }
+                        }
+                    }
+                }
+            }
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun isShowingSAFDialogSdk30(path: String): Boolean {
+        return if (isAccessibleWithSAFSdk30(path) && !hasProperStoredFirstParentUri(path)) {
+            runOnUiThread {
+                if (!isDestroyed && !isFinishing) {
+                    val level = getFirstParentLevel(path)
+                    WritePermissionDialog(
+                        this,
+                        WritePermissionDialog.Mode.OpenDocumentTreeSDK30(
+                            path.getFirstParentPath(
+                                this,
+                                level
+                            )
+                        )
+                    ) {
+                        Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                            putExtra(EXTRA_SHOW_ADVANCED, true)
+                            putExtra(
+                                DocumentsContract.EXTRA_INITIAL_URI,
+                                createFirstParentTreeUriUsingRootTree(path)
+                            )
+                            try {
+                                startActivityForResult(this, OPEN_DOCUMENT_TREE_FOR_SDK_30)
+                                checkedDocumentPath = path
+                                return@apply
+                            } catch (e: Exception) {
+                                type = "*/*"
+                            }
+
+                            try {
+                                startActivityForResult(this, OPEN_DOCUMENT_TREE_FOR_SDK_30)
+                                checkedDocumentPath = path
+                            } catch (e: ActivityNotFoundException) {
+                                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                            } catch (e: Exception) {
+                                toast(R.string.unknown_error_occurred)
+                            }
+                        }
+                    }
+                }
+            }
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun isShowingSAFCreateDocumentDialogSdk30(path: String): Boolean {
+        return if (!hasProperStoredDocumentUriSdk30(path)) {
+            runOnUiThread {
+                if (!isDestroyed && !isFinishing) {
+                    WritePermissionDialog(this, WritePermissionDialog.Mode.CreateDocumentSDK30) {
+                        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                            type = DocumentsContract.Document.MIME_TYPE_DIR
+                            putExtra(EXTRA_SHOW_ADVANCED, true)
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            putExtra(
+                                DocumentsContract.EXTRA_INITIAL_URI,
+                                buildDocumentUriSdk30(path.getParentPath())
+                            )
+                            putExtra(Intent.EXTRA_TITLE, path.getFilenameFromPath())
+                            try {
+                                startActivityForResult(this, CREATE_DOCUMENT_SDK_30)
+                                checkedDocumentPath = path
+                                return@apply
+                            } catch (e: Exception) {
+                                type = "*/*"
+                            }
+
+                            try {
+                                startActivityForResult(this, CREATE_DOCUMENT_SDK_30)
+                                checkedDocumentPath = path
+                            } catch (e: ActivityNotFoundException) {
+                                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                            } catch (e: Exception) {
+                                toast(R.string.unknown_error_occurred)
+                            }
+                        }
+                    }
+                }
+            }
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun isShowingAndroidSAFDialog(path: String): Boolean {
+        return if (isRestrictedSAFOnlyRoot(path) && (getAndroidTreeUri(path).isEmpty() || !hasProperStoredAndroidTreeUri(
+                path
+            ))
+        ) {
+            runOnUiThread {
+                if (!isDestroyed && !isFinishing) {
+                    ConfirmationAdvancedDialog(
+                        this,
+                        "",
+                        R.string.confirm_storage_access_android_text,
+                        R.string.ok,
+                        R.string.cancel
+                    ) { success ->
+                        if (success) {
+                            Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                                putExtra(EXTRA_SHOW_ADVANCED, true)
+                                putExtra(
+                                    DocumentsContract.EXTRA_INITIAL_URI,
+                                    createAndroidDataOrObbUri(path)
+                                )
+                                try {
+                                    startActivityForResult(
+                                        this,
+                                        OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB
+                                    )
+                                    checkedDocumentPath = path
+                                    return@apply
+                                } catch (e: Exception) {
+                                    type = "*/*"
+                                }
+
+                                try {
+                                    startActivityForResult(
+                                        this,
+                                        OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB
+                                    )
+                                    checkedDocumentPath = path
+                                } catch (e: ActivityNotFoundException) {
+                                    toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                                } catch (e: Exception) {
+                                    toast(R.string.unknown_error_occurred)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun isShowingOTGDialog(path: String): Boolean {
+        return if (!isRPlus() && isPathOnOTG(path) && (baseConfig.OTGTreeUri.isEmpty() || !hasProperStoredTreeUri(
+                true
+            ))
+        ) {
+            showOTGPermissionDialog(path)
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun showOTGPermissionDialog(path: String) {
+        runOnUiThread {
+            if (!isDestroyed && !isFinishing) {
+                WritePermissionDialog(this, WritePermissionDialog.Mode.Otg) {
+                    Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                        try {
+                            startActivityForResult(this, OPEN_DOCUMENT_TREE_OTG)
+                            checkedDocumentPath = path
+                            return@apply
+                        } catch (e: Exception) {
+                            type = "*/*"
+                        }
+
+                        try {
+                            startActivityForResult(this, OPEN_DOCUMENT_TREE_OTG)
+                            checkedDocumentPath = path
+                        } catch (e: ActivityNotFoundException) {
+                            toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                        } catch (e: Exception) {
+                            toast(R.string.unknown_error_occurred)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun deleteFile(
+        fileDirItem: FileDirItem,
+        allowDeleteFolder: Boolean = false,
+        isDeletingMultipleFiles: Boolean,
+        callback: ((wasSuccess: Boolean) -> Unit)? = null
+    ) {
+        ensureBackgroundThread {
+            deleteFileBg(fileDirItem, allowDeleteFolder, isDeletingMultipleFiles, callback)
+        }
+    }
+
+
+    fun resizeImage(
+        oldPath: String,
+        newPath: String,
+        size: Point,
+        callback: (success: Boolean) -> Unit
+    ) {
+        var oldExif: ExifInterface? = null
+        if (isNougatPlus()) {
+            val inputStream = contentResolver.openInputStream(Uri.fromFile(File(oldPath)))
+            oldExif = ExifInterface(inputStream!!)
+        }
+
+        val newBitmap =
+            Glide.with(applicationContext).asBitmap().load(oldPath).submit(size.x, size.y).get()
+
+        val newFile = File(newPath)
+        val newFileDirItem = FileDirItem(newPath, newPath.getFilenameFromPath())
+        getFileOutputStream(newFileDirItem, true) { out ->
+            if (out != null) {
+                out.use {
+                    try {
+                        newBitmap.compress(newFile.absolutePath.getCompressionFormat(), 90, out)
+
+                        if (isNougatPlus()) {
+                            val newExif = ExifInterface(newFile.absolutePath)
+                            oldExif?.copyNonDimensionAttributesTo(newExif)
+                        }
+                    } catch (ignored: Exception) {
+                    }
+
+                    callback(true)
+                }
+            } else {
+                callback(false)
+            }
+        }
+    }
+
+    fun rescanPathsAndUpdateLastModified(
+        paths: ArrayList<String>,
+        pathLastModifiedMap: Map<String, Long>,
+        callback: () -> Unit
+    ) {
+        fixDateTaken(paths, false)
+        for (path in paths) {
+            val file = File(path)
+            val lastModified = pathLastModifiedMap[path]
+            if (config.keepLastModified && lastModified != null && lastModified != 0L) {
+                File(file.absolutePath).setLastModified(lastModified)
+                updateLastModified(file.absolutePath, lastModified)
+            }
+        }
+        rescanPaths(paths, callback)
+    }
+
+    private fun createCasualFileOutputStream(targetFile: File): OutputStream? {
+
+        if (targetFile.parentFile?.exists() == false) {
+            targetFile.parentFile?.mkdirs()
+        }
+
+        return try {
+            FileOutputStream(targetFile)
+        } catch (e: Exception) {
+            showErrorToast(e)
+            null
+        }
+
+    }
+
+    private fun tryRotateByExif(
+        path: String,
+        degrees: Int,
+        showToasts: Boolean,
+        callback: () -> Unit
+    ): Boolean {
+
+        return try {
+            val file = File(path)
+            val oldLastModified = file.lastModified()
+            if (saveImageRotation(path, degrees)) {
+                fileRotatedSuccessfully(path, oldLastModified)
+                callback.invoke()
+                if (showToasts) {
+                    toast(R.string.file_saved)
+                }
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            // lets not show IOExceptions, rotating is saved just fine even with them
+            if (showToasts && e !is IOException) {
+                showErrorToast(e)
+            }
+            false
+        }
+
+    }
+
+    private fun createTempFile(file: File): File? {
+        return if (file.isDirectory) {
+            createTempDir("temp", "${System.currentTimeMillis()}", file.parentFile)
+        } else {
+            if (isRPlus()) {
+                // this can throw FileSystemException, lets catch and handle it at the place calling this function
+                kotlin.io.path.createTempFile(
+                    file.parentFile.toPath(),
+                    "temp",
+                    "${System.currentTimeMillis()}"
+                ).toFile()
+            } else {
+                createTempFile("temp", "${System.currentTimeMillis()}", file.parentFile)
+            }
+        }
+    }
+
+    private fun onApplyWindowInsets(callback: (WindowInsetsCompat) -> Unit){
+        window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+            callback(WindowInsetsCompat.toWindowInsetsCompat(insets))
+            view.onApplyWindowInsets(insets)
+            insets
+        }
+    }
+
 }

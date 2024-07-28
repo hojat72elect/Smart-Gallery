@@ -13,7 +13,6 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameItemsPatternBinding
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.copySingleFileSdk30
 import com.simplemobiletools.gallery.pro.extensions.ensureTwoDigits
 import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
@@ -21,7 +20,6 @@ import com.simplemobiletools.gallery.pro.extensions.getParentPath
 import com.simplemobiletools.gallery.pro.extensions.getUrisPathsFromFileDirItems
 import com.simplemobiletools.gallery.pro.extensions.isMediaFile
 import com.simplemobiletools.gallery.pro.extensions.isPathOnSD
-import com.simplemobiletools.gallery.pro.extensions.renameFile
 import com.simplemobiletools.gallery.pro.extensions.scanPathsRecursively
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toFileDirItem

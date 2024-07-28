@@ -23,7 +23,7 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class PickMediumDialog(
     val activity: BaseSimpleActivity,
@@ -79,6 +79,7 @@ class PickMediumDialog(
             gotMedia(it)
         }.execute()
     }
+
 
 
     private fun showOtherFolder() {

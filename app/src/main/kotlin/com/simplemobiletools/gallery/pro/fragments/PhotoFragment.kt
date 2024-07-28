@@ -20,6 +20,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90
@@ -71,7 +72,6 @@ import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.adapters.PortraitPhotosAdapter
 import com.simplemobiletools.gallery.pro.databinding.PagerPhotoItemBinding
 import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.saveRotatedImageToFile
 import com.simplemobiletools.gallery.pro.extensions.sendFakeClick
 import com.simplemobiletools.gallery.pro.helpers.HIGH_TILE_DPI
 import com.simplemobiletools.gallery.pro.helpers.LOW_TILE_DPI
@@ -98,6 +98,7 @@ import pl.droidsonroids.gif.InputSource
 
 @UnstableApi
 @SuppressLint("WrongThread", "ClickableViewAccessibility")
+@RequiresApi(Build.VERSION_CODES.O)
 class PhotoFragment : ViewPagerFragment() {
 
     var mCurrentRotationDegrees = 0
@@ -784,6 +785,7 @@ class PhotoFragment : ViewPagerFragment() {
                     mIsSubsamplingVisible = false
                     beGone()
                 }
+
 
                 override fun onImageRotation(degrees: Int) {
                     val fullRotation = (rotation + degrees) % 360

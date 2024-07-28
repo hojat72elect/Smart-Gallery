@@ -18,14 +18,12 @@ import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.deleteDBPath
-import com.simplemobiletools.gallery.pro.extensions.deleteFiles
 import com.simplemobiletools.gallery.pro.extensions.getCachedMedia
 import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.isMediaFile
 import com.simplemobiletools.gallery.pro.extensions.isVideoFast
-import com.simplemobiletools.gallery.pro.extensions.movePathsInRecycleBin
 import com.simplemobiletools.gallery.pro.extensions.openPath
 import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.toast

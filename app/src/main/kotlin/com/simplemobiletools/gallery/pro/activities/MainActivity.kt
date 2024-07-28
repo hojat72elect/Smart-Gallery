@@ -38,10 +38,8 @@ import com.simplemobiletools.gallery.pro.extensions.areSystemAnimationsEnabled
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
-import com.simplemobiletools.gallery.pro.extensions.checkWhatsNew
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.createDirectoryFromMedia
-import com.simplemobiletools.gallery.pro.extensions.deleteFiles
 import com.simplemobiletools.gallery.pro.extensions.directoryDB
 import com.simplemobiletools.gallery.pro.extensions.getCachedDirectories
 import com.simplemobiletools.gallery.pro.extensions.getCachedMedia
@@ -69,7 +67,6 @@ import com.simplemobiletools.gallery.pro.extensions.handleAppPasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleExcludedFolderPasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleHiddenFolderPasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleLockedFolderOpening
-import com.simplemobiletools.gallery.pro.extensions.handleMediaManagementPrompt
 import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
@@ -84,12 +81,9 @@ import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRawFast
 import com.simplemobiletools.gallery.pro.extensions.isSvg
 import com.simplemobiletools.gallery.pro.extensions.isVideoFast
-import com.simplemobiletools.gallery.pro.extensions.launchAbout
 import com.simplemobiletools.gallery.pro.extensions.launchCamera
 import com.simplemobiletools.gallery.pro.extensions.launchMoreAppsFromUsIntent
-import com.simplemobiletools.gallery.pro.extensions.launchSettings
 import com.simplemobiletools.gallery.pro.extensions.mediaDB
-import com.simplemobiletools.gallery.pro.extensions.movePathsInRecycleBin
 import com.simplemobiletools.gallery.pro.extensions.movePinnedDirectoriesToFront
 import com.simplemobiletools.gallery.pro.extensions.openRecycleBin
 import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
@@ -99,7 +93,6 @@ import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.storeDirectoryItems
 import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.tryDeleteFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.underlineText
 import com.simplemobiletools.gallery.pro.extensions.updateDBDirectory
 import com.simplemobiletools.gallery.pro.extensions.updateWidgets

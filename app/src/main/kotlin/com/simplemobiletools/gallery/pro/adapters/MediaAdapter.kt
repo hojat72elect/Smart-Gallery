@@ -52,7 +52,6 @@ import com.simplemobiletools.gallery.pro.extensions.getParentPath
 import com.simplemobiletools.gallery.pro.extensions.getShortcutImage
 import com.simplemobiletools.gallery.pro.extensions.getTimeFormat
 import com.simplemobiletools.gallery.pro.extensions.handleDeletePasswordProtection
-import com.simplemobiletools.gallery.pro.extensions.handleMediaManagementPrompt
 import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
 import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.isAStorageRootFolder
@@ -61,8 +60,6 @@ import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
 import com.simplemobiletools.gallery.pro.extensions.isImageFast
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRestrictedWithSAFSdk30
-import com.simplemobiletools.gallery.pro.extensions.launchResizeImageDialog
-import com.simplemobiletools.gallery.pro.extensions.launchResizeMultipleImagesDialog
 import com.simplemobiletools.gallery.pro.extensions.loadImage
 import com.simplemobiletools.gallery.pro.extensions.needsStupidWritePermissions
 import com.simplemobiletools.gallery.pro.extensions.openEditor
@@ -70,17 +67,12 @@ import com.simplemobiletools.gallery.pro.extensions.openPath
 import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.rescanFolderMedia
 import com.simplemobiletools.gallery.pro.extensions.rescanPaths
-import com.simplemobiletools.gallery.pro.extensions.restoreRecycleBinPaths
-import com.simplemobiletools.gallery.pro.extensions.saveRotatedImageToFile
 import com.simplemobiletools.gallery.pro.extensions.setAs
 import com.simplemobiletools.gallery.pro.extensions.shareMediaPaths
 import com.simplemobiletools.gallery.pro.extensions.shareMediumPath
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.toggleFileVisibility
-import com.simplemobiletools.gallery.pro.extensions.tryCopyMoveFilesTo
 import com.simplemobiletools.gallery.pro.extensions.updateDBMediaPath
 import com.simplemobiletools.gallery.pro.extensions.updateFavorite
-import com.simplemobiletools.gallery.pro.extensions.updateFavoritePaths
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_BIG

@@ -45,7 +45,6 @@ import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.extensions.deleteFileBg
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream

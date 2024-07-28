@@ -83,7 +83,6 @@ import com.simplemobiletools.gallery.pro.extensions.getStringValue
 import com.simplemobiletools.gallery.pro.extensions.getUriMimeType
 import com.simplemobiletools.gallery.pro.extensions.handleDeletePasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleLockedFolderOpening
-import com.simplemobiletools.gallery.pro.extensions.handleMediaManagementPrompt
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
 import com.simplemobiletools.gallery.pro.extensions.hideSystemUI
@@ -97,10 +96,7 @@ import com.simplemobiletools.gallery.pro.extensions.isPortrait
 import com.simplemobiletools.gallery.pro.extensions.isRawFast
 import com.simplemobiletools.gallery.pro.extensions.isSvg
 import com.simplemobiletools.gallery.pro.extensions.isVideoFast
-import com.simplemobiletools.gallery.pro.extensions.launchResizeImageDialog
-import com.simplemobiletools.gallery.pro.extensions.launchSettings
 import com.simplemobiletools.gallery.pro.extensions.mediaDB
-import com.simplemobiletools.gallery.pro.extensions.movePathsInRecycleBin
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.navigationBarOnSide
 import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
@@ -111,8 +107,6 @@ import com.simplemobiletools.gallery.pro.extensions.openPath
 import com.simplemobiletools.gallery.pro.extensions.portrait
 import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.rescanPaths
-import com.simplemobiletools.gallery.pro.extensions.restoreRecycleBinPath
-import com.simplemobiletools.gallery.pro.extensions.saveRotatedImageToFile
 import com.simplemobiletools.gallery.pro.extensions.scanPathRecursively
 import com.simplemobiletools.gallery.pro.extensions.setAs
 import com.simplemobiletools.gallery.pro.extensions.shareMediumPath
@@ -121,13 +115,9 @@ import com.simplemobiletools.gallery.pro.extensions.showFileOnMap
 import com.simplemobiletools.gallery.pro.extensions.showSystemUI
 import com.simplemobiletools.gallery.pro.extensions.statusBarHeight
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.toggleFileVisibility
-import com.simplemobiletools.gallery.pro.extensions.tryCopyMoveFilesTo
-import com.simplemobiletools.gallery.pro.extensions.tryDeleteFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.tryGenericMimeType
 import com.simplemobiletools.gallery.pro.extensions.updateDBMediaPath
 import com.simplemobiletools.gallery.pro.extensions.updateFavorite
-import com.simplemobiletools.gallery.pro.extensions.updateFavoritePaths
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.fragments.PhotoFragment
 import com.simplemobiletools.gallery.pro.fragments.VideoFragment
