@@ -12,23 +12,3 @@ inline infix fun (() -> Unit).andThen(crossinline function: () -> Unit): () -> U
     this()
     function()
 }
-
-inline fun (() -> Unit).andThen(
-    crossinline function: () -> Unit,
-    crossinline function2: () -> Unit
-): () -> Unit = {
-    this()
-    function()
-    function2()
-}
-
-inline fun (() -> Unit).andThen(
-    crossinline function: () -> Unit,
-    crossinline function2: () -> Unit,
-    crossinline function3: () -> Unit,
-): () -> Unit = {
-    this()
-    function()
-    function2()
-    function3()
-}

@@ -52,7 +52,7 @@ import com.simplemobiletools.gallery.pro.models.asReadOnly
 import kotlinx.collections.immutable.toImmutableList
 
 class FileConflictDialog(
-    val activity: Activity, val fileDirItem: FileDirItem, val showApplyToAllCheckbox: Boolean,
+    val activity: Activity, val fileDirItem: FileDirItem, private val showApplyToAllCheckbox: Boolean,
     val callback: (resolution: Int, applyForAll: Boolean) -> Unit
 ) {
     val view = DialogFileConflictBinding.inflate(activity.layoutInflater, null, false)

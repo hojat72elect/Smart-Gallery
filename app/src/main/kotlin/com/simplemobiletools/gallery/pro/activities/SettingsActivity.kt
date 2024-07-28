@@ -945,7 +945,7 @@ class SettingsActivity : SimpleActivity() {
     private fun setupExportFavorites() {
         binding.settingsExportFavoritesHolder.setOnClickListener {
             if (isQPlus()) {
-                ExportFavoritesDialog(this, getExportFavoritesFilename(), true) { path, filename ->
+                ExportFavoritesDialog(this, getExportFavoritesFilename(), true) { _, filename ->
                     Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                         type = "text/plain"
                         putExtra(Intent.EXTRA_TITLE, filename)
@@ -970,7 +970,7 @@ class SettingsActivity : SimpleActivity() {
                             this,
                             getExportFavoritesFilename(),
                             false
-                        ) { path, filename ->
+                        ) { path, _ ->
                             val file = File(path)
                             getFileOutputStream(file.toFileDirItem(this), true) {
                                 exportFavoritesTo(it)

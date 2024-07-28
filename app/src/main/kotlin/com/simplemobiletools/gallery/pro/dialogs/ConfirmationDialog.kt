@@ -35,7 +35,7 @@ class ConfirmationDialog(
     message: String = "",
     messageId: Int = R.string.proceed_with_deletion, positive: Int = R.string.yes,
     negative: Int = R.string.no,
-    val cancelOnTouchOutside: Boolean = true,
+    private val cancelOnTouchOutside: Boolean = true,
     dialogTitle: String = "",
     val callback: () -> Unit
 ) {

@@ -22,13 +22,13 @@ import com.simplemobiletools.gallery.pro.views.MyViewPager
 class RenameDialog(
     val activity: BaseSimpleActivity,
     val paths: ArrayList<String>,
-    val useMediaFileExtension: Boolean,
+    private val useMediaFileExtension: Boolean,
     val callback: () -> Unit
 ) {
     var dialog: AlertDialog? = null
     val view = DialogRenameBinding.inflate(LayoutInflater.from(activity), null, false)
-    var tabsAdapter: RenameAdapter
-    var viewPager: MyViewPager
+    private var tabsAdapter: RenameAdapter
+    private var viewPager: MyViewPager
 
     init {
         view.apply {

@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.asynctasks
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentValues
@@ -50,18 +51,17 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.lang.ref.WeakReference
 
-
+@SuppressLint("StaticFieldLeak")
 @RequiresApi(Build.VERSION_CODES.O)
 class CopyMoveTask(
     val activity: BaseSimpleActivity,
-    val copyOnly: Boolean,
-    val copyMediaOnly: Boolean,
-    val conflictResolutions: LinkedHashMap<String, Int>,
+    private val copyOnly: Boolean,
+    private val copyMediaOnly: Boolean,
+    private val conflictResolutions: LinkedHashMap<String, Int>,
     listener: CopyMoveListener,
-    val copyHidden: Boolean
+    private val copyHidden: Boolean
 ) : AsyncTask<Pair<ArrayList<FileDirItem>, String>, Void, Boolean>() {
-    private val INITIAL_PROGRESS_DELAY = 3000L
-    private val PROGRESS_RECHECK_INTERVAL = 500L
+
 
     private var mListener: WeakReference<CopyMoveListener>? = null
     private var mTransferredFiles = ArrayList<FileDirItem>()
@@ -86,7 +86,8 @@ class CopyMoveTask(
         mNotificationBuilder = NotificationCompat.Builder(activity)
     }
 
-    override fun doInBackground(vararg params: Pair<ArrayList<FileDirItem>, String>): Boolean? {
+    @Deprecated("Deprecated in Java")
+    override fun doInBackground(vararg params: Pair<ArrayList<FileDirItem>, String>): Boolean {
         if (params.isEmpty()) {
             return false
         }
@@ -145,6 +146,7 @@ class CopyMoveTask(
         return true
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(success: Boolean) {
         if (activity.isFinishing || activity.isDestroyed) {
             return
@@ -215,7 +217,6 @@ class CopyMoveTask(
         }
     }
 
-
     private fun copyDirectory(source: FileDirItem, destinationPath: String) {
         if (!activity.createDirectorySync(destinationPath)) {
             val error =
@@ -272,7 +273,7 @@ class CopyMoveTask(
             mTransferredFiles.add(source)
         } else {
             val children = File(source.path).list()
-            for (child in children) {
+            for (child in children!!) {
                 val newPath = "$destinationPath/$child"
                 if (activity.getDoesFilePathExist(newPath)) {
                     continue
@@ -429,5 +430,10 @@ class CopyMoveTask(
                 )
             }
         }
+    }
+
+    companion object {
+        private const val INITIAL_PROGRESS_DELAY = 3000L
+        private const val PROGRESS_RECHECK_INTERVAL = 500L
     }
 }

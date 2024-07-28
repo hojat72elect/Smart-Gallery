@@ -14,16 +14,14 @@ import com.simplemobiletools.gallery.pro.extensions.showLocationOnMap
 import com.simplemobiletools.gallery.pro.extensions.value
 
 abstract class BasePropertiesDialog(activity: Activity) {
-    protected val mInflater: LayoutInflater
+    private val mInflater: LayoutInflater = LayoutInflater.from(activity)
     protected val mPropertyView: ViewGroup
-    protected val mResources: Resources
+    private val mResources: Resources = activity.resources
     protected val mActivity: Activity = activity
-    protected val mDialogView: DialogPropertiesBinding
+    protected val mDialogView: DialogPropertiesBinding =
+        DialogPropertiesBinding.inflate(mInflater, null, false)
 
     init {
-        mInflater = LayoutInflater.from(activity)
-        mResources = activity.resources
-        mDialogView = DialogPropertiesBinding.inflate(mInflater, null, false)
         mPropertyView = mDialogView.propertiesHolder
     }
 

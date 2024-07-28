@@ -6,15 +6,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.platform.LocalContext
-import com.simplemobiletools.gallery.pro.compose.theme.model.Theme.Companion.systemDefaultMaterialYou
 
-
-@Composable
-fun getCurrentTheme() = getTheme(
-    LocalContext.current,
-    systemDefaultMaterialYou()
-)
 
 @Composable
 @ReadOnlyComposable

@@ -2,21 +2,55 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.app.Activity
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.exifinterface.media.ExifInterface
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.extensions.*
-import com.simplemobiletools.gallery.pro.helpers.*
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.extensions.beGone
+import com.simplemobiletools.gallery.pro.extensions.canModifyEXIF
+import com.simplemobiletools.gallery.pro.extensions.formatAsResolution
+import com.simplemobiletools.gallery.pro.extensions.formatDate
+import com.simplemobiletools.gallery.pro.extensions.formatSize
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.getAndroidSAFUri
+import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.extensions.getExifCameraModel
+import com.simplemobiletools.gallery.pro.extensions.getExifDateTaken
+import com.simplemobiletools.gallery.pro.extensions.getExifProperties
+import com.simplemobiletools.gallery.pro.extensions.getFileInputStreamSync
+import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getIsPathDirectory
+import com.simplemobiletools.gallery.pro.extensions.getLongValue
+import com.simplemobiletools.gallery.pro.extensions.hasPermission
+import com.simplemobiletools.gallery.pro.extensions.isAudioSlow
+import com.simplemobiletools.gallery.pro.extensions.isImageSlow
+import com.simplemobiletools.gallery.pro.extensions.isPathOnInternalStorage
+import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
+import com.simplemobiletools.gallery.pro.extensions.isRestrictedSAFOnlyRoot
+import com.simplemobiletools.gallery.pro.extensions.isVideoSlow
+import com.simplemobiletools.gallery.pro.extensions.md5
+import com.simplemobiletools.gallery.pro.extensions.removeValues
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.helpers.PERMISSION_WRITE_STORAGE
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.sumByInt
+import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.views.MyTextView
 import java.io.File
-import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PropertiesDialog : BasePropertiesDialog {
     private var mCountHiddenItems = false
 

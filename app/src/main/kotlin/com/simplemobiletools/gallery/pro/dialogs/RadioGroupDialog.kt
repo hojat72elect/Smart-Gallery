@@ -47,10 +47,10 @@ import kotlinx.collections.immutable.toImmutableList
 class RadioGroupDialog(
     val activity: Activity,
     val items: ArrayList<RadioItem>,
-    val checkedItemId: Int = -1,
-    val titleId: Int = 0,
+    private val checkedItemId: Int = -1,
+    private val titleId: Int = 0,
     showOKButton: Boolean = false,
-    val cancelCallback: (() -> Unit)? = null,
+    private val cancelCallback: (() -> Unit)? = null,
     val callback: (newValue: Any) -> Unit
 ) {
     private var dialog: AlertDialog? = null
@@ -89,7 +89,7 @@ class RadioGroupDialog(
             .setOnCancelListener { cancelCallback?.invoke() }
 
         if (selectedItemId != -1 && showOKButton) {
-            builder.setPositiveButton(R.string.ok) { dialog, which -> itemSelected(selectedItemId) }
+            builder.setPositiveButton(R.string.ok) { _, _ -> itemSelected(selectedItemId) }
         }
 
         builder.apply {

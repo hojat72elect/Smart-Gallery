@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.WallpaperManager
 import android.content.Intent
@@ -114,7 +115,8 @@ import com.simplemobiletools.gallery.pro.models.ThumbnailSection
 import java.io.File
 import java.io.IOException
 
-@UnstableApi
+
+@SuppressLint("NewApi")
 class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
 
@@ -152,6 +154,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         private const val LAST_MEDIA_CHECK_PERIOD = 3000L
     }
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
@@ -338,7 +341,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
     private fun refreshMenuItems() {
         val isDefaultFolder =
-            !config.defaultFolder.isEmpty() && File(config.defaultFolder).compareTo(File(mPath)) == 0
+            config.defaultFolder.isNotEmpty() && File(config.defaultFolder).compareTo(File(mPath)) == 0
 
         binding.mediaMenu.getToolbar().menu.apply {
             findItem(R.id.group).isVisible = !config.scrollHorizontally
@@ -472,10 +475,10 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private fun tryLoadGallery() {
         handlePermission(getPermissionToRequest()) {
             if (it) {
-                val dirName = when {
-                    mPath == FAVORITES -> getString(R.string.favorites)
-                    mPath == RECYCLE_BIN -> getString(R.string.recycle_bin)
-                    mPath == config.OTGPath -> getString(R.string.usb)
+                val dirName = when (mPath) {
+                    FAVORITES -> getString(R.string.favorites)
+                    RECYCLE_BIN -> getString(R.string.recycle_bin)
+                    config.OTGPath -> getString(R.string.usb)
                     else -> getHumanizedFilename(mPath)
                 }
 

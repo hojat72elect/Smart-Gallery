@@ -10,6 +10,7 @@ import android.graphics.Point
 import android.graphics.SurfaceTexture
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -21,6 +22,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.SeekBar
+import androidx.annotation.RequiresApi
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -72,6 +74,7 @@ import com.simplemobiletools.gallery.pro.helpers.SHOW_NEXT_ITEM
 import com.simplemobiletools.gallery.pro.helpers.SHOW_PREV_ITEM
 import kotlin.math.abs
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 open class VideoPlayerActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListener,
     TextureView.SurfaceTextureListener {

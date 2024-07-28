@@ -13,13 +13,12 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme.Companion.systemDefaultMaterialYou
 import com.simplemobiletools.gallery.pro.helpers.isSPlus
-import com.simplemobiletools.gallery.pro.compose.extensions.config
 
 @Composable
 internal fun Theme(
@@ -28,7 +27,6 @@ internal fun Theme(
 ) {
     val view = LocalView.current
     val context = LocalContext.current
-    val configuration = LocalConfiguration.current
     val baseConfig = remember { context.config }
     val isSystemInDarkTheme = isSystemInDarkTheme()
 

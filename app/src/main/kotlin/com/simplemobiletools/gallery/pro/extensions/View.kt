@@ -1,12 +1,12 @@
 package com.simplemobiletools.gallery.pro.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.SystemClock
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import com.simplemobiletools.gallery.pro.helpers.SHORT_ANIMATION_DURATION
 import com.simplemobiletools.gallery.pro.R
 
 fun View.sendFakeClick(x: Float, y: Float) {
@@ -50,22 +50,12 @@ fun View.isVisible() = visibility == View.VISIBLE
 
 fun View.isGone() = visibility == View.GONE
 
-fun View.isInvisible() = visibility == View.INVISIBLE
-
 fun View.performHapticFeedback() = performHapticFeedback(
     HapticFeedbackConstants.VIRTUAL_KEY,
     HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
 )
 
-fun View.fadeIn() {
-    animate().alpha(1f).setDuration(SHORT_ANIMATION_DURATION).withStartAction { beVisible() }
-        .start()
-}
-
-fun View.fadeOut() {
-    animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction { beGone() }.start()
-}
-
+@SuppressLint("UseCompatLoadingForDrawables")
 fun View.setupViewBackground(context: Context) {
     background = if (context.baseConfig.isUsingSystemTheme) {
         resources.getDrawable(R.drawable.selector_clickable_you)

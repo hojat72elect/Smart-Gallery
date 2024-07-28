@@ -65,7 +65,7 @@ class FilepickerItemsAdapter(
             fileDirItem,
             allowSingleClick = true,
             allowLongClick = false
-        ) { itemView, adapterPosition ->
+        ) { itemView, _ ->
             setupView(ItemFilepickerListBinding.bind(itemView), fileDirItem)
         }
         bindViewHolder(holder)

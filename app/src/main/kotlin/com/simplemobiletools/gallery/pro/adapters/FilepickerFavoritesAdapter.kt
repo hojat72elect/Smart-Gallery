@@ -34,7 +34,7 @@ class FilepickerFavoritesAdapter(
             path,
             allowSingleClick = true,
             allowLongClick = false
-        ) { itemView, adapterPosition ->
+        ) { itemView, _ ->
             setupView(FilepickerFavoriteBinding.bind(itemView), path)
         }
         bindViewHolder(holder)

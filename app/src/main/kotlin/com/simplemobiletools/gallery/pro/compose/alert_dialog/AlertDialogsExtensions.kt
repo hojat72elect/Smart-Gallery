@@ -1,8 +1,6 @@
 package com.simplemobiletools.gallery.pro.compose.alert_dialog
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,15 +33,6 @@ val dialogContainerColor
             Color(context.baseConfig.backgroundColor)
         }
     }
-
-val Modifier.dialogBackgroundShapeAndBorder: Modifier
-    @ReadOnlyComposable
-    @Composable get() = then(
-        Modifier
-            .fillMaxWidth()
-            .background(dialogContainerColor, dialogShape)
-            .dialogBorder
-    )
 
 val dialogShape = Shapes.extraLarge
 

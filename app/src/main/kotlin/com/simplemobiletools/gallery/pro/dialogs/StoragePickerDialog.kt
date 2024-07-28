@@ -31,15 +31,11 @@ import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 @RequiresApi(Build.VERSION_CODES.O)
 class StoragePickerDialog(
     val activity: BaseSimpleActivity,
-    val currPath: String,
-    val showRoot: Boolean,
+    private val currPath: String,
+    private val showRoot: Boolean,
     pickSingleOption: Boolean,
     val callback: (pickedPath: String) -> Unit
 ) {
-    private val ID_INTERNAL = 1
-    private val ID_SD = 2
-    private val ID_OTG = 3
-    private val ID_ROOT = 4
 
     private lateinit var radioGroup: RadioGroup
     private var dialog: AlertDialog? = null
@@ -144,7 +140,6 @@ class StoragePickerDialog(
         callback(activity.sdCardPath)
     }
 
-
     private fun otgPicked() {
         activity.handleOTGPermission {
             if (it) {
@@ -159,5 +154,12 @@ class StoragePickerDialog(
     private fun rootPicked() {
         dialog?.dismiss()
         callback("/")
+    }
+
+    companion object{
+        private const val ID_INTERNAL = 1
+        private const val ID_SD = 2
+        private const val ID_OTG = 3
+        private const val ID_ROOT = 4
     }
 }

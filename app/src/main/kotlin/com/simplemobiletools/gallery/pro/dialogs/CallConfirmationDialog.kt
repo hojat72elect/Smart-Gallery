@@ -1,6 +1,5 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import android.view.animation.AnimationUtils
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
@@ -31,53 +30,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.databinding.DialogCallConfirmationBinding
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogBorder
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogContainerColor
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogElevation
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogShape
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogTextColor
+import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
+import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 
-class CallConfirmationDialog(
-    val activity: BaseSimpleActivity,
-    val callee: String,
-    private val callback: () -> Unit
-) {
-    private var view = DialogCallConfirmationBinding.inflate(activity.layoutInflater, null, false)
-
-    init {
-        view.callConfirmPhone.applyColorFilter(activity.getProperTextColor())
-        activity.getAlertDialogBuilder()
-            .setNegativeButton(R.string.cancel, null)
-            .apply {
-                val title =
-                    String.format(activity.getString(R.string.confirm_calling_person), callee)
-                activity.setupDialogStuff(view.root, this, titleText = title) { alertDialog ->
-                    view.callConfirmPhone.apply {
-                        startAnimation(
-                            AnimationUtils.loadAnimation(
-                                activity,
-                                R.anim.shake_pulse_animation
-                            )
-                        )
-                        setOnClickListener {
-                            callback.invoke()
-                            alertDialog.dismiss()
-                        }
-                    }
-                }
-            }
-    }
-}
 
 @Composable
 fun CallConfirmationAlertDialog(

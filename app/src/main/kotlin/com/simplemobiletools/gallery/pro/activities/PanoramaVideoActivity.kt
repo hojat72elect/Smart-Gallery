@@ -34,6 +34,8 @@ import com.simplemobiletools.gallery.pro.helpers.MIN_SKIP_LENGTH
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import java.io.File
+import kotlin.math.max
+import kotlin.math.min
 
 @RequiresApi(Build.VERSION_CODES.O)
 open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListener {
@@ -333,11 +335,11 @@ open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeList
         }
 
         val curr = binding.vrVideoView.currentPosition
-        val twoPercents = Math.max((binding.vrVideoView.duration / 50).toInt(), MIN_SKIP_LENGTH)
+        val twoPercents = max((binding.vrVideoView.duration / 50).toInt(), MIN_SKIP_LENGTH)
         val newProgress = if (forward) curr + twoPercents else curr - twoPercents
         val roundProgress = Math.round(newProgress / 1000f)
         val limitedProgress =
-            Math.max(Math.min(binding.vrVideoView.duration.toInt(), roundProgress), 0)
+            max(min(binding.vrVideoView.duration.toInt(), roundProgress), 0)
         setVideoProgress(limitedProgress)
         if (!mIsPlaying) {
             togglePlayPause()

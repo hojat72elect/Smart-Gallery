@@ -1,13 +1,16 @@
 package com.simplemobiletools.gallery.pro.activities
 
 import android.content.Intent
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import androidx.annotation.OptIn
+import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.favoritesDB
 import com.simplemobiletools.gallery.pro.extensions.getFavoriteFromPath
 import com.simplemobiletools.gallery.pro.extensions.mediaDB
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.models.Favorite
 
+@OptIn(UnstableApi::class)
 class SplashActivity : BaseSplashActivity() {
     override fun initActivity() {
         // check if previously selected favorite items have been properly migrated into the new Favorites table

@@ -1,6 +1,5 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import android.os.Bundle
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -16,9 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.FragmentManager
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.fragments.BaseBottomSheetDialogFragment
 import com.simplemobiletools.gallery.pro.adapters.setupSimpleListItem
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetColumnDialogSurface
 import com.simplemobiletools.gallery.pro.compose.bottom_sheet.BottomSheetDialogState
@@ -28,13 +25,14 @@ import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.databinding.ItemSimpleListBinding
+import com.simplemobiletools.gallery.pro.fragments.BaseBottomSheetDialogFragment
 import com.simplemobiletools.gallery.pro.models.SimpleListItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 open class BottomSheetChooserDialog : BaseBottomSheetDialogFragment() {
 
-    var onItemClick: ((SimpleListItem) -> Unit)? = null
+    private var onItemClick: ((SimpleListItem) -> Unit)? = null
 
     override fun setupContentView(parent: ViewGroup) {
         val listItems = arguments?.getParcelableArray(ITEMS) as Array<SimpleListItem>
@@ -53,27 +51,9 @@ open class BottomSheetChooserDialog : BaseBottomSheetDialogFragment() {
     }
 
     companion object {
-        private const val TAG = "BottomSheetChooserDialog"
+
         private const val ITEMS = "data"
 
-        fun createChooser(
-            fragmentManager: FragmentManager,
-            title: Int?,
-            items: Array<SimpleListItem>,
-            callback: (SimpleListItem) -> Unit
-        ): BottomSheetChooserDialog {
-            val extras = Bundle().apply {
-                if (title != null) {
-                    putInt(BOTTOM_SHEET_TITLE, title)
-                }
-                putParcelableArray(ITEMS, items)
-            }
-            return BottomSheetChooserDialog().apply {
-                arguments = extras
-                onItemClick = callback
-                show(fragmentManager, TAG)
-            }
-        }
     }
 }
 
@@ -109,7 +89,7 @@ fun ChooserBottomSheetDialog(
                 leadingContent = {
                     if (item.imageRes != null) {
                         Image(
-                            painter = painterResource(id = item.imageRes!!),
+                            painter = painterResource(id = item.imageRes),
                             contentDescription = stringResource(id = item.textRes),
                             colorFilter = ColorFilter.tint(color)
                         )

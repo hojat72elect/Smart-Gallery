@@ -418,6 +418,7 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener,
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == REQUEST_EDIT_IMAGE && resultCode == Activity.RESULT_OK && resultData != null) {
             mPos = -1

@@ -1616,7 +1616,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
 
         if (invalidDirs.isNotEmpty()) {
-            dirs.removeAll(invalidDirs)
+            dirs.removeAll(invalidDirs.toSet())
             setupAdapter(dirs)
             invalidDirs.forEach {
                 try {
@@ -1717,7 +1717,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                     }
                 }
 
-                oftenRepeatedPaths.removeAll(substringToRemove)
+                oftenRepeatedPaths.removeAll(substringToRemove.toSet())
                 val oTGPath = config.OTGPath
                 oftenRepeatedPaths.forEach {
                     val file = File("$internalPath/$it")

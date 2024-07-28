@@ -12,9 +12,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getContrastColor
@@ -22,7 +22,6 @@ import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.interfaces.MyActionModeCallback
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import kotlin.math.max
@@ -173,7 +172,7 @@ abstract class MyRecyclerViewAdapter(
 
     private fun updateTitle() {
         val selectableItemCount = getSelectableItemCount()
-        val selectedCount = Math.min(selectedKeys.size, selectableItemCount)
+        val selectedCount = min(selectedKeys.size, selectableItemCount)
         val oldTitle = actBarTextView?.text
         val newTitle = "$selectedCount / $selectableItemCount"
         if (oldTitle != newTitle) {
@@ -222,33 +221,31 @@ abstract class MyRecyclerViewAdapter(
         updateTitle()
     }
 
-    protected fun setupDragListener(enable: Boolean) {
-        if (enable) {
-            recyclerView.setupDragListener(object : MyRecyclerView.MyDragListener {
-                override fun selectItem(position: Int) {
-                    toggleItemSelection(true, position, true)
-                }
+    protected fun setupDragListener() {
 
-                override fun selectRange(
-                    initialSelection: Int,
-                    lastDraggedIndex: Int,
-                    minReached: Int,
-                    maxReached: Int
-                ) {
-                    selectItemRange(
-                        initialSelection,
-                        Math.max(0, lastDraggedIndex - positionOffset),
-                        Math.max(0, minReached - positionOffset),
-                        maxReached - positionOffset
-                    )
-                    if (minReached != maxReached) {
-                        lastLongPressedItem = -1
-                    }
+        recyclerView.setupDragListener(object : MyRecyclerView.MyDragListener {
+            override fun selectItem(position: Int) {
+                toggleItemSelection(true, position, true)
+            }
+
+            override fun selectRange(
+                initialSelection: Int,
+                lastDraggedIndex: Int,
+                minReached: Int,
+                maxReached: Int
+            ) {
+                selectItemRange(
+                    initialSelection,
+                    max(0, lastDraggedIndex - positionOffset),
+                    max(0, minReached - positionOffset),
+                    maxReached - positionOffset
+                )
+                if (minReached != maxReached) {
+                    lastLongPressedItem = -1
                 }
-            })
-        } else {
-            recyclerView.setupDragListener(null)
-        }
+            }
+        })
+
     }
 
     protected fun selectItemRange(from: Int, to: Int, min: Int, max: Int) {
@@ -294,23 +291,11 @@ abstract class MyRecyclerViewAdapter(
     }
 
 
-    fun addVerticalDividers(add: Boolean) {
-        if (recyclerView.itemDecorationCount > 0) {
-            recyclerView.removeItemDecorationAt(0)
-        }
-
-        if (add) {
-            DividerItemDecoration(activity, DividerItemDecoration.VERTICAL).apply {
-                setDrawable(resources.getDrawable(R.drawable.divider))
-                recyclerView.addItemDecoration(this)
-            }
-        }
-    }
-
     fun finishActMode() {
         actMode?.finish()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTextColor(textColor: Int) {
         this.textColor = textColor
         notifyDataSetChanged()
@@ -319,10 +304,6 @@ abstract class MyRecyclerViewAdapter(
     fun updatePrimaryColor() {
         properPrimaryColor = activity.getProperPrimaryColor()
         contrastColor = properPrimaryColor.getContrastColor()
-    }
-
-    fun updateBackgroundColor(backgroundColor: Int) {
-        this.backgroundColor = backgroundColor
     }
 
     protected fun createViewHolder(layoutType: Int, parent: ViewGroup?): ViewHolder {
@@ -369,7 +350,7 @@ abstract class MyRecyclerViewAdapter(
             }
         }
 
-        fun viewClicked(any: Any) {
+        private fun viewClicked(any: Any) {
             if (actModeCallback.isSelectable) {
                 val currentPosition = adapterPosition - positionOffset
                 val isSelected = selectedKeys.contains(getItemSelectionKey(currentPosition))
@@ -380,7 +361,7 @@ abstract class MyRecyclerViewAdapter(
             lastLongPressedItem = -1
         }
 
-        fun viewLongClicked() {
+        private fun viewLongClicked() {
             val currentPosition = adapterPosition - positionOffset
             if (!actModeCallback.isSelectable) {
                 activity.startActionMode(actModeCallback)

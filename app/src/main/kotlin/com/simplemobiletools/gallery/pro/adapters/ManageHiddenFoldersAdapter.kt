@@ -25,7 +25,7 @@ class ManageHiddenFoldersAdapter(
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
 
     init {
-        setupDragListener(true)
+        setupDragListener()
     }
 
     override fun getActionMenuId() = R.menu.cab_hidden_folders

@@ -67,7 +67,7 @@ class FeatureLockedDialog(val activity: Activity, val callback: () -> Unit) {
             }
     }
 
-    fun dismissDialog() {
+    private fun dismissDialog() {
         dialog?.dismiss()
         callback()
     }

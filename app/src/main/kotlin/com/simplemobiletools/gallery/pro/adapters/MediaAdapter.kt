@@ -96,7 +96,7 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class MediaAdapter(
     activity: BaseSimpleActivity,
@@ -133,7 +133,7 @@ class MediaAdapter(
     var timeFormat = activity.getTimeFormat()
 
     init {
-        setupDragListener(true)
+        setupDragListener()
         enableInstantLoad()
     }
 
@@ -294,6 +294,7 @@ class MediaAdapter(
     private fun confirmSelection() {
         listener?.selectedPaths(getSelectedPaths())
     }
+
 
     private fun showProperties() {
         if (selectedKeys.size <= 1) {

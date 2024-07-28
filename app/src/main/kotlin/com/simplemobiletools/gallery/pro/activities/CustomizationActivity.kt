@@ -45,12 +45,12 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.SharedTheme
+import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CustomizationActivity : BaseSimpleActivity() {
     private val THEME_LIGHT = 0
     private val THEME_DARK = 1
-    private val THEME_SOLARIZED = 2
     private val THEME_DARK_RED = 3
     private val THEME_BLACK_WHITE = 4
     private val THEME_CUSTOM = 5
@@ -570,7 +570,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
     }
 
-    private fun hasColorChanged(old: Int, new: Int) = Math.abs(old - new) > 1
+    private fun hasColorChanged(old: Int, new: Int) = abs(old - new) > 1
 
     private fun colorChanged() {
         hasUnsavedChanges = true

@@ -147,19 +147,19 @@ import java.io.File
 import java.io.OutputStream
 import java.util.regex.Pattern
 
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NewApi")
 abstract class BaseSimpleActivity : AppCompatActivity() {
-    var materialScrollColorAnimation: ValueAnimator? = null
+    private var materialScrollColorAnimation: ValueAnimator? = null
     var copyMoveCallback: ((destinationPath: String) -> Unit)? = null
-    var actionOnPermission: ((granted: Boolean) -> Unit)? = null
-    var isAskingPermissions = false
+    private var actionOnPermission: ((granted: Boolean) -> Unit)? = null
+    private var isAskingPermissions = false
     var useDynamicTheme = true
     var showTransparentTop = false
     var isMaterialActivity =
         false      // by material activity we mean translucent navigation bar and opaque status and action bars
     var checkedDocumentPath = ""
-    var currentScrollY = 0
-    var configItemsToExport = LinkedHashMap<String, Any>()
+    private var currentScrollY = 0
+    private var configItemsToExport = LinkedHashMap<String, Any>()
 
     private var mainCoordinatorLayout: CoordinatorLayout? = null
     private var nestedView: View? = null
@@ -293,7 +293,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         setTaskDescription(ActivityManager.TaskDescription(null, null, color))
     }
 
-    fun updateNavigationBarColor(color: Int) {
+    private fun updateNavigationBarColor(color: Int) {
         window.navigationBarColor = color
         updateNavigationBarButtons(color)
     }
@@ -360,13 +360,13 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         this.scrollingView = scrollingView
         this.toolbar = toolbar
         if (scrollingView is RecyclerView) {
-            scrollingView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            scrollingView.setOnScrollChangeListener { _, _, _, _, _ ->
                 val newScrollY = scrollingView.computeVerticalScrollOffset()
                 scrollingChanged(newScrollY, currentScrollY)
                 currentScrollY = newScrollY
             }
         } else if (scrollingView is NestedScrollView) {
-            scrollingView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            scrollingView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 scrollingChanged(scrollY, oldScrollY)
             }
         }
@@ -384,7 +384,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    fun animateTopBarColors(colorFrom: Int, colorTo: Int) {
+    private fun animateTopBarColors(colorFrom: Int, colorTo: Int) {
         if (toolbar == null) {
             return
         }
@@ -401,7 +401,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         materialScrollColorAnimation!!.start()
     }
 
-    fun getRequiredStatusBarColor(): Int {
+    private fun getRequiredStatusBarColor(): Int {
         return if ((scrollingView is RecyclerView || scrollingView is NestedScrollView) && scrollingView?.computeVerticalScrollOffset() == 0) {
             getProperBackgroundColor()
         } else {
@@ -557,6 +557,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         )
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
         val partition = try {
@@ -850,6 +851,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
     // synchronous return value determines only if we are showing the SAF dialog, callback result tells if the SD or OTG permission has been granted
+
     fun handleSAFDialog(path: String, callback: (success: Boolean) -> Unit): Boolean {
         hideKeyboard()
         return if (!packageName.startsWith("com.simplemobiletools")) {
@@ -1042,7 +1044,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         source: String,
         destination: String,
         isCopyOperation: Boolean,
-        copyPhotoVideoOnly: Boolean,
         copyHidden: Boolean,
         callback: (destinationPath: String) -> Unit
     ) {
@@ -1080,7 +1081,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                                     fileDirItems,
                                     destination,
                                     isCopyOperation,
-                                    copyPhotoVideoOnly,
                                     copyHidden
                                 )
                             }
@@ -1090,7 +1090,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                             fileDirItems,
                             destination,
                             isCopyOperation,
-                            copyPhotoVideoOnly,
                             copyHidden
                         )
                     }
@@ -1113,7 +1112,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                                                 fileDirItems,
                                                 destination,
                                                 isCopyOperation,
-                                                copyPhotoVideoOnly,
                                                 copyHidden
                                             )
                                         }
@@ -1123,7 +1121,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                                         fileDirItems,
                                         destination,
                                         isCopyOperation,
-                                        copyPhotoVideoOnly,
                                         copyHidden
                                     )
                                 }
@@ -1214,7 +1211,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         files: ArrayList<FileDirItem>,
         destinationPath: String,
         isCopyOperation: Boolean,
-        copyPhotoVideoOnly: Boolean,
         copyHidden: Boolean
     ) {
         val availableSpace = destinationPath.getAvailableStorageB()
@@ -1228,7 +1224,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                         CopyMoveTask(
                             this,
                             isCopyOperation,
-                            copyPhotoVideoOnly,
+                            true,
                             it,
                             copyMoveListener,
                             copyHidden
@@ -1303,6 +1299,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             }
         }
     }
+
 
     fun handlePermission(permissionId: Int, callback: (granted: Boolean) -> Unit) {
         actionOnPermission = null

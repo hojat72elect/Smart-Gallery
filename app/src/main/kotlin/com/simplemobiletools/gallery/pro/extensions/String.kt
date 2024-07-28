@@ -15,12 +15,10 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.widget.TextView
 import com.bumptech.glide.signature.ObjectKey
 import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
 import com.simplemobiletools.gallery.pro.helpers.audioExtensions
 import com.simplemobiletools.gallery.pro.helpers.extensionsSupportingEXIF
-import com.simplemobiletools.gallery.pro.helpers.getDateFormats
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.helpers.normalizeRegex
 import com.simplemobiletools.gallery.pro.helpers.photoExtensions
@@ -28,14 +26,9 @@ import com.simplemobiletools.gallery.pro.helpers.rawExtensions
 import com.simplemobiletools.gallery.pro.helpers.videoExtensions
 import java.io.File
 import java.io.IOException
-import java.text.DateFormat
 import java.text.Normalizer
-import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.regex.Pattern
-import org.joda.time.DateTime
-import org.joda.time.Years
-import org.joda.time.format.DateTimeFormat
 
 fun String.isThisOrParentIncluded(includedPaths: MutableSet<String>) =
     includedPaths.any { equals(it, true) } || includedPaths.any {
@@ -354,9 +347,9 @@ fun String.highlightTextPart(
     var startIndex = normalizeString().indexOf(textToHighlight, 0, true)
     val indexes = ArrayList<Int>()
     while (startIndex >= 0) {
-        if (startIndex != -1) {
+
             indexes.add(startIndex)
-        }
+
 
         startIndex =
             normalizeString().indexOf(textToHighlight, startIndex + textToHighlight.length, true)
@@ -451,7 +444,7 @@ fun String.normalizeString() = Normalizer.normalize(this, Normalizer.Form.NFD).r
 
 // checks if string is a phone number
 fun String.isPhoneNumber(): Boolean {
-    return this.matches("^[0-9+\\-\\)\\( *#]+\$".toRegex())
+    return this.matches("^[0-9+\\-)( *#]+$".toRegex())
 }
 
 // if we are comparing phone numbers, compare just the last 9 digits
@@ -467,62 +460,11 @@ fun String.trimToComparableNumber(): String {
 
 // get the contact names first letter at showing the placeholder without image
 fun String.getNameLetter() =
-    normalizeString().toCharArray().getOrNull(0)?.toString()?.toUpperCase(Locale.getDefault())
+    normalizeString().toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault())
         ?: "A"
 
 fun String.normalizePhoneNumber() = PhoneNumberUtils.normalizeNumber(this)
 
-fun String.highlightTextFromNumbers(textToHighlight: String, primaryColor: Int): SpannableString {
-    val spannableString = SpannableString(this)
-    val digits = PhoneNumberUtils.convertKeypadLettersToDigits(this)
-    if (digits.contains(textToHighlight)) {
-        val startIndex = digits.indexOf(textToHighlight, 0, true)
-        val endIndex = Math.min(startIndex + textToHighlight.length, length)
-        try {
-            spannableString.setSpan(
-                ForegroundColorSpan(primaryColor),
-                startIndex,
-                endIndex,
-                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-            )
-        } catch (ignored: IndexOutOfBoundsException) {
-        }
-    }
-
-    return spannableString
-}
-
-fun String.getDateTimeFromDateString(
-    showYearsSince: Boolean,
-    viewToUpdate: TextView? = null
-): DateTime {
-    val dateFormats = getDateFormats()
-    var date = DateTime()
-    for (format in dateFormats) {
-        try {
-            date = DateTime.parse(this, DateTimeFormat.forPattern(format))
-
-            val formatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
-            var localPattern = (formatter as SimpleDateFormat).toLocalizedPattern()
-
-            val hasYear = format.contains("y")
-            if (!hasYear) {
-                localPattern = localPattern.replace("y", "").replace(",", "").trim()
-                date = date.withYear(DateTime().year)
-            }
-
-            var formattedString = date.toString(localPattern)
-            if (showYearsSince && hasYear) {
-                formattedString += " (${Years.yearsBetween(date, DateTime.now()).years})"
-            }
-
-            viewToUpdate?.text = formattedString
-            break
-        } catch (ignored: Exception) {
-        }
-    }
-    return date
-}
 
 fun String.getMimeType(): String {
     val typesMap = java.util.HashMap<String, String>().apply {
@@ -1127,7 +1069,7 @@ fun String.getMimeType(): String {
         put("zip", "application/zip")
     }
 
-    return typesMap[getFilenameExtension().toLowerCase()] ?: ""
+    return typesMap[getFilenameExtension().lowercase(Locale.getDefault())] ?: ""
 }
 
 fun String.isBlockedNumberPattern() = contains("*")

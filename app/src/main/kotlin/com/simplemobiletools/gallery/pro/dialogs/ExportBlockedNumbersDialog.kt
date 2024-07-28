@@ -28,7 +28,7 @@ import java.io.File
 class ExportBlockedNumbersDialog(
     val activity: BaseSimpleActivity,
     val path: String,
-    val hidePath: Boolean,
+    private val hidePath: Boolean,
     callback: (file: File) -> Unit,
 ) {
     private var realPath = path.ifEmpty { activity.internalStoragePath }
@@ -38,7 +38,7 @@ class ExportBlockedNumbersDialog(
         val view =
             DialogExportBlockedNumbersBinding.inflate(activity.layoutInflater, null, false).apply {
                 exportBlockedNumbersFolder.text = activity.humanizePath(realPath)
-                exportBlockedNumbersFilename.setText("${activity.getString(R.string.blocked_numbers)}_${activity.getCurrentFormattedDateTime()}")
+                exportBlockedNumbersFilename.setText("${activity.getString(R.string.blocked_numbers)}_${getCurrentFormattedDateTime()}")
 
                 if (hidePath) {
                     exportBlockedNumbersFolderLabel.beGone()

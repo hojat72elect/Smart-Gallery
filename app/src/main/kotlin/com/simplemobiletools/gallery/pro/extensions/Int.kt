@@ -1,21 +1,17 @@
 package com.simplemobiletools.gallery.pro.extensions
 
-import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.media.ExifInterface
 import android.os.Handler
 import android.os.Looper
-import android.text.format.DateFormat
-import android.text.format.DateUtils
-import android.text.format.Time
 import androidx.core.os.postDelayed
+import androidx.exifinterface.media.ExifInterface
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.SORT_DESCENDING
 import java.text.DecimalFormat
-import java.util.Calendar
 import java.util.Locale
 import java.util.Random
+import kotlin.math.log10
+import kotlin.math.pow
 
 fun Int.isSortingAscending() = this and SORT_DESCENDING == 0
 
@@ -31,7 +27,7 @@ fun Int.degreesFromOrientation() = when (this) {
     else -> 0
 }
 
-fun Int.toHex() = String.format("#%06X", 0xFFFFFF and this).toUpperCase()
+fun Int.toHex() = String.format("#%06X", 0xFFFFFF and this).uppercase(Locale.getDefault())
 
 fun Int.adjustAlpha(factor: Float): Int {
     val alpha = Math.round(Color.alpha(this) * factor)
@@ -64,77 +60,18 @@ fun Int.formatSize(): String {
     }
 
     val units = arrayOf("B", "kB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(toDouble()) / Math.log10(1024.0)).toInt()
+    val digitGroups = (log10(toDouble()) / log10(1024.0)).toInt()
     return "${
         DecimalFormat("#,##0.#").format(
-            this / Math.pow(
-                1024.0,
-                digitGroups.toDouble()
-            )
+            this / 1024.0.pow(digitGroups.toDouble())
         )
     } ${units[digitGroups]}"
 }
-
-fun Int.formatDate(
-    context: Context,
-    dateFormat: String? = null,
-    timeFormat: String? = null
-): String {
-    val useDateFormat = dateFormat ?: context.baseConfig.dateFormat
-    val useTimeFormat = timeFormat ?: context.getTimeFormat()
-    val cal = Calendar.getInstance(Locale.ENGLISH)
-    cal.timeInMillis = this * 1000L
-    return DateFormat.format("$useDateFormat, $useTimeFormat", cal).toString()
-}
-
-// if the given date is today, we show only the time. Else we show the date and optionally the time too
-fun Int.formatDateOrTime(
-    context: Context,
-    hideTimeAtOtherDays: Boolean,
-    showYearEvenIfCurrent: Boolean
-): String {
-    val cal = Calendar.getInstance(Locale.ENGLISH)
-    cal.timeInMillis = this * 1000L
-
-    return if (DateUtils.isToday(this * 1000L)) {
-        DateFormat.format(context.getTimeFormat(), cal).toString()
-    } else {
-        var format = context.baseConfig.dateFormat
-        if (!showYearEvenIfCurrent && isThisYear()) {
-            format = format.replace("y", "").trim().trim('-').trim('.').trim('/')
-        }
-
-        if (!hideTimeAtOtherDays) {
-            format += ", ${context.getTimeFormat()}"
-        }
-
-        DateFormat.format(format, cal).toString()
-    }
-}
-
-fun Int.isThisYear(): Boolean {
-    val time = Time()
-    time.set(this * 1000L)
-
-    val thenYear = time.year
-    time.set(System.currentTimeMillis())
-
-    return (thenYear == time.year)
-}
-
-fun Int.addBitIf(add: Boolean, bit: Int) =
-    if (add) {
-        addBit(bit)
-    } else {
-        removeBit(bit)
-    }
 
 // TODO: how to do "bits & ~bit" in kotlin?
 fun Int.removeBit(bit: Int) = addBit(bit) - bit
 
 fun Int.addBit(bit: Int) = this or bit
-
-fun Int.flipBit(bit: Int) = if (this and bit == 0) addBit(bit) else removeBit(bit)
 
 fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) + start
 
@@ -144,11 +81,10 @@ fun Int.darkenColor(factor: Int = 8): Int {
         return this
     }
 
-    val DARK_FACTOR = factor
     var hsv = FloatArray(3)
     Color.colorToHSV(this, hsv)
     val hsl = hsv2hsl(hsv)
-    hsl[2] -= DARK_FACTOR / 100f
+    hsl[2] -= factor / 100f
     if (hsl[2] < 0)
         hsl[2] = 0f
     hsv = hsl2hsv(hsl)
@@ -160,11 +96,10 @@ fun Int.lightenColor(factor: Int = 8): Int {
         return this
     }
 
-    val LIGHT_FACTOR = factor
     var hsv = FloatArray(3)
     Color.colorToHSV(this, hsv)
     val hsl = hsv2hsl(hsv)
-    hsl[2] += LIGHT_FACTOR / 100f
+    hsl[2] += factor / 100f
     if (hsl[2] < 0)
         hsl[2] = 0f
     hsv = hsl2hsv(hsl)
@@ -205,17 +140,6 @@ fun Int.ensureTwoDigits(): String {
     } else {
         toString()
     }
-}
-
-fun Int.getColorStateList(): ColorStateList {
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_checked),
-        intArrayOf(android.R.attr.state_pressed)
-    )
-    val colors = intArrayOf(this, this, this, this)
-    return ColorStateList(states, colors)
 }
 
 fun Int.countdown(intervalMillis: Long, callback: (count: Int) -> Unit) {

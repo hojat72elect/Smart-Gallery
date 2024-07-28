@@ -57,9 +57,9 @@ import com.simplemobiletools.gallery.pro.interfaces.LineColorPickerListener
 class LineColorPickerDialog(
     val activity: BaseSimpleActivity,
     val color: Int,
-    val isPrimaryColorPicker: Boolean,
-    val primaryColors: Int = R.array.md_primary_colors,
-    val appIconIDs: ArrayList<Int>? = null,
+    private val isPrimaryColorPicker: Boolean,
+    private val primaryColors: Int = R.array.md_primary_colors,
+    private val appIconIDs: ArrayList<Int>? = null,
     val toolbar: MaterialToolbar? = null,
     val callback: (wasPositivePressed: Boolean, color: Int) -> Unit
 ) {
@@ -109,8 +109,8 @@ class LineColorPickerDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok) { dialog, which -> dialogConfirmed() }
-            .setNegativeButton(R.string.cancel) { dialog, which -> dialogDismissed() }
+            .setPositiveButton(R.string.ok) { _, _ -> dialogConfirmed() }
+            .setNegativeButton(R.string.cancel) { _, _ -> dialogDismissed() }
             .setOnCancelListener { dialogDismissed() }
             .apply {
                 activity.setupDialogStuff(view.root, this) { alertDialog ->

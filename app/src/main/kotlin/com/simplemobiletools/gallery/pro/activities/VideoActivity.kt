@@ -1,8 +1,11 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 
+@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class VideoActivity : PhotoVideoActivity() {
 

@@ -111,7 +111,7 @@ import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
 import java.util.Collections
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class DirectoryAdapter(
     activity: BaseSimpleActivity,
@@ -145,7 +145,7 @@ class DirectoryAdapter(
     var timeFormat = activity.getTimeFormat()
 
     init {
-        setupDragListener(true)
+        setupDragListener()
         fillLockedFolders()
     }
 
@@ -313,6 +313,7 @@ class DirectoryAdapter(
 
         notifyDataSetChanged()
     }
+
 
     private fun showProperties() {
         if (selectedKeys.size <= 1) {
@@ -683,7 +684,6 @@ class DirectoryAdapter(
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createShortcut() {
         val manager = activity.getSystemService(ShortcutManager::class.java)
         if (manager.isRequestPinShortcutSupported) {

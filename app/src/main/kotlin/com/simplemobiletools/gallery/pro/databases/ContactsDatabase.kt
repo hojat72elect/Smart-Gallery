@@ -52,10 +52,6 @@ abstract class ContactsDatabase : RoomDatabase() {
             return db!!
         }
 
-        fun destroyInstance() {
-            db = null
-        }
-
         // start autoincrement ID from FIRST_CONTACT_ID/FIRST_GROUP_ID to avoid conflicts
         // Room doesn't seem to have a built in way for it, so just create a contact/group and delete it
         private fun increaseAutoIncrementIds() {

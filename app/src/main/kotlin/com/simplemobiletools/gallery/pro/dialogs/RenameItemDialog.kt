@@ -69,7 +69,7 @@ class RenameItemDialog(
 
                         val updatedPaths = ArrayList<String>()
                         updatedPaths.add(path)
-                        if (!newExtension.isEmpty()) {
+                        if (newExtension.isNotEmpty()) {
                             newName += ".$newExtension"
                         }
 

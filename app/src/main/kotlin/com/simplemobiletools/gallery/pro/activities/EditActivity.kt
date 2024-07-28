@@ -1,7 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -27,15 +26,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.canhub.cropper.CropImageView
-import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
-import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
-import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
-import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.FiltersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityEditBinding
+import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.OtherAspectRatioDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeDialog
 import com.simplemobiletools.gallery.pro.dialogs.SaveAsDialog
@@ -60,6 +56,7 @@ import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.getRealPathFromURI
+import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.isGone
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isVisible
@@ -78,10 +75,12 @@ import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_ONE_ONE
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_OTHER
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_SIXTEEN_NINE
 import com.simplemobiletools.gallery.pro.helpers.FilterThumbnailsManager
+import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.FilterItem
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
@@ -373,7 +372,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
+
     private fun saveImage() {
         setOldExif()
 
@@ -424,7 +423,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                 inputStream = contentResolver.openInputStream(uri!!)
                 oldExif = ExifInterface(inputStream!!)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         } finally {
             inputStream?.close()
         }
@@ -479,7 +478,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                 try {
                     it.write(bytes.toByteArray())
                     callback(newPath)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 } finally {
                     it.close()
                 }
@@ -1017,7 +1016,7 @@ class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener
                 val newExif = ExifInterface(file.absolutePath)
                 oldExif?.copyNonDimensionAttributesTo(newExif)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
 
         setResult(Activity.RESULT_OK, intent)

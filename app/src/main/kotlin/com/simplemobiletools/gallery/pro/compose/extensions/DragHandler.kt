@@ -3,7 +3,13 @@ package com.simplemobiletools.gallery.pro.compose.extensions
 import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.hapticfeedback.HapticFeedback
@@ -45,7 +51,8 @@ internal fun Modifier.listDragHandlerLongKey(
         onDragEnd = onDragCancelAndEnd,
         onDrag = { change, _ ->
             if (initialKey != null) {
-                val distFromBottom = lazyListState.layoutInfo.viewportSize.height - change.position.y
+                val distFromBottom =
+                    lazyListState.layoutInfo.viewportSize.height - change.position.y
                 val distFromTop = change.position.y
                 autoScrollSpeed.value = when {
                     distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom

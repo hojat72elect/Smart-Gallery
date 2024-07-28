@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -113,6 +114,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
         binding.searchMenu.updateColors()
     }
 
+    @SuppressLint("NewApi")
     private fun textChanged(text: String) {
         ensureBackgroundThread {
             try {
@@ -138,6 +140,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun setupAdapter() {
         val currAdapter = binding.searchGrid.adapter
         if (currAdapter == null) {
@@ -191,6 +194,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
 
     private fun getMediaAdapter() = binding.searchGrid.adapter as? MediaAdapter
 
+    @SuppressLint("NewApi")
     private fun toggleFilenameVisibility() {
         config.displayFileNames = !config.displayFileNames
         getMediaAdapter()?.updateDisplayFilenames(config.displayFileNames)
@@ -237,6 +241,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
         layoutManager.spanCount = config.mediaColumnCnt
         val adapter = getMediaAdapter()
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            @SuppressLint("NewApi")
             override fun getSpanSize(position: Int): Int {
                 return if (adapter?.isASectionTitle(position) == true) {
                     layoutManager.spanCount

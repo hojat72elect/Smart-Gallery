@@ -106,7 +106,7 @@ open class FileDirItem(
         }
     }
 
-    fun getExtension() = if (isDirectory) name else path.substringAfterLast('.', "")
+    private fun getExtension() = if (isDirectory) name else path.substringAfterLast('.', "")
 
     fun getBubbleText(context: Context, dateFormat: String? = null, timeFormat: String? = null) =
         when {

@@ -73,8 +73,8 @@ class FilePickerDialog(
     var showHidden: Boolean = false,
     val showFAB: Boolean = false,
     val canAddShowHiddenButton: Boolean = false,
-    val forceShowRoot: Boolean = false,
-    val showFavoritesButton: Boolean = false,
+    private val forceShowRoot: Boolean = false,
+    private val showFavoritesButton: Boolean = false,
     private val enforceStorageRestrictions: Boolean = true,
     val callback: (pickedPath: String) -> Unit
 ) : Breadcrumbs.BreadcrumbsListener {

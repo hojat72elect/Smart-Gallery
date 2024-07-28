@@ -19,7 +19,7 @@ class ChangeViewTypeDialog(
 ) {
     private val binding = DialogChangeViewTypeBinding.inflate(activity.layoutInflater)
     private var config = activity.config
-    private var pathToUse = if (path.isEmpty()) SHOW_ALL else path
+    private var pathToUse = path.ifEmpty { SHOW_ALL }
 
     init {
         binding.apply {

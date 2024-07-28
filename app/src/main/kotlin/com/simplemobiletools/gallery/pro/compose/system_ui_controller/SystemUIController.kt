@@ -66,17 +66,6 @@ interface SystemUiController {
     var isNavigationBarVisible: Boolean
 
     /**
-     * Property which holds the status & navigation bar visibility. If set to true, show both bars,
-     * otherwise hide both bars.
-     */
-    var isSystemBarsVisible: Boolean
-        get() = isNavigationBarVisible && isStatusBarVisible
-        set(value) {
-            isStatusBarVisible = value
-            isNavigationBarVisible = value
-        }
-
-    /**
      * Set the status bar color.
      *
      * @param color The **desired** [Color] to set. This may require modification if running on an
@@ -148,15 +137,6 @@ interface SystemUiController {
      */
     var navigationBarDarkContentEnabled: Boolean
 
-    /**
-     * Property which holds whether the status & navigation bar icons + content are 'dark' or not.
-     */
-    var systemBarsDarkContentEnabled: Boolean
-        get() = statusBarDarkContentEnabled && navigationBarDarkContentEnabled
-        set(value) {
-            statusBarDarkContentEnabled = value
-            navigationBarDarkContentEnabled = value
-        }
 
     /**
      * Property which holds whether the system is ensuring that the navigation bar has enough
