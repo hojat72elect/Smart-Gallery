@@ -1,8 +1,5 @@
 package com.simplemobiletools.gallery.pro.compose.extensions
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -32,15 +29,9 @@ import com.simplemobiletools.gallery.pro.compose.system_ui_controller.rememberSy
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.compose.theme.isLitWell
 import com.simplemobiletools.gallery.pro.extensions.darkenColor
+import com.simplemobiletools.gallery.pro.extensions.getActivity
 import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
 
-fun Context.getActivity(): Activity {
-    return when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.getActivity()
-        else -> getActivity()
-    }
-}
 
 @Composable
 fun rememberMutableInteractionSource() = remember { MutableInteractionSource() }

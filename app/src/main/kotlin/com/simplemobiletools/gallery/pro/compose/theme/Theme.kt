@@ -1,5 +1,8 @@
 package com.simplemobiletools.gallery.pro.compose.theme
 
+import android.app.ActivityManager
+import android.content.Context
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +21,10 @@ import androidx.compose.ui.platform.LocalView
 import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme.Companion.systemDefaultMaterialYou
+import com.simplemobiletools.gallery.pro.extensions.getActivity
+import com.simplemobiletools.gallery.pro.extensions.getAppIconIds
+import com.simplemobiletools.gallery.pro.extensions.getAppLauncherName
+import com.simplemobiletools.gallery.pro.helpers.BaseConfig
 import com.simplemobiletools.gallery.pro.helpers.isSPlus
 
 @Composable
@@ -97,3 +104,21 @@ private fun previewColorScheme() = if (isSystemInDarkTheme()) {
     lightColorScheme
 }
 
+
+private fun updateRecentsAppIcon(baseConfig: BaseConfig, context: Context) {
+    if (baseConfig.isUsingModifiedAppIcon) {
+        val appIconIDs = context.getAppIconIds()
+        val currentAppIconColorIndex = baseConfig.getCurrentAppIconColorIndex(context)
+        if (appIconIDs.size - 1 < currentAppIconColorIndex) {
+            return
+        }
+
+        val recentsIcon =
+            BitmapFactory.decodeResource(context.resources, appIconIDs[currentAppIconColorIndex])
+        val title = context.getAppLauncherName()
+        val color = baseConfig.primaryColor
+
+        val description = ActivityManager.TaskDescription(title, recentsIcon, color)
+        context.getActivity().setTaskDescription(description)
+    }
+}

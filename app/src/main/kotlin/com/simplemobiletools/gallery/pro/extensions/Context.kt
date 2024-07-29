@@ -15,6 +15,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -92,7 +93,6 @@ import com.simplemobiletools.gallery.pro.helpers.BaseConfig
 import com.simplemobiletools.gallery.pro.helpers.Config
 import com.simplemobiletools.gallery.pro.helpers.ContactsHelper
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
-import com.simplemobiletools.gallery.pro.helpers.DAY_SECONDS
 import com.simplemobiletools.gallery.pro.helpers.DEFAULT_MIMETYPE
 import com.simplemobiletools.gallery.pro.helpers.EXTERNAL_STORAGE_PROVIDER_AUTHORITY
 import com.simplemobiletools.gallery.pro.helpers.ExternalStorageProviderHack
@@ -104,13 +104,10 @@ import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_DAILY
 import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
 import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_LAST_MODIFIED_DAILY
 import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_LAST_MODIFIED_MONTHLY
-import com.simplemobiletools.gallery.pro.helpers.HOUR_SECONDS
 import com.simplemobiletools.gallery.pro.helpers.IsoTypeReader
 import com.simplemobiletools.gallery.pro.helpers.LOCATION_INTERNAL
 import com.simplemobiletools.gallery.pro.helpers.LOCATION_OTG
 import com.simplemobiletools.gallery.pro.helpers.LOCATION_SD
-import com.simplemobiletools.gallery.pro.helpers.MINUTE_SECONDS
-import com.simplemobiletools.gallery.pro.helpers.MONTH_SECONDS
 import com.simplemobiletools.gallery.pro.helpers.MediaFetcher
 import com.simplemobiletools.gallery.pro.helpers.MyContentProvider
 import com.simplemobiletools.gallery.pro.helpers.MyWidgetProvider
@@ -165,8 +162,6 @@ import com.simplemobiletools.gallery.pro.helpers.TYPE_PORTRAITS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
-import com.simplemobiletools.gallery.pro.helpers.WEEK_SECONDS
-import com.simplemobiletools.gallery.pro.helpers.YEAR_SECONDS
 import com.simplemobiletools.gallery.pro.helpers.appIconColorStrings
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
@@ -1751,7 +1746,6 @@ private fun isDownloadsDocument(uri: Uri) =
 private fun isExternalStorageDocument(uri: Uri) =
     uri.authority == "com.android.externalstorage.documents"
 
-
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.hasPermission(permId: Int) = ContextCompat.checkSelfPermission(
     this,
@@ -1898,7 +1892,7 @@ fun Context.ensurePublicUri(path: String, applicationId: String): Uri? {
                 uri
             } else {
                 val newPath = if (uri.toString().startsWith("/")) uri.toString() else uri.path
-                val file = File(newPath)
+                val file = File(newPath!!)
                 getFilePublicUri(file, applicationId)
             }
         }
@@ -1940,7 +1934,6 @@ fun Context.getSizeFromContentUri(uri: Uri): Long {
 fun Context.getMyContentProviderCursorLoader() =
     CursorLoader(this, MyContentProvider.MY_CONTENT_URI, null, null, null, null)
 
-
 fun getCurrentFormattedDateTime(): String {
     val simpleDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
     return simpleDateFormat.format(Date(System.currentTimeMillis()))
@@ -1970,7 +1963,6 @@ fun Context.isAProApp() =
     packageName.startsWith("com.simplemobiletools.") && packageName.removeSuffix(".debug")
         .endsWith(".pro")
 
-
 fun Context.isPackageInstalled(pkgName: String): Boolean {
     return try {
         packageManager.getPackageInfo(pkgName, 0)
@@ -1979,7 +1971,6 @@ fun Context.isPackageInstalled(pkgName: String): Boolean {
         false
     }
 }
-
 
 @SuppressLint("Recycle")
 @RequiresApi(Build.VERSION_CODES.N)
@@ -2321,6 +2312,7 @@ fun Context.isDefaultDialer(): Boolean {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.getContactsHasMap(
     withComparableNumbers: Boolean = false,
     callback: (java.util.HashMap<String, String>) -> Unit
@@ -2341,7 +2333,7 @@ fun Context.getContactsHasMap(
     }
 }
 
-@TargetApi(Build.VERSION_CODES.N)
+@TargetApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.getBlockedNumbersWithContact(callback: (java.util.ArrayList<BlockedNumber>) -> Unit) {
     getContactsHasMap(true) { contacts ->
         val blockedNumbers = java.util.ArrayList<BlockedNumber>()
@@ -2360,10 +2352,8 @@ fun Context.getBlockedNumbersWithContact(callback: (java.util.ArrayList<BlockedN
             val id = cursor.getLongValue(BlockedNumberContract.BlockedNumbers.COLUMN_ID)
             val number =
                 cursor.getStringValue(BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER)
-                    ?: ""
             val normalizedNumber =
                 cursor.getStringValue(BlockedNumberContract.BlockedNumbers.COLUMN_E164_NUMBER)
-                    ?: number
             val comparableNumber = normalizedNumber.trimToComparableNumber()
 
             val contactName = contacts[comparableNumber]
@@ -2511,7 +2501,7 @@ val Context.contactsDB: ContactsDao
 
 val Context.groupsDB: GroupsDao get() = ContactsDatabase.getInstance(applicationContext).GroupsDao()
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.getEmptyContact(): Contact {
     val originalContactSource =
         if (hasContactPermissions()) baseConfig.lastUsedContactSource else SMT_PRIVATE
@@ -2564,6 +2554,7 @@ fun Context.getPhotoThumbnailSize(): Int {
 fun Context.hasContactPermissions() =
     hasPermission(PERMISSION_READ_CONTACTS) && hasPermission(PERMISSION_WRITE_CONTACTS)
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.getVisibleContactSources(): ArrayList<String> {
     val sources = getAllContactSources()
     val ignoredContactSources = baseConfig.ignoredContactSources
@@ -2571,6 +2562,7 @@ fun Context.getVisibleContactSources(): ArrayList<String> {
         .map { it.name }.toMutableList() as ArrayList<String>
 }
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.getAllContactSources(): ArrayList<ContactSource> {
     val sources = ContactsHelper(this).getDeviceContactSources()
     sources.add(getPrivateContactSource())
@@ -2888,10 +2880,6 @@ fun Context.getDocumentFile(path: String): DocumentFile? {
 }
 
 fun Context.getSomeDocumentFile(path: String) = getFastDocumentFile(path) ?: getDocumentFile(path)
-
-fun Context.scanFileRecursively(file: File, callback: (() -> Unit)? = null) {
-    scanFilesRecursively(arrayListOf(file), callback)
-}
 
 fun Context.scanPathRecursively(path: String, callback: (() -> Unit)? = null) {
     scanPathsRecursively(arrayListOf(path), callback)
@@ -4057,17 +4045,6 @@ fun Context.isWhiteTheme() =
 fun Context.isUsingSystemDarkTheme() =
     resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
 
-fun Context.getTimePickerDialogTheme() = when {
-    baseConfig.isUsingSystemTheme -> if (isUsingSystemDarkTheme()) {
-        R.style.MyTimePickerMaterialTheme_Dark
-    } else {
-        R.style.MyDateTimePickerMaterialTheme
-    }
-
-    baseConfig.backgroundColor.getContrastColor() == Color.WHITE -> R.style.MyDialogTheme_Dark
-    else -> R.style.MyDialogTheme
-}
-
 fun Context.getPopupMenuTheme(): Int {
     return if (isSPlus() && baseConfig.isUsingSystemTheme) {
         R.style.AppTheme_YouPopupMenuStyle
@@ -4137,58 +4114,6 @@ fun Context.getAppIconColors() =
     resources.getIntArray(R.array.md_app_icon_colors)
         .toCollection(ArrayList())
 
-fun Context.getFormattedSeconds(seconds: Int, showBefore: Boolean = true) = when (seconds) {
-    -1 -> getString(R.string.no_reminder)
-    0 -> getString(R.string.at_start)
-    else -> {
-        when {
-            seconds < 0 && seconds > -60 * 60 * 24 -> {
-                val minutes = -seconds / 60
-                getString(R.string.during_day_at).format(minutes / 60, minutes % 60)
-            }
-
-            seconds % YEAR_SECONDS == 0 -> {
-                val base = if (showBefore) R.plurals.years_before else R.plurals.by_years
-                resources.getQuantityString(base, seconds / YEAR_SECONDS, seconds / YEAR_SECONDS)
-            }
-
-            seconds % MONTH_SECONDS == 0 -> {
-                val base = if (showBefore) R.plurals.months_before else R.plurals.by_months
-                resources.getQuantityString(base, seconds / MONTH_SECONDS, seconds / MONTH_SECONDS)
-            }
-
-            seconds % WEEK_SECONDS == 0 -> {
-                val base = if (showBefore) R.plurals.weeks_before else R.plurals.by_weeks
-                resources.getQuantityString(base, seconds / WEEK_SECONDS, seconds / WEEK_SECONDS)
-            }
-
-            seconds % DAY_SECONDS == 0 -> {
-                val base = if (showBefore) R.plurals.days_before else R.plurals.by_days
-                resources.getQuantityString(base, seconds / DAY_SECONDS, seconds / DAY_SECONDS)
-            }
-
-            seconds % HOUR_SECONDS == 0 -> {
-                val base = if (showBefore) R.plurals.hours_before else R.plurals.by_hours
-                resources.getQuantityString(base, seconds / HOUR_SECONDS, seconds / HOUR_SECONDS)
-            }
-
-            seconds % MINUTE_SECONDS == 0 -> {
-                val base = if (showBefore) R.plurals.minutes_before else R.plurals.by_minutes
-                resources.getQuantityString(
-                    base,
-                    seconds / MINUTE_SECONDS,
-                    seconds / MINUTE_SECONDS
-                )
-            }
-
-            else -> {
-                val base = if (showBefore) R.plurals.seconds_before else R.plurals.by_seconds
-                resources.getQuantityString(base, seconds, seconds)
-            }
-        }
-    }
-}
-
 fun Context.isOrWasThankYouInstalled(): Boolean {
     return when {
         resources.getBoolean(R.bool.pretend_thank_you_installed) -> true
@@ -4239,3 +4164,15 @@ fun Context.launchActivityIntent(intent: Intent) {
         showErrorToast(e)
     }
 }
+
+fun Context.getActivity(): Activity {
+    return when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> getActivity()
+    }
+}
+
+ fun Context.getAppIconIds(): List<Int> = getActivity().getAppIconIds()
+
+ fun Context.getAppLauncherName(): String = getActivity().getAppLauncherName()

@@ -6,6 +6,7 @@ import android.os.Environment
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.extensions.getAppIconColors
 import com.simplemobiletools.gallery.pro.extensions.getInternalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.getSDCardPath
 import com.simplemobiletools.gallery.pro.extensions.getSharedPrefs
@@ -610,7 +611,18 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getLong(PASSWORD_COUNTDOWN_START_MS, 0L)
         set(passwordCountdownStartMs) = prefs.edit().putLong(PASSWORD_COUNTDOWN_START_MS, passwordCountdownStartMs).apply()
 
-    protected fun <T> KProperty0<T>.asFlow(emitOnCollect: Boolean = false): Flow<T?> = prefs.run { sharedPreferencesCallback(sendOnCollect = emitOnCollect) { this@asFlow.get() } }
+    private fun <T> KProperty0<T>.asFlow(emitOnCollect: Boolean = false): Flow<T?> = prefs.run { sharedPreferencesCallback(sendOnCollect = emitOnCollect) { this@asFlow.get() } }
 
-    protected fun <T> KProperty0<T>.asFlowNonNull(emitOnCollect: Boolean = false): Flow<T> = asFlow(emitOnCollect).filterNotNull()
+    private fun <T> KProperty0<T>.asFlowNonNull(emitOnCollect: Boolean = false): Flow<T> = asFlow(emitOnCollect).filterNotNull()
+
+     fun getCurrentAppIconColorIndex(context: Context): Int {
+        val appIconColor = appIconColor
+        context.getAppIconColors().forEachIndexed { index, color ->
+            if (color == appIconColor) {
+                return index
+            }
+        }
+        return 0
+    }
+
 }

@@ -55,6 +55,8 @@ import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
 import com.simplemobiletools.gallery.pro.dialogs.RateStarsDialog
 import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
 import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
+import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
+import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
 import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
@@ -1391,3 +1393,8 @@ fun Activity.getThemeId(color: Int = baseConfig.primaryColor, showTransparentTop
             }
         }
     }
+
+fun Activity.getAppIconIds(): ArrayList<Int> =
+    ArrayList(intent.getIntegerArrayListExtra(APP_ICON_IDS).orEmpty())
+
+fun Activity.getAppLauncherName(): String = intent.getStringExtra(APP_LAUNCHER_NAME).orEmpty()

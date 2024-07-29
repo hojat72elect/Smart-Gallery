@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAlertDialog
+import com.simplemobiletools.gallery.pro.extensions.getActivity
 import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
 
 @Composable
