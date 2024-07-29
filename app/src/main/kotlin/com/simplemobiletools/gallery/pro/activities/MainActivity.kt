@@ -2,7 +2,9 @@ package com.simplemobiletools.gallery.pro.activities
 
 import android.app.Activity
 import android.content.ClipData
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,13 +18,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
-import com.simplemobiletools.gallery.pro.dialogs.CreateNewFolderDialog
-import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.Release
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
@@ -30,19 +25,30 @@ import com.simplemobiletools.gallery.pro.databases.GalleryDatabase
 import com.simplemobiletools.gallery.pro.databinding.ActivityMainBinding
 import com.simplemobiletools.gallery.pro.dialogs.ChangeSortingDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeViewTypeDialog
+import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.dialogs.CreateNewFolderDialog
+import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
+import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.FilterMediaDialog
 import com.simplemobiletools.gallery.pro.dialogs.GrantAllFilesDialog
+import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
+import com.simplemobiletools.gallery.pro.dialogs.RateStarsDialog
+import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.extensions.addTempFolderIfNeeded
-import com.simplemobiletools.gallery.pro.extensions.appLaunched
 import com.simplemobiletools.gallery.pro.extensions.areSystemAnimationsEnabled
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.checkAppIconColor
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.createDirectoryFromMedia
 import com.simplemobiletools.gallery.pro.extensions.directoryDB
+import com.simplemobiletools.gallery.pro.extensions.getAppIconColors
 import com.simplemobiletools.gallery.pro.extensions.getCachedDirectories
 import com.simplemobiletools.gallery.pro.extensions.getCachedMedia
+import com.simplemobiletools.gallery.pro.extensions.getCanAppBeUpgraded
 import com.simplemobiletools.gallery.pro.extensions.getDirectorySortingValue
 import com.simplemobiletools.gallery.pro.extensions.getDirsToShow
 import com.simplemobiletools.gallery.pro.extensions.getDistinctPath
@@ -51,6 +57,7 @@ import com.simplemobiletools.gallery.pro.extensions.getFavoritePaths
 import com.simplemobiletools.gallery.pro.extensions.getFileCount
 import com.simplemobiletools.gallery.pro.extensions.getFilePublicUri
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.extensions.getInternalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.getLatestMediaByDateId
 import com.simplemobiletools.gallery.pro.extensions.getLatestMediaId
 import com.simplemobiletools.gallery.pro.extensions.getMimeType
@@ -63,19 +70,21 @@ import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.getSortedDirectories
 import com.simplemobiletools.gallery.pro.extensions.getStorageDirectories
 import com.simplemobiletools.gallery.pro.extensions.getTimeFormat
-import com.simplemobiletools.gallery.pro.extensions.handleAppPasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleExcludedFolderPasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleHiddenFolderPasswordProtection
 import com.simplemobiletools.gallery.pro.extensions.handleLockedFolderOpening
 import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.extensions.isAProApp
 import com.simplemobiletools.gallery.pro.extensions.isDownloadsFolder
 import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
 import com.simplemobiletools.gallery.pro.extensions.isGif
 import com.simplemobiletools.gallery.pro.extensions.isGone
 import com.simplemobiletools.gallery.pro.extensions.isImageFast
 import com.simplemobiletools.gallery.pro.extensions.isMediaFile
+import com.simplemobiletools.gallery.pro.extensions.isOrWasThankYouInstalled
 import com.simplemobiletools.gallery.pro.extensions.isPackageInstalled
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRawFast
@@ -93,8 +102,10 @@ import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.storeDirectoryItems
 import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.extensions.toggleAppIconColor
 import com.simplemobiletools.gallery.pro.extensions.underlineText
 import com.simplemobiletools.gallery.pro.extensions.updateDBDirectory
+import com.simplemobiletools.gallery.pro.extensions.updateSDCardPath
 import com.simplemobiletools.gallery.pro.extensions.updateWidgets
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.DAY_SECONDS
@@ -142,8 +153,10 @@ import com.simplemobiletools.gallery.pro.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.jobs.NewPhotoFetcher
 import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.models.Release
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
@@ -152,7 +165,7 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.OutputStream
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     companion object {
@@ -1774,6 +1787,79 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             add(Release(327, R.string.release_327))
             add(Release(369, R.string.release_369))
             checkWhatsNew(this, BuildConfig.VERSION_CODE)
+        }
+    }
+
+    private fun handleAppPasswordProtection(callback: (success: Boolean) -> Unit) {
+        if (baseConfig.isAppPasswordProtectionOn) {
+            SecurityDialog(
+                this,
+                baseConfig.appPasswordHash,
+                baseConfig.appProtectionType
+            ) { _, _, success ->
+                callback(success)
+            }
+        } else {
+            callback(true)
+        }
+    }
+
+    private fun appLaunched(appId: String) {
+
+        baseConfig.internalStoragePath = getInternalStoragePath()
+        updateSDCardPath()
+        baseConfig.appId = appId
+        if (baseConfig.appRunCount == 0) {
+            baseConfig.wasOrangeIconChecked = true
+            checkAppIconColor()
+        } else if (!baseConfig.wasOrangeIconChecked) {
+            baseConfig.wasOrangeIconChecked = true
+            val primaryColor = resources.getColor(R.color.color_primary)
+            if (baseConfig.appIconColor != primaryColor) {
+                getAppIconColors().forEachIndexed { index, color ->
+                    toggleAppIconColor(appId, index, color, false)
+                }
+
+                val defaultClassName =
+                    "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity"
+                packageManager.setComponentEnabledSetting(
+                    ComponentName(baseConfig.appId, defaultClassName),
+                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+                    PackageManager.DONT_KILL_APP
+                )
+
+                val orangeClassName =
+                    "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity.Orange"
+                packageManager.setComponentEnabledSetting(
+                    ComponentName(baseConfig.appId, orangeClassName),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+
+                baseConfig.appIconColor = primaryColor
+                baseConfig.lastIconColor = primaryColor
+            }
+        }
+
+        baseConfig.appRunCount++
+        if (baseConfig.appRunCount % 30 == 0 && !isAProApp()) {
+            if (!resources.getBoolean(R.bool.hide_google_relations)) {
+                showDonateOrUpgradeDialog()
+            }
+        }
+
+        if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
+            if (!resources.getBoolean(R.bool.hide_google_relations)) {
+                RateStarsDialog(this)
+            }
+        }
+    }
+
+    private fun showDonateOrUpgradeDialog() {
+        if (getCanAppBeUpgraded()) {
+            UpgradeToProDialog(this)
+        } else if (!isOrWasThankYouInstalled()) {
+            DonateDialog(this)
         }
     }
 }

@@ -84,7 +84,6 @@ import com.simplemobiletools.gallery.pro.extensions.deleteFromMediaStore
 import com.simplemobiletools.gallery.pro.extensions.deleteRecursively
 import com.simplemobiletools.gallery.pro.extensions.directoryDB
 import com.simplemobiletools.gallery.pro.extensions.doesThisOrParentHaveNoMedia
-import com.simplemobiletools.gallery.pro.extensions.fileRotatedSuccessfully
 import com.simplemobiletools.gallery.pro.extensions.fixDateTaken
 import com.simplemobiletools.gallery.pro.extensions.formatSize
 import com.simplemobiletools.gallery.pro.extensions.getAndroidSAFUri
@@ -99,6 +98,7 @@ import com.simplemobiletools.gallery.pro.extensions.getCurrentFormattedDateTime
 import com.simplemobiletools.gallery.pro.extensions.getDocumentFile
 import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
 import com.simplemobiletools.gallery.pro.extensions.getFileInputStreamSync
+import com.simplemobiletools.gallery.pro.extensions.getFileKey
 import com.simplemobiletools.gallery.pro.extensions.getFileOutputStreamSync
 import com.simplemobiletools.gallery.pro.extensions.getFileUrisFromFileDirItems
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
@@ -218,6 +218,7 @@ import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FAQItem
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Release
+import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -3209,4 +3210,19 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    private fun fileRotatedSuccessfully(path: String, lastModified: Long){
+
+        if (config.keepLastModified && lastModified != 0L) {
+            File(path).setLastModified(lastModified)
+            updateLastModified(path, lastModified)
+        }
+
+        Picasso.get().invalidate(path.getFileKey(lastModified))
+        // we cannot refresh a specific image in Glide Cache, so just clear it all
+        val glide = Glide.get(applicationContext)
+        glide.clearDiskCache()
+        runOnUiThread {
+            glide.clearMemory()
+        }
+    }
 }

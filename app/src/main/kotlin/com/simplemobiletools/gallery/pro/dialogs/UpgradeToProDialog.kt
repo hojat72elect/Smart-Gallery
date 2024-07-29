@@ -24,8 +24,10 @@ import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.extensions.andThen
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.launchUpgradeToProIntent
+import com.simplemobiletools.gallery.pro.extensions.getStoreUrl
+import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
 import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 
@@ -58,7 +60,17 @@ class UpgradeToProDialog(val activity: Activity) {
     }
 
     private fun upgradeApp() {
-        activity.launchUpgradeToProIntent()
+
+        with(activity) {
+            hideKeyboard()
+            try {
+
+                launchViewIntent("market://details?id=${baseConfig.appId.removeSuffix(".debug")}.pro")
+            } catch (ignored: Exception) {
+                launchViewIntent(getStoreUrl())
+            }
+        }
+
     }
 
     private fun moreInfo() {

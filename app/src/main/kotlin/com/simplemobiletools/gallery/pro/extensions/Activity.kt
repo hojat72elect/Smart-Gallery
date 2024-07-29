@@ -5,7 +5,6 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.ContentProviderOperation
 import android.content.Context
 import android.content.Intent
@@ -52,7 +51,6 @@ import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE
 import com.simplemobiletools.gallery.pro.databinding.DialogTitleBinding
 import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
 import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
-import com.simplemobiletools.gallery.pro.dialogs.RateStarsDialog
 import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
 import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
@@ -60,7 +58,6 @@ import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.DIRECTORY
 import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
-import com.simplemobiletools.gallery.pro.helpers.MyContentProvider
 import com.simplemobiletools.gallery.pro.helpers.PROTECTION_FINGERPRINT
 import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
@@ -73,9 +70,7 @@ import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.helpers.isOnMainThread
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.DateTaken
-import com.simplemobiletools.gallery.pro.models.SharedTheme
 import com.simplemobiletools.gallery.pro.views.MyTextView
-import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -85,16 +80,8 @@ fun Activity.sharePath(path: String) {
     sharePathIntent(path, BuildConfig.APPLICATION_ID)
 }
 
-fun Activity.sharePaths(paths: ArrayList<String>) {
-    sharePathsIntent(paths, BuildConfig.APPLICATION_ID)
-}
-
 fun Activity.shareMediumPath(path: String) {
     sharePath(path)
-}
-
-fun Activity.shareMediaPaths(paths: ArrayList<String>) {
-    sharePaths(paths)
 }
 
 fun Activity.setAs(path: String) {
@@ -353,21 +340,6 @@ fun AppCompatActivity.fixDateTaken(
     }
 }
 
-fun Activity.fileRotatedSuccessfully(path: String, lastModified: Long) {
-    if (config.keepLastModified && lastModified != 0L) {
-        File(path).setLastModified(lastModified)
-        updateLastModified(path, lastModified)
-    }
-
-    Picasso.get().invalidate(path.getFileKey(lastModified))
-    // we cannot refresh a specific image in Glide Cache, so just clear it all
-    val glide = Glide.get(applicationContext)
-    glide.clearDiskCache()
-    runOnUiThread {
-        glide.clearMemory()
-    }
-}
-
 fun saveFile(path: String, bitmap: Bitmap, out: FileOutputStream, degrees: Int) {
     val matrix = Matrix()
     matrix.postRotate(degrees.toFloat())
@@ -502,64 +474,6 @@ fun Activity.launchViewIntent(url: String) {
     }
 }
 
-fun Activity.appLaunched(appId: String) {
-    baseConfig.internalStoragePath = getInternalStoragePath()
-    updateSDCardPath()
-    baseConfig.appId = appId
-    if (baseConfig.appRunCount == 0) {
-        baseConfig.wasOrangeIconChecked = true
-        checkAppIconColor()
-    } else if (!baseConfig.wasOrangeIconChecked) {
-        baseConfig.wasOrangeIconChecked = true
-        val primaryColor = resources.getColor(R.color.color_primary)
-        if (baseConfig.appIconColor != primaryColor) {
-            getAppIconColors().forEachIndexed { index, color ->
-                toggleAppIconColor(appId, index, color, false)
-            }
-
-            val defaultClassName =
-                "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity"
-            packageManager.setComponentEnabledSetting(
-                ComponentName(baseConfig.appId, defaultClassName),
-                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-                PackageManager.DONT_KILL_APP
-            )
-
-            val orangeClassName =
-                "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity.Orange"
-            packageManager.setComponentEnabledSetting(
-                ComponentName(baseConfig.appId, orangeClassName),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP
-            )
-
-            baseConfig.appIconColor = primaryColor
-            baseConfig.lastIconColor = primaryColor
-        }
-    }
-
-    baseConfig.appRunCount++
-    if (baseConfig.appRunCount % 30 == 0 && !isAProApp()) {
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            showDonateOrUpgradeDialog()
-        }
-    }
-
-    if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            RateStarsDialog(this)
-        }
-    }
-}
-
-fun Activity.showDonateOrUpgradeDialog() {
-    if (getCanAppBeUpgraded()) {
-        UpgradeToProDialog(this)
-    } else if (!isOrWasThankYouInstalled()) {
-        DonateDialog(this)
-    }
-}
-
 fun Activity.isAppInstalledOnSDCard(): Boolean = try {
     val applicationInfo = packageManager.getPackageInfo(packageName, 0).applicationInfo
     (applicationInfo.flags and ApplicationInfo.FLAG_EXTERNAL_STORAGE) == ApplicationInfo.FLAG_EXTERNAL_STORAGE
@@ -573,15 +487,6 @@ fun Activity.launchPurchaseThankYouIntent() {
         launchViewIntent("market://details?id=com.simplemobiletools.thankyou")
     } catch (ignored: Exception) {
         launchViewIntent(getString(R.string.thank_you_url))
-    }
-}
-
-fun Activity.launchUpgradeToProIntent() {
-    hideKeyboard()
-    try {
-        launchViewIntent("market://details?id=${baseConfig.appId.removeSuffix(".debug")}.pro")
-    } catch (ignored: Exception) {
-        launchViewIntent(getStoreUrl())
     }
 }
 
@@ -918,20 +823,6 @@ fun Activity.handleHiddenFolderPasswordProtection(callback: () -> Unit) {
     }
 }
 
-fun Activity.handleAppPasswordProtection(callback: (success: Boolean) -> Unit) {
-    if (baseConfig.isAppPasswordProtectionOn) {
-        SecurityDialog(
-            this,
-            baseConfig.appPasswordHash,
-            baseConfig.appProtectionType
-        ) { _, _, success ->
-            callback(success)
-        }
-    } else {
-        callback(true)
-    }
-}
-
 fun Activity.handleDeletePasswordProtection(callback: () -> Unit) {
     if (baseConfig.isDeletePasswordProtectionOn) {
         SecurityDialog(
@@ -959,20 +850,6 @@ fun Activity.handleLockedFolderOpening(path: String, callback: (success: Boolean
         }
     } else {
         callback(true)
-    }
-}
-
-fun Activity.updateSharedTheme(sharedTheme: SharedTheme) {
-    try {
-        val contentValues = MyContentProvider.fillThemeContentValues(sharedTheme)
-        applicationContext.contentResolver.update(
-            MyContentProvider.MY_CONTENT_URI,
-            contentValues,
-            null,
-            null
-        )
-    } catch (e: Exception) {
-        showErrorToast(e)
     }
 }
 

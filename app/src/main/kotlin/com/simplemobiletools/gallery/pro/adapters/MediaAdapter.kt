@@ -17,6 +17,7 @@ import androidx.core.view.allViews
 import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
 import com.simplemobiletools.gallery.pro.dialogs.RenameDialog
@@ -68,8 +69,8 @@ import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.rescanFolderMedia
 import com.simplemobiletools.gallery.pro.extensions.rescanPaths
 import com.simplemobiletools.gallery.pro.extensions.setAs
-import com.simplemobiletools.gallery.pro.extensions.shareMediaPaths
 import com.simplemobiletools.gallery.pro.extensions.shareMediumPath
+import com.simplemobiletools.gallery.pro.extensions.sharePathsIntent
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.updateDBMediaPath
 import com.simplemobiletools.gallery.pro.extensions.updateFavorite
@@ -421,7 +422,9 @@ class MediaAdapter(
         if (selectedKeys.size == 1 && selectedKeys.first() != -1) {
             activity.shareMediumPath(getSelectedItems().first().path)
         } else if (selectedKeys.size > 1) {
-            activity.shareMediaPaths(getSelectedPaths())
+
+            activity.sharePathsIntent(getSelectedPaths(), BuildConfig.APPLICATION_ID)
+
         }
     }
 

@@ -31,8 +31,8 @@ import com.simplemobiletools.gallery.pro.extensions.getSharedThemeSync
 import com.simplemobiletools.gallery.pro.extensions.isThankYouInstalled
 import com.simplemobiletools.gallery.pro.extensions.isUsingSystemDarkTheme
 import com.simplemobiletools.gallery.pro.extensions.setFillWithStroke
+import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.updateSharedTheme
 import com.simplemobiletools.gallery.pro.extensions.value
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
@@ -790,4 +790,18 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     private fun getMaterialYouString() =
         "${getString(R.string.system_default)} (${getString(R.string.material_you)})"
+
+    private fun updateSharedTheme(sharedTheme: SharedTheme){
+        try {
+            val contentValues = MyContentProvider.fillThemeContentValues(sharedTheme)
+            applicationContext.contentResolver.update(
+                MyContentProvider.MY_CONTENT_URI,
+                contentValues,
+                null,
+                null
+            )
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
+    }
 }
