@@ -62,7 +62,7 @@ class MyTextInputLayout : TextInputLayout {
                 ColorStateList(arrayOf(intArrayOf(0)), intArrayOf(defaultHintTextColor))
             )
             setHelperTextColor(ColorStateList.valueOf(textColor))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 }

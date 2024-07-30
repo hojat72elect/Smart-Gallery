@@ -39,11 +39,11 @@ import java.util.Locale
 @RequiresApi(Build.VERSION_CODES.R)
 class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
     RenameTab {
-    var ignoreClicks = false
-    var stopLooping =
+    private var ignoreClicks = false
+    private var stopLooping =
         false     // we should request the permission on Android 30+ for all uris at once, not one by one
-    var currentIncrementalNumber = 1
-    var numbersCnt = 0
+    private var currentIncrementalNumber = 1
+    private var numbersCnt = 0
     var activity: BaseSimpleActivity? = null
     var paths = ArrayList<String>()
 

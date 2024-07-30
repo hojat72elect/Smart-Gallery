@@ -32,8 +32,8 @@ import java.io.File
 @RequiresApi(Build.VERSION_CODES.R)
 class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
     RenameTab {
-    var ignoreClicks = false
-    var stopLooping =
+    private var ignoreClicks = false
+    private var stopLooping =
         false     // we should request the permission on Android 30+ for all uris at once, not one by one
     var activity: BaseSimpleActivity? = null
     var paths = ArrayList<String>()

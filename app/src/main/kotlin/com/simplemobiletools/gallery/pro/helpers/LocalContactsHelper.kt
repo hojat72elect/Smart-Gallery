@@ -2,13 +2,10 @@ package com.simplemobiletools.gallery.pro.helpers
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract.CommonDataKinds.Event
-import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.extensions.contactsDB
-import com.simplemobiletools.gallery.pro.extensions.getByteArray
 import com.simplemobiletools.gallery.pro.extensions.getEmptyContact
 import com.simplemobiletools.gallery.pro.models.SimpleContact
 import com.simplemobiletools.gallery.pro.models.contacts.Contact
@@ -26,68 +23,6 @@ class LocalContactsHelper(val context: Context) {
             .toMutableList() as? ArrayList<Contact>) ?: arrayListOf()
     }
 
-
-    fun getContactWithId(id: Int): Contact? {
-        val storedGroups = ContactsHelper(context).getStoredGroupsSync()
-        return convertLocalContactToContact(context.contactsDB.getContactWithId(id), storedGroups)
-    }
-
-    fun insertOrUpdateContact(contact: Contact): Boolean {
-        val localContact = convertContactToLocalContact(contact)
-        return context.contactsDB.insertOrUpdate(localContact) > 0
-    }
-
-    fun addContactsToGroup(contacts: ArrayList<Contact>, groupId: Long) {
-        contacts.forEach {
-            val localContact = convertContactToLocalContact(it)
-            val newGroups = localContact.groups
-            newGroups.add(groupId)
-            newGroups.distinct()
-            localContact.groups = newGroups
-            context.contactsDB.insertOrUpdate(localContact)
-        }
-    }
-
-    fun removeContactsFromGroup(contacts: ArrayList<Contact>, groupId: Long) {
-        contacts.forEach {
-            val localContact = convertContactToLocalContact(it)
-            val newGroups = localContact.groups
-            newGroups.remove(groupId)
-            localContact.groups = newGroups
-            context.contactsDB.insertOrUpdate(localContact)
-        }
-    }
-
-    fun deleteContactIds(ids: MutableList<Long>) {
-        ids.chunked(30).forEach {
-            context.contactsDB.deleteContactIds(it)
-        }
-    }
-
-    fun toggleFavorites(ids: Array<Int>, addToFavorites: Boolean) {
-        val isStarred = if (addToFavorites) 1 else 0
-        ids.forEach {
-            context.contactsDB.updateStarred(isStarred, it)
-        }
-    }
-
-    fun updateRingtone(id: Int, ringtone: String) {
-        context.contactsDB.updateRingtone(ringtone, id)
-    }
-
-    private fun getPhotoByteArray(uri: String): ByteArray {
-        if (uri.isEmpty()) {
-            return ByteArray(0)
-        }
-
-        val photoUri = Uri.parse(uri)
-        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, photoUri)
-
-        val fullSizePhotoData = bitmap.getByteArray()
-        bitmap.recycle()
-
-        return fullSizePhotoData
-    }
 
     private fun convertLocalContactToContact(
         localContact: LocalContact?,
@@ -134,67 +69,4 @@ class LocalContactsHelper(val context: Context) {
         }
     }
 
-    private fun convertContactToLocalContact(contact: Contact): LocalContact {
-        val photoByteArray = if (contact.photoUri.isNotEmpty()) {
-            getPhotoByteArray(contact.photoUri)
-        } else {
-            contact.photo?.getByteArray()
-        }
-
-        return getEmptyLocalContact().apply {
-            id =
-                if (contact.id <= FIRST_CONTACT_ID) null else contact.id
-            prefix = contact.prefix
-            firstName = contact.firstName
-            middleName = contact.middleName
-            surname = contact.surname
-            suffix = contact.suffix
-            nickname = contact.nickname
-            photo = photoByteArray
-            phoneNumbers = contact.phoneNumbers
-            emails = contact.emails
-            events = contact.events
-            starred = contact.starred
-            addresses = contact.addresses
-            notes = contact.notes
-            groups = contact.groups.map { it.id }.toMutableList() as ArrayList<Long>
-            company = contact.organization.company
-            jobPosition = contact.organization.jobPosition
-            websites = contact.websites
-            IMs = contact.IMs
-            ringtone = contact.ringtone
-        }
-    }
-
-    fun getPrivateSimpleContactsSync(favoritesOnly: Boolean, withPhoneNumbersOnly: Boolean) =
-        getAllContacts(favoritesOnly).mapNotNull {
-            convertContactToSimpleContact(it, withPhoneNumbersOnly)
-        }
-
-    companion object {
-        fun convertContactToSimpleContact(
-            contact: Contact?,
-            withPhoneNumbersOnly: Boolean
-        ): SimpleContact? {
-            return if (contact == null || (withPhoneNumbersOnly && contact.phoneNumbers.isEmpty())) {
-                null
-            } else {
-                val birthdays =
-                    contact.events.filter { it.type == Event.TYPE_BIRTHDAY }.map { it.value }
-                        .toMutableList() as ArrayList<String>
-                val anniversaries =
-                    contact.events.filter { it.type == Event.TYPE_ANNIVERSARY }.map { it.value }
-                        .toMutableList() as ArrayList<String>
-                SimpleContact(
-                    contact.id,
-                    contact.id,
-                    contact.getNameToDisplay(),
-                    contact.photoUri,
-                    contact.phoneNumbers,
-                    birthdays,
-                    anniversaries
-                )
-            }
-        }
-    }
 }

@@ -8,7 +8,7 @@ import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 
 class GridSpacingItemDecoration(
     val spanCount: Int,
-    val spacing: Int,
+    private val spacing: Int,
     private val isScrollingHorizontally: Boolean,
     private val addSideSpacing: Boolean,
     var items: ArrayList<ThumbnailItem>,

@@ -45,14 +45,14 @@ open class MyRecyclerView : RecyclerView {
 
     // things related to parallax scrolling (for now only in the music player)
     // cut from https://github.com/ksoichiro/Android-ObservableScrollView
-    var recyclerScrollCallback: RecyclerScrollCallback? = null
+    private var recyclerScrollCallback: RecyclerScrollCallback? = null
     private var mPrevFirstVisiblePosition = 0
     private var mPrevScrolledChildrenHeight = 0
     private var mPrevFirstVisibleChildHeight = -1
     private var mScrollY = 0
 
     // variables used for fetching additional items at scrolling to the bottom/top
-    var endlessScrollListener: EndlessScrollListener? = null
+    private var endlessScrollListener: EndlessScrollListener? = null
     private var totalItemCount = 0
     private var lastMaxItemIndex = 0
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -105,10 +105,6 @@ open class MyRecyclerView : RecyclerView {
         }
     }
 
-    fun resetItemCount() {
-        totalItemCount = 0
-    }
-
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (!dragSelectActive) {
             try {
@@ -140,7 +136,8 @@ open class MyRecyclerView : RecyclerView {
                                 autoScrollHandler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY)
                             }
 
-                            val simulatedFactor = (hotspotTopBoundEnd - hotspotTopBoundStart).toFloat()
+                            val simulatedFactor =
+                                (hotspotTopBoundEnd - hotspotTopBoundStart).toFloat()
                             val simulatedY = ev.y - hotspotTopBoundStart
                             autoScrollVelocity = (simulatedFactor - simulatedY).toInt() / 2
                         } else if (ev.y in hotspotBottomBoundStart.toFloat()..hotspotBottomBoundEnd.toFloat()) {
@@ -152,7 +149,8 @@ open class MyRecyclerView : RecyclerView {
                             }
 
                             val simulatedY = ev.y + hotspotBottomBoundEnd
-                            val simulatedFactor = (hotspotBottomBoundStart + hotspotBottomBoundEnd).toFloat()
+                            val simulatedFactor =
+                                (hotspotBottomBoundStart + hotspotBottomBoundEnd).toFloat()
                             autoScrollVelocity = (simulatedY - simulatedFactor).toInt() / 2
                         } else if (inTopHotspot || inBottomHotspot) {
                             autoScrollHandler.removeCallbacks(autoScrollRunnable)
@@ -161,7 +159,7 @@ open class MyRecyclerView : RecyclerView {
                         }
                     }
 
-                    if (itemPosition != RecyclerView.NO_POSITION && lastDraggedIndex != itemPosition) {
+                    if (itemPosition != NO_POSITION && lastDraggedIndex != itemPosition) {
                         lastDraggedIndex = itemPosition
                         if (minReached == -1) {
                             minReached = lastDraggedIndex
@@ -179,7 +177,12 @@ open class MyRecyclerView : RecyclerView {
                             minReached = lastDraggedIndex
                         }
 
-                        dragListener?.selectRange(initialSelection, lastDraggedIndex, minReached, maxReached)
+                        dragListener?.selectRange(
+                            initialSelection,
+                            lastDraggedIndex,
+                            minReached,
+                            maxReached
+                        )
 
                         if (initialSelection == lastDraggedIndex) {
                             minReached = lastDraggedIndex
@@ -222,13 +225,13 @@ open class MyRecyclerView : RecyclerView {
     }
 
     private fun getItemPosition(e: MotionEvent): Int {
-        val v = findChildViewUnder(e.x, e.y) ?: return RecyclerView.NO_POSITION
+        val v = findChildViewUnder(e.x, e.y) ?: return NO_POSITION
 
-        if (v.tag == null || v.tag !is RecyclerView.ViewHolder) {
+        if (v.tag == null || v.tag !is ViewHolder) {
             throw IllegalStateException("Make sure your adapter makes a call to super.onBindViewHolder(), and doesn't override itemView tags.")
         }
 
-        val holder = v.tag as RecyclerView.ViewHolder
+        val holder = v.tag as ViewHolder
         return holder.adapterPosition
     }
 
@@ -281,7 +284,8 @@ open class MyRecyclerView : RecyclerView {
         }
     }
 
-    class GestureListener(val gestureListener: MyGestureListener) : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    class GestureListener(private val gestureListener: MyGestureListener) :
+        ScaleGestureDetector.SimpleOnScaleGestureListener() {
         private val ZOOM_IN_THRESHOLD = -0.4f
         private val ZOOM_OUT_THRESHOLD = 0.15f
 
@@ -312,7 +316,12 @@ open class MyRecyclerView : RecyclerView {
     interface MyDragListener {
         fun selectItem(position: Int)
 
-        fun selectRange(initialSelection: Int, lastDraggedIndex: Int, minReached: Int, maxReached: Int)
+        fun selectRange(
+            initialSelection: Int,
+            lastDraggedIndex: Int,
+            minReached: Int,
+            maxReached: Int
+        )
     }
 
     interface MyGestureListener {

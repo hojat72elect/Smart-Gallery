@@ -287,7 +287,7 @@ class PropertiesDialog : BasePropertiesDialog {
      * A File Properties dialog constructor with an optional parameter, usable at multiple items selected
      *
      * @param activity request activity to avoid some Theme.AppCompat issues
-     * @param path the file path
+     * @param paths the file path
      * @param countHiddenItems toggle determining if we will count hidden files themselves and their sizes
      */
     constructor(activity: Activity, paths: List<String>, countHiddenItems: Boolean = false) : super(

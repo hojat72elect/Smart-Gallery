@@ -1325,7 +1325,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 dirsToRemove.forEach {
                     directoryDB.deleteDirPath(it.path)
                 }
-                dirs.removeAll(dirsToRemove)
+                dirs.removeAll(dirsToRemove.toSet())
                 setupAdapter(dirs)
             }
         } catch (ignored: Exception) {

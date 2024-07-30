@@ -43,7 +43,7 @@ data class Contact(
     var mimetype: String = "",
     var ringtone: String? = ""
 ) : Comparable<Contact> {
-    val rawId = id
+
     val name = getNameToDisplay()
     var birthdays =
         events.filter { it.type == ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY }
@@ -148,12 +148,6 @@ data class Contact(
         return firstId.compareTo(secondId)
     }
 
-    fun getBubbleText() = when {
-        sorting and SORT_BY_FIRST_NAME != 0 -> firstName
-        sorting and SORT_BY_MIDDLE_NAME != 0 -> middleName
-        else -> surname
-    }
-
     fun getNameToDisplay(): String {
         val firstMiddle = "$firstName $middleName".trim()
         val firstPart = if (startWithSurname) {
@@ -179,12 +173,6 @@ data class Contact(
             !phoneNumber.isNullOrBlank() -> phoneNumber
             else -> return ""
         }
-    }
-
-    // photos stored locally always have different hashcodes. Avoid constantly refreshing the contact lists as the app thinks something changed.
-    fun getHashWithoutPrivatePhoto(): Int {
-        val photoToUse = if (isPrivate()) null else photo
-        return copy(photo = photoToUse).hashCode()
     }
 
     fun getStringToCompare(): String {
@@ -216,58 +204,12 @@ data class Contact(
         ).toString()
     }
 
-    fun getHashToCompare() = getStringToCompare().hashCode()
-
-    fun getFullCompany(): String {
+    private fun getFullCompany(): String {
         var fullOrganization =
             if (organization.company.isEmpty()) "" else "${organization.company}, "
         fullOrganization += organization.jobPosition
         return fullOrganization.trim().trimEnd(',')
     }
 
-    fun isABusinessContact() =
-        prefix.isEmpty() && firstName.isEmpty() && middleName.isEmpty() && surname.isEmpty() && suffix.isEmpty() && organization.isNotEmpty()
-
-    fun doesContainPhoneNumber(text: String, convertLetters: Boolean = false): Boolean {
-        return if (text.isNotEmpty()) {
-            val normalizedText = if (convertLetters) text.normalizePhoneNumber() else text
-            phoneNumbers.any {
-                PhoneNumberUtils.compare(it.normalizedNumber, normalizedText) ||
-                        it.value.contains(text) ||
-                        it.normalizedNumber.contains(normalizedText) ||
-                        it.value.normalizePhoneNumber().contains(normalizedText)
-            }
-        } else {
-            false
-        }
-    }
-
-    fun doesHavePhoneNumber(text: String): Boolean {
-        return if (text.isNotEmpty()) {
-            val normalizedText = text.normalizePhoneNumber()
-            if (normalizedText.isEmpty()) {
-                phoneNumbers.map { it.normalizedNumber }.any { phoneNumber ->
-                    phoneNumber == text
-                }
-            } else {
-                phoneNumbers.map { it.normalizedNumber }.any { phoneNumber ->
-                    PhoneNumberUtils.compare(phoneNumber.normalizePhoneNumber(), normalizedText) ||
-                            phoneNumber == text ||
-                            phoneNumber.normalizePhoneNumber() == normalizedText ||
-                            phoneNumber == normalizedText
-                }
-            }
-        } else {
-            false
-        }
-    }
-
-    fun isPrivate() = source == SMT_PRIVATE
-
-    fun getSignatureKey() = if (photoUri.isNotEmpty()) photoUri else hashCode()
-
-    fun getPrimaryNumber(): String? {
-        val primaryNumber = phoneNumbers.firstOrNull { it.isPrimary }
-        return primaryNumber?.normalizedNumber ?: phoneNumbers.firstOrNull()?.normalizedNumber
-    }
+    private fun isPrivate() = source == SMT_PRIVATE
 }

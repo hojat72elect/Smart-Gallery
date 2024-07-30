@@ -602,7 +602,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     }
 
     private fun restoreAllFiles() {
-        val paths = mMedia.filter { it is Medium }.map { (it as Medium).path } as ArrayList<String>
+        val paths = mMedia.filterIsInstance<Medium>().map { it.path } as ArrayList<String>
         restoreRecycleBinPaths(paths) {
             ensureBackgroundThread {
                 directoryDB.deleteDirPath(RECYCLE_BIN)

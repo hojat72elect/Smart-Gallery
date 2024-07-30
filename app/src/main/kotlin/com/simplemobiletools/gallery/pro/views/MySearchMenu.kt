@@ -22,7 +22,7 @@ import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
 
 class MySearchMenu(context: Context, attrs: AttributeSet) : AppBarLayout(context, attrs) {
     var isSearchOpen = false
-    var useArrowIcon = false
+    private var useArrowIcon = false
     var onSearchOpenListener: (() -> Unit)? = null
     var onSearchClosedListener: (() -> Unit)? = null
     var onSearchTextChangedListener: ((text: String) -> Unit)? = null

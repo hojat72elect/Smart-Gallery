@@ -61,7 +61,7 @@ class PickMediumDialog(
             }
 
         activity.getCachedMedia(path) {
-            val media = it.filter { it is Medium } as ArrayList
+            val media = it.toList() as ArrayList
             if (media.isNotEmpty()) {
                 activity.runOnUiThread {
                     gotMedia(media)

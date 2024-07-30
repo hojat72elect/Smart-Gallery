@@ -2885,14 +2885,6 @@ fun Context.scanPathRecursively(path: String, callback: (() -> Unit)? = null) {
     scanPathsRecursively(arrayListOf(path), callback)
 }
 
-fun Context.scanFilesRecursively(files: List<File>, callback: (() -> Unit)? = null) {
-    val allPaths = java.util.ArrayList<String>()
-    for (file in files) {
-        allPaths.addAll(getPaths(file))
-    }
-    rescanPaths(allPaths, callback)
-}
-
 fun Context.scanPathsRecursively(paths: List<String>, callback: (() -> Unit)? = null) {
     val allPaths = java.util.ArrayList<String>()
     for (path in paths) {

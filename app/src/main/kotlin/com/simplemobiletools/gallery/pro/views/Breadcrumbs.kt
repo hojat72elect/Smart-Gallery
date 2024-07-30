@@ -158,7 +158,7 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
         for (i in dirs.indices) {
             val dir = dirs[i]
             if (i > 0) {
-                currPath += dir + "/"
+                currPath += "$dir/"
             }
 
             if (dir.isEmpty()) {
@@ -236,11 +236,6 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
                 root.tag = item
             }
         }
-    }
-
-    fun updateColor(color: Int) {
-        textColor = color
-        setBreadcrumb(lastPath)
     }
 
     fun updateFontSize(size: Float, updateTexts: Boolean) {

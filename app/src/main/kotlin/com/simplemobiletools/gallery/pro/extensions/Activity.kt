@@ -50,9 +50,7 @@ import com.simplemobiletools.gallery.pro.activities.MediaActivity
 import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.databinding.DialogTitleBinding
 import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
-import com.simplemobiletools.gallery.pro.dialogs.DonateDialog
 import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
-import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
 import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY

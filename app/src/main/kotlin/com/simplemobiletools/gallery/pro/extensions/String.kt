@@ -10,11 +10,8 @@ import android.os.StatFs
 import android.provider.MediaStore
 import android.telephony.PhoneNumberUtils
 import android.text.Html
-import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import com.bumptech.glide.signature.ObjectKey
 import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
 import com.simplemobiletools.gallery.pro.helpers.audioExtensions
@@ -28,7 +25,7 @@ import java.io.File
 import java.io.IOException
 import java.text.Normalizer
 import java.util.Locale
-import java.util.regex.Pattern
+import kotlin.math.max
 
 fun String.isThisOrParentIncluded(includedPaths: MutableSet<String>) =
     includedPaths.any { equals(it, true) } || includedPaths.any {
@@ -166,7 +163,11 @@ fun String.isSvg() = endsWith(".svg", true)
 fun String?.fromHtml(): Spanned =
     when {
         this == null -> SpannableString("")
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(
+            this,
+            Html.FROM_HTML_MODE_LEGACY
+        )
+
         else -> Html.fromHtml(this)
     }
 
@@ -278,7 +279,6 @@ fun String.canModifyEXIF() = extensionsSupportingEXIF.any { endsWith(it, true) }
 
 fun String.areDigitsOnly() = matches(Regex("[0-9]+"))
 
-fun String.areLettersOnly() = matches(Regex("[a-zA-Z]+"))
 
 fun String.getGenericMimeType(): String {
     if (!contains("/"))
@@ -289,7 +289,7 @@ fun String.getGenericMimeType(): String {
 }
 
 fun String.getParentPath() = removeSuffix("/${getFilenameFromPath()}")
-fun String.relativizeWith(path: String) = this.substring(path.length)
+
 
 fun String.containsNoMedia() = File(this).containsNoMedia()
 
@@ -321,97 +321,6 @@ fun String.getImageResolution(context: Context): Point? {
     } else {
         null
     }
-}
-
-fun String.getPublicUri(context: Context) = context.getDocumentFile(this)?.uri ?: ""
-
-fun String.substringTo(cnt: Int): String {
-    return if (isEmpty()) {
-        ""
-    } else {
-        substring(0, Math.min(length, cnt))
-    }
-}
-
-fun String.highlightTextPart(
-    textToHighlight: String,
-    color: Int,
-    highlightAll: Boolean = false,
-    ignoreCharsBetweenDigits: Boolean = false
-): SpannableString {
-    val spannableString = SpannableString(this)
-    if (textToHighlight.isEmpty()) {
-        return spannableString
-    }
-
-    var startIndex = normalizeString().indexOf(textToHighlight, 0, true)
-    val indexes = ArrayList<Int>()
-    while (startIndex >= 0) {
-
-            indexes.add(startIndex)
-
-
-        startIndex =
-            normalizeString().indexOf(textToHighlight, startIndex + textToHighlight.length, true)
-        if (!highlightAll) {
-            break
-        }
-    }
-
-    // handle cases when we search for 643, but in reality the string contains it like 6-43
-    if (ignoreCharsBetweenDigits && indexes.isEmpty()) {
-        try {
-            val regex = TextUtils.join("(\\D*)", textToHighlight.toCharArray().toTypedArray())
-            val pattern = Pattern.compile(regex)
-            val result = pattern.matcher(normalizeString())
-            if (result.find()) {
-                spannableString.setSpan(
-                    ForegroundColorSpan(color),
-                    result.start(),
-                    result.end(),
-                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-                )
-            }
-        } catch (ignored: Exception) {
-        }
-
-        return spannableString
-    }
-
-    indexes.forEach {
-        val endIndex = Math.min(it + textToHighlight.length, length)
-        try {
-            spannableString.setSpan(
-                ForegroundColorSpan(color),
-                it,
-                endIndex,
-                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-            )
-        } catch (ignored: IndexOutOfBoundsException) {
-        }
-    }
-
-    return spannableString
-}
-
-fun String.searchMatches(textToHighlight: String): ArrayList<Int> {
-    val indexes = arrayListOf<Int>()
-    var indexOf = indexOf(textToHighlight, 0, true)
-
-    var offset = 0
-    while (offset < length && indexOf != -1) {
-        indexOf = indexOf(textToHighlight, offset, true)
-
-        if (indexOf == -1) {
-            break
-        } else {
-            indexes.add(indexOf)
-        }
-
-        offset = indexOf + 1
-    }
-
-    return indexes
 }
 
 fun String.getFileSignature(lastModified: Long? = null) = ObjectKey(getFileKey(lastModified))
@@ -454,17 +363,11 @@ fun String.trimToComparableNumber(): String {
         return this
     }
     val normalizedNumber = this.normalizeString()
-    val startIndex = Math.max(0, normalizedNumber.length - 9)
+    val startIndex = max(0, normalizedNumber.length - 9)
     return normalizedNumber.substring(startIndex)
 }
 
-// get the contact names first letter at showing the placeholder without image
-fun String.getNameLetter() =
-    normalizeString().toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault())
-        ?: "A"
-
 fun String.normalizePhoneNumber() = PhoneNumberUtils.normalizeNumber(this)
-
 
 fun String.getMimeType(): String {
     val typesMap = java.util.HashMap<String, String>().apply {

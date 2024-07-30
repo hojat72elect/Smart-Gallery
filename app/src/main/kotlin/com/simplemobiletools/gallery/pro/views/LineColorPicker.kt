@@ -10,6 +10,8 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.extensions.isRTLLayout
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.interfaces.LineColorPickerListener
+import kotlin.math.max
+import kotlin.math.min
 
 @SuppressLint("ClickableViewAccessibility")
 class LineColorPicker @JvmOverloads constructor(
@@ -43,7 +45,7 @@ class LineColorPicker @JvmOverloads constructor(
                 updateItemMargin(lastColorIndex, false)
             }
         }
-        orientation = LinearLayout.HORIZONTAL
+        orientation = HORIZONTAL
 
         setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -91,7 +93,7 @@ class LineColorPicker @JvmOverloads constructor(
         if (context.isRTLLayout) {
             colorIndex = colors.size - colorIndex - 1
         }
-        val index = Math.max(0, Math.min(colorIndex, colorsCount - 1))
+        val index = max(0, min(colorIndex, colorsCount - 1))
         if (lastColorIndex != index) {
             updateItemMargin(lastColorIndex, true)
             lastColorIndex = index
@@ -102,7 +104,7 @@ class LineColorPicker @JvmOverloads constructor(
 
     private fun updateItemMargin(index: Int, addMargin: Boolean) {
         getChildAt(index)?.apply {
-            (layoutParams as LinearLayout.LayoutParams).apply {
+            (layoutParams as LayoutParams).apply {
                 topMargin = if (addMargin) unselectedMargin else 0
                 bottomMargin = if (addMargin) unselectedMargin else 0
             }

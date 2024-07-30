@@ -226,7 +226,7 @@ class MediaFetcher(val context: Context) {
                 cursor = context.contentResolver.query(uri, projection, bundle, null)
                 if (cursor?.moveToFirst() == true) {
                     do {
-                        val path = cursor.getStringValue(Images.ImageColumns.DATA) ?: continue
+                        val path = cursor.getStringValue(Images.ImageColumns.DATA)
                         parents.add(path.getParentPath())
                     } while (cursor.moveToNext())
                 }
@@ -235,7 +235,7 @@ class MediaFetcher(val context: Context) {
                 cursor = context.contentResolver.query(uri, projection, null, null, sorting)
                 if (cursor?.moveToFirst() == true) {
                     do {
-                        val path = cursor.getStringValue(Images.ImageColumns.DATA) ?: continue
+                        val path = cursor.getStringValue(Images.ImageColumns.DATA)
                         parents.add(path.getParentPath())
                     } while (cursor.moveToNext())
                 }
@@ -954,7 +954,7 @@ class MediaFetcher(val context: Context) {
     }
 
     fun groupMedia(media: ArrayList<Medium>, path: String): ArrayList<ThumbnailItem> {
-        val pathToCheck = if (path.isEmpty()) SHOW_ALL else path
+        val pathToCheck = path.ifEmpty { SHOW_ALL }
         val currentGrouping = context.config.getFolderGrouping(pathToCheck)
         if (currentGrouping and GROUP_BY_NONE != 0) {
             return media as ArrayList<ThumbnailItem>
