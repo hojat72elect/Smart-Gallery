@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.about
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
@@ -25,11 +25,6 @@ import com.simplemobiletools.gallery.pro.dialogs.RateStarsAlertDialog
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.enableEdgeToEdgeSimple
 import com.simplemobiletools.gallery.pro.compose.extensions.rateStarsRedirectAndThankYou
-import com.simplemobiletools.gallery.pro.compose.screens.AboutScreen
-import com.simplemobiletools.gallery.pro.compose.screens.AboutSection
-import com.simplemobiletools.gallery.pro.compose.screens.HelpUsSection
-import com.simplemobiletools.gallery.pro.compose.screens.OtherSection
-import com.simplemobiletools.gallery.pro.compose.screens.SocialSection
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedAlertDialog
 import com.simplemobiletools.gallery.pro.extensions.baseConfig

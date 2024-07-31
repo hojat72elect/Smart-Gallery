@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.compose.screens
+package com.simplemobiletools.gallery.pro.new_architecture.about
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer

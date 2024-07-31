@@ -122,11 +122,27 @@
         </activity>
 
         <activity
-            android:name=".activities.AboutActivity"
+            android:name=".new_architecture.about.AboutActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/about"
             android:parentActivityName=".activities.MainActivity" />
+
+        <activity
+            android:name=".new_architecture.about.LicenseActivity"
+            android:configChanges="orientation"
+            android:label="@string/third_party_licences" />
+
+        <activity
+            android:name=".new_architecture.about.FAQActivity"
+            android:configChanges="orientation"
+             />
+
+        <activity
+            android:name=".new_architecture.about.ContributorsActivity"
+            android:configChanges="orientation"
+            />
+
 
         <activity
             android:name=".activities.CustomizationActivity"
