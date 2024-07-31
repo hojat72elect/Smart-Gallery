@@ -914,16 +914,9 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+
     fun launchChangeAppLanguageIntent() {
-        try {
-            Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
-                data = Uri.fromParts("package", packageName, null)
-                startActivity(this)
-            }
-        } catch (e: Exception) {
-            openDeviceSettings()
-        }
+        Toast.makeText(this, "This feature has not yet been added!!!", Toast.LENGTH_SHORT).show()
     }
 
     // synchronous return value determines only if we are showing the SAF dialog, callback result tells if the SD or OTG permission has been granted

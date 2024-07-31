@@ -44,6 +44,9 @@ import com.simplemobiletools.gallery.pro.models.RadioItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
+/**
+ * Whenever we're showing a list of radio buttons in a dialog, we're using this class.
+ */
 class RadioGroupDialog(
     val activity: Activity,
     val items: ArrayList<RadioItem>,

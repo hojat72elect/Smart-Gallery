@@ -149,10 +149,10 @@
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/customize_colors"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
 
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".new_architecture.settings.SettingsActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/settings"
@@ -194,21 +194,21 @@
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/include_folders"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
 
         <activity
             android:name=".activities.ExcludedFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/excluded_folders"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
 
         <activity
             android:name=".activities.HiddenFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/hidden_folders"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
 
         <activity
             android:name=".activities.PhotoActivity"

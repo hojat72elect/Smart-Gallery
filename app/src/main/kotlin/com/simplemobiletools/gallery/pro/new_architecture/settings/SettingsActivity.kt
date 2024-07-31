@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.settings
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,8 +12,11 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.ExcludedFoldersActivity
+import com.simplemobiletools.gallery.pro.activities.HiddenFoldersActivity
+import com.simplemobiletools.gallery.pro.activities.IncludedFoldersActivity
+import com.simplemobiletools.gallery.pro.activities.SimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySettingsBinding
-import com.simplemobiletools.gallery.pro.dialogs.ChangeDateTimeFormatDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFileThumbnailStyleDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFolderThumbnailStyleDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog

@@ -49,6 +49,7 @@ import com.simplemobiletools.gallery.pro.helpers.CONFLICT_SKIP
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.FileDirItemReadOnly
 import com.simplemobiletools.gallery.pro.models.asReadOnly
+import com.simplemobiletools.gallery.pro.new_architecture.settings.DialogCheckBoxWithRadioAlignmentComponent
 import kotlinx.collections.immutable.toImmutableList
 
 class FileConflictDialog(

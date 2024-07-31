@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.dialogs
+package com.simplemobiletools.gallery.pro.new_architecture.settings
 
 import android.app.Activity
 import android.text.format.DateFormat
@@ -47,6 +47,7 @@ import com.simplemobiletools.gallery.pro.compose.extensions.rememberMutableInter
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.compose.theme.preferenceLabelColor
+import com.simplemobiletools.gallery.pro.dialogs.DialogSurface
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff

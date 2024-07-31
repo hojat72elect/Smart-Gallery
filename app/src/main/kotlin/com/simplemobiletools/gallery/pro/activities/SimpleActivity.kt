@@ -37,6 +37,7 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isPiePlus
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.new_architecture.settings.SettingsActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 open class SimpleActivity : BaseSimpleActivity() {
