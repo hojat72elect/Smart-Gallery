@@ -267,7 +267,7 @@
         </activity>
 
         <activity
-            android:name=".activities.SetWallpaperActivity"
+            android:name=".new_architecture.wallpaper.SetWallpaperActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/simple_wallpaper">

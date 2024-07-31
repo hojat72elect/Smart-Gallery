@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.wallpaper
 
 import android.app.Activity
 import android.app.WallpaperManager
@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import com.canhub.cropper.CropImageView
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.MainActivity
+import com.simplemobiletools.gallery.pro.activities.SimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading

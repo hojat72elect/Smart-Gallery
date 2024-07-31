@@ -1,0 +1,1 @@
+This package contains the feature for setting up a picture as the wallpaper of the device.
