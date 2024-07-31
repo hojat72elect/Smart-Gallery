@@ -131,7 +131,6 @@ import com.simplemobiletools.gallery.pro.extensions.isAppInstalledOnSDCard
 import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
 import com.simplemobiletools.gallery.pro.extensions.isInDownloadDir
 import com.simplemobiletools.gallery.pro.extensions.isJpg
-import com.simplemobiletools.gallery.pro.extensions.isOrWasThankYouInstalled
 import com.simplemobiletools.gallery.pro.extensions.isPathOnInternalStorage
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isPathOnSD
@@ -904,11 +903,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
     fun handleCustomizeColorsClick() {
-        if (isOrWasThankYouInstalled()) {
-            startCustomizationActivity()
-        } else {
-            FeatureLockedDialog(this) {}
-        }
+        startCustomizationActivity()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

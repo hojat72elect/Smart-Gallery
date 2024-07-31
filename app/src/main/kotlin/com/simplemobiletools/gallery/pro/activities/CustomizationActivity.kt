@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityCustomizationBinding
 import com.simplemobiletools.gallery.pro.dialogs.LineColorPickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.PurchaseThankYouDialog
 import com.simplemobiletools.gallery.pro.extensions.getThemeId
 import com.simplemobiletools.gallery.pro.models.MyTheme
 import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
@@ -28,7 +27,6 @@ import com.simplemobiletools.gallery.pro.extensions.getContrastColor
 import com.simplemobiletools.gallery.pro.extensions.getMyContentProviderCursorLoader
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.getSharedThemeSync
-import com.simplemobiletools.gallery.pro.extensions.isThankYouInstalled
 import com.simplemobiletools.gallery.pro.extensions.isUsingSystemDarkTheme
 import com.simplemobiletools.gallery.pro.extensions.setFillWithStroke
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
@@ -98,34 +96,31 @@ class CustomizationActivity : BaseSimpleActivity() {
         isThankYou = packageName.removeSuffix(".debug") == "com.simplemobiletools.thankyou"
         initColorVariables()
 
-        if (isThankYouInstalled()) {
-            val cursorLoader = getMyContentProviderCursorLoader()
-            ensureBackgroundThread {
-                try {
-                    storedSharedTheme = getSharedThemeSync(cursorLoader)
-                    if (storedSharedTheme == null) {
-                        baseConfig.isUsingSharedTheme = false
-                    } else {
-                        baseConfig.wasSharedThemeEverActivated = true
-                    }
 
-                    runOnUiThread {
-                        setupThemes()
-                        val hideGoogleRelations =
-                            resources.getBoolean(R.bool.hide_google_relations) && !isThankYou
-                        binding.applyToAllHolder.beVisibleIf(
-                            storedSharedTheme == null && curSelectedThemeId != THEME_AUTO && curSelectedThemeId != THEME_SYSTEM && !hideGoogleRelations
-                        )
-                    }
-                } catch (e: Exception) {
-                    toast(R.string.update_thank_you)
-                    finish()
+        val cursorLoader = getMyContentProviderCursorLoader()
+        ensureBackgroundThread {
+            try {
+                storedSharedTheme = getSharedThemeSync(cursorLoader)
+                if (storedSharedTheme == null) {
+                    baseConfig.isUsingSharedTheme = false
+                } else {
+                    baseConfig.wasSharedThemeEverActivated = true
                 }
+
+                runOnUiThread {
+                    setupThemes()
+                    val hideGoogleRelations =
+                        resources.getBoolean(R.bool.hide_google_relations) && !isThankYou
+                    binding.applyToAllHolder.beVisibleIf(
+                        storedSharedTheme == null && curSelectedThemeId != THEME_AUTO && curSelectedThemeId != THEME_SYSTEM && !hideGoogleRelations
+                    )
+                }
+            } catch (e: Exception) {
+                toast(R.string.update_thank_you)
+                finish()
             }
-        } else {
-            setupThemes()
-            baseConfig.isUsingSharedTheme = false
         }
+
 
         val textColor = if (baseConfig.isUsingSystemTheme) {
             getProperTextColor()
@@ -283,10 +278,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
 
         RadioGroupDialog(this@CustomizationActivity, items, curSelectedThemeId) {
-            if (it == THEME_SHARED && !isThankYouInstalled()) {
-                PurchaseThankYouDialog(this)
-                return@RadioGroupDialog
-            }
 
             updateColorTheme(it as Int, true)
             if (it != THEME_CUSTOM && it != THEME_SHARED && it != THEME_AUTO && it != THEME_SYSTEM && !baseConfig.wasCustomThemeSwitchDescriptionShown) {
@@ -721,25 +712,23 @@ class CustomizationActivity : BaseSimpleActivity() {
         if (curSelectedThemeId == THEME_SHARED) THEME_SHARED else getCurrentThemeId()
 
     private fun applyToAll() {
-        if (isThankYouInstalled()) {
-            ConfirmationDialog(this, "", R.string.share_colors_success, R.string.ok, 0) {
-                Intent().apply {
-                    action = MyContentProvider.SHARED_THEME_ACTIVATED
-                    sendBroadcast(this)
-                }
 
-                if (!predefinedThemes.containsKey(THEME_SHARED)) {
-                    predefinedThemes[THEME_SHARED] = MyTheme(getString(R.string.shared), 0, 0, 0, 0)
-                }
-
-                baseConfig.wasSharedThemeEverActivated = true
-                binding.applyToAllHolder.beGone()
-                updateColorTheme(THEME_SHARED)
-                saveChanges(false)
+        ConfirmationDialog(this, "", R.string.share_colors_success, R.string.ok, 0) {
+            Intent().apply {
+                action = MyContentProvider.SHARED_THEME_ACTIVATED
+                sendBroadcast(this)
             }
-        } else {
-            PurchaseThankYouDialog(this)
+
+            if (!predefinedThemes.containsKey(THEME_SHARED)) {
+                predefinedThemes[THEME_SHARED] = MyTheme(getString(R.string.shared), 0, 0, 0, 0)
+            }
+
+            baseConfig.wasSharedThemeEverActivated = true
+            binding.applyToAllHolder.beGone()
+            updateColorTheme(THEME_SHARED)
+            saveChanges(false)
         }
+
     }
 
     private fun updateLabelColors(textColor: Int) {

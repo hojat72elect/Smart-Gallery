@@ -1957,8 +1957,6 @@ fun Context.getUriMimeType(path: String, newUri: Uri): String {
     return mimeType
 }
 
-fun Context.isThankYouInstalled() = isPackageInstalled("com.simplemobiletools.thankyou")
-
 fun Context.isAProApp() =
     packageName.startsWith("com.simplemobiletools.") && packageName.removeSuffix(".debug")
         .endsWith(".pro")
@@ -4048,13 +4046,9 @@ fun Context.getPopupMenuTheme(): Int {
 }
 
 fun Context.getSharedTheme(callback: (sharedTheme: SharedTheme?) -> Unit) {
-    if (!isThankYouInstalled()) {
-        callback(null)
-    } else {
-        val cursorLoader = getMyContentProviderCursorLoader()
-        ensureBackgroundThread {
-            callback(getSharedThemeSync(cursorLoader))
-        }
+    val cursorLoader = getMyContentProviderCursorLoader()
+    ensureBackgroundThread {
+        callback(getSharedThemeSync(cursorLoader))
     }
 }
 
@@ -4105,19 +4099,6 @@ fun Context.toggleAppIconColor(appId: String, colorIndex: Int, color: Int, enabl
 fun Context.getAppIconColors() =
     resources.getIntArray(R.array.md_app_icon_colors)
         .toCollection(ArrayList())
-
-fun Context.isOrWasThankYouInstalled(): Boolean {
-    return when {
-        resources.getBoolean(R.bool.pretend_thank_you_installed) -> true
-        baseConfig.hadThankYouInstalled -> true
-        isThankYouInstalled() -> {
-            baseConfig.hadThankYouInstalled = true
-            true
-        }
-
-        else -> false
-    }
-}
 
 fun Context.getTextSize() = when (baseConfig.fontSize) {
     FONT_SIZE_SMALL -> resources.getDimension(R.dimen.smaller_text_size)

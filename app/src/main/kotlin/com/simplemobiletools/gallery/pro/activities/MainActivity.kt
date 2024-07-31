@@ -84,7 +84,6 @@ import com.simplemobiletools.gallery.pro.extensions.isGif
 import com.simplemobiletools.gallery.pro.extensions.isGone
 import com.simplemobiletools.gallery.pro.extensions.isImageFast
 import com.simplemobiletools.gallery.pro.extensions.isMediaFile
-import com.simplemobiletools.gallery.pro.extensions.isOrWasThankYouInstalled
 import com.simplemobiletools.gallery.pro.extensions.isPackageInstalled
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRawFast
@@ -1858,8 +1857,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private fun showDonateOrUpgradeDialog() {
         if (getCanAppBeUpgraded()) {
             UpgradeToProDialog(this)
-        } else if (!isOrWasThankYouInstalled()) {
-            DonateDialog(this)
         }
     }
 }

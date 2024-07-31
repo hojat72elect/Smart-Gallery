@@ -7,7 +7,6 @@ import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.checkAppIconColor
 import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
 import com.simplemobiletools.gallery.pro.extensions.getSharedTheme
-import com.simplemobiletools.gallery.pro.extensions.isThankYouInstalled
 import com.simplemobiletools.gallery.pro.extensions.isUsingSystemDarkTheme
 import com.simplemobiletools.gallery.pro.extensions.showSideloadingDialog
 import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_TRUE
@@ -39,7 +38,7 @@ abstract class BaseSplashActivity : AppCompatActivity() {
             }
         }
 
-        if (!baseConfig.isUsingAutoTheme && !baseConfig.isUsingSystemTheme && isThankYouInstalled()) {
+        if (!baseConfig.isUsingAutoTheme && !baseConfig.isUsingSystemTheme) {
             getSharedTheme {
                 if (it != null) {
                     baseConfig.apply {
