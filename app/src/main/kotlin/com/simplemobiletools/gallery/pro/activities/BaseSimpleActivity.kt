@@ -53,7 +53,6 @@ import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExportSettingsDialog
-import com.simplemobiletools.gallery.pro.dialogs.FeatureLockedDialog
 import com.simplemobiletools.gallery.pro.dialogs.FileConflictDialog
 import com.simplemobiletools.gallery.pro.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
@@ -143,7 +142,6 @@ import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
 import com.simplemobiletools.gallery.pro.extensions.mediaDB
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.needsStupidWritePermissions
-import com.simplemobiletools.gallery.pro.extensions.openDeviceSettings
 import com.simplemobiletools.gallery.pro.extensions.openNotificationSettings
 import com.simplemobiletools.gallery.pro.extensions.random
 import com.simplemobiletools.gallery.pro.extensions.recycleBin
