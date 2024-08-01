@@ -10,7 +10,6 @@ import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameItemsPatternBinding
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.ensureTwoDigits
@@ -31,6 +30,7 @@ import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.interfaces.RenameTab
 import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -44,7 +44,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
         false     // we should request the permission on Android 30+ for all uris at once, not one by one
     private var currentIncrementalNumber = 1
     private var numbersCnt = 0
-    var activity: BaseSimpleActivity? = null
+    var activity: BaseActivity? = null
     var paths = ArrayList<String>()
 
     private lateinit var binding: DialogRenameItemsPatternBinding
@@ -55,7 +55,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
         context.updateTextColors(binding.renameItemsHolder)
     }
 
-    override fun initTab(activity: BaseSimpleActivity, paths: ArrayList<String>) {
+    override fun initTab(activity: BaseActivity, paths: ArrayList<String>) {
         this.activity = activity
         this.paths = paths
         binding.renameItemsValue.setText(activity.baseConfig.lastRenamePatternUsed)

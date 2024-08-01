@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.exifinterface.media.ExifInterface
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.canModifyEXIF
@@ -47,6 +46,7 @@ import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.helpers.sumByInt
 import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyTextView
 import java.io.File
 
@@ -154,7 +154,7 @@ class PropertiesDialog : BasePropertiesDialog {
 
                 val exif = if (isNougatPlus() && mActivity.isPathOnOTG(fileDirItem.path)) {
                     ExifInterface(
-                        (mActivity as BaseSimpleActivity).getFileInputStreamSync(
+                        (mActivity as BaseActivity).getFileInputStreamSync(
                             fileDirItem.path
                         )!!
                     )
@@ -352,7 +352,7 @@ class PropertiesDialog : BasePropertiesDialog {
 
     private fun addExifProperties(path: String, activity: Activity) {
         val exif = if (isNougatPlus() && activity.isPathOnOTG(path)) {
-            ExifInterface((activity as BaseSimpleActivity).getFileInputStreamSync(path)!!)
+            ExifInterface((activity as BaseActivity).getFileInputStreamSync(path)!!)
         } else if (isNougatPlus() && path.startsWith("content://")) {
             try {
                 ExifInterface(activity.contentResolver.openInputStream(Uri.parse(path))!!)

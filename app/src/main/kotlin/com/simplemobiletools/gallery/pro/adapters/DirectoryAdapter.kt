@@ -21,7 +21,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.FolderLockingNoticeDialog
 import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
@@ -101,6 +100,7 @@ import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.models.AlbumCover
 import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
 import java.util.Collections
@@ -108,7 +108,7 @@ import java.util.Collections
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class DirectoryAdapter(
-    activity: BaseSimpleActivity,
+    activity: BaseActivity,
     var dirs: ArrayList<Directory>,
     val listener: DirectoryOperationsListener?,
     recyclerView: MyRecyclerView,

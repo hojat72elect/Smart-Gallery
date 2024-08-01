@@ -12,9 +12,10 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.ManageFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
-class IncludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
+class IncludedFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)
 

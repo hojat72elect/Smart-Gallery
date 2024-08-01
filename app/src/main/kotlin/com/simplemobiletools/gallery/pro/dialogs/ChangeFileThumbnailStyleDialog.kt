@@ -3,14 +3,14 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeFileThumbnailStyleBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
-class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) :
+class ChangeFileThumbnailStyleDialog(val activity: BaseActivity) :
     DialogInterface.OnClickListener {
     private var config = activity.config
     private val binding: DialogChangeFileThumbnailStyleBinding

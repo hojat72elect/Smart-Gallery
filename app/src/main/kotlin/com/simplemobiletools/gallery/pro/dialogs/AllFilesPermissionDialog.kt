@@ -3,14 +3,14 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @SuppressLint("InflateParams")
 class AllFilesPermissionDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     message: String = "",
     val callback: (result: Boolean) -> Unit,
     val neutralPressed: () -> Unit

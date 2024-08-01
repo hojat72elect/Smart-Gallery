@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -12,6 +12,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.database.ContentObserver
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Point
@@ -24,6 +25,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
 import android.provider.MediaStore.Images
+import android.provider.MediaStore.Video
 import android.provider.Settings
 import android.telecom.TelecomManager
 import android.view.Menu
@@ -46,7 +48,9 @@ import androidx.core.widget.NestedScrollView
 import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.CustomizationActivity
 import com.simplemobiletools.gallery.pro.asynctasks.CopyMoveTask
 import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
@@ -54,6 +58,7 @@ import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.ExportSettingsDialog
 import com.simplemobiletools.gallery.pro.dialogs.FileConflictDialog
+import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeMultipleImagesDialog
@@ -61,6 +66,7 @@ import com.simplemobiletools.gallery.pro.dialogs.ResizeWithPathDialog
 import com.simplemobiletools.gallery.pro.dialogs.WhatsNewDialog
 import com.simplemobiletools.gallery.pro.dialogs.WritePermissionDialog
 import com.simplemobiletools.gallery.pro.extensions.addBit
+import com.simplemobiletools.gallery.pro.extensions.addPathToDB
 import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
@@ -114,6 +120,7 @@ import com.simplemobiletools.gallery.pro.extensions.getPermissionString
 import com.simplemobiletools.gallery.pro.extensions.getPicturesDirectoryPath
 import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperStatusBarColor
+import com.simplemobiletools.gallery.pro.extensions.getRealPathFromURI
 import com.simplemobiletools.gallery.pro.extensions.getSomeDocumentFile
 import com.simplemobiletools.gallery.pro.extensions.getThemeId
 import com.simplemobiletools.gallery.pro.extensions.hasAllPermissions
@@ -166,6 +173,7 @@ import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.trySAFFileDelete
 import com.simplemobiletools.gallery.pro.extensions.updateDBMediaPath
+import com.simplemobiletools.gallery.pro.extensions.updateDirectoryPath
 import com.simplemobiletools.gallery.pro.extensions.updateInMediaStore
 import com.simplemobiletools.gallery.pro.extensions.updateLastModified
 import com.simplemobiletools.gallery.pro.extensions.updateOTGPathFromPartition
@@ -183,6 +191,20 @@ import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.EXTERNAL_STORAGE_PROVIDER_AUTHORITY
 import com.simplemobiletools.gallery.pro.helpers.EXTRA_SHOW_ADVANCED
 import com.simplemobiletools.gallery.pro.helpers.HIGHER_ALPHA
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_APNG
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_CROPPER
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_EXOPLAYER
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_FILTERS
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_GESTURE_VIEWS
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_GIF_DRAWABLE
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_GLIDE
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_PANORAMA_VIEW
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_PATTERN
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_PICASSO
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_REPRINT
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_RTL
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_SANSELAN
+import com.simplemobiletools.gallery.pro.helpers.LICENSE_SUBSAMPLING
 import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
 import com.simplemobiletools.gallery.pro.helpers.MyContextWrapper
 import com.simplemobiletools.gallery.pro.helpers.NOMEDIA
@@ -204,6 +226,7 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.getConflictResolution
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
+import com.simplemobiletools.gallery.pro.helpers.isPiePlus
 import com.simplemobiletools.gallery.pro.helpers.isQPlus
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.helpers.isSPlus
@@ -216,6 +239,7 @@ import com.simplemobiletools.gallery.pro.models.FAQItem
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Release
 import com.simplemobiletools.gallery.pro.new_architecture.about.AboutActivity
+import com.simplemobiletools.gallery.pro.new_architecture.settings.SettingsActivity
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileNotFoundException
@@ -225,8 +249,20 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.util.regex.Pattern
 
-@SuppressLint("NewApi")
-abstract class BaseSimpleActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
+
+    private val observer = object : ContentObserver(null) {
+        override fun onChange(selfChange: Boolean, uri: Uri?) {
+            super.onChange(selfChange, uri)
+            if (uri != null) {
+                val path = getRealPathFromURI(uri)
+                if (path != null) {
+                    updateDirectoryPath(path.getParentPath())
+                    addPathToDB(path)
+                }
+            }
+        }
+    }
     private var materialScrollColorAnimation: ValueAnimator? = null
     var copyMoveCallback: ((destinationPath: String) -> Unit)? = null
     private var actionOnPermission: ((granted: Boolean) -> Unit)? = null
@@ -261,9 +297,29 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         var funAfterManageMediaPermission: (() -> Unit)? = null
     }
 
-    abstract fun getAppIconIDs(): ArrayList<Int>
+    fun getAppIconIDs(): ArrayList<Int> = arrayListOf(
+        R.mipmap.ic_launcher_red,
+        R.mipmap.ic_launcher_pink,
+        R.mipmap.ic_launcher_purple,
+        R.mipmap.ic_launcher_deep_purple,
+        R.mipmap.ic_launcher_indigo,
+        R.mipmap.ic_launcher_blue,
+        R.mipmap.ic_launcher_light_blue,
+        R.mipmap.ic_launcher_cyan,
+        R.mipmap.ic_launcher_teal,
+        R.mipmap.ic_launcher_green,
+        R.mipmap.ic_launcher_light_green,
+        R.mipmap.ic_launcher_lime,
+        R.mipmap.ic_launcher_yellow,
+        R.mipmap.ic_launcher_amber,
+        R.mipmap.ic_launcher,
+        R.mipmap.ic_launcher_deep_orange,
+        R.mipmap.ic_launcher_brown,
+        R.mipmap.ic_launcher_blue_grey,
+        R.mipmap.ic_launcher_grey_black
+    )
 
-    abstract fun getAppLauncherName(): String
+    fun getAppLauncherName(): String = getString(R.string.app_launcher_name)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (useDynamicTheme) {
@@ -349,6 +405,143 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             super.attachBaseContext(newBase)
         }
     }
+
+    protected fun checkNotchSupport() {
+        if (isPiePlus()) {
+            val cutoutMode = when {
+                config.showNotch -> WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                else -> WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+            }
+
+            window.attributes.layoutInDisplayCutoutMode = cutoutMode
+            if (config.showNotch) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            }
+        }
+    }
+
+    protected fun registerFileUpdateListener() {
+        try {
+            contentResolver.registerContentObserver(
+                Images.Media.EXTERNAL_CONTENT_URI,
+                true,
+                observer
+            )
+            contentResolver.registerContentObserver(
+                Video.Media.EXTERNAL_CONTENT_URI,
+                true,
+                observer
+            )
+        } catch (ignored: Exception) {
+        }
+    }
+
+    protected fun unregisterFileUpdateListener() {
+        try {
+            contentResolver.unregisterContentObserver(observer)
+        } catch (ignored: Exception) {
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    protected fun showAddIncludedFolderDialog(callback: () -> Unit) {
+        FilePickerDialog(
+            activity = this,
+            currPath = config.lastFilePickerPath,
+            pickFile = false,
+            showHidden = config.shouldShowHidden,
+            showFAB = false,
+            canAddShowHiddenButton = true
+        ) {
+            config.lastFilePickerPath = it
+            config.addIncludedFolder(it)
+            callback()
+            ensureBackgroundThread {
+                scanPathRecursively(it)
+            }
+        }
+    }
+
+    fun launchSettings() {
+        hideKeyboard()
+        startActivity(Intent(applicationContext, SettingsActivity::class.java))
+    }
+
+    fun launchAbout() {
+        val licenses =
+            LICENSE_GLIDE or LICENSE_CROPPER or LICENSE_RTL or LICENSE_SUBSAMPLING or LICENSE_PATTERN or LICENSE_REPRINT or LICENSE_GIF_DRAWABLE or
+                    LICENSE_PICASSO or LICENSE_EXOPLAYER or LICENSE_PANORAMA_VIEW or LICENSE_SANSELAN or LICENSE_FILTERS or LICENSE_GESTURE_VIEWS or LICENSE_APNG
+
+        val faqItems = arrayListOf(
+            FAQItem(R.string.faq_3_title, R.string.faq_3_text),
+            FAQItem(R.string.faq_12_title, R.string.faq_12_text),
+            FAQItem(R.string.faq_7_title, R.string.faq_7_text),
+            FAQItem(R.string.faq_14_title, R.string.faq_14_text),
+            FAQItem(R.string.faq_1_title, R.string.faq_1_text),
+            FAQItem(
+                R.string.faq_5_title_commons,
+                R.string.faq_5_text_commons
+            ),
+            FAQItem(R.string.faq_5_title, R.string.faq_5_text),
+            FAQItem(R.string.faq_4_title, R.string.faq_4_text),
+            FAQItem(R.string.faq_6_title, R.string.faq_6_text),
+            FAQItem(R.string.faq_8_title, R.string.faq_8_text),
+            FAQItem(R.string.faq_10_title, R.string.faq_10_text),
+            FAQItem(R.string.faq_11_title, R.string.faq_11_text),
+            FAQItem(R.string.faq_13_title, R.string.faq_13_text),
+            FAQItem(R.string.faq_15_title, R.string.faq_15_text),
+            FAQItem(R.string.faq_2_title, R.string.faq_2_text),
+            FAQItem(R.string.faq_18_title, R.string.faq_18_text),
+            FAQItem(
+                R.string.faq_9_title_commons,
+                R.string.faq_9_text_commons
+            ),
+        )
+
+        if (!resources.getBoolean(R.bool.hide_google_relations)) {
+            faqItems.add(
+                FAQItem(
+                    R.string.faq_2_title_commons,
+                    R.string.faq_2_text_commons
+                )
+            )
+            faqItems.add(
+                FAQItem(
+                    R.string.faq_6_title_commons,
+                    R.string.faq_6_text_commons
+                )
+            )
+            faqItems.add(
+                FAQItem(
+                    R.string.faq_7_title_commons,
+                    R.string.faq_7_text_commons
+                )
+            )
+            faqItems.add(
+                FAQItem(
+                    R.string.faq_10_title_commons,
+                    R.string.faq_10_text_commons
+                )
+            )
+        }
+
+        if (isRPlus() && !isExternalStorageManager()) {
+            faqItems.add(
+                0,
+                FAQItem(
+                    R.string.faq_16_title,
+                    "${getString(R.string.faq_16_text)} ${getString(R.string.faq_16_text_extra)}"
+                )
+            )
+            faqItems.add(1, FAQItem(R.string.faq_17_title, R.string.faq_17_text))
+            faqItems.removeIf { it.text == R.string.faq_7_text }
+            faqItems.removeIf { it.text == R.string.faq_14_text }
+            faqItems.removeIf { it.text == R.string.faq_8_text }
+        }
+
+        startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
+    }
+
 
     fun updateBackgroundColor(color: Int = baseConfig.backgroundColor) {
         window.decorView.setBackgroundColor(color)
@@ -919,6 +1112,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     // synchronous return value determines only if we are showing the SAF dialog, callback result tells if the SD or OTG permission has been granted
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun handleSAFDialog(path: String, callback: (success: Boolean) -> Unit): Boolean {
         hideKeyboard()
         return if (!packageName.startsWith("com.simplemobiletools")) {
@@ -933,6 +1127,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun handleSAFDialogSdk30(path: String, callback: (success: Boolean) -> Unit): Boolean {
         hideKeyboard()
         return if (!packageName.startsWith("com.simplemobiletools")) {
@@ -947,6 +1142,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun checkManageMediaOrHandleSAFDialogSdk30(
         path: String,
         callback: (success: Boolean) -> Unit
@@ -960,6 +1156,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun handleSAFCreateDocumentDialogSdk30(
         path: String,
         callback: (success: Boolean) -> Unit
@@ -991,6 +1188,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun handleOTGPermission(callback: (success: Boolean) -> Unit) {
         hideKeyboard()
         if (baseConfig.OTGTreeUri.isNotEmpty()) {
@@ -1106,6 +1304,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         funAfterManageMediaPermission = callback
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun copyMoveFilesTo(
         fileDirItems: ArrayList<FileDirItem>,
         source: String,
@@ -1274,6 +1473,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         return newFile
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun startCopyMove(
         files: ArrayList<FileDirItem>,
         destinationPath: String,
@@ -1368,6 +1568,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun handlePermission(permissionId: Int, callback: (granted: Boolean) -> Unit) {
         actionOnPermission = null
         if (hasPermission(permissionId)) {
@@ -1383,6 +1584,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun handlePartialMediaPermissions(
         permissionIds: Collection<Int>,
         force: Boolean = false,
@@ -1416,6 +1618,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun handleNotificationPermission(callback: (granted: Boolean) -> Unit) {
         if (!isTiramisuPlus()) {
             callback(true)
@@ -1489,6 +1692,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun exportSettings(configItems: LinkedHashMap<String, Any>) {
         if (isQPlus()) {
             configItemsToExport = configItems
@@ -1623,7 +1827,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    fun launchGrantAllFilesIntent() {
+     fun launchGrantAllFilesIntent() {
         try {
             val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
             intent.addCategory("android.intent.category.DEFAULT")
@@ -1718,6 +1922,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun toggleFileVisibility(
         oldPath: String,
         hide: Boolean,
@@ -1749,6 +1954,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @SuppressLint("UnsafeOptInUsageError")
     fun tryCopyMoveFilesTo(
         fileDirItems: ArrayList<FileDirItem>,
@@ -1885,10 +2091,12 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun restoreRecycleBinPath(path: String, callback: () -> Unit) {
         restoreRecycleBinPaths(arrayListOf(path), callback)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun restoreRecycleBinPaths(paths: ArrayList<String>, callback: () -> Unit) {
         ensureBackgroundThread {
             val newPaths = ArrayList<String>()
@@ -2022,6 +2230,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun saveRotatedImageToFile(
         oldPath: String,
         newPath: String,
@@ -2103,6 +2312,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun ensureWriteAccess(path: String, callback: () -> Unit) {
         when {
             isRestrictedSAFOnlyRoot(path) -> {
@@ -2139,6 +2349,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun launchResizeMultipleImagesDialog(
         paths: List<String>,
         callback: (() -> Unit)? = null
@@ -2163,6 +2374,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun launchResizeImageDialog(path: String, callback: (() -> Unit)? = null) {
         val originalSize = path.getImageResolution(this) ?: return
         ResizeWithPathDialog(this, originalSize, path) { newSize, newPath ->
@@ -2194,6 +2406,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun deleteFiles(
         files: List<FileDirItem>,
         allowDeleteFolder: Boolean = false,
@@ -2205,6 +2418,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun deleteFilesBg(
         files: List<FileDirItem>,
         allowDeleteFolder: Boolean = false,
@@ -2380,6 +2594,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun renameFile(
         oldPath: String,
         newPath: String,
@@ -2668,6 +2883,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getFileOutputStream(
         fileDirItem: FileDirItem,
         allowCreatingNewFile: Boolean = false,
@@ -2770,7 +2986,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
-    fun copySingleFileSdk30(source: FileDirItem, destination: FileDirItem): Boolean {
+     fun copySingleFileSdk30(source: FileDirItem, destination: FileDirItem): Boolean {
         val directory = destination.getParentPath()
         if (!createDirectorySync(directory)) {
             val error = String.format(getString(R.string.could_not_create_folder), directory)
@@ -2845,6 +3061,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun isShowingSAFDialog(path: String): Boolean {
         return if ((!isRPlus() && isPathOnSD(path) && !isSDCardSetAsDefaultStorage() && (baseConfig.sdTreeUri.isEmpty() || !hasProperStoredTreeUri(
                 false
@@ -2881,6 +3098,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun isShowingSAFDialogSdk30(path: String): Boolean {
         return if (isAccessibleWithSAFSdk30(path) && !hasProperStoredFirstParentUri(path)) {
             runOnUiThread {
@@ -2927,6 +3145,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun isShowingSAFCreateDocumentDialogSdk30(path: String): Boolean {
         return if (!hasProperStoredDocumentUriSdk30(path)) {
             runOnUiThread {
@@ -3021,6 +3240,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun isShowingOTGDialog(path: String): Boolean {
         return if (!isRPlus() && isPathOnOTG(path) && (baseConfig.OTGTreeUri.isEmpty() || !hasProperStoredTreeUri(
                 true
@@ -3033,6 +3253,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showOTGPermissionDialog(path: String) {
         runOnUiThread {
             if (!isDestroyed && !isFinishing) {
@@ -3072,6 +3293,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun resizeImage(
         oldPath: String,
         newPath: String,
@@ -3142,6 +3364,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun tryRotateByExif(
         path: String,
         degrees: Int,
@@ -3189,7 +3412,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    private fun onApplyWindowInsets(callback: (WindowInsetsCompat) -> Unit){
+    private fun onApplyWindowInsets(callback: (WindowInsetsCompat) -> Unit) {
         window.decorView.setOnApplyWindowInsetsListener { view, insets ->
             callback(WindowInsetsCompat.toWindowInsetsCompat(insets))
             view.onApplyWindowInsets(insets)
@@ -3197,7 +3420,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    private fun fileRotatedSuccessfully(path: String, lastModified: Long){
+    private fun fileRotatedSuccessfully(path: String, lastModified: Long) {
 
         if (config.keepLastModified && lastModified != 0L) {
             File(path).setLastModified(lastModified)
@@ -3212,4 +3435,5 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             glide.clearMemory()
         }
     }
+
 }

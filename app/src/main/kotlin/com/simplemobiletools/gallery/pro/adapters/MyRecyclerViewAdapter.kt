@@ -14,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getContrastColor
@@ -23,6 +22,7 @@ import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.interfaces.MyActionModeCallback
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import kotlin.math.max
 import kotlin.math.min
@@ -30,7 +30,7 @@ import kotlin.math.min
 @SuppressLint("UseCompatLoadingForDrawables")
 @RequiresApi(Build.VERSION_CODES.O)
 abstract class MyRecyclerViewAdapter(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val recyclerView: MyRecyclerView,
     val itemClick: (Any) -> Unit
 ) :

@@ -8,12 +8,12 @@ import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.FilepickerFavoriteBinding
 import com.simplemobiletools.gallery.pro.extensions.getTextSize
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class FilepickerFavoritesAdapter(
-    activity: BaseSimpleActivity, val paths: List<String>, recyclerView: MyRecyclerView,
+    activity: BaseActivity, val paths: List<String>, recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
 

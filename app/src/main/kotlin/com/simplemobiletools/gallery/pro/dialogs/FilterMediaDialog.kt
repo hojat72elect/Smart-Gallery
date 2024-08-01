@@ -1,11 +1,10 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogFilterMediaBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_IMAGES
 import com.simplemobiletools.gallery.pro.helpers.TYPE_PORTRAITS
@@ -13,8 +12,9 @@ import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.helpers.getDefaultFileFilter
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
-class FilterMediaDialog(val activity: BaseSimpleActivity, val callback: (result: Int) -> Unit) {
+class FilterMediaDialog(val activity: BaseActivity, val callback: (result: Int) -> Unit) {
     private val binding = DialogFilterMediaBinding.inflate(activity.layoutInflater)
 
     init {

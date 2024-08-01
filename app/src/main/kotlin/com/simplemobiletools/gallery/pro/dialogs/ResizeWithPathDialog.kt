@@ -6,7 +6,6 @@ import android.os.Build
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeImageWithPathBinding
 import com.simplemobiletools.gallery.pro.extensions.config
@@ -22,11 +21,12 @@ import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toInt
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")
 class ResizeWithPathDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val size: Point,
     val path: String,
     val callback: (newSize: Point, newPath: String) -> Unit

@@ -17,7 +17,7 @@ import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.otgPath
 import com.simplemobiletools.gallery.pro.extensions.sdCardPath
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 /**
  * A dialog for choosing between internal, root, SD card (optional) storage
@@ -30,7 +30,7 @@ import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
  */
 @RequiresApi(Build.VERSION_CODES.O)
 class StoragePickerDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val currPath: String,
     private val showRoot: Boolean,
     pickSingleOption: Boolean,

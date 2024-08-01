@@ -172,12 +172,13 @@ import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import kotlin.math.min
 
 @UnstableApi
 @Suppress("UNCHECKED_CAST")
-class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener,
+class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     ViewPagerFragment.FragmentListener {
     private val REQUEST_VIEW_VIDEO = 1
 

@@ -3,15 +3,15 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.databinding.DialogGrantAllFilesBinding
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.databinding.DialogGrantAllFilesBinding
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.R)
-class GrantAllFilesDialog(val activity: BaseSimpleActivity) {
+class GrantAllFilesDialog(val activity: BaseActivity) {
     init {
         val binding = DialogGrantAllFilesBinding.inflate(activity.layoutInflater)
         binding.grantAllFilesImage.applyColorFilter(activity.getProperTextColor())

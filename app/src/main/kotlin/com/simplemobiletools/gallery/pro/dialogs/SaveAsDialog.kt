@@ -5,8 +5,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.databinding.DialogSaveAsBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
@@ -25,12 +23,14 @@ import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")
 class SaveAsDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val path: String,
     private val appendFilename: Boolean,
     private val cancelCallback: (() -> Unit)? = null,

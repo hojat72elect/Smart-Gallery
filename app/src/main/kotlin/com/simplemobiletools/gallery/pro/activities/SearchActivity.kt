@@ -38,12 +38,13 @@ import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
-class SearchActivity : SimpleActivity(), MediaOperationsListener {
+class SearchActivity : BaseActivity(), MediaOperationsListener {
     private var mLastSearchedText = ""
 
     private var mCurrAsyncTask: GetMediaAsyncTask? = null

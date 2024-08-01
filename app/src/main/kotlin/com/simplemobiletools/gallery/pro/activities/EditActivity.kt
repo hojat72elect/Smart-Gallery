@@ -81,6 +81,7 @@ import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.FilterItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
 import java.io.ByteArrayInputStream
@@ -92,7 +93,7 @@ import java.io.OutputStream
 import kotlin.math.max
 
 @RequiresApi(Build.VERSION_CODES.O)
-class EditActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener {
+class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
     companion object {
         init {
             System.loadLibrary("NativeImageProcessor")

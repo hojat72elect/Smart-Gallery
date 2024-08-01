@@ -1,10 +1,10 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogManageExtendedDetailsBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.helpers.EXT_CAMERA_MODEL
 import com.simplemobiletools.gallery.pro.helpers.EXT_DATE_TAKEN
 import com.simplemobiletools.gallery.pro.helpers.EXT_EXIF_PROPERTIES
@@ -14,10 +14,10 @@ import com.simplemobiletools.gallery.pro.helpers.EXT_NAME
 import com.simplemobiletools.gallery.pro.helpers.EXT_PATH
 import com.simplemobiletools.gallery.pro.helpers.EXT_RESOLUTION
 import com.simplemobiletools.gallery.pro.helpers.EXT_SIZE
-import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ManageExtendedDetailsDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val callback: (result: Int) -> Unit
 ) {
     private val binding = DialogManageExtendedDetailsBinding.inflate(activity.layoutInflater)

@@ -3,15 +3,15 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogCustomAspectRatioBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class CustomAspectRatioDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val defaultCustomAspectRatio: Pair<Float, Float>?,
     val callback: (aspectRatio: Pair<Float, Float>) -> Unit
 ) {

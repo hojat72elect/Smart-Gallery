@@ -16,9 +16,10 @@ import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
-class ExcludedFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
+class ExcludedFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)
 

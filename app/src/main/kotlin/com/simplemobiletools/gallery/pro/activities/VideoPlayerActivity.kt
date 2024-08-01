@@ -72,11 +72,12 @@ import com.simplemobiletools.gallery.pro.helpers.ROTATE_BY_DEVICE_ROTATION
 import com.simplemobiletools.gallery.pro.helpers.ROTATE_BY_SYSTEM_SETTING
 import com.simplemobiletools.gallery.pro.helpers.SHOW_NEXT_ITEM
 import com.simplemobiletools.gallery.pro.helpers.SHOW_PREV_ITEM
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
-open class VideoPlayerActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListener,
+open class VideoPlayerActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener,
     TextureView.SurfaceTextureListener {
 
 

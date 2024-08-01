@@ -1,12 +1,15 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import android.content.DialogInterface
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.databinding.DialogChangeSortingBinding
 import com.simplemobiletools.gallery.pro.extensions.beGoneIf
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.isVisible
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_CUSTOM
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_DATE_MODIFIED
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_DATE_TAKEN
@@ -16,13 +19,10 @@ import com.simplemobiletools.gallery.pro.helpers.SORT_BY_RANDOM
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_SIZE
 import com.simplemobiletools.gallery.pro.helpers.SORT_DESCENDING
 import com.simplemobiletools.gallery.pro.helpers.SORT_USE_NUMERIC_VALUE
-import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.databinding.DialogChangeSortingBinding
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ChangeSortingDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val isDirectorySorting: Boolean,
     private val showFolderCheckbox: Boolean,
     val path: String = "",

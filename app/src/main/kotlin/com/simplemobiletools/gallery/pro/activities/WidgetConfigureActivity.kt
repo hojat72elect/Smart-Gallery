@@ -38,10 +38,11 @@ import com.simplemobiletools.gallery.pro.helpers.MyWidgetProvider
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_NONE
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Widget
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
-class WidgetConfigureActivity : SimpleActivity() {
+class WidgetConfigureActivity : BaseActivity() {
     private var mBgAlpha = 0f
     private var mWidgetId = 0
     private var mBgColor = 0
@@ -189,6 +190,7 @@ class WidgetConfigureActivity : SimpleActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun changeSelectedFolder() {
         PickDirectoryDialog(
             this, "",

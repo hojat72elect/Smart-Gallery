@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.TabRenameSimpleBinding
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
@@ -27,6 +26,7 @@ import com.simplemobiletools.gallery.pro.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.interfaces.RenameTab
 import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -35,7 +35,7 @@ class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(co
     private var ignoreClicks = false
     private var stopLooping =
         false     // we should request the permission on Android 30+ for all uris at once, not one by one
-    var activity: BaseSimpleActivity? = null
+    var activity: BaseActivity? = null
     var paths = ArrayList<String>()
 
     private lateinit var binding: TabRenameSimpleBinding
@@ -46,7 +46,7 @@ class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(co
         context.updateTextColors(binding.renameSimpleHolder)
     }
 
-    override fun initTab(activity: BaseSimpleActivity, paths: ArrayList<String>) {
+    override fun initTab(activity: BaseActivity, paths: ArrayList<String>) {
         this.activity = activity
         this.paths = paths
     }

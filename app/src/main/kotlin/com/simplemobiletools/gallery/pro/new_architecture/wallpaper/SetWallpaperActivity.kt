@@ -13,7 +13,6 @@ import androidx.media3.common.util.UnstableApi
 import com.canhub.cropper.CropImageView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.MainActivity
-import com.simplemobiletools.gallery.pro.activities.SimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
@@ -23,11 +22,12 @@ import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(UnstableApi::class)
-class SetWallpaperActivity : SimpleActivity(), CropImageView.OnCropImageCompleteListener {
+class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
 
     private var aspectRatio = RATIO_PORTRAIT
     private var wallpaperFlag = -1

@@ -85,12 +85,13 @@ import com.simplemobiletools.gallery.pro.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import java.io.FileInputStream
 
 @RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
-open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentListener {
+open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListener {
     private var mMedium: Medium? = null
     private var mIsFullScreen = false
     private var mIsFromGallery = false

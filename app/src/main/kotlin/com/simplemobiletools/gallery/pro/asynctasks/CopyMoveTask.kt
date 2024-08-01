@@ -44,7 +44,7 @@ import com.simplemobiletools.gallery.pro.helpers.getConflictResolution
 import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -53,7 +53,7 @@ import java.lang.ref.WeakReference
 @SuppressLint("StaticFieldLeak")
 @RequiresApi(Build.VERSION_CODES.O)
 class CopyMoveTask(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val copyOnly: Boolean,
     private val copyMediaOnly: Boolean,
     private val conflictResolutions: LinkedHashMap<String, Int>,

@@ -1,8 +1,6 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogSlideshowBinding
 import com.simplemobiletools.gallery.pro.extensions.config
@@ -14,8 +12,10 @@ import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_FADE
 import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_NONE
 import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_SLIDE
 import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_DEFAULT_INTERVAL
+import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
-class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit) {
+class SlideshowDialog(val activity: BaseActivity, val callback: () -> Unit) {
     private val binding: DialogSlideshowBinding
 
     init {

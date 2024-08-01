@@ -12,7 +12,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.adapters.FilepickerFavoritesAdapter
 import com.simplemobiletools.gallery.pro.adapters.FilepickerItemsAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogFilepickerBinding
@@ -51,6 +50,7 @@ import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.Breadcrumbs
 import java.io.File
 
@@ -67,7 +67,7 @@ import java.io.File
 @SuppressLint("SetTextI18n")
 @RequiresApi(Build.VERSION_CODES.O)
 class FilePickerDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     var currPath: String = Environment.getExternalStorageDirectory().toString(),
     val pickFile: Boolean = true,
     var showHidden: Boolean = false,

@@ -15,9 +15,10 @@ import com.simplemobiletools.gallery.pro.adapters.ManageHiddenFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getNoMediaFolders
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
-class HiddenFoldersActivity : SimpleActivity(), RefreshRecyclerViewListener {
+class HiddenFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)
     override fun onCreate(savedInstanceState: Bundle?) {

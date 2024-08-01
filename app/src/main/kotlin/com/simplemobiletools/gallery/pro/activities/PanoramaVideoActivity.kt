@@ -33,12 +33,13 @@ import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.MIN_SKIP_LENGTH
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import kotlin.math.max
 import kotlin.math.min
 
 @RequiresApi(Build.VERSION_CODES.O)
-open class PanoramaVideoActivity : SimpleActivity(), SeekBar.OnSeekBarChangeListener {
+open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
     private var mIsFullscreen = false

@@ -3,7 +3,6 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.graphics.Point
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeImageBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
@@ -13,9 +12,10 @@ import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toInt
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ResizeDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val size: Point,
     val callback: (newSize: Point) -> Unit
 ) {

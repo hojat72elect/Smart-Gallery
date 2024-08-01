@@ -1,18 +1,18 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.databinding.DialogChangeViewTypeBinding
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
 import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
-import com.simplemobiletools.gallery.pro.databinding.DialogChangeViewTypeBinding
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ChangeViewTypeDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val fromFoldersView: Boolean,
     val path: String = "",
     val callback: () -> Unit

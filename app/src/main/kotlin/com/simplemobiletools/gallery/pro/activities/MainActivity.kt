@@ -156,6 +156,7 @@ import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.Release
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
@@ -166,7 +167,7 @@ import java.io.OutputStream
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
-class MainActivity : SimpleActivity(), DirectoryOperationsListener {
+class MainActivity : BaseActivity(), DirectoryOperationsListener {
     companion object {
         private const val PICK_MEDIA = 2
         private const val PICK_WALLPAPER = 3

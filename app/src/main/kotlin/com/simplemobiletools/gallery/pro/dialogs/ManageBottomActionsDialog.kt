@@ -1,11 +1,10 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogManageBottomActionsBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_CHANGE_ORIENTATION
 import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_COPY
 import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_DELETE
@@ -21,9 +20,10 @@ import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_SHOW_ON_MAP
 import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_SLIDESHOW
 import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_TOGGLE_FAVORITE
 import com.simplemobiletools.gallery.pro.helpers.BOTTOM_ACTION_TOGGLE_VISIBILITY
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ManageBottomActionsDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val callback: (result: Int) -> Unit
 ) {
     private val binding = DialogManageBottomActionsBinding.inflate(activity.layoutInflater)

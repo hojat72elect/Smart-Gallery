@@ -2,7 +2,6 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.content.DialogInterface
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeGroupingBinding
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.config
@@ -19,9 +18,10 @@ import com.simplemobiletools.gallery.pro.helpers.GROUP_BY_NONE
 import com.simplemobiletools.gallery.pro.helpers.GROUP_DESCENDING
 import com.simplemobiletools.gallery.pro.helpers.GROUP_SHOW_FILE_COUNT
 import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ChangeGroupingDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val path: String = "",
     val callback: () -> Unit
 ) :

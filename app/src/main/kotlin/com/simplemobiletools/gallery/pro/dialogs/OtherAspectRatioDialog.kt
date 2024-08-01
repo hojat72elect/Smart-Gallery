@@ -2,13 +2,13 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.databinding.DialogOtherAspectRatioBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.databinding.DialogOtherAspectRatioBinding
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class OtherAspectRatioDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val lastOtherAspectRatio: Pair<Float, Float>?,
     val callback: (aspectRatio: Pair<Float, Float>) -> Unit
 ) {

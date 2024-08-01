@@ -3,7 +3,6 @@ package com.simplemobiletools.gallery.pro.dialogs
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.RadioButtonBinding
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
@@ -11,9 +10,10 @@ import com.simplemobiletools.gallery.pro.extensions.getBasePath
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogExcludeFolderBinding
 import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ExcludeFolderDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     private val selectedPaths: List<String>,
     val callback: () -> Unit
 ) {

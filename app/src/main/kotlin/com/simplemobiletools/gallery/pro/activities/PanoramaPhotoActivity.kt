@@ -27,8 +27,9 @@ import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
-open class PanoramaPhotoActivity : SimpleActivity() {
+open class PanoramaPhotoActivity : BaseActivity() {
     private val CARDBOARD_DISPLAY_MODE = 3
 
     private var isFullscreen = false

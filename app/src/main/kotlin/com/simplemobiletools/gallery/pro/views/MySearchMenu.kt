@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.google.android.material.appbar.AppBarLayout
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.MenuSearchBinding
 import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
@@ -19,6 +18,7 @@ import com.simplemobiletools.gallery.pro.extensions.removeBit
 import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.helpers.LOWER_ALPHA
 import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class MySearchMenu(context: Context, attrs: AttributeSet) : AppBarLayout(context, attrs) {
     var isSearchOpen = false
@@ -120,6 +120,6 @@ class MySearchMenu(context: Context, attrs: AttributeSet) : AppBarLayout(context
         )
         binding.topToolbarSearch.setTextColor(contrastColor)
         binding.topToolbarSearch.setHintTextColor(contrastColor.adjustAlpha(MEDIUM_ALPHA))
-        (context as? BaseSimpleActivity)?.updateTopBarColors(binding.topToolbar, backgroundColor)
+        (context as? BaseActivity)?.updateTopBarColors(binding.topToolbar, backgroundColor)
     }
 }

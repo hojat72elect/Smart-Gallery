@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import com.simplemobiletools.gallery.pro.databinding.ItemManageFolderBinding
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getPopupMenuTheme
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.setupViewBackground
+import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ManageFoldersAdapter(
-    activity: BaseSimpleActivity,
+    activity: BaseActivity,
     var folders: ArrayList<String>,
     private val isShowingExcludedFolders: Boolean,
     val listener: RefreshRecyclerViewListener?,

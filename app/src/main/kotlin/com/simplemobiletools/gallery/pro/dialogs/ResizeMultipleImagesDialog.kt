@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeMultipleImagesBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.getParentPath
@@ -16,6 +15,7 @@ import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toInt
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -23,7 +23,7 @@ private const val DEFAULT_RESIZE_FACTOR = "75"
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ResizeMultipleImagesDialog(
-    private val activity: BaseSimpleActivity,
+    private val activity: BaseActivity,
     private val imagePaths: List<String>,
     private val imageSizes: List<Point>,
     private val callback: () -> Unit

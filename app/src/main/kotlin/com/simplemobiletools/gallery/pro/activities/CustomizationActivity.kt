@@ -43,10 +43,11 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.SharedTheme
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CustomizationActivity : BaseSimpleActivity() {
+class CustomizationActivity : BaseActivity() {
     private val THEME_LIGHT = 0
     private val THEME_DARK = 1
     private val THEME_DARK_RED = 3
@@ -71,10 +72,6 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var predefinedThemes = LinkedHashMap<Int, MyTheme>()
     private var curPrimaryLineColorPicker: LineColorPickerDialog? = null
     private var storedSharedTheme: SharedTheme? = null
-
-    override fun getAppIconIDs() = intent.getIntegerArrayListExtra(APP_ICON_IDS) ?: ArrayList()
-
-    override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
 
     private val binding by viewBinding(ActivityCustomizationBinding::inflate)
 

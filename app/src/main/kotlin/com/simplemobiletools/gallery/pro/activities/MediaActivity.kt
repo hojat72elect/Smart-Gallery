@@ -102,12 +102,13 @@ import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import java.io.IOException
 
 
 @SuppressLint("NewApi")
-class MediaActivity : SimpleActivity(), MediaOperationsListener {
+class MediaActivity : BaseActivity(), MediaOperationsListener {
 
 
     private var mPath = ""

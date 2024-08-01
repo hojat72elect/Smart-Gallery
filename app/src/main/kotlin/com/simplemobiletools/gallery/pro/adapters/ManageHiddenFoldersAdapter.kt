@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.ItemManageFolderBinding
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.isPathOnSD
 import com.simplemobiletools.gallery.pro.extensions.setupViewBackground
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ManageHiddenFoldersAdapter(
-    activity: BaseSimpleActivity,
+    activity: BaseActivity,
     var folders: ArrayList<String>,
     val listener: RefreshRecyclerViewListener?,
     recyclerView: MyRecyclerView,

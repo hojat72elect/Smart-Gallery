@@ -53,6 +53,7 @@ import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isQPlus
 import com.simplemobiletools.gallery.pro.models.BlockedNumber
 import com.simplemobiletools.gallery.pro.compose.screens.ManageBlockedNumbersScreen
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.FileOutputStream
 import java.io.OutputStream
 import kotlinx.collections.immutable.ImmutableList
@@ -65,7 +66,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.O)
-class ManageBlockedNumbersActivity : BaseSimpleActivity() {
+class ManageBlockedNumbersActivity : BaseActivity() {
 
     private val config by lazy {
         baseConfig
@@ -76,12 +77,9 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
         private const val PICK_EXPORT_FILE_INTENT = 21
     }
 
-    override fun getAppIconIDs() = intent.getIntegerArrayListExtra(APP_ICON_IDS) ?: ArrayList()
-
-    override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
-
     private val manageBlockedNumbersViewModel by viewModels<ManageBlockedNumbersViewModel>()
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdgeSimple()
@@ -174,6 +172,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
         manageBlockedNumbersViewModel.updateBlockedNumbers()
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun tryImportBlockedNumbers() {
         if (isQPlus()) {
             Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -299,6 +298,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun tryExportBlockedNumbers() {
         if (isQPlus()) {
             ExportBlockedNumbersDialog(

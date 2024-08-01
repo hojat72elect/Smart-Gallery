@@ -9,12 +9,12 @@ import androidx.compose.runtime.Immutable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogWritePermissionBinding
 import com.simplemobiletools.gallery.pro.databinding.DialogWritePermissionOtgBinding
 import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.extensions.humanizePath
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -97,8 +97,8 @@ class WritePermissionDialog(activity: Activity, private val mode: Mode, val call
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok) { _, _ -> dialogConfirmed() }
             .setOnCancelListener {
-                BaseSimpleActivity.funAfterSAFPermission?.invoke(false)
-                BaseSimpleActivity.funAfterSAFPermission = null
+                BaseActivity.funAfterSAFPermission?.invoke(false)
+                BaseActivity.funAfterSAFPermission = null
             }
             .apply {
                 activity.setupDialogStuff(

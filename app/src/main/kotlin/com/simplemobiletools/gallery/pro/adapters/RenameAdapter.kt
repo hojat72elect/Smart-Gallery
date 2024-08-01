@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.interfaces.RenameTab
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
-class RenameAdapter(val activity: BaseSimpleActivity, val paths: ArrayList<String>) :
+class RenameAdapter(val activity: BaseActivity, val paths: ArrayList<String>) :
     PagerAdapter() {
     private val tabs = SparseArray<RenameTab>()
 

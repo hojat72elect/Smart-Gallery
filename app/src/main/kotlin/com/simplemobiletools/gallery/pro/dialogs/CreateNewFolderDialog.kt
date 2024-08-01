@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.ShowKeyboardWhenDialogIsOpenedAndRequestFocus
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogBorder
@@ -58,11 +57,12 @@ import com.simplemobiletools.gallery.pro.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CreateNewFolderDialog(
-    val activity: BaseSimpleActivity,
+    val activity: BaseActivity,
     val path: String,
     val callback: (path: String) -> Unit
 ) {

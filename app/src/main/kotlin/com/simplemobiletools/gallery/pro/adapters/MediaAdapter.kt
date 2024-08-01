@@ -18,18 +18,6 @@ import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.simplemobiletools.gallery.pro.BuildConfig
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
-import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
-import com.simplemobiletools.gallery.pro.dialogs.RenameDialog
-import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
-import com.simplemobiletools.gallery.pro.helpers.FAVORITES
-import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.databinding.PhotoItemGridBinding
@@ -38,6 +26,9 @@ import com.simplemobiletools.gallery.pro.databinding.ThumbnailSectionBinding
 import com.simplemobiletools.gallery.pro.databinding.VideoItemGridBinding
 import com.simplemobiletools.gallery.pro.databinding.VideoItemListBinding
 import com.simplemobiletools.gallery.pro.dialogs.DeleteWithRememberDialog
+import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
+import com.simplemobiletools.gallery.pro.dialogs.RenameDialog
+import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.beVisible
@@ -74,6 +65,7 @@ import com.simplemobiletools.gallery.pro.extensions.sharePathsIntent
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.updateDBMediaPath
 import com.simplemobiletools.gallery.pro.extensions.updateFavorite
+import com.simplemobiletools.gallery.pro.helpers.FAVORITES
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.helpers.ROUNDED_CORNERS_BIG
@@ -84,15 +76,23 @@ import com.simplemobiletools.gallery.pro.helpers.SHOW_FAVORITES
 import com.simplemobiletools.gallery.pro.helpers.SHOW_RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.helpers.TYPE_GIFS
 import com.simplemobiletools.gallery.pro.helpers.TYPE_RAWS
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isOreoPlus
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
+import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class MediaAdapter(
-    activity: BaseSimpleActivity,
+    activity: BaseActivity,
     var media: ArrayList<ThumbnailItem>,
     val listener: MediaOperationsListener?,
     val isAGetIntent: Boolean,

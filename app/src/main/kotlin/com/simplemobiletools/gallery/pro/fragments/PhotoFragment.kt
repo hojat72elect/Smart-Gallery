@@ -46,11 +46,18 @@ import com.davemorrissey.labs.subscaleview.ImageRegionDecoder
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.penfeizhou.animation.apng.APNGDrawable
 import com.github.penfeizhou.animation.webp.WebPDrawable
-import com.simplemobiletools.gallery.pro.activities.BaseSimpleActivity
+import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.PanoramaPhotoActivity
+import com.simplemobiletools.gallery.pro.activities.PhotoActivity
+import com.simplemobiletools.gallery.pro.activities.PhotoVideoActivity
+import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
+import com.simplemobiletools.gallery.pro.adapters.PortraitPhotosAdapter
+import com.simplemobiletools.gallery.pro.databinding.PagerPhotoItemBinding
 import com.simplemobiletools.gallery.pro.extensions.beGone
 import com.simplemobiletools.gallery.pro.extensions.beInvisible
 import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getRealPathFromURI
 import com.simplemobiletools.gallery.pro.extensions.isExternalStorageManager
@@ -61,18 +68,8 @@ import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.extensions.portrait
 import com.simplemobiletools.gallery.pro.extensions.realScreenSize
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.PanoramaPhotoActivity
-import com.simplemobiletools.gallery.pro.activities.PhotoActivity
-import com.simplemobiletools.gallery.pro.activities.PhotoVideoActivity
-import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
-import com.simplemobiletools.gallery.pro.adapters.PortraitPhotosAdapter
-import com.simplemobiletools.gallery.pro.databinding.PagerPhotoItemBinding
-import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.sendFakeClick
+import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.helpers.HIGH_TILE_DPI
 import com.simplemobiletools.gallery.pro.helpers.LOW_TILE_DPI
 import com.simplemobiletools.gallery.pro.helpers.MEDIUM
@@ -82,7 +79,10 @@ import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.PicassoRegionDecoder
 import com.simplemobiletools.gallery.pro.helpers.SHOULD_INIT_FRAGMENT
 import com.simplemobiletools.gallery.pro.helpers.WEIRD_TILE_DPI
+import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.svg.SvgSoftwareLayerSetter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -318,7 +318,7 @@ class PhotoFragment : ViewPagerFragment() {
         if (mCurrentRotationDegrees != 0) {
             ensureBackgroundThread {
                 val path = mMedium.path
-                (activity as? BaseSimpleActivity)?.saveRotatedImageToFile(
+                (activity as? BaseActivity)?.saveRotatedImageToFile(
                     path,
                     path,
                     mCurrentRotationDegrees,

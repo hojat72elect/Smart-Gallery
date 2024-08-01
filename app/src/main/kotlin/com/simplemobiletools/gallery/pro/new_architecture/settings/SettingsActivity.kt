@@ -15,7 +15,6 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.ExcludedFoldersActivity
 import com.simplemobiletools.gallery.pro.activities.HiddenFoldersActivity
 import com.simplemobiletools.gallery.pro.activities.IncludedFoldersActivity
-import com.simplemobiletools.gallery.pro.activities.SimpleActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySettingsBinding
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFileThumbnailStyleDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFolderThumbnailStyleDialog
@@ -162,6 +161,7 @@ import com.simplemobiletools.gallery.pro.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.AlbumCover
 import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -169,7 +169,7 @@ import java.util.Locale
 import kotlin.system.exitProcess
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-class SettingsActivity : SimpleActivity() {
+class SettingsActivity : BaseActivity() {
     companion object {
         private const val PICK_IMPORT_SOURCE_INTENT = 1
         private const val SELECT_EXPORT_FAVORITES_FILE_INTENT = 2
