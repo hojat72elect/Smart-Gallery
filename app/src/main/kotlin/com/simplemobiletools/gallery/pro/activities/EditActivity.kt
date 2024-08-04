@@ -133,6 +133,7 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
     private var originalUri: Uri? = null
     private val binding by viewBinding(ActivityEditBinding::inflate)
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

@@ -33,8 +33,6 @@ import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.value
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
-import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.helpers.MyContentProvider
 import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
@@ -48,15 +46,7 @@ import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CustomizationActivity : BaseActivity() {
-    private val THEME_LIGHT = 0
-    private val THEME_DARK = 1
-    private val THEME_DARK_RED = 3
-    private val THEME_BLACK_WHITE = 4
-    private val THEME_CUSTOM = 5
-    private val THEME_SHARED = 6
-    private val THEME_WHITE = 7
-    private val THEME_AUTO = 8
-    private val THEME_SYSTEM = 9    // Material You
+
 
     private var curTextColor = 0
     private var curBackgroundColor = 0
@@ -789,5 +779,17 @@ class CustomizationActivity : BaseActivity() {
         } catch (e: Exception) {
             showErrorToast(e)
         }
+    }
+
+    companion object{
+        private const val THEME_LIGHT = 0
+        private const val THEME_DARK = 1
+        private const val THEME_DARK_RED = 3
+        private const val THEME_BLACK_WHITE = 4
+        private const val THEME_CUSTOM = 5
+        private const val THEME_SHARED = 6
+        private const val THEME_WHITE = 7
+        private const val THEME_AUTO = 8
+        private const val THEME_SYSTEM = 9
     }
 }

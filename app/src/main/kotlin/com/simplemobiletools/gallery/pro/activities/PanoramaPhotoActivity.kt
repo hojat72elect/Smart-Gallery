@@ -30,7 +30,7 @@ import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 open class PanoramaPhotoActivity : BaseActivity() {
-    private val CARDBOARD_DISPLAY_MODE = 3
+
 
     private var isFullscreen = false
     private var isExploreEnabled = true
@@ -205,5 +205,9 @@ open class PanoramaPhotoActivity : BaseActivity() {
         } else {
             showSystemUI()
         }
+    }
+
+    companion object{
+        private const val CARDBOARD_DISPLAY_MODE = 3
     }
 }

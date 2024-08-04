@@ -40,8 +40,6 @@ import com.simplemobiletools.gallery.pro.extensions.isDefaultDialer
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.toFileDirItem
 import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
-import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.helpers.BlockedNumbersExporter
 import com.simplemobiletools.gallery.pro.helpers.BlockedNumbersImporter
 import com.simplemobiletools.gallery.pro.helpers.ExportResult

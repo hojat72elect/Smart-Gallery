@@ -17,7 +17,7 @@ class MyTextView : TextView {
         defStyle
     )
 
-    fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
+    fun setColors(textColor: Int, accentColor: Int) {
         setTextColor(textColor)
         setLinkTextColor(accentColor)
     }

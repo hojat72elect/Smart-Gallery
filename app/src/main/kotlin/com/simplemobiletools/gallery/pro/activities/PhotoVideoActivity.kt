@@ -102,6 +102,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
 
     private val binding by viewBinding(FragmentHolderBinding::inflate)
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     public override fun onCreate(savedInstanceState: Bundle?) {
         showTransparentTop = true
 
@@ -445,6 +446,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         return false
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun showProperties() {
         PropertiesDialog(this, mUri!!.path!!)
     }

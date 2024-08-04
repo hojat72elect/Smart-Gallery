@@ -215,7 +215,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        appLaunched(BuildConfig.APPLICATION_ID)
+        appLaunched()
 
         if (savedInstanceState == null) {
             config.temporarilyShowHidden = false
@@ -639,9 +639,9 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
                 "/storage/emulated/0/Android/data/com.facebook.orca/files/stickers"
             )
 
-            val OTGPath = config.OTGPath
+            val otgPath = config.OTGPath
             spamFolders.forEach {
-                if (getDoesFilePathExist(it, OTGPath)) {
+                if (getDoesFilePathExist(it, otgPath)) {
                     config.addExcludedFolder(it)
                 }
             }
@@ -1803,8 +1803,8 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
         }
     }
 
-    private fun appLaunched(appId: String) {
-
+    private fun appLaunched() {
+        val appId = BuildConfig.APPLICATION_ID
         baseConfig.internalStoragePath = getInternalStoragePath()
         updateSDCardPath()
         baseConfig.appId = appId

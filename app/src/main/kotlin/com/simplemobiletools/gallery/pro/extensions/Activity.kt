@@ -134,12 +134,11 @@ fun Activity.setupDialogStuff(
     }
 
     val textColor = getProperTextColor()
-    val backgroundColor = getProperBackgroundColor()
     val primaryColor = getProperPrimaryColor()
     if (view is ViewGroup) {
         updateTextColors(view)
     } else if (view is MyTextView) {
-        view.setColors(textColor, primaryColor, backgroundColor)
+        view.setColors(textColor, primaryColor)
     }
 
     if (dialog is MaterialAlertDialogBuilder) {
