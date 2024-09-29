@@ -124,7 +124,6 @@ dependencies {
     implementation(libs.sdk.panowidget)
     implementation(libs.sdk.videowidget)
     implementation(libs.sanselan)
-    implementation(libs.imagefilters)
     implementation(libs.androidsvg.aar)
     implementation(libs.gestureviews)
     implementation(libs.compose.view.binding)

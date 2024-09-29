@@ -54,7 +54,6 @@ import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRestrictedWithSAFSdk30
 import com.simplemobiletools.gallery.pro.extensions.loadImage
 import com.simplemobiletools.gallery.pro.extensions.needsStupidWritePermissions
-import com.simplemobiletools.gallery.pro.extensions.openEditor
 import com.simplemobiletools.gallery.pro.extensions.openPath
 import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.extensions.rescanFolderMedia
@@ -344,8 +343,7 @@ class MediaAdapter(
     }
 
     private fun editFile() {
-        val path = getFirstSelectedItemPath() ?: return
-        activity.openEditor(path)
+        activity.toast("This feature is not implemented yet")
     }
 
     private fun openPath() {

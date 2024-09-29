@@ -102,7 +102,6 @@ import com.simplemobiletools.gallery.pro.extensions.navigationBarOnSide
 import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
 import com.simplemobiletools.gallery.pro.extensions.needsStupidWritePermissions
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.extensions.openEditor
 import com.simplemobiletools.gallery.pro.extensions.openPath
 import com.simplemobiletools.gallery.pro.extensions.portrait
 import com.simplemobiletools.gallery.pro.extensions.recycleBinPath
@@ -383,7 +382,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                 R.id.menu_delete -> checkDeleteConfirmation()
                 R.id.menu_rename -> checkMediaManagementAndRename()
                 R.id.menu_print -> printFile()
-                R.id.menu_edit -> openEditor(getCurrentPath())
+                R.id.menu_edit -> toast("This feature is not implemented yet")
                 R.id.menu_properties -> showProperties()
                 R.id.menu_show_on_map -> showFileOnMap(getCurrentPath())
                 R.id.menu_rotate_right -> rotateImage(90)
@@ -1031,7 +1030,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         binding.bottomActions.bottomEdit.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_EDIT != 0 && currentMedium?.isSVG() == false)
         binding.bottomActions.bottomEdit.setOnLongClickListener { toast(R.string.edit); true }
         binding.bottomActions.bottomEdit.setOnClickListener {
-            openEditor(getCurrentPath())
+          toast("This feature is not implemented yet")
         }
 
         binding.bottomActions.bottomShare.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHARE != 0)

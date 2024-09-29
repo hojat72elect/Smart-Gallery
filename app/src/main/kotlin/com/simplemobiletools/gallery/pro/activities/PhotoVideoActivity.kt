@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
@@ -11,6 +12,7 @@ import android.provider.MediaStore
 import android.text.Html
 import android.view.View
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
@@ -49,7 +51,6 @@ import com.simplemobiletools.gallery.pro.extensions.isVideoFast
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.navigationBarOnSide
 import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
-import com.simplemobiletools.gallery.pro.extensions.openEditor
 import com.simplemobiletools.gallery.pro.extensions.openPath
 import com.simplemobiletools.gallery.pro.extensions.parseFileChannel
 import com.simplemobiletools.gallery.pro.extensions.portrait
@@ -89,6 +90,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
 import java.io.FileInputStream
 
+@SuppressLint("NewApi")
 @RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListener {
@@ -193,7 +195,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
                 R.id.menu_set_as -> setAs(mUri!!.toString())
                 R.id.menu_open_with -> openPath(mUri!!.toString(), true)
                 R.id.menu_share -> sharePath(mUri!!.toString())
-                R.id.menu_edit -> openEditor(mUri!!.toString())
+                R.id.menu_edit -> toast("This feature is not implemented yet")
                 R.id.menu_properties -> showProperties()
                 R.id.menu_show_on_map -> showFileOnMap(mUri!!.toString())
                 else -> return@setOnMenuItemClickListener false
@@ -497,9 +499,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         val visibleBottomActions = if (config.bottomActions) config.visibleBottomActions else 0
         binding.bottomActions.bottomEdit.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_EDIT != 0 && mMedium?.isImage() == true)
         binding.bottomActions.bottomEdit.setOnClickListener {
-            if (mUri != null && binding.bottomActions.root.alpha == 1f) {
-                openEditor(mUri!!.toString())
-            }
+          toast("This feature is not implemented yet")
         }
 
         binding.bottomActions.bottomShare.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHARE != 0)

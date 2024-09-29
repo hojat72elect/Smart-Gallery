@@ -16,7 +16,6 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.DecodeFormat
@@ -62,7 +61,6 @@ import com.simplemobiletools.gallery.pro.extensions.isVisible
 import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.extensions.onSeekBarChangeListener
-import com.simplemobiletools.gallery.pro.extensions.openEditor
 import com.simplemobiletools.gallery.pro.extensions.rescanPaths
 import com.simplemobiletools.gallery.pro.extensions.sharePathIntent
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
@@ -73,17 +71,13 @@ import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_FREE
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_ONE_ONE
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_OTHER
 import com.simplemobiletools.gallery.pro.helpers.ASPECT_RATIO_SIXTEEN_NINE
-import com.simplemobiletools.gallery.pro.helpers.FilterThumbnailsManager
 import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.FilterItem
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
-import com.zomato.photofilters.FilterPack
-import com.zomato.photofilters.imageprocessors.Filter
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -283,21 +277,10 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
                     dataSource: DataSource,
                     isFirstResource: Boolean
                 ): Boolean {
-                    val currentFilter = getFiltersAdapter()?.getCurrentFilter()
+
                     if (filterInitialBitmap == null) {
                         loadCropImageView()
                         bottomCropRotateClicked()
-                    }
-
-                    if (filterInitialBitmap != null && currentFilter != null && currentFilter.filter.name != getString(
-                            R.string.none
-                        )
-                    ) {
-                        binding.defaultImageView.onGlobalLayout {
-                            applyFilter(currentFilter)
-                        }
-                    } else {
-                        filterInitialBitmap = bitmap
                     }
 
                     if (isCropIntent) {
@@ -392,7 +375,7 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
                 }
             }
         } else {
-            val currentFilter = getFiltersAdapter()?.getCurrentFilter() ?: return
+
             val filePathGetter = getNewFilePath()
             SaveAsDialog(this, filePathGetter.first, filePathGetter.second) {
                 toast(R.string.saving)
@@ -407,7 +390,6 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
                     try {
                         val originalBitmap = Glide.with(applicationContext).asBitmap().load(uri)
                             .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
-                        currentFilter.filter.processFilter(originalBitmap)
                         saveBitmapToFile(originalBitmap, it, false)
                     } catch (e: OutOfMemoryError) {
                         toast(R.string.out_of_memory_error)
@@ -434,15 +416,9 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
         ensureBackgroundThread {
             when {
                 binding.defaultImageView.isVisible() -> {
-                    val currentFilter = getFiltersAdapter()?.getCurrentFilter()
-                    if (currentFilter == null) {
-                        toast(R.string.unknown_error_occurred)
-                        return@ensureBackgroundThread
-                    }
 
                     val originalBitmap = Glide.with(applicationContext).asBitmap().load(uri)
                         .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
-                    currentFilter.filter.processFilter(originalBitmap)
                     shareBitmap(originalBitmap)
                 }
 
@@ -723,40 +699,6 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
                     return@ensureBackgroundThread
                 }
 
-                runOnUiThread {
-                    val filterThumbnailsManager = FilterThumbnailsManager()
-                    filterThumbnailsManager.clearThumbs()
-
-                    val noFilter = Filter(getString(R.string.none))
-                    filterThumbnailsManager.addThumb(FilterItem(bitmap, noFilter))
-
-                    FilterPack.getFilterPack(this).forEach {
-                        val filterItem = FilterItem(bitmap, it)
-                        filterThumbnailsManager.addThumb(filterItem)
-                    }
-
-                    val filterItems = filterThumbnailsManager.processThumbs()
-                    val adapter = FiltersAdapter(applicationContext, filterItems) {
-                        val layoutManager =
-                            binding.bottomEditorFilterActions.bottomActionsFilterList.layoutManager as LinearLayoutManager
-                        applyFilter(filterItems[it])
-
-                        if (it == layoutManager.findLastCompletelyVisibleItemPosition() || it == layoutManager.findLastVisibleItemPosition()) {
-                            binding.bottomEditorFilterActions.bottomActionsFilterList.smoothScrollBy(
-                                thumbnailSize,
-                                0
-                            )
-                        } else if (it == layoutManager.findFirstCompletelyVisibleItemPosition() || it == layoutManager.findFirstVisibleItemPosition()) {
-                            binding.bottomEditorFilterActions.bottomActionsFilterList.smoothScrollBy(
-                                -thumbnailSize,
-                                0
-                            )
-                        }
-                    }
-
-                    binding.bottomEditorFilterActions.bottomActionsFilterList.adapter = adapter
-                    adapter.notifyDataSetChanged()
-                }
             }
         }
 
@@ -765,11 +707,6 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
             currCropRotateAction = CROP_ROTATE_NONE
         }
         updateCropRotateActionButtons()
-    }
-
-    private fun applyFilter(filterItem: FilterItem) {
-        val newBitmap = Bitmap.createBitmap(filterInitialBitmap!!)
-        binding.defaultImageView.setImageBitmap(filterItem.filter.processFilter(newBitmap))
     }
 
     private fun updateAspectRatio(aspectRatio: Int) {
@@ -1026,8 +963,7 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
     }
 
     private fun editWith() {
-        openEditor(uri.toString(), true)
-        isEditingWithThirdParty = true
+        toast("This feature is not implemented yet")
     }
 
     private fun scanFinalPath(path: String) {
