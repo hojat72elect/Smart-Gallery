@@ -3,7 +3,6 @@ package com.simplemobiletools.gallery.pro.activities
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -28,7 +27,6 @@ import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
-import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.O)
 open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
@@ -113,14 +111,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         binding.bottomVideoTimeHolder.videoDuration.setOnClickListener { skip(true) }
 
         try {
-
-            val uri = if (path.startsWith("content://")) {
-                Uri.parse(path)
-            } else {
-                Uri.fromFile(File(path))
-            }
-
-
             binding.bottomVideoTimeHolder.videoTogglePlayPause.setOnClickListener {
                 togglePlayPause()
             }
@@ -132,13 +122,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
             mIsFullscreen = visibility and View.SYSTEM_UI_FLAG_FULLSCREEN != 0
             toggleButtonVisibility()
         }
-    }
-
-    private fun setupDuration(duration: Long) {
-        mDuration = (duration / 1000).toInt()
-        binding.bottomVideoTimeHolder.videoSeekbar.max = mDuration
-        binding.bottomVideoTimeHolder.videoDuration.text = mDuration.getFormattedDuration()
-        setVideoProgress(0)
     }
 
     private fun togglePlayPause() {
@@ -170,14 +153,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         binding.bottomVideoTimeHolder.videoSeekbar.progress = seconds
         mCurrTime = seconds
         binding.bottomVideoTimeHolder.videoCurrTime.text = seconds.getFormattedDuration()
-    }
-
-    private fun videoCompleted() {
-        mIsPlaying = false
-        binding.bottomVideoTimeHolder.videoSeekbar.progress =
-            binding.bottomVideoTimeHolder.videoSeekbar.max
-        binding.bottomVideoTimeHolder.videoCurrTime.text = mDuration.getFormattedDuration()
-        pauseVideo()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -267,9 +242,5 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         mIsPlaying = true
         resumeVideo()
         mIsDragged = false
-    }
-
-    companion object {
-        private const val CARDBOARD_DISPLAY_MODE = 3
     }
 }

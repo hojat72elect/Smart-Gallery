@@ -18,7 +18,7 @@ class MySeekBar : SeekBar {
         defStyle
     )
 
-    fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
+    fun setColors(accentColor: Int) {
         progressDrawable.applyColorFilter(accentColor)
         thumb?.applyColorFilter(accentColor)
     }

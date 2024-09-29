@@ -1,10 +1,6 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import android.app.Activity
-import android.text.Html
-import android.text.method.LinkMovementMethod
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -22,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.databinding.DialogFeatureLockedBinding
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
@@ -31,47 +26,7 @@ import com.simplemobiletools.gallery.pro.compose.extensions.composeDonateIntent
 import com.simplemobiletools.gallery.pro.compose.extensions.rememberMutableInteractionSource
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.fromHtml
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.launchPurchaseThankYouIntent
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-
-class FeatureLockedDialog(val activity: Activity, val callback: () -> Unit) {
-    private var dialog: AlertDialog? = null
-
-    init {
-        val view = DialogFeatureLockedBinding.inflate(activity.layoutInflater, null, false)
-        view.featureLockedImage.applyColorFilter(activity.getProperTextColor())
-
-        activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.purchase, null)
-            .setNegativeButton(R.string.later) { _, _ -> dismissDialog() }
-            .setOnDismissListener { dismissDialog() }
-            .apply {
-                activity.setupDialogStuff(
-                    view.root,
-                    this,
-                    cancelOnTouchOutside = false
-                ) { alertDialog ->
-                    dialog = alertDialog
-                    view.featureLockedDescription.text =
-                        Html.fromHtml(activity.getString(R.string.features_locked))
-                    view.featureLockedDescription.movementMethod = LinkMovementMethod.getInstance()
-
-                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                        activity.launchPurchaseThankYouIntent()
-                    }
-                }
-            }
-    }
-
-    private fun dismissDialog() {
-        dialog?.dismiss()
-        callback()
-    }
-}
 
 @Composable
 fun FeatureLockedAlertDialog(

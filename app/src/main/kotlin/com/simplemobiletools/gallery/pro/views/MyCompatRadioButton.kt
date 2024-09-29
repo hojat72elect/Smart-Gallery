@@ -15,7 +15,7 @@ class MyCompatRadioButton : AppCompatRadioButton {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     @SuppressLint("RestrictedApi")
-    fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
+    fun setColors(textColor: Int, accentColor: Int) {
         setTextColor(textColor)
         val colorStateList = ColorStateList(
             arrayOf(

@@ -9,9 +9,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
-import com.simplemobiletools.gallery.pro.views.MySearchMenu
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogDirectoryPickerBinding
@@ -35,8 +32,11 @@ import com.simplemobiletools.gallery.pro.extensions.isInDownloadDir
 import com.simplemobiletools.gallery.pro.extensions.isRestrictedWithSAFSdk30
 import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.views.MySearchMenu
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
@@ -207,8 +207,8 @@ class PickDirectoryDialog(
             activity.getDefaultCopyDestinationPath(showHidden, sourcePath),
             !isPickingCopyMoveDestination && !isPickingFolderForWidget,
             showHidden,
-            true,
-            true
+            showFAB = true,
+            canAddShowHiddenButton = true
         ) {
             config.lastCopyPath = it
             activity.handleLockedFolderOpening(it) { success ->

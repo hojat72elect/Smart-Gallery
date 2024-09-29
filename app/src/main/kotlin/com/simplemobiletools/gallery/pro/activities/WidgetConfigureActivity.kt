@@ -75,7 +75,7 @@ class WidgetConfigureActivity : BaseActivity() {
 
         updateTextColors(binding.folderPickerHolder)
         val primaryColor = getProperPrimaryColor()
-        binding.configBgSeekbar.setColors(mTextColor, primaryColor, primaryColor)
+        binding.configBgSeekbar.setColors(primaryColor)
         binding.folderPickerHolder.background = ColorDrawable(getProperBackgroundColor())
 
         binding.folderPickerShowFolderName.isChecked = config.showWidgetFolderName

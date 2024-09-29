@@ -1,5 +1,6 @@
 package com.simplemobiletools.gallery.pro.adapters
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.simplemobiletools.gallery.pro.helpers.MEDIUM
 import com.simplemobiletools.gallery.pro.helpers.SHOULD_INIT_FRAGMENT
 import com.simplemobiletools.gallery.pro.models.Medium
 
+@SuppressLint("NewApi")
 @UnstableApi
 class MyPagerAdapter(
     val activity: ViewPagerActivity,
@@ -26,6 +28,7 @@ class MyPagerAdapter(
     var shouldInitFragment = true
 
     override fun getCount() = media.size
+
 
     override fun getItem(position: Int): Fragment {
         val medium = media[position]

@@ -1,9 +1,6 @@
 package com.simplemobiletools.gallery.pro.models.contacts
 
 import android.graphics.Bitmap
-import android.provider.ContactsContract
-import android.telephony.PhoneNumberUtils
-import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
 import com.simplemobiletools.gallery.pro.extensions.normalizeString
 import com.simplemobiletools.gallery.pro.helpers.SMT_PRIVATE
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_FIRST_NAME
@@ -12,6 +9,7 @@ import com.simplemobiletools.gallery.pro.helpers.SORT_BY_MIDDLE_NAME
 import com.simplemobiletools.gallery.pro.helpers.SORT_BY_SURNAME
 import com.simplemobiletools.gallery.pro.helpers.SORT_DESCENDING
 import com.simplemobiletools.gallery.pro.models.PhoneNumber
+import java.util.Locale
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
@@ -39,18 +37,12 @@ data class Contact(
     var groups: ArrayList<Group> = arrayListOf(),
     var organization: Organization = Organization("", ""),
     var websites: ArrayList<String> = arrayListOf(),
-    var IMs: ArrayList<IM> = arrayListOf(),
+    var ims: ArrayList<IM> = arrayListOf(),
     var mimetype: String = "",
     var ringtone: String? = ""
 ) : Comparable<Contact> {
 
     val name = getNameToDisplay()
-    var birthdays =
-        events.filter { it.type == ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY }
-            .map { it.value }.toMutableList() as ArrayList<String>
-    var anniversaries =
-        events.filter { it.type == ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY }
-            .map { it.value }.toMutableList() as ArrayList<String>
 
     companion object {
         var sorting = 0
@@ -180,7 +172,7 @@ data class Contact(
         return copy(
             id = 0,
             prefix = "",
-            firstName = getNameToDisplay().toLowerCase(),
+            firstName = getNameToDisplay().lowercase(Locale.getDefault()),
             middleName = "",
             surname = "",
             suffix = "",
@@ -199,7 +191,7 @@ data class Contact(
             groups = ArrayList(),
             websites = ArrayList(),
             organization = Organization("", ""),
-            IMs = ArrayList(),
+            ims = ArrayList(),
             ringtone = ""
         ).toString()
     }

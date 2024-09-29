@@ -17,7 +17,7 @@ class MyAppCompatSpinner : AppCompatSpinner {
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
-    fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
+    fun setColors(textColor: Int, backgroundColor: Int) {
         if (adapter == null)
             return
 

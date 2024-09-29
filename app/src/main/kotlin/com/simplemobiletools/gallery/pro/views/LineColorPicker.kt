@@ -47,7 +47,7 @@ class LineColorPicker @JvmOverloads constructor(
         }
         orientation = HORIZONTAL
 
-        setOnTouchListener { view, motionEvent ->
+        setOnTouchListener { _, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> {
                     if (pickerWidth != 0 && stripeWidth != 0) {

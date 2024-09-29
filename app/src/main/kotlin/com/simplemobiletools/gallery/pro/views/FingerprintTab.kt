@@ -23,7 +23,7 @@ import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
 
 class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
     SecurityTab {
-    private val RECHECK_PERIOD = 3000L
+
     private val registerHandler = Handler()
 
     lateinit var hashListener: HashListener
@@ -95,5 +95,9 @@ class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(con
         super.onDetachedFromWindow()
         registerHandler.removeCallbacksAndMessages(null)
         Reprint.cancelAuthentication()
+    }
+
+    companion object {
+        private const val RECHECK_PERIOD = 3_000L
     }
 }

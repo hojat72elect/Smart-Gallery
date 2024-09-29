@@ -1,16 +1,17 @@
 package com.simplemobiletools.gallery.pro.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -108,7 +109,7 @@ import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
 import java.io.IOException
 
-
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @OptIn(UnstableApi::class)
 class MediaActivity : BaseActivity(), MediaOperationsListener {
 
@@ -259,7 +260,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
 
         // do not refresh Random sorted files after opening a fullscreen image and going Back
         val isRandomSorting = config.getFolderSorting(mPath) and SORT_BY_RANDOM != 0
-        if (mMedia.isEmpty() || !isRandomSorting || (isRandomSorting && !mWasFullscreenViewOpen)) {
+        if (mMedia.isEmpty() || !isRandomSorting || (!mWasFullscreenViewOpen)) {
             if (shouldSkipAuthentication()) {
                 tryLoadGallery()
             } else {
@@ -470,7 +471,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
                 val dirName = when (mPath) {
                     FAVORITES -> getString(R.string.favorites)
                     RECYCLE_BIN -> getString(R.string.recycle_bin)
-                    config.OTGPath -> getString(R.string.usb)
+                    config.otgPath -> getString(R.string.usb)
                     else -> getHumanizedFilename(mPath)
                 }
 
@@ -571,7 +572,12 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
     }
 
     private fun showSortingDialog() {
-        ChangeSortingDialog(this, false, true, mPath) {
+        ChangeSortingDialog(
+            this,
+            isDirectorySorting = false,
+            showFolderCheckbox = true,
+            path = mPath
+        ) {
             mLoadedInitialPhotos = false
             binding.mediaGrid.adapter = null
             getMedia()
@@ -648,7 +654,10 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
             if (!fileDirItem.isDownloadsFolder() && fileDirItem.isDirectory) {
                 ensureBackgroundThread {
                     if (fileDirItem.getProperFileCount(this, true) == 0) {
-                        tryDeleteFileDirItem(fileDirItem, true, true)
+                        tryDeleteFileDirItem(fileDirItem,
+                            allowDeleteFolder = true,
+                            deleteFromDatabase = true
+                        )
                     }
                 }
             }

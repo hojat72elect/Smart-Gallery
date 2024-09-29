@@ -9,7 +9,6 @@ import android.content.ContentProviderOperation
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
@@ -17,7 +16,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.TransactionTooLargeException
@@ -59,14 +57,12 @@ import com.simplemobiletools.gallery.pro.helpers.IS_FROM_GALLERY
 import com.simplemobiletools.gallery.pro.helpers.PROTECTION_FINGERPRINT
 import com.simplemobiletools.gallery.pro.helpers.REAL_FILE_PATH
 import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
-import com.simplemobiletools.gallery.pro.helpers.REQUEST_EDIT_IMAGE
 import com.simplemobiletools.gallery.pro.helpers.REQUEST_SET_AS
 import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_FALSE
 import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_TRUE
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.helpers.isOnMainThread
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.DateTaken
 import com.simplemobiletools.gallery.pro.views.MyTextView
 import java.io.File
@@ -254,7 +250,7 @@ fun AppCompatActivity.fixDateTaken(
                     val separator = dateTime.substring(4, 5)
                     val format = "yyyy${separator}MM${separator}dd${t}kk:mm:ss"
                     val formatter = SimpleDateFormat(format, Locale.getDefault())
-                    val timestamp = formatter.parse(dateTime).time
+                    val timestamp = formatter.parse(dateTime)!!.time
 
                     val uri = getFileUri(path)
                     ContentProviderOperation.newUpdate(uri).apply {
@@ -613,56 +609,6 @@ fun Activity.setAsIntent(path: String, applicationId: String) {
 
             try {
                 startActivityForResult(chooser, REQUEST_SET_AS)
-            } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_app_found)
-            } catch (e: Exception) {
-                showErrorToast(e)
-            }
-        }
-    }
-}
-
-fun Activity.openEditorIntent(path: String, forceChooser: Boolean, applicationId: String) {
-    ensureBackgroundThread {
-        val newUri = getFinalUriFromPath(path, applicationId) ?: return@ensureBackgroundThread
-        Intent().apply {
-            action = Intent.ACTION_EDIT
-            setDataAndType(newUri, getUriMimeType(path, newUri))
-            if (!isRPlus() || (isRPlus() && (hasProperStoredDocumentUriSdk30(path) || Environment.isExternalStorageManager()))) {
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            }
-
-            val parent = path.getParentPath()
-            val newFilename = "${path.getFilenameFromPath().substringBeforeLast('.')}_1"
-            val extension = path.getFilenameExtension()
-            val newFilePath = File(parent, "$newFilename.$extension")
-
-            val outputUri = if (isPathOnOTG(path)) newUri else getFinalUriFromPath(
-                "$newFilePath",
-                applicationId
-            )
-            if (!isRPlus()) {
-                val resInfoList =
-                    packageManager.queryIntentActivities(this, PackageManager.MATCH_DEFAULT_ONLY)
-                for (resolveInfo in resInfoList) {
-                    val packageName = resolveInfo.activityInfo.packageName
-                    grantUriPermission(
-                        packageName,
-                        outputUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
-            }
-
-            if (!isRPlus()) {
-                putExtra(MediaStore.EXTRA_OUTPUT, outputUri)
-            }
-
-            putExtra(REAL_FILE_PATH, path)
-
-            try {
-                val chooser = Intent.createChooser(this, getString(R.string.edit_with))
-                startActivityForResult(if (forceChooser) chooser else this, REQUEST_EDIT_IMAGE)
             } catch (e: ActivityNotFoundException) {
                 toast(R.string.no_app_found)
             } catch (e: Exception) {

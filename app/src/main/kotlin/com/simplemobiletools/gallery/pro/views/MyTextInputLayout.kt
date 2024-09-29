@@ -21,7 +21,7 @@ class MyTextInputLayout : TextInputLayout {
     )
 
     // we need to use reflection to make some colors work well
-    fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
+    fun setColors(textColor: Int, accentColor: Int) {
         try {
             editText!!.setTextColor(textColor)
             editText!!.backgroundTintList = ColorStateList.valueOf(accentColor)

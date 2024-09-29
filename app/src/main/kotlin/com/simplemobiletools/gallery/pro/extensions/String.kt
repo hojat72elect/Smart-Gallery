@@ -240,9 +240,9 @@ fun String.isAValidFilename(): Boolean {
 }
 
 fun String.getOTGPublicPath(context: Context) =
-    "${context.baseConfig.OTGTreeUri}/document/${context.baseConfig.OTGPartition}%3A${
+    "${context.baseConfig.otgTreeUri}/document/${context.baseConfig.otgPartition}%3A${
         substring(
-            context.baseConfig.OTGPath.length
+            context.baseConfig.otgPath.length
         ).replace("/", "%2F")
     }"
 

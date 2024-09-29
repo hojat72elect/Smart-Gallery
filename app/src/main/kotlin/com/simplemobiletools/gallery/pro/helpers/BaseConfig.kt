@@ -1,8 +1,6 @@
 package com.simplemobiletools.gallery.pro.helpers
 
 import android.content.Context
-import android.content.res.Configuration
-import android.os.Environment
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import com.simplemobiletools.gallery.pro.R
@@ -12,7 +10,6 @@ import com.simplemobiletools.gallery.pro.extensions.getSDCardPath
 import com.simplemobiletools.gallery.pro.extensions.getSharedPrefs
 import com.simplemobiletools.gallery.pro.extensions.sharedPreferencesCallback
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.LinkedList
 import java.util.Locale
 import kotlin.reflect.KProperty0
@@ -62,17 +59,17 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getString(SD_TREE_URI, "")!!
         set(uri) = prefs.edit().putString(SD_TREE_URI, uri).apply()
 
-    var OTGTreeUri: String
+    var otgTreeUri: String
         get() = prefs.getString(OTG_TREE_URI, "")!!
-        set(OTGTreeUri) = prefs.edit().putString(OTG_TREE_URI, OTGTreeUri).apply()
+        set(otgTreeUri) = prefs.edit().putString(OTG_TREE_URI, otgTreeUri).apply()
 
-    var OTGPartition: String
+    var otgPartition: String
         get() = prefs.getString(OTG_PARTITION, "")!!
-        set(OTGPartition) = prefs.edit().putString(OTG_PARTITION, OTGPartition).apply()
+        set(otgPartition) = prefs.edit().putString(OTG_PARTITION, otgPartition).apply()
 
-    var OTGPath: String
+    var otgPath: String
         get() = prefs.getString(OTG_REAL_PATH, "")!!
-        set(OTGPath) = prefs.edit().putString(OTG_REAL_PATH, OTGPath).apply()
+        set(otgPath) = prefs.edit().putString(OTG_REAL_PATH, otgPath).apply()
 
     var sdCardPath: String
         get() = prefs.getString(SD_CARD_PATH, getDefaultSDCardPath())!!
@@ -253,7 +250,7 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(USE_ENGLISH, false)
         set(useEnglish) {
             wasUseEnglishToggled = true
-            prefs.edit().putBoolean(USE_ENGLISH, useEnglish).commit()
+            prefs.edit().putBoolean(USE_ENGLISH, useEnglish).apply()
         }
 
     var wasUseEnglishToggled: Boolean
@@ -318,23 +315,18 @@ open class BaseConfig(val context: Context) {
         if (path.isEmpty()) {
             sorting = value
         } else {
-            prefs.edit().putInt(SORT_FOLDER_PREFIX + path.toLowerCase(), value).apply()
+            prefs.edit().putInt(SORT_FOLDER_PREFIX + path.lowercase(Locale.getDefault()), value).apply()
         }
     }
 
     fun getFolderSorting(path: String) =
-        prefs.getInt(SORT_FOLDER_PREFIX + path.toLowerCase(), sorting)
+        prefs.getInt(SORT_FOLDER_PREFIX + path.lowercase(Locale.ROOT), sorting)
 
     fun removeCustomSorting(path: String) {
-        prefs.edit().remove(SORT_FOLDER_PREFIX + path.toLowerCase()).apply()
+        prefs.edit().remove(SORT_FOLDER_PREFIX + path.lowercase(Locale.getDefault())).apply()
     }
 
-    fun hasCustomSorting(path: String) = prefs.contains(SORT_FOLDER_PREFIX + path.toLowerCase())
-
-    var hadThankYouInstalled: Boolean
-        get() = prefs.getBoolean(HAD_THANK_YOU_INSTALLED, false)
-        set(hadThankYouInstalled) = prefs.edit()
-            .putBoolean(HAD_THANK_YOU_INSTALLED, hadThankYouInstalled).apply()
+    fun hasCustomSorting(path: String) = prefs.contains(SORT_FOLDER_PREFIX + path.lowercase(Locale.getDefault()))
 
     var skipDeleteConfirmation: Boolean
         get() = prefs.getBoolean(SKIP_DELETE_CONFIRMATION, false)
@@ -527,16 +519,6 @@ open class BaseConfig(val context: Context) {
     var viewType: Int
         get() = prefs.getInt(VIEW_TYPE, VIEW_TYPE_LIST)
         set(viewType) = prefs.edit().putInt(VIEW_TYPE, viewType).apply()
-
-    private fun getDefaultContactColumnsCount(): Int {
-        val isPortrait =
-            context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        return if (isPortrait) {
-            context.resources.getInteger(R.integer.contacts_grid_columns_count_portrait)
-        } else {
-            context.resources.getInteger(R.integer.contacts_grid_columns_count_landscape)
-        }
-    }
 
     var passwordRetryCount: Int
         get() = prefs.getInt(PASSWORD_RETRY_COUNT, 0)

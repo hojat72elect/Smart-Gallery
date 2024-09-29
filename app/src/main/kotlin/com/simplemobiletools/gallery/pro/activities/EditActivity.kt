@@ -27,7 +27,6 @@ import com.bumptech.glide.request.target.Target
 import com.canhub.cropper.CropImageView
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.FiltersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityEditBinding
 import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
@@ -50,9 +49,7 @@ import com.simplemobiletools.gallery.pro.extensions.getFilenameExtension
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromContentUri
 import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
 import com.simplemobiletools.gallery.pro.extensions.getParentPath
-import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
 import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.getRealPathFromURI
 import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
 import com.simplemobiletools.gallery.pro.extensions.isGone
@@ -150,9 +147,7 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
         super.onResume()
         isEditingWithThirdParty = false
         binding.bottomEditorDrawActions.bottomDrawWidth.setColors(
-            getProperTextColor(),
-            getProperPrimaryColor(),
-            getProperBackgroundColor()
+            getProperPrimaryColor()
         )
         setupToolbar(binding.editorToolbar, NavigationIcon.Arrow)
     }
@@ -475,8 +470,7 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
         }
     }
 
-    private fun getFiltersAdapter() =
-        binding.bottomEditorFilterActions.bottomActionsFilterList.adapter as? FiltersAdapter
+
 
     private fun setupBottomActions() {
         setupPrimaryActionButtons()
@@ -663,44 +657,6 @@ class EditActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
         binding.bottomEditorFilterActions.root.beVisibleIf(currPrimaryAction == PRIMARY_ACTION_FILTER)
         binding.bottomEditorCropRotateActions.root.beVisibleIf(currPrimaryAction == PRIMARY_ACTION_CROP_ROTATE)
         binding.bottomEditorDrawActions.root.beVisibleIf(currPrimaryAction == PRIMARY_ACTION_DRAW)
-
-        if (currPrimaryAction == PRIMARY_ACTION_FILTER && binding.bottomEditorFilterActions.bottomActionsFilterList.adapter == null) {
-            ensureBackgroundThread {
-                val thumbnailSize =
-                    resources.getDimension(R.dimen.bottom_filters_thumbnail_size).toInt()
-
-                val bitmap = try {
-                    Glide.with(this)
-                        .asBitmap()
-                        .load(uri).listener(object : RequestListener<Bitmap> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Bitmap>,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                showErrorToast(e.toString())
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                model: Any,
-                                target: Target<Bitmap>,
-                                dataSource: DataSource,
-                                isFirstResource: Boolean
-                            ) = false
-                        })
-                        .submit(thumbnailSize, thumbnailSize)
-                        .get()
-                } catch (e: GlideException) {
-                    showErrorToast(e)
-                    finish()
-                    return@ensureBackgroundThread
-                }
-
-            }
-        }
 
         if (currPrimaryAction != PRIMARY_ACTION_CROP_ROTATE) {
             binding.bottomAspectRatios.root.beGone()

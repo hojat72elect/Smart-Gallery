@@ -45,7 +45,7 @@ class MySearchMenu(context: Context, attrs: AttributeSet) : AppBarLayout(context
         }
 
         post {
-            binding.topToolbarSearch.setOnFocusChangeListener { v, hasFocus ->
+            binding.topToolbarSearch.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     openSearch()
                 }

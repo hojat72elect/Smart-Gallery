@@ -5,20 +5,16 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Looper
 import android.provider.ContactsContract
-import android.util.Log
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.extensions.normalizeString
-import com.simplemobiletools.gallery.pro.extensions.times
 import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
 
 const val HOUR_MINUTES = 60
 const val MINUTE_SECONDS = 60
 const val DAY_MINUTES = 24 * HOUR_MINUTES
-const val WEEK_MINUTES = DAY_MINUTES * 7
 const val MONTH_MINUTES = DAY_MINUTES * 30
-const val YEAR_MINUTES = DAY_MINUTES * 365
+
 
 const val HOUR_SECONDS = HOUR_MINUTES * 60
 const val DAY_SECONDS = DAY_MINUTES * 60
@@ -153,7 +149,6 @@ const val CLICK_MAX_DISTANCE = 100
 const val MAX_CLOSE_DOWN_GESTURE_DURATION = 300
 const val DRAG_THRESHOLD = 8
 const val MONTH_MILLISECONDS = MONTH_SECONDS * 1000L
-const val MIN_SKIP_LENGTH = 2000
 const val HIDE_SYSTEM_UI_DELAY = 500L
 const val MAX_PRINT_SIDE_SIZE = 4096
 const val FAST_FORWARD_VIDEO_MS = 10000
@@ -363,7 +358,6 @@ const val WAS_CUSTOM_THEME_SWITCH_DESCRIPTION_SHOWN = "was_custom_theme_switch_d
 const val LAST_CONFLICT_RESOLUTION = "last_conflict_resolution"
 const val LAST_CONFLICT_APPLY_TO_ALL = "last_conflict_apply_to_all"
 const val LAST_COPY_PATH = "last_copy_path"
-const val HAD_THANK_YOU_INSTALLED = "had_thank_you_installed"
 const val SKIP_DELETE_CONFIRMATION = "skip_delete_confirmation"
 const val ENABLE_PULL_TO_REFRESH = "enable_pull_to_refresh"
 const val SCROLL_HORIZONTALLY = "scroll_horizontally"
@@ -543,15 +537,6 @@ const val FONT_SIZE_SMALL = 0
 const val FONT_SIZE_MEDIUM = 1
 const val FONT_SIZE_LARGE = 2
 
-const val MONDAY_BIT = 1
-const val TUESDAY_BIT = 2
-const val WEDNESDAY_BIT = 4
-const val THURSDAY_BIT = 8
-const val FRIDAY_BIT = 16
-const val SATURDAY_BIT = 32
-const val SUNDAY_BIT = 64
-
-
 const val SIDELOADING_UNCHECKED = 0
 const val SIDELOADING_TRUE = 1
 const val SIDELOADING_FALSE = 2
@@ -620,12 +605,6 @@ const val DATE_FORMAT_FIVE = "d MMMM yyyy"
 const val DATE_FORMAT_SIX = "MMMM d yyyy"
 const val DATE_FORMAT_SEVEN = "MM-dd-yyyy"
 const val DATE_FORMAT_EIGHT = "dd-MM-yyyy"
-const val DATE_FORMAT_NINE = "yyyyMMdd"
-const val DATE_FORMAT_TEN = "yyyy.MM.dd"
-const val DATE_FORMAT_ELEVEN = "yy-MM-dd"
-const val DATE_FORMAT_TWELVE = "yyMMdd"
-const val DATE_FORMAT_THIRTEEN = "yy.MM.dd"
-const val DATE_FORMAT_FOURTEEN = "yy/MM/dd"
 
 const val TIME_FORMAT_12 = "hh:mm a"
 const val TIME_FORMAT_24 = "HH:mm"
@@ -652,21 +631,6 @@ val appIconColorStrings = arrayListOf(
     ".Grey_black"
 )
 
-// most app icon colors from md_app_icon_colors with reduced alpha
-// used at showing contact placeholders without image
-val letterBackgroundColors = arrayListOf(
-    0xCCD32F2F,
-    0xCCC2185B,
-    0xCC1976D2,
-    0xCC0288D1,
-    0xCC0097A7,
-    0xCC00796B,
-    0xCC388E3C,
-    0xCC689F38,
-    0xCCF57C00,
-    0xCCE64A19
-)
-
 // view types
 const val VIEW_TYPE_GRID = 1
 const val VIEW_TYPE_LIST = 2
@@ -690,7 +654,6 @@ fun isNougatPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 fun isOreoPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
 
-
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
 fun isPiePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
@@ -710,9 +673,6 @@ fun isTiramisuPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 fun isUpsideDownCakePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
 
-
-
-
 val normalizeRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
 fun getConflictResolution(resolutions: LinkedHashMap<String, Int>, path: String): Int {
@@ -726,29 +686,12 @@ fun getConflictResolution(resolutions: LinkedHashMap<String, Int>, path: String)
 }
 
 val proPackages = arrayListOf("draw", "gallery", "filemanager", "contacts", "notes", "calendar")
-
-
-fun getQuestionMarks(size: Int) = ("?," * size).trimEnd(',')
-
 const val FIRST_CONTACT_ID = 1000000
-
-
-const val DEFAULT_ORGANIZATION_TYPE = ContactsContract.CommonDataKinds.Organization.TYPE_WORK
-const val DEFAULT_WEBSITE_TYPE = ContactsContract.CommonDataKinds.Website.TYPE_HOMEPAGE
 const val DEFAULT_MIMETYPE = ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-
-// contact photo changes
-const val PHOTO_ADDED = 1
-const val PHOTO_REMOVED = 2
-const val PHOTO_CHANGED = 3
-
 
 // apps with special handling
 const val TELEGRAM_PACKAGE = "org.telegram.messenger"
-const val SIGNAL_PACKAGE = "org.thoughtcrime.securesms"
-const val WHATSAPP_PACKAGE = "com.whatsapp"
 const val VIBER_PACKAGE = "com.viber.voip"
-const val THREEMA_PACKAGE = "ch.threema.app"
 
 
 fun getEmptyLocalContact() = LocalContact(
@@ -774,7 +717,6 @@ fun getEmptyLocalContact() = LocalContact(
     ArrayList(),
     null
 )
-
 
 
 fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {

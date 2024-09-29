@@ -145,7 +145,7 @@ class MediaFetcher(val context: Context) {
 
     fun getFoldersToScan(): ArrayList<String> {
         return try {
-            val OTGPath = context.config.OTGPath
+            val otgPath = context.config.otgPath
             val folders = getLatestFileFolders()
             folders.addAll(arrayListOf(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
@@ -153,7 +153,7 @@ class MediaFetcher(val context: Context) {
                 "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}/Camera",
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                     .toString()
-            ).filter { context.getDoesFilePathExist(it, OTGPath) })
+            ).filter { context.getDoesFilePathExist(it, otgPath) })
 
             val filterMedia = context.config.filterMedia
             val uri = Files.getContentUri("external")
@@ -325,11 +325,11 @@ class MediaFetcher(val context: Context) {
         val foldersToIgnore = arrayListOf("/storage/emulated/legacy")
         val config = context.config
         val includedFolders = config.includedFolders
-        val OTGPath = config.OTGPath
+        val otgPath = config.otgPath
         val foldersToScan = config.everShownFolders.filter {
             it == FAVORITES || it == RECYCLE_BIN || context.getDoesFilePathExist(
                 it,
-                OTGPath
+                otgPath
             )
         }.toHashSet()
 
@@ -673,7 +673,7 @@ class MediaFetcher(val context: Context) {
         val files = context.getDocumentFile(folder)?.listFiles() ?: return media
         val checkFileExistence = context.config.fileLoadingPriority == PRIORITY_VALIDITY
         val showHidden = context.config.shouldShowHidden
-        val OTGPath = context.config.OTGPath
+        val otgPath = context.config.otgPath
 
         for (file in files) {
             if (shouldStop) {
@@ -711,7 +711,7 @@ class MediaFetcher(val context: Context) {
             val size = file.length()
             if (size <= 0L || (checkFileExistence && !context.getDoesFilePathExist(
                     file.uri.toString(),
-                    OTGPath
+                    otgPath
                 ))
             )
                 continue
@@ -729,8 +729,8 @@ class MediaFetcher(val context: Context) {
 
             val path = Uri.decode(
                 file.uri.toString().replaceFirst(
-                    "${context.config.OTGTreeUri}/document/${context.config.OTGPartition}%3A",
-                    "${context.config.OTGPath}/"
+                    "${context.config.otgTreeUri}/document/${context.config.otgPartition}%3A",
+                    "${context.config.otgPath}/"
                 )
             )
             val videoDuration = if (getVideoDurations) context.getDuration(path) ?: 0 else 0

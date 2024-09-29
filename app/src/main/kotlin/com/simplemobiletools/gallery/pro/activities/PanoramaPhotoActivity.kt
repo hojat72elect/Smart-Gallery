@@ -1,10 +1,7 @@
 package com.simplemobiletools.gallery.pro.activities
 
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.Window
@@ -13,11 +10,9 @@ import android.widget.RelativeLayout
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityPanoramaPhotoBinding
 import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.hideSystemUI
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.extensions.showSystemUI
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.PATH
@@ -82,10 +77,6 @@ open class PanoramaPhotoActivity : BaseActivity() {
         isRendering = false
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setupButtonMargins()
@@ -105,28 +96,6 @@ open class PanoramaPhotoActivity : BaseActivity() {
             isFullscreen = visibility and View.SYSTEM_UI_FLAG_FULLSCREEN != 0
             toggleButtonVisibility()
         }
-    }
-
-    private fun getBitmapToLoad(path: String): Bitmap? {
-        val options = BitmapFactory.Options()
-        options.inSampleSize = 1
-        var bitmap: Bitmap? = null
-
-        for (i in 0..10) {
-            try {
-                bitmap = if (path.startsWith("content://")) {
-                    val inputStream = contentResolver.openInputStream(Uri.parse(path))
-                    BitmapFactory.decodeStream(inputStream)
-                } else {
-                    BitmapFactory.decodeFile(path, options)
-                }
-                break
-            } catch (e: OutOfMemoryError) {
-                options.inSampleSize *= 2
-            }
-        }
-
-        return bitmap
     }
 
     private fun setupButtonMargins() {
@@ -150,19 +119,5 @@ open class PanoramaPhotoActivity : BaseActivity() {
             it.animate().alpha(if (isFullscreen) 0f else 1f)
             it.isClickable = !isFullscreen
         }
-    }
-
-    private fun handleClick() {
-        isFullscreen = !isFullscreen
-        toggleButtonVisibility()
-        if (isFullscreen) {
-            hideSystemUI()
-        } else {
-            showSystemUI()
-        }
-    }
-
-    companion object{
-        private const val CARDBOARD_DISPLAY_MODE = 3
     }
 }

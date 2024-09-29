@@ -8,15 +8,12 @@ import com.simplemobiletools.gallery.pro.models.contacts.Address
 import com.simplemobiletools.gallery.pro.models.contacts.Email
 import com.simplemobiletools.gallery.pro.models.contacts.Event
 import com.simplemobiletools.gallery.pro.models.contacts.IM
-import com.simplemobiletools.gallery.pro.models.contacts.PhoneNumberConverter
-import java.util.ArrayList
 
 class Converters {
     private val gson = Gson()
     private val longType = object : TypeToken<List<Long>>() {}.type
     private val stringType = object : TypeToken<List<String>>() {}.type
     private val numberType = object : TypeToken<List<PhoneNumber>>() {}.type
-    private val numberConverterType = object : TypeToken<List<PhoneNumberConverter>>() {}.type
     private val emailType = object : TypeToken<List<Email>>() {}.type
     private val addressType = object : TypeToken<List<Address>>() {}.type
     private val eventType = object : TypeToken<List<Event>>() {}.type
@@ -38,18 +35,7 @@ class Converters {
     // convert [{"a":"678910","b":2,"c":"","d":"678910","e":false}] to PhoneNumber(value=678910, type=2, label=, normalizedNumber=678910, isPrimary=false)
     @TypeConverter
     fun jsonToPhoneNumberList(value: String): ArrayList<PhoneNumber> {
-        val numbers = gson.fromJson<ArrayList<PhoneNumber>>(value, numberType)
-        return if (numbers.any { it.value == null }) {
-            val phoneNumbers = ArrayList<PhoneNumber>()
-            val numberConverters = gson.fromJson<ArrayList<PhoneNumberConverter>>(value, numberConverterType)
-            numberConverters.forEach { converter ->
-                val phoneNumber = PhoneNumber(converter.a, converter.b, converter.c, converter.d, converter.e)
-                phoneNumbers.add(phoneNumber)
-            }
-            phoneNumbers
-        } else {
-            numbers
-        }
+        return gson.fromJson(value, numberType)
     }
 
     @TypeConverter

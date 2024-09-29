@@ -179,7 +179,7 @@ import kotlin.math.min
 @Suppress("UNCHECKED_CAST")
 class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     ViewPagerFragment.FragmentListener {
-    private val REQUEST_VIEW_VIDEO = 1
+
 
     private var mPath = ""
     private var mDirectory = ""
@@ -1651,5 +1651,9 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
 
     private fun isExternalIntent(): Boolean {
         return !intent.getBooleanExtra(IS_FROM_GALLERY, false)
+    }
+
+    companion object {
+        private const val REQUEST_VIEW_VIDEO = 1
     }
 }

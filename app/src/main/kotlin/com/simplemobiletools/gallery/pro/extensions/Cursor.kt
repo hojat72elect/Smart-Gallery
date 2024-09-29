@@ -8,10 +8,6 @@ import android.database.Cursor
 fun Cursor.getStringValue(key: String): String = getString(getColumnIndex(key))
 
 @SuppressLint("Range")
-fun Cursor.getStringValueOrNull(key: String) =
-    if (isNull(getColumnIndex(key))) null else getString(getColumnIndex(key))
-
-@SuppressLint("Range")
 fun Cursor.getIntValue(key: String) = getInt(getColumnIndex(key))
 
 @SuppressLint("Range")

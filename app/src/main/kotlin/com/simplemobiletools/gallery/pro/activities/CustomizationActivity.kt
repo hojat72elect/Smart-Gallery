@@ -10,12 +10,10 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityCustomizationBinding
-import com.simplemobiletools.gallery.pro.dialogs.LineColorPickerDialog
-import com.simplemobiletools.gallery.pro.extensions.getThemeId
-import com.simplemobiletools.gallery.pro.models.MyTheme
 import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.dialogs.LineColorPickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.extensions.baseConfig
@@ -27,6 +25,7 @@ import com.simplemobiletools.gallery.pro.extensions.getContrastColor
 import com.simplemobiletools.gallery.pro.extensions.getMyContentProviderCursorLoader
 import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.extensions.getSharedThemeSync
+import com.simplemobiletools.gallery.pro.extensions.getThemeId
 import com.simplemobiletools.gallery.pro.extensions.isUsingSystemDarkTheme
 import com.simplemobiletools.gallery.pro.extensions.setFillWithStroke
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
@@ -39,6 +38,7 @@ import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.helpers.SAVE_DISCARD_PROMPT_INTERVAL
 import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isSPlus
+import com.simplemobiletools.gallery.pro.models.MyTheme
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.SharedTheme
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
@@ -57,8 +57,6 @@ class CustomizationActivity : BaseActivity() {
     private var originalAppIconColor = 0
     private var lastSavePromptTS = 0L
     private var hasUnsavedChanges = false
-    private var isThankYou =
-        false      // show "Apply colors to all Simple apps" in Simple Thank You itself even with "Hide Google relations" enabled
     private var predefinedThemes = LinkedHashMap<Int, MyTheme>()
     private var curPrimaryLineColorPicker: LineColorPickerDialog? = null
     private var storedSharedTheme: SharedTheme? = null
@@ -80,7 +78,7 @@ class CustomizationActivity : BaseActivity() {
             useTopSearchMenu = false
         )
 
-        isThankYou = packageName.removeSuffix(".debug") == "com.simplemobiletools.thankyou"
+
         initColorVariables()
 
 
@@ -96,8 +94,7 @@ class CustomizationActivity : BaseActivity() {
 
                 runOnUiThread {
                     setupThemes()
-                    val hideGoogleRelations =
-                        resources.getBoolean(R.bool.hide_google_relations) && !isThankYou
+                    val hideGoogleRelations = resources.getBoolean(R.bool.hide_google_relations)
                     binding.applyToAllHolder.beVisibleIf(
                         storedSharedTheme == null && curSelectedThemeId != THEME_AUTO && curSelectedThemeId != THEME_SYSTEM && !hideGoogleRelations
                     )
@@ -118,7 +115,7 @@ class CustomizationActivity : BaseActivity() {
         updateLabelColors(textColor)
         originalAppIconColor = baseConfig.appIconColor
 
-        if (resources.getBoolean(R.bool.hide_google_relations) && !isThankYou) {
+        if (resources.getBoolean(R.bool.hide_google_relations)) {
             binding.applyToAllHolder.beGone()
         }
     }
@@ -272,8 +269,7 @@ class CustomizationActivity : BaseActivity() {
                 toast(R.string.changing_color_description)
             }
 
-            val hideGoogleRelations =
-                resources.getBoolean(R.bool.hide_google_relations) && !isThankYou
+            val hideGoogleRelations = resources.getBoolean(R.bool.hide_google_relations)
             binding.applyToAllHolder.beVisibleIf(
                 curSelectedThemeId != THEME_AUTO && curSelectedThemeId != THEME_SYSTEM && curSelectedThemeId != THEME_SHARED && !hideGoogleRelations
             )
@@ -767,7 +763,7 @@ class CustomizationActivity : BaseActivity() {
     private fun getMaterialYouString() =
         "${getString(R.string.system_default)} (${getString(R.string.material_you)})"
 
-    private fun updateSharedTheme(sharedTheme: SharedTheme){
+    private fun updateSharedTheme(sharedTheme: SharedTheme) {
         try {
             val contentValues = MyContentProvider.fillThemeContentValues(sharedTheme)
             applicationContext.contentResolver.update(
@@ -781,7 +777,7 @@ class CustomizationActivity : BaseActivity() {
         }
     }
 
-    companion object{
+    companion object {
         private const val THEME_LIGHT = 0
         private const val THEME_DARK = 1
         private const val THEME_DARK_RED = 3

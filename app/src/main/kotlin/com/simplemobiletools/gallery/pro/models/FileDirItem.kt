@@ -19,7 +19,6 @@ import com.simplemobiletools.gallery.pro.extensions.getDuration
 import com.simplemobiletools.gallery.pro.extensions.getFastDocumentFile
 import com.simplemobiletools.gallery.pro.extensions.getFileCount
 import com.simplemobiletools.gallery.pro.extensions.getFormattedDuration
-import com.simplemobiletools.gallery.pro.extensions.getImageResolution
 import com.simplemobiletools.gallery.pro.extensions.getItemSize
 import com.simplemobiletools.gallery.pro.extensions.getMediaStoreLastModified
 import com.simplemobiletools.gallery.pro.extensions.getParentPath
@@ -27,7 +26,6 @@ import com.simplemobiletools.gallery.pro.extensions.getProperSize
 import com.simplemobiletools.gallery.pro.extensions.getResolution
 import com.simplemobiletools.gallery.pro.extensions.getSizeFromContentUri
 import com.simplemobiletools.gallery.pro.extensions.getTitle
-import com.simplemobiletools.gallery.pro.extensions.getVideoResolution
 import com.simplemobiletools.gallery.pro.extensions.isImageFast
 import com.simplemobiletools.gallery.pro.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.extensions.isRestrictedSAFOnlyRoot

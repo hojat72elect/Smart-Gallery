@@ -27,7 +27,7 @@ data class LocalContact(
     @ColumnInfo(name = "company") var company: String,
     @ColumnInfo(name = "job_position") var jobPosition: String,
     @ColumnInfo(name = "websites") var websites: ArrayList<String>,
-    @ColumnInfo(name = "ims") var IMs: ArrayList<IM>,
+    @ColumnInfo(name = "ims") var ims: ArrayList<IM>,
     @ColumnInfo(name = "ringtone") var ringtone: String?
 ) {
     override fun equals(other: Any?) = id == (other as? LocalContact?)?.id

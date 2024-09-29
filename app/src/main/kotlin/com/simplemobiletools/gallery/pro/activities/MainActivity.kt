@@ -618,7 +618,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
 
     private fun checkOTGPath() {
         ensureBackgroundThread {
-            if (!config.wasOTGHandled && hasPermission(getPermissionToRequest()) && hasOTGConnected() && config.OTGPath.isEmpty()) {
+            if (!config.wasOTGHandled && hasPermission(getPermissionToRequest()) && hasOTGConnected() && config.otgPath.isEmpty()) {
                 getStorageDirectories().firstOrNull {
                     it.trimEnd('/') != internalStoragePath && it.trimEnd(
                         '/'
@@ -626,7 +626,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
                 }?.apply {
                     config.wasOTGHandled = true
                     val otgPath = trimEnd('/')
-                    config.OTGPath = otgPath
+                    config.otgPath = otgPath
                     config.addIncludedFolder(otgPath)
                 }
             }
@@ -639,7 +639,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
                 "/storage/emulated/0/Android/data/com.facebook.orca/files/stickers"
             )
 
-            val otgPath = config.OTGPath
+            val otgPath = config.otgPath
             spamFolders.forEach {
                 if (getDoesFilePathExist(it, otgPath)) {
                     config.addExcludedFolder(it)
@@ -874,7 +874,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
         fileDirItems: ArrayList<FileDirItem>,
         folders: ArrayList<File>
     ) {
-        val oTGPath = config.OTGPath
+        val oTGPath = config.otgPath
         deleteFiles(fileDirItems) {
             runOnUiThread {
                 refreshItems()
@@ -1578,9 +1578,9 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
 
     private fun checkInvalidDirectories(dirs: ArrayList<Directory>) {
         val invalidDirs = ArrayList<Directory>()
-        val OTGPath = config.OTGPath
+        val otgPath = config.otgPath
         dirs.filter { !it.areFavorites() && !it.isRecycleBin() }.forEach {
-            if (!getDoesFilePathExist(it.path, OTGPath)) {
+            if (!getDoesFilePathExist(it.path, otgPath)) {
                 invalidDirs.add(it)
             } else if (it.path != config.tempFolderPath && (!isRPlus() || isExternalStorageManager())) {
                 // avoid calling file.list() or listfiles() on Android 11+, it became way too slow
@@ -1704,7 +1704,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
                         currentString += "${element}/"
 
                         if (!checkedPaths.contains(currentString)) {
-                            val cnt = paths.count { it.startsWith(currentString) }
+                            val cnt = paths.count {path -> path.startsWith(currentString) }
                             if (cnt > 50 && currentString.startsWith("/Android/data", true)) {
                                 oftenRepeatedPaths.add(currentString)
                             }
@@ -1723,7 +1723,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
                 }
 
                 oftenRepeatedPaths.removeAll(substringToRemove.toSet())
-                val oTGPath = config.OTGPath
+                val oTGPath = config.otgPath
                 oftenRepeatedPaths.forEach {
                     val file = File("$internalPath/$it")
                     if (getDoesFilePathExist(file.absolutePath, oTGPath)) {

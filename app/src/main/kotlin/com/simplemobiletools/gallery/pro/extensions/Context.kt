@@ -40,7 +40,6 @@ import android.os.Looper
 import android.os.Process
 import android.provider.BaseColumns
 import android.provider.BlockedNumberContract
-import android.provider.ContactsContract
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
@@ -219,7 +218,7 @@ import java.util.regex.Pattern
 import kotlin.collections.set
 import kotlin.math.max
 
-val Context.otgPath: String get() = baseConfig.OTGPath
+val Context.otgPath: String get() = baseConfig.otgPath
 
 val Context.audioManager get() = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -385,13 +384,13 @@ fun Context.getDirsToShow(
         // show the current folder as an available option too, not just sub-folders
         if (currentPathPrefix.isNotEmpty()) {
             val currentFolder =
-                allDirs.firstOrNull {
-                    parentDirs.firstOrNull {
-                        it.path.equals(
+                allDirs.firstOrNull { allDirectory ->
+                    parentDirs.firstOrNull { patternDirectory ->
+                        patternDirectory.path.equals(
                             currentPathPrefix,
                             true
                         )
-                    } == null && it.path.equals(currentPathPrefix, true)
+                    } == null && allDirectory.path.equals(currentPathPrefix, true)
                 }
             currentFolder?.apply {
                 subfoldersCount = 1
@@ -401,7 +400,7 @@ fun Context.getDirsToShow(
 
         getSortedDirectories(parentDirs)
     } else {
-        dirs.forEach { it.subfoldersMediaCount = it.mediaCnt }
+        dirs.forEach { directory -> directory.subfoldersMediaCount = directory.mediaCnt }
         dirs
     }
 }
@@ -621,7 +620,7 @@ fun Context.getNoMediaFoldersSync(): ArrayList<String> {
     val selection = "${Files.FileColumns.MEDIA_TYPE} = ? AND ${Files.FileColumns.TITLE} LIKE ?"
     val selectionArgs = arrayOf(Files.FileColumns.MEDIA_TYPE_NONE.toString(), "%$NOMEDIA%")
     val sortOrder = "${Files.FileColumns.DATE_MODIFIED} DESC"
-    val otgPath = config.OTGPath
+    val otgPath = config.otgPath
 
     var cursor: Cursor? = null
     try {
@@ -1086,7 +1085,7 @@ fun Context.getCachedMedia(
         mediaFetcher.sortMedia(media, config.getFolderSorting(pathToUse))
         val grouped = mediaFetcher.groupMedia(media, pathToUse)
         callback(grouped.clone() as ArrayList<ThumbnailItem>)
-        val otgPath = config.OTGPath
+        val otgPath = config.otgPath
 
         try {
             val mediaToDelete = ArrayList<Medium>()
@@ -1118,7 +1117,7 @@ fun Context.getCachedMedia(
 
 fun Context.removeInvalidDBDirectories(dirs: ArrayList<Directory>? = null) {
     val dirsToCheck = dirs ?: directoryDB.getAll()
-    val otgPath = config.OTGPath
+    val otgPath = config.otgPath
     dirsToCheck.filter {
         !it.areFavorites() && !it.isRecycleBin() && !getDoesFilePathExist(
             it.path,
@@ -1339,22 +1338,22 @@ fun Context.createDirectoryFromMedia(
     getProperFileSize: Boolean,
     noMediaFolders: ArrayList<String>
 ): Directory {
-    val OTGPath = config.OTGPath
+    val otgPath = config.otgPath
     val grouped = MediaFetcher(this).groupMedia(curMedia, path)
     var thumbnail: String? = null
 
     albumCovers.forEach {
-        if (it.path == path && getDoesFilePathExist(it.tmb, OTGPath)) {
+        if (it.path == path && getDoesFilePathExist(it.tmb, otgPath)) {
             thumbnail = it.tmb
         }
     }
 
     if (thumbnail == null) {
         val sortedMedia = grouped.filterIsInstance<Medium>().toMutableList() as ArrayList<Medium>
-        thumbnail = sortedMedia.firstOrNull { getDoesFilePathExist(it.path, OTGPath) }?.path ?: ""
+        thumbnail = sortedMedia.firstOrNull { getDoesFilePathExist(it.path, otgPath) }?.path ?: ""
     }
 
-    if (config.OTGPath.isNotEmpty() && thumbnail!!.startsWith(config.OTGPath)) {
+    if (config.otgPath.isNotEmpty() && thumbnail!!.startsWith(config.otgPath)) {
         thumbnail = thumbnail!!.getOTGPublicPath(applicationContext)
     }
 
@@ -1536,7 +1535,7 @@ fun Context.rescanAndDeletePath(path: String, callback: () -> Unit) {
         callback()
     }, scanFileMaxDuration)
 
-    MediaScannerConnection.scanFile(applicationContext, arrayOf(path), null) { path, uri ->
+    MediaScannerConnection.scanFile(applicationContext, arrayOf(path), null) { _, uri ->
         scanFileHandler.removeCallbacksAndMessages(null)
         try {
             applicationContext.contentResolver.delete(uri, null, null)
@@ -2481,19 +2480,6 @@ fun Context.openNotificationSettings() {
     }
 }
 
-fun Context.openDeviceSettings() {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", packageName, null)
-    }
-
-    try {
-        startActivity(intent)
-    } catch (e: Exception) {
-        showErrorToast(e)
-    }
-}
-
-
 val Context.contactsDB: ContactsDao
     get() = ContactsDatabase.getInstance(applicationContext).ContactsDao()
 
@@ -2532,22 +2518,6 @@ fun Context.getEmptyContact(): Contact {
     )
 }
 
-fun Context.getPhotoThumbnailSize(): Int {
-    val uri = ContactsContract.DisplayPhoto.CONTENT_MAX_DIMENSIONS_URI
-    val projection = arrayOf(ContactsContract.DisplayPhoto.THUMBNAIL_MAX_DIM)
-    var cursor: Cursor? = null
-    try {
-        cursor = contentResolver.query(uri, projection, null, null, null)
-        if (cursor?.moveToFirst() == true) {
-            return cursor.getIntValue(ContactsContract.DisplayPhoto.THUMBNAIL_MAX_DIM)
-        }
-    } catch (ignored: Exception) {
-    } finally {
-        cursor?.close()
-    }
-    return 0
-}
-
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.hasContactPermissions() =
     hasPermission(PERMISSION_READ_CONTACTS) && hasPermission(PERMISSION_WRITE_CONTACTS)
@@ -2584,7 +2554,7 @@ fun Context.getSDCardPath(): String {
         it != getInternalStoragePath() && !it.equals(
             "/storage/emulated/0",
             true
-        ) && (baseConfig.OTGPartition.isEmpty() || !it.endsWith(baseConfig.OTGPartition))
+        ) && (baseConfig.otgPartition.isEmpty() || !it.endsWith(baseConfig.otgPartition))
     }
 
     val fullSDpattern = Pattern.compile(SD_OTG_PATTERN)
@@ -2603,10 +2573,10 @@ fun Context.getSDCardPath(): String {
     }
 
     if (sdCardPath.isEmpty()) {
-        val SDpattern = Pattern.compile(SD_OTG_SHORT)
+        val sdPattern = Pattern.compile(SD_OTG_SHORT)
         try {
             File("/storage").listFiles()?.forEach {
-                if (SDpattern.matcher(it.name).matches()) {
+                if (sdPattern.matcher(it.name).matches()) {
                     sdCardPath = "/storage/${it.name}"
                 }
             }
@@ -2711,11 +2681,11 @@ fun Context.isSDCardSetAsDefaultStorage() =
     )
 
 fun Context.hasProperStoredTreeUri(isOTG: Boolean): Boolean {
-    val uri = if (isOTG) baseConfig.OTGTreeUri else baseConfig.sdTreeUri
+    val uri = if (isOTG) baseConfig.otgTreeUri else baseConfig.sdTreeUri
     val hasProperUri = contentResolver.persistedUriPermissions.any { it.uri.toString() == uri }
     if (!hasProperUri) {
         if (isOTG) {
-            baseConfig.OTGTreeUri = ""
+            baseConfig.otgTreeUri = ""
         } else {
             baseConfig.sdTreeUri = ""
         }
@@ -2841,19 +2811,19 @@ fun Context.getFastDocumentFile(path: String): DocumentFile? {
 }
 
 fun Context.getOTGFastDocumentFile(path: String, otgPathToUse: String? = null): DocumentFile? {
-    if (baseConfig.OTGTreeUri.isEmpty()) {
+    if (baseConfig.otgTreeUri.isEmpty()) {
         return null
     }
 
-    val otgPath = otgPathToUse ?: baseConfig.OTGPath
-    if (baseConfig.OTGPartition.isEmpty()) {
-        baseConfig.OTGPartition =
-            baseConfig.OTGTreeUri.removeSuffix("%3A").substringAfterLast('/').trimEnd('/')
+    val otgPath = otgPathToUse ?: baseConfig.otgPath
+    if (baseConfig.otgPartition.isEmpty()) {
+        baseConfig.otgPartition =
+            baseConfig.otgTreeUri.removeSuffix("%3A").substringAfterLast('/').trimEnd('/')
         updateOTGPathFromPartition()
     }
 
     val relativePath = Uri.encode(path.substring(otgPath.length).trim('/'))
-    val fullUri = "${baseConfig.OTGTreeUri}/document/${baseConfig.OTGPartition}%3A$relativePath"
+    val fullUri = "${baseConfig.otgTreeUri}/document/${baseConfig.otgPartition}%3A$relativePath"
     return DocumentFile.fromSingleUri(this, Uri.parse(fullUri))
 }
 
@@ -2865,7 +2835,7 @@ fun Context.getDocumentFile(path: String): DocumentFile? {
     }
 
     return try {
-        val treeUri = Uri.parse(if (isOTG) baseConfig.OTGTreeUri else baseConfig.sdTreeUri)
+        val treeUri = Uri.parse(if (isOTG) baseConfig.otgTreeUri else baseConfig.sdTreeUri)
         var document = DocumentFile.fromTreeUri(applicationContext, treeUri)
         val parts = relativePath.split("/").filter { it.isNotEmpty() }
         for (part in parts) {
@@ -2972,14 +2942,14 @@ fun Context.getOTGItems(
     callback: (java.util.ArrayList<FileDirItem>) -> Unit
 ) {
     val items = java.util.ArrayList<FileDirItem>()
-    val otgTreeUri = baseConfig.OTGTreeUri
+    val otgTreeUri = baseConfig.otgTreeUri
     var rootUri = try {
         DocumentFile.fromTreeUri(applicationContext, Uri.parse(otgTreeUri))
     } catch (e: Exception) {
         showErrorToast(e)
-        baseConfig.OTGPath = ""
-        baseConfig.OTGTreeUri = ""
-        baseConfig.OTGPartition = ""
+        baseConfig.otgPath = ""
+        baseConfig.otgTreeUri = ""
+        baseConfig.otgPartition = ""
         null
     }
 
@@ -3006,7 +2976,7 @@ fun Context.getOTGItems(
 
     val files = rootUri!!.listFiles().filter { it.exists() }
 
-    val basePath = "${baseConfig.OTGTreeUri}/document/${baseConfig.OTGPartition}%3A"
+    val basePath = "${baseConfig.otgTreeUri}/document/${baseConfig.otgPartition}%3A"
     for (file in files) {
         val name = file.name ?: continue
         if (!shouldShowHidden && name.startsWith(".")) {
@@ -3423,16 +3393,16 @@ fun Context.getFileInputStreamSync(path: String): InputStream? {
 }
 
 fun Context.updateOTGPathFromPartition() {
-    val otgPath = "/storage/${baseConfig.OTGPartition}"
-    baseConfig.OTGPath = if (getOTGFastDocumentFile(otgPath, otgPath)?.exists() == true) {
-        "/storage/${baseConfig.OTGPartition}"
+    val otgPath = "/storage/${baseConfig.otgPartition}"
+    baseConfig.otgPath = if (getOTGFastDocumentFile(otgPath, otgPath)?.exists() == true) {
+        "/storage/${baseConfig.otgPartition}"
     } else {
-        "/mnt/media_rw/${baseConfig.OTGPartition}"
+        "/mnt/media_rw/${baseConfig.otgPartition}"
     }
 }
 
 fun Context.getDoesFilePathExist(path: String, otgPathToUse: String? = null): Boolean {
-    val otgPath = otgPathToUse ?: baseConfig.OTGPath
+    val otgPath = otgPathToUse ?: baseConfig.otgPath
     return when {
         isRestrictedSAFOnlyRoot(path) -> getFastAndroidSAFDocument(path)?.exists() ?: false
         otgPath.isNotEmpty() && path.startsWith(otgPath) -> getOTGFastDocumentFile(path)?.exists()
@@ -3622,19 +3592,19 @@ fun Context.getFileOutputStreamSync(
         needsStupidWritePermissions(path) -> {
             var documentFile = parentDocumentFile
             if (documentFile == null) {
-                if (getDoesFilePathExist(targetFile.parentFile.absolutePath)) {
-                    documentFile = getDocumentFile(targetFile.parent)
+                if (getDoesFilePathExist(targetFile.parentFile!!.absolutePath)) {
+                    documentFile = getDocumentFile(targetFile.parent!!)
                 } else {
-                    documentFile = getDocumentFile(targetFile.parentFile.parent)
-                    documentFile = documentFile!!.createDirectory(targetFile.parentFile.name)
-                        ?: getDocumentFile(targetFile.parentFile.absolutePath)
+                    documentFile = getDocumentFile(targetFile.parentFile!!.parent!!)
+                    documentFile = documentFile!!.createDirectory(targetFile.parentFile!!.name)
+                        ?: getDocumentFile(targetFile.parentFile!!.absolutePath)
                 }
             }
 
             if (documentFile == null) {
                 val casualOutputStream = createCasualFileOutputStream(targetFile)
                 return if (casualOutputStream == null) {
-                    showFileCreateError(targetFile.parent)
+                    showFileCreateError(targetFile.parent!!)
                     null
                 } else {
                     casualOutputStream
@@ -4012,15 +3982,15 @@ fun Context.updateTextColors(viewGroup: ViewGroup) {
     (0 until cnt).map { viewGroup.getChildAt(it) }.forEach {
         when (it) {
             is MyTextView -> it.setColors(textColor, accentColor)
-            is MyAppCompatSpinner -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyCompatRadioButton -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyAppCompatCheckbox -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyEditText -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyAutoCompleteTextView -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyFloatingActionButton -> it.setColors(textColor, accentColor, backgroundColor)
-            is MySeekBar -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyButton -> it.setColors(textColor, accentColor, backgroundColor)
-            is MyTextInputLayout -> it.setColors(textColor, accentColor, backgroundColor)
+            is MyAppCompatSpinner -> it.setColors(textColor, backgroundColor)
+            is MyCompatRadioButton -> it.setColors(textColor, accentColor)
+            is MyAppCompatCheckbox -> it.setColors(textColor, accentColor)
+            is MyEditText -> it.setColors(textColor, accentColor)
+            is MyAutoCompleteTextView -> it.setColors(textColor, accentColor)
+            is MyFloatingActionButton -> it.setColors(accentColor)
+            is MySeekBar -> it.setColors(accentColor)
+            is MyButton -> it.setColors(textColor)
+            is MyTextInputLayout -> it.setColors(textColor, accentColor)
             is ViewGroup -> updateTextColors(it)
         }
     }
@@ -4146,6 +4116,6 @@ fun Context.getActivity(): Activity {
     }
 }
 
- fun Context.getAppIconIds(): List<Int> = getActivity().getAppIconIds()
+fun Context.getAppIconIds(): List<Int> = getActivity().getAppIconIds()
 
- fun Context.getAppLauncherName(): String = getActivity().getAppLauncherName()
+fun Context.getAppLauncherName(): String = getActivity().getAppLauncherName()

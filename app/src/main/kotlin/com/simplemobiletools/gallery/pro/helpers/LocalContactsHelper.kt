@@ -3,11 +3,9 @@ package com.simplemobiletools.gallery.pro.helpers
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Build
-import android.provider.ContactsContract.CommonDataKinds.Event
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.extensions.contactsDB
 import com.simplemobiletools.gallery.pro.extensions.getEmptyContact
-import com.simplemobiletools.gallery.pro.models.SimpleContact
 import com.simplemobiletools.gallery.pro.models.contacts.Contact
 import com.simplemobiletools.gallery.pro.models.contacts.Group
 import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
@@ -64,7 +62,7 @@ class LocalContactsHelper(val context: Context) {
             groups = storedGroups.filter { localContact.groups.contains(it.id) } as ArrayList<Group>
             organization = Organization(localContact.company, localContact.jobPosition)
             websites = localContact.websites
-            IMs = localContact.IMs
+            ims = localContact.ims
             ringtone = localContact.ringtone
         }
     }

@@ -27,7 +27,6 @@ import com.simplemobiletools.gallery.pro.extensions.getStringValue
 import com.simplemobiletools.gallery.pro.extensions.getVisibleContactSources
 import com.simplemobiletools.gallery.pro.extensions.groupsDB
 import com.simplemobiletools.gallery.pro.extensions.hasPermission
-import com.simplemobiletools.gallery.pro.extensions.normalizePhoneNumber
 import com.simplemobiletools.gallery.pro.extensions.queryCursor
 import com.simplemobiletools.gallery.pro.extensions.times
 import com.simplemobiletools.gallery.pro.models.PhoneNumber
@@ -92,7 +91,8 @@ class ContactsHelper(val context: Context) {
 
             if (context.baseConfig.mergeDuplicateContacts && ignoredContactSources.isEmpty() && !getAll) {
                 tempContacts.filter { displayContactSources.contains(it.source) }
-                    .groupBy { it.getNameToDisplay().toLowerCase() }.values.forEach { it ->
+                    .groupBy { it.getNameToDisplay()
+                        .lowercase(Locale.getDefault()) }.values.forEach { it ->
                         if (it.size == 1) {
                             resultContacts.add(it.first())
                         } else {
@@ -138,8 +138,8 @@ class ContactsHelper(val context: Context) {
         )
 
         context.queryCursor(uri, projection) { cursor ->
-            val name = cursor.getStringValue(RawContacts.ACCOUNT_NAME) ?: ""
-            val type = cursor.getStringValue(RawContacts.ACCOUNT_TYPE) ?: ""
+            val name = cursor.getStringValue(RawContacts.ACCOUNT_NAME)
+            val type = cursor.getStringValue(RawContacts.ACCOUNT_TYPE)
             var publicName = name
             if (type == TELEGRAM_PACKAGE) {
                 publicName = context.getString(R.string.telegram)
@@ -180,8 +180,8 @@ class ContactsHelper(val context: Context) {
                 sortOrder,
                 true
             ) { cursor ->
-                val accountName = cursor.getStringValue(RawContacts.ACCOUNT_NAME) ?: ""
-                val accountType = cursor.getStringValue(RawContacts.ACCOUNT_TYPE) ?: ""
+                val accountName = cursor.getStringValue(RawContacts.ACCOUNT_NAME)
+                val accountType = cursor.getStringValue(RawContacts.ACCOUNT_TYPE)
 
                 if (ignoredSources.contains("$accountName:$accountType")) {
                     return@queryCursor
@@ -196,14 +196,14 @@ class ContactsHelper(val context: Context) {
 
                 // ignore names at Organization type contacts
                 if (mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE) {
-                    prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX) ?: ""
+                    prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX)
                     firstName =
-                        cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
+                        cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME)
                     middleName =
-                        cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
+                        cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME)
                     surname =
-                        cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
-                    suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX) ?: ""
+                        cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME)
+                    suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX)
                 }
 
                 var photoUri = ""
@@ -213,12 +213,11 @@ class ContactsHelper(val context: Context) {
                 var ringtone: String? = null
 
                 if (!gettingDuplicates) {
-                    photoUri = cursor.getStringValue(CommonDataKinds.StructuredName.PHOTO_URI) ?: ""
+                    photoUri = cursor.getStringValue(CommonDataKinds.StructuredName.PHOTO_URI)
                     starred = cursor.getIntValue(CommonDataKinds.StructuredName.STARRED)
                     contactId = cursor.getIntValue(Data.CONTACT_ID)
                     thumbnailUri =
                         cursor.getStringValue(CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI)
-                            ?: ""
                     ringtone = cursor.getStringValue(CommonDataKinds.StructuredName.CUSTOM_RINGTONE)
                 }
 
@@ -282,7 +281,7 @@ class ContactsHelper(val context: Context) {
             return
         }
 
-        val phoneNumbers = getPhoneNumbers(null)
+        val phoneNumbers = getPhoneNumbers()
         size = phoneNumbers.size()
         for (i in 0 until size) {
             val key = phoneNumbers.keyAt(i)
@@ -299,11 +298,11 @@ class ContactsHelper(val context: Context) {
             contacts[key]?.addresses = addresses.valueAt(i)
         }
 
-        val IMs = getIMs()
-        size = IMs.size()
+        val ims = getIMs()
+        size = ims.size()
         for (i in 0 until size) {
-            val key = IMs.keyAt(i)
-            contacts[key]?.IMs = IMs.valueAt(i)
+            val key = ims.keyAt(i)
+            contacts[key]?.ims = ims.valueAt(i)
         }
 
         val events = getEvents()
@@ -335,7 +334,7 @@ class ContactsHelper(val context: Context) {
         }
     }
 
-    private fun getPhoneNumbers(contactId: Int? = null): SparseArray<ArrayList<PhoneNumber>> {
+    private fun getPhoneNumbers(): SparseArray<ArrayList<PhoneNumber>> {
         val phoneNumbers = SparseArray<ArrayList<PhoneNumber>>()
         val uri = CommonDataKinds.Phone.CONTENT_URI
         val projection = arrayOf(
@@ -347,10 +346,8 @@ class ContactsHelper(val context: Context) {
             CommonDataKinds.Phone.IS_PRIMARY
         )
 
-        val selection =
-            if (contactId == null) getSourcesSelection() else "${Data.RAW_CONTACT_ID} = ?"
-        val selectionArgs =
-            if (contactId == null) getSourcesSelectionArgs() else arrayOf(contactId.toString())
+        val selection = getSourcesSelection()
+        val selectionArgs = getSourcesSelectionArgs()
 
         context.queryCursor(
             uri,
@@ -360,11 +357,10 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val number = cursor.getStringValue(CommonDataKinds.Phone.NUMBER) ?: return@queryCursor
+            val number = cursor.getStringValue(CommonDataKinds.Phone.NUMBER)
             val normalizedNumber = cursor.getStringValue(CommonDataKinds.Phone.NORMALIZED_NUMBER)
-                ?: number.normalizePhoneNumber()
             val type = cursor.getIntValue(CommonDataKinds.Phone.TYPE)
-            val label = cursor.getStringValue(CommonDataKinds.Phone.LABEL) ?: ""
+            val label = cursor.getStringValue(CommonDataKinds.Phone.LABEL)
             val isPrimary = cursor.getIntValue(CommonDataKinds.Phone.IS_PRIMARY) != 0
 
             if (phoneNumbers[id] == null) {
@@ -399,7 +395,7 @@ class ContactsHelper(val context: Context) {
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val nickname =
-                cursor.getStringValue(CommonDataKinds.Nickname.NAME) ?: return@queryCursor
+                cursor.getStringValue(CommonDataKinds.Nickname.NAME)
             nicknames.put(id, nickname)
         }
 
@@ -429,9 +425,9 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val email = cursor.getStringValue(CommonDataKinds.Email.DATA) ?: return@queryCursor
+            val email = cursor.getStringValue(CommonDataKinds.Email.DATA)
             val type = cursor.getIntValue(CommonDataKinds.Email.TYPE)
-            val label = cursor.getStringValue(CommonDataKinds.Email.LABEL) ?: ""
+            val label = cursor.getStringValue(CommonDataKinds.Email.LABEL)
 
             if (emails[id] == null) {
                 emails.put(id, ArrayList())
@@ -467,9 +463,8 @@ class ContactsHelper(val context: Context) {
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val address = cursor.getStringValue(CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
-                ?: return@queryCursor
             val type = cursor.getIntValue(CommonDataKinds.StructuredPostal.TYPE)
-            val label = cursor.getStringValue(CommonDataKinds.StructuredPostal.LABEL) ?: ""
+            val label = cursor.getStringValue(CommonDataKinds.StructuredPostal.LABEL)
 
             if (addresses[id] == null) {
                 addresses.put(id, ArrayList())
@@ -482,7 +477,7 @@ class ContactsHelper(val context: Context) {
     }
 
     private fun getIMs(contactId: Int? = null): SparseArray<ArrayList<IM>> {
-        val IMs = SparseArray<ArrayList<IM>>()
+        val ims = SparseArray<ArrayList<IM>>()
         val uri = Data.CONTENT_URI
         val projection = arrayOf(
             Data.RAW_CONTACT_ID,
@@ -502,18 +497,18 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val IM = cursor.getStringValue(CommonDataKinds.Im.DATA) ?: return@queryCursor
+            val im = cursor.getStringValue(CommonDataKinds.Im.DATA)
             val type = cursor.getIntValue(CommonDataKinds.Im.PROTOCOL)
-            val label = cursor.getStringValue(CommonDataKinds.Im.CUSTOM_PROTOCOL) ?: ""
+            val label = cursor.getStringValue(CommonDataKinds.Im.CUSTOM_PROTOCOL)
 
-            if (IMs[id] == null) {
-                IMs.put(id, ArrayList())
+            if (ims[id] == null) {
+                ims.put(id, ArrayList())
             }
 
-            IMs[id]!!.add(IM(IM, type, label))
+            ims[id]!!.add(IM(im, type, label))
         }
 
-        return IMs
+        return ims
     }
 
     private fun getEvents(contactId: Int? = null): SparseArray<ArrayList<Event>> {
@@ -538,7 +533,7 @@ class ContactsHelper(val context: Context) {
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val startDate =
-                cursor.getStringValue(CommonDataKinds.Event.START_DATE) ?: return@queryCursor
+                cursor.getStringValue(CommonDataKinds.Event.START_DATE)
             val type = cursor.getIntValue(CommonDataKinds.Event.TYPE)
 
             if (events[id] == null) {
@@ -571,7 +566,7 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val note = cursor.getStringValue(CommonDataKinds.Note.NOTE) ?: return@queryCursor
+            val note = cursor.getStringValue(CommonDataKinds.Note.NOTE)
             notes.put(id, note)
         }
 
@@ -599,8 +594,8 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
-            val title = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
+            val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY)
+            val title = cursor.getStringValue(CommonDataKinds.Organization.TITLE)
             if (company.isEmpty() && title.isEmpty()) {
                 return@queryCursor
             }
@@ -632,7 +627,7 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val url = cursor.getStringValue(CommonDataKinds.Website.URL) ?: return@queryCursor
+            val url = cursor.getStringValue(CommonDataKinds.Website.URL)
 
             if (websites[id] == null) {
                 websites.put(id, ArrayList())
@@ -766,10 +761,8 @@ class ContactsHelper(val context: Context) {
             showErrors = true
         ) { cursor ->
             val id = cursor.getLongValue(Groups._ID)
-            val title = cursor.getStringValue(Groups.TITLE) ?: return@queryCursor
-
-            val systemId = cursor.getStringValue(Groups.SYSTEM_ID)
-            if (groups.map { it.title }.contains(title) && systemId != null) {
+            val title = cursor.getStringValue(Groups.TITLE)
+            if (groups.map { it.title }.contains(title)) {
                 return@queryCursor
             }
 
@@ -809,8 +802,8 @@ class ContactsHelper(val context: Context) {
         var hadEmptyAccount = false
         val allAccounts = getContentResolverAccounts()
         val contentResolverAccounts = allAccounts.filter {
-            if (it.name.isEmpty() && it.type.isEmpty() && allAccounts.none {
-                    it.name.lowercase(
+            if (it.name.isEmpty() && it.type.isEmpty() && allAccounts.none {account ->
+                    account.name.lowercase(
                         Locale.getDefault()
                     ) == "phone"
                 }) {

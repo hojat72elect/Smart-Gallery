@@ -281,12 +281,7 @@ open class BaseActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private var useTransparentNavigation = false
     private var useTopSearchMenu = false
-    private val GENERIC_PERM_HANDLER = 100
-    private val DELETE_FILE_SDK_30_HANDLER = 300
-    private val RECOVERABLE_SECURITY_HANDLER = 301
-    private val UPDATE_FILE_SDK_30_HANDLER = 302
-    private val MANAGE_MEDIA_RC = 303
-    private val TRASH_FILE_SDK_30_HANDLER = 304
+
 
     companion object {
         var funAfterSAFPermission: ((success: Boolean) -> Unit)? = null
@@ -295,6 +290,13 @@ open class BaseActivity : AppCompatActivity() {
         var funAfterTrash30File: ((success: Boolean) -> Unit)? = null
         var funRecoverableSecurity: ((success: Boolean) -> Unit)? = null
         var funAfterManageMediaPermission: (() -> Unit)? = null
+
+        private const val GENERIC_PERM_HANDLER = 100
+        private const val DELETE_FILE_SDK_30_HANDLER = 300
+        private const val RECOVERABLE_SECURITY_HANDLER = 301
+        private const val UPDATE_FILE_SDK_30_HANDLER = 302
+        private const val MANAGE_MEDIA_RC = 303
+        private const val TRASH_FILE_SDK_30_HANDLER = 304
     }
 
     fun getAppIconIDs(): ArrayList<Int> = arrayListOf(
@@ -319,7 +321,7 @@ open class BaseActivity : AppCompatActivity() {
         R.mipmap.ic_launcher_grey_black
     )
 
-    fun getAppLauncherName(): String = getString(R.string.app_launcher_name)
+    private fun getAppLauncherName(): String = getString(R.string.app_launcher_name)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (useDynamicTheme) {
@@ -884,7 +886,7 @@ open class BaseActivity : AppCompatActivity() {
         } else if (requestCode == OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB) {
             if (resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
                 if (isProperAndroidRoot(checkedDocumentPath, resultData.data!!)) {
-                    if (resultData.dataString == baseConfig.OTGTreeUri || resultData.dataString == baseConfig.sdTreeUri) {
+                    if (resultData.dataString == baseConfig.otgTreeUri || resultData.dataString == baseConfig.sdTreeUri) {
                         val pathToSelect = createAndroidDataOrObbPath(checkedDocumentPath)
                         toast(getString(R.string.wrong_folder_selected, pathToSelect))
                         return
@@ -932,7 +934,7 @@ open class BaseActivity : AppCompatActivity() {
                     .matches() || (sdOtgPattern.matcher(partition)
                     .matches() && resultData.dataString!!.contains(partition))
                 if (isProperSDRootFolder(resultData.data!!) && isProperPartition) {
-                    if (resultData.dataString == baseConfig.OTGTreeUri) {
+                    if (resultData.dataString == baseConfig.otgTreeUri) {
                         toast(R.string.sd_card_usb_same)
                         return
                     }
@@ -964,9 +966,9 @@ open class BaseActivity : AppCompatActivity() {
                         toast(R.string.sd_card_usb_same)
                         return
                     }
-                    baseConfig.OTGTreeUri = resultData.dataString!!
-                    baseConfig.OTGPartition =
-                        baseConfig.OTGTreeUri.removeSuffix("%3A").substringAfterLast('/')
+                    baseConfig.otgTreeUri = resultData.dataString!!
+                    baseConfig.otgPartition =
+                        baseConfig.otgTreeUri.removeSuffix("%3A").substringAfterLast('/')
                             .trimEnd('/')
                     updateOTGPathFromPartition()
 
@@ -1054,7 +1056,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun startAboutActivity(
+    private fun startAboutActivity(
         appNameId: Int,
         licenseMask: Long,
         versionName: String,
@@ -1191,7 +1193,7 @@ open class BaseActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun handleOTGPermission(callback: (success: Boolean) -> Unit) {
         hideKeyboard()
-        if (baseConfig.OTGTreeUri.isNotEmpty()) {
+        if (baseConfig.otgTreeUri.isNotEmpty()) {
             callback(true)
             return
         }
@@ -1346,7 +1348,7 @@ open class BaseActivity : AppCompatActivity() {
                                 startCopyMove(
                                     fileDirItems,
                                     destination,
-                                    isCopyOperation,
+                                    true,
                                     copyHidden
                                 )
                             }
@@ -1355,7 +1357,7 @@ open class BaseActivity : AppCompatActivity() {
                         startCopyMove(
                             fileDirItems,
                             destination,
-                            isCopyOperation,
+                            true,
                             copyHidden
                         )
                     }
@@ -1377,7 +1379,7 @@ open class BaseActivity : AppCompatActivity() {
                                             startCopyMove(
                                                 fileDirItems,
                                                 destination,
-                                                isCopyOperation,
+                                                false,
                                                 copyHidden
                                             )
                                         }
@@ -1386,7 +1388,7 @@ open class BaseActivity : AppCompatActivity() {
                                     startCopyMove(
                                         fileDirItems,
                                         destination,
-                                        isCopyOperation,
+                                        false,
                                         copyHidden
                                     )
                                 }
@@ -2021,10 +2023,10 @@ open class BaseActivity : AppCompatActivity() {
     ) {
         ensureBackgroundThread {
             var pathsCnt = paths.size
-            val OTGPath = config.OTGPath
+            val otgPath = config.otgPath
 
             for (source in paths) {
-                if (OTGPath.isNotEmpty() && source.startsWith(OTGPath)) {
+                if (otgPath.isNotEmpty() && source.startsWith(otgPath)) {
                     var inputStream: InputStream? = null
                     var out: OutputStream? = null
                     try {
@@ -3242,7 +3244,7 @@ open class BaseActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun isShowingOTGDialog(path: String): Boolean {
-        return if (!isRPlus() && isPathOnOTG(path) && (baseConfig.OTGTreeUri.isEmpty() || !hasProperStoredTreeUri(
+        return if (!isRPlus() && isPathOnOTG(path) && (baseConfig.otgTreeUri.isEmpty() || !hasProperStoredTreeUri(
                 true
             ))
         ) {
@@ -3402,7 +3404,7 @@ open class BaseActivity : AppCompatActivity() {
             if (isRPlus()) {
                 // this can throw FileSystemException, lets catch and handle it at the place calling this function
                 kotlin.io.path.createTempFile(
-                    file.parentFile.toPath(),
+                    file.parentFile!!.toPath(),
                     "temp",
                     "${System.currentTimeMillis()}"
                 ).toFile()

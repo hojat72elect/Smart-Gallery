@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.simplemobiletools.gallery.pro.helpers.FIRST_GROUP_ID
 import java.io.Serializable
 
 @kotlinx.serialization.Serializable

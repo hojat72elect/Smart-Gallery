@@ -234,7 +234,7 @@ class PhotoFragment : ViewPagerFragment() {
 
                     val file = File(
                         requireContext().externalCacheDir,
-                        Uri.parse(mOriginalPath).lastPathSegment
+                        Uri.parse(mOriginalPath).lastPathSegment!!
                     )
                     out = FileOutputStream(file)
                     rotated.compress(Bitmap.CompressFormat.JPEG, 100, out)
