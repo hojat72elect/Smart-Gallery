@@ -10,22 +10,17 @@ import android.view.View
 import android.view.Window
 import android.view.WindowInsetsController
 import android.widget.RelativeLayout
-import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener
-import com.google.vr.sdk.widgets.pano.VrPanoramaView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityPanoramaPhotoBinding
-import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.hideSystemUI
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.extensions.showSystemUI
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.helpers.PATH
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
@@ -48,12 +43,11 @@ open class PanoramaPhotoActivity : BaseActivity() {
         setupButtonMargins()
 
         binding.cardboard.setOnClickListener {
-            binding.panoramaView.displayMode = CARDBOARD_DISPLAY_MODE
+            toast("This feature is not implemented yet.")
         }
 
         binding.explore.setOnClickListener {
             isExploreEnabled = !isExploreEnabled
-            binding.panoramaView.setPureTouchTracking(isExploreEnabled)
             binding.explore.setImageResource(if (isExploreEnabled) R.drawable.ic_explore_vector else R.drawable.ic_explore_off_vector)
         }
 
@@ -69,7 +63,6 @@ open class PanoramaPhotoActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.panoramaView.resumeRendering()
         isRendering = true
         if (config.blackBackground) {
             updateStatusbarColor(Color.BLACK)
@@ -86,15 +79,11 @@ open class PanoramaPhotoActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        binding.panoramaView.pauseRendering()
         isRendering = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isRendering) {
-            binding.panoramaView.shutdown()
-        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -111,40 +100,6 @@ open class PanoramaPhotoActivity : BaseActivity() {
         }
 
         intent.removeExtra(PATH)
-
-        try {
-            val options = VrPanoramaView.Options()
-            options.inputType = VrPanoramaView.Options.TYPE_MONO
-            ensureBackgroundThread {
-                val bitmap = getBitmapToLoad(path)
-                runOnUiThread {
-                    binding.panoramaView.apply {
-                        beVisible()
-                        loadImageFromBitmap(bitmap, options)
-                        setFlingingEnabled(true)
-                        setPureTouchTracking(true)
-
-                        // add custom buttons so we can position them and toggle visibility as desired
-                        setFullscreenButtonEnabled(false)
-                        setInfoButtonEnabled(false)
-                        setTransitionViewEnabled(false)
-                        setStereoModeButtonEnabled(false)
-
-                        setOnClickListener {
-                            handleClick()
-                        }
-
-                        setEventListener(object : VrPanoramaEventListener() {
-                            override fun onClick() {
-                                handleClick()
-                            }
-                        })
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
 
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             isFullscreen = visibility and View.SYSTEM_UI_FLAG_FULLSCREEN != 0

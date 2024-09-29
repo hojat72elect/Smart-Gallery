@@ -121,8 +121,6 @@ dependencies {
     implementation(libs.android.gif.drawable)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.sdk.panowidget)
-    implementation(libs.sdk.videowidget)
     implementation(libs.sanselan)
     implementation(libs.androidsvg.aar)
     implementation(libs.gestureviews)

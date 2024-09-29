@@ -32,8 +32,6 @@
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware"
         tools:node="remove" />
 
-    <uses-sdk tools:overrideLibrary="com.google.vr.widgets.common, com.google.vr.sdk.widgets.pano" />
-
     <queries>
         <package android:name="com.simplemobiletools.gallery.debug" />
         <package android:name="com.simplemobiletools.gallery" />

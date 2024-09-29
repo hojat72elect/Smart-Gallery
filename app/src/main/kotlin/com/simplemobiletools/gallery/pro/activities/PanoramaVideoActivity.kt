@@ -14,29 +14,21 @@ import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
-import com.google.vr.sdk.widgets.video.VrVideoEventListener
-import com.google.vr.sdk.widgets.video.VrVideoView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityPanoramaVideoBinding
-import com.simplemobiletools.gallery.pro.extensions.beVisible
 import com.simplemobiletools.gallery.pro.extensions.config
 import com.simplemobiletools.gallery.pro.extensions.getFormattedDuration
 import com.simplemobiletools.gallery.pro.extensions.hasNavBar
-import com.simplemobiletools.gallery.pro.extensions.hideSystemUI
 import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
 import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.extensions.showErrorToast
-import com.simplemobiletools.gallery.pro.extensions.showSystemUI
 import com.simplemobiletools.gallery.pro.extensions.toast
 import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.helpers.MIN_SKIP_LENGTH
 import com.simplemobiletools.gallery.pro.helpers.PATH
 import com.simplemobiletools.gallery.pro.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import java.io.File
-import kotlin.math.max
-import kotlin.math.min
 
 @RequiresApi(Build.VERSION_CODES.O)
 open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
@@ -74,7 +66,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
 
     override fun onResume() {
         super.onResume()
-        binding.vrVideoView.resumeRendering()
         mIsRendering = true
         if (config.blackBackground) {
             updateStatusbarColor(Color.BLACK)
@@ -91,15 +82,11 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
 
     override fun onPause() {
         super.onPause()
-        binding.vrVideoView.pauseRendering()
         mIsRendering = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mIsRendering) {
-            binding.vrVideoView.shutdown()
-        }
 
         if (!isChangingConfigurations) {
             mTimerHandler.removeCallbacksAndMessages(null)
@@ -126,57 +113,13 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         binding.bottomVideoTimeHolder.videoDuration.setOnClickListener { skip(true) }
 
         try {
-            val options = VrVideoView.Options()
-            options.inputType = VrVideoView.Options.TYPE_MONO
+
             val uri = if (path.startsWith("content://")) {
                 Uri.parse(path)
             } else {
                 Uri.fromFile(File(path))
             }
 
-            binding.vrVideoView.apply {
-                loadVideo(uri, options)
-                pauseVideo()
-
-                setFlingingEnabled(true)
-                setPureTouchTracking(true)
-
-                // add custom buttons so we can position them and toggle visibility as desired
-                setFullscreenButtonEnabled(false)
-                setInfoButtonEnabled(false)
-                setTransitionViewEnabled(false)
-                setStereoModeButtonEnabled(false)
-
-                setOnClickListener {
-                    handleClick()
-                }
-
-                setEventListener(object : VrVideoEventListener() {
-                    override fun onClick() {
-                        handleClick()
-                    }
-
-                    override fun onLoadSuccess() {
-                        if (mDuration == 0) {
-                            setupDuration(duration)
-                            setupTimer()
-                        }
-
-                        if (mPlayOnReady || config.autoplayVideos) {
-                            mPlayOnReady = false
-                            mIsPlaying = true
-                            resumeVideo()
-                        } else {
-                            binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
-                        }
-                        binding.bottomVideoTimeHolder.videoTogglePlayPause.beVisible()
-                    }
-
-                    override fun onCompletion() {
-                        videoCompleted()
-                    }
-                })
-            }
 
             binding.bottomVideoTimeHolder.videoTogglePlayPause.setOnClickListener {
                 togglePlayPause()
@@ -198,21 +141,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         setVideoProgress(0)
     }
 
-    private fun setupTimer() {
-        runOnUiThread(object : Runnable {
-            override fun run() {
-                if (mIsPlaying && !mIsDragged) {
-                    mCurrTime = (binding.vrVideoView.currentPosition / 1000).toInt()
-                    binding.bottomVideoTimeHolder.videoSeekbar.progress = mCurrTime
-                    binding.bottomVideoTimeHolder.videoCurrTime.text =
-                        mCurrTime.getFormattedDuration()
-                }
-
-                mTimerHandler.postDelayed(this, 1000)
-            }
-        })
-    }
-
     private fun togglePlayPause() {
         mIsPlaying = !mIsPlaying
         if (mIsPlaying) {
@@ -230,18 +158,15 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
             return
         }
 
-        binding.vrVideoView.playVideo()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun pauseVideo() {
-        binding.vrVideoView.pauseVideo()
         binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun setVideoProgress(seconds: Int) {
-        binding.vrVideoView.seekTo(seconds * 1000L)
         binding.bottomVideoTimeHolder.videoSeekbar.progress = seconds
         mCurrTime = seconds
         binding.bottomVideoTimeHolder.videoCurrTime.text = seconds.getFormattedDuration()
@@ -249,7 +174,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
 
     private fun videoCompleted() {
         mIsPlaying = false
-        mCurrTime = (binding.vrVideoView.duration / 1000).toInt()
         binding.bottomVideoTimeHolder.videoSeekbar.progress =
             binding.bottomVideoTimeHolder.videoSeekbar.max
         binding.bottomVideoTimeHolder.videoCurrTime.text = mDuration.getFormattedDuration()
@@ -290,12 +214,11 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         binding.bottomVideoTimeHolder.videoTogglePlayPause.setImageResource(R.drawable.ic_play_outline_vector)
 
         binding.cardboard.setOnClickListener {
-            binding.vrVideoView.displayMode = CARDBOARD_DISPLAY_MODE
+
         }
 
         binding.explore.setOnClickListener {
             mIsExploreEnabled = !mIsExploreEnabled
-            binding.vrVideoView.setPureTouchTracking(mIsExploreEnabled)
             binding.explore.setImageResource(if (mIsExploreEnabled) R.drawable.ic_explore_vector else R.drawable.ic_explore_off_vector)
         }
     }
@@ -320,28 +243,11 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         binding.bottomVideoTimeHolder.videoTimeHolder.animate().alpha(newAlpha).start()
     }
 
-    private fun handleClick() {
-        mIsFullscreen = !mIsFullscreen
-        toggleButtonVisibility()
-        if (mIsFullscreen) {
-            hideSystemUI()
-        } else {
-            showSystemUI()
-        }
-    }
-
     private fun skip(forward: Boolean) {
         if (forward && mCurrTime == mDuration) {
             return
         }
 
-        val curr = binding.vrVideoView.currentPosition
-        val twoPercents = max((binding.vrVideoView.duration / 50).toInt(), MIN_SKIP_LENGTH)
-        val newProgress = if (forward) curr + twoPercents else curr - twoPercents
-        val roundProgress = Math.round(newProgress / 1000f)
-        val limitedProgress =
-            max(min(binding.vrVideoView.duration.toInt(), roundProgress), 0)
-        setVideoProgress(limitedProgress)
         if (!mIsPlaying) {
             togglePlayPause()
         }
@@ -354,7 +260,6 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        binding.vrVideoView.pauseVideo()
         mIsDragged = true
     }
 

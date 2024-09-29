@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/md_grey_black">
 
-    <com.google.vr.sdk.widgets.video.VrVideoView
-        android:id="@+id/vr_video_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <include
         android:id="@+id/bottom_video_time_holder"
         layout="@layout/bottom_video_time_holder"/>

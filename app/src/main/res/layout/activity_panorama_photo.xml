@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/md_grey_black">
 
-    <com.google.vr.sdk.widgets.pano.VrPanoramaView
-        android:id="@+id/panorama_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-
     <ImageView
         android:id="@+id/panorama_gradient_background"
         android:layout_width="match_parent"

@@ -51,8 +51,6 @@ zjupureWebpdecoder = "2.6.4.16.0"
 gestureviews = "a8e8fa8d27"
 androidsvgAar = "1.4"
 sanselan = "0.97-incubator"
-sdkVideowidget = "1.180.0"
-sdkPanowidget = "1.180.0"
 media3Exoplayer = "1.1.0"
 okhttp = "4.9.0"
 okio = "3.0.0"
@@ -105,8 +103,6 @@ gestureviews = { module = "com.github.tibbi:gestureviews", version.ref = "gestur
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 sanselan = { module = "org.apache.sanselan:sanselan", version.ref = "sanselan" }
-sdk-videowidget = { module = "com.google.vr:sdk-videowidget", version.ref = "sdkVideowidget" }
-sdk-panowidget = { module = "com.google.vr:sdk-panowidget", version.ref = "sdkPanowidget" }
 apng = { module = "com.github.penfeizhou.android.animation:apng", version.ref = "apng" }
 awebp = { module = "com.github.penfeizhou.android.animation:awebp", version.ref = "awebp" }
 #Glide
