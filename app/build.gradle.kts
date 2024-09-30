@@ -69,13 +69,6 @@ android {
         }
     }
 
-    flavorDimensions.add("licensing")
-    productFlavors {
-        register("proprietary")
-        register("foss")
-        register("prepaid")
-    }
-
     sourceSets {
         getByName("main").java.srcDirs("src/main/kotlin")
         if (isProprietary) {
