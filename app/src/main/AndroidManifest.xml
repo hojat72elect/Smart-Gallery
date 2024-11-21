@@ -328,7 +328,7 @@
         </provider>
 
         <receiver
-            android:name=".receivers.RefreshMediaReceiver"
+            android:name="com.simplemobiletools.gallery.pro.new_architecture.shared.broadcast_receivers.RefreshMediaReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.simplemobiletools.REFRESH_MEDIA" />
@@ -350,7 +350,7 @@
         </receiver>
 
         <receiver
-            android:name=".receivers.BootCompletedReceiver"
+            android:name="com.simplemobiletools.gallery.pro.new_architecture.shared.broadcast_receivers.BootCompletedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

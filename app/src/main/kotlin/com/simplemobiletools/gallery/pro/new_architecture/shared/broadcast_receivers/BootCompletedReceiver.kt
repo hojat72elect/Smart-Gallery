@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.receivers
+package com.simplemobiletools.gallery.pro.new_architecture.shared.broadcast_receivers
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
