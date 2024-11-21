@@ -2,31 +2,11 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.app.Activity
 import android.view.LayoutInflater
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.databinding.DialogWhatsNewBinding
+import com.simplemobiletools.gallery.pro.models.Release
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.models.Release
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 class WhatsNewDialog(val activity: Activity, private val releases: List<Release>) {
     init {
@@ -46,89 +26,16 @@ class WhatsNewDialog(val activity: Activity, private val releases: List<Release>
     }
 
     private fun getNewReleases(): String {
-        val sb = StringBuilder()
+        val stringBuilder = StringBuilder()
 
-        releases.forEach {
-            val parts = activity.getString(it.textId).split("\n").map(String::trim)
-            parts.forEach {
-                sb.append("- $it\n")
+        releases.forEach {release ->
+            val parts = activity.getString(release.textId).split("\n").map(String::trim)
+            parts.forEach { releasePart ->
+                stringBuilder.append("- $releasePart\n")
             }
         }
 
-        return sb.toString()
+        return stringBuilder.toString()
     }
 }
 
-@Composable
-fun WhatsNewAlertDialog(
-    alertDialogState: AlertDialogState,
-    modifier: Modifier = Modifier,
-    releases: ImmutableList<Release>
-) {
-    AlertDialog(
-        onDismissRequest = {},
-        confirmButton = {
-            TextButton(onClick = {
-                alertDialogState.hide()
-            }) {
-                Text(text = stringResource(id = R.string.ok))
-            }
-        },
-        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false),
-        containerColor = dialogContainerColor,
-        shape = dialogShape,
-        tonalElevation = dialogElevation,
-        modifier = modifier.dialogBorder,
-        title = {
-            Text(
-                text = stringResource(id = R.string.whats_new),
-                color = dialogTextColor,
-                fontSize = 21.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        },
-        text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(text = getNewReleases(releases), color = dialogTextColor)
-                SettingsHorizontalDivider()
-                Text(
-                    text = stringResource(id = R.string.whats_new_disclaimer),
-                    color = dialogTextColor.copy(alpha = 0.7f),
-                    fontSize = 12.sp
-                )
-            }
-        }
-    )
-}
-
-@Composable
-private fun getNewReleases(releases: ImmutableList<Release>): String {
-    val sb = StringBuilder()
-
-    releases.forEach { release ->
-        val parts = stringResource(release.textId).split("\n").map(String::trim)
-        parts.forEach {
-            sb.append("- $it\n")
-        }
-    }
-
-    return sb.toString()
-}
-
-@MyDevices
-@Composable
-private fun WhatsNewAlertDialogPreview() {
-    AppThemeSurface {
-        WhatsNewAlertDialog(
-            alertDialogState = rememberAlertDialogState(), releases =
-            listOf(
-                Release(14, R.string.temporarily_show_excluded),
-                Release(3, R.string.temporarily_show_hidden)
-            ).toImmutableList()
-        )
-    }
-}

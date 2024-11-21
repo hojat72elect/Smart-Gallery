@@ -31,7 +31,6 @@ import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.dialogs.FilterMediaDialog
 import com.simplemobiletools.gallery.pro.dialogs.GrantAllFilesDialog
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.gallery.pro.dialogs.RateStarsDialog
 import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
 import com.simplemobiletools.gallery.pro.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addTempFolderIfNeeded
@@ -40,7 +39,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.base
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppIconColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.createDirectoryFromMedia
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.directoryDB
@@ -76,7 +74,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hasO
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hasPermission
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hideKeyboard
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.internalStoragePath
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isAProApp
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isDownloadsFolder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isExternalStorageManager
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isGif
@@ -651,8 +648,7 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
 
     private fun tryLoadGallery() {
         // avoid calling anything right after granting the permission, it will be called from onResume()
-        val wasMissingPermission =
-            config.appRunCount == 1 && !hasPermission(getPermissionToRequest())
+        val wasMissingPermission = !hasPermission(getPermissionToRequest())
         handleMediaPermissions { success ->
             if (success) {
                 if (wasMissingPermission) {
@@ -1409,9 +1405,8 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
         }
 
         mLoadedInitialPhotos = true
-        if (config.appRunCount > 1) {
-            checkLastMediaChanged()
-        }
+        checkLastMediaChanged()
+
 
         runOnUiThread {
             binding.directoriesRefreshLayout.isRefreshing = false
@@ -1433,9 +1428,8 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
 
         try {
             // scan the internal storage from time to time for new folders
-            if (config.appRunCount == 1 || config.appRunCount % 30 == 0) {
-                everShownFolders.addAll(getFoldersWithMedia(config.internalStoragePath))
-            }
+            everShownFolders.addAll(getFoldersWithMedia(config.internalStoragePath))
+
 
             // catch some extreme exceptions like too many everShownFolders for storing, shouldnt really happen
             config.everShownFolders = everShownFolders
@@ -1808,50 +1802,34 @@ class MainActivity : BaseActivity(), DirectoryOperationsListener {
         baseConfig.internalStoragePath = getInternalStoragePath()
         updateSDCardPath()
         baseConfig.appId = appId
-        if (baseConfig.appRunCount == 0) {
-            baseConfig.wasOrangeIconChecked = true
-            checkAppIconColor()
-        } else if (!baseConfig.wasOrangeIconChecked) {
-            baseConfig.wasOrangeIconChecked = true
-            val primaryColor = resources.getColor(R.color.color_primary)
-            if (baseConfig.appIconColor != primaryColor) {
-                getAppIconColors().forEachIndexed { index, color ->
-                    toggleAppIconColor(appId, index, color, false)
-                }
 
-                val defaultClassName =
-                    "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity"
-                packageManager.setComponentEnabledSetting(
-                    ComponentName(baseConfig.appId, defaultClassName),
-                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-                    PackageManager.DONT_KILL_APP
-                )
-
-                val orangeClassName =
-                    "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity.Orange"
-                packageManager.setComponentEnabledSetting(
-                    ComponentName(baseConfig.appId, orangeClassName),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-
-                baseConfig.appIconColor = primaryColor
-                baseConfig.lastIconColor = primaryColor
+        baseConfig.wasOrangeIconChecked = true
+        val primaryColor = resources.getColor(R.color.color_primary)
+        if (baseConfig.appIconColor != primaryColor) {
+            getAppIconColors().forEachIndexed { index, color ->
+                toggleAppIconColor(appId, index, color, false)
             }
+
+            val defaultClassName =
+                "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity"
+            packageManager.setComponentEnabledSetting(
+                ComponentName(baseConfig.appId, defaultClassName),
+                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+                PackageManager.DONT_KILL_APP
+            )
+
+            val orangeClassName =
+                "${baseConfig.appId.removeSuffix(".debug")}.activities.SplashActivity.Orange"
+            packageManager.setComponentEnabledSetting(
+                ComponentName(baseConfig.appId, orangeClassName),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+            )
+
+            baseConfig.appIconColor = primaryColor
+            baseConfig.lastIconColor = primaryColor
         }
 
-        baseConfig.appRunCount++
-        if (baseConfig.appRunCount % 30 == 0 && !isAProApp()) {
-            if (!resources.getBoolean(R.bool.hide_google_relations)) {
-                showDonateOrUpgradeDialog()
-            }
-        }
-
-        if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
-            if (!resources.getBoolean(R.bool.hide_google_relations)) {
-                RateStarsDialog(this)
-            }
-        }
     }
 
     private fun showDonateOrUpgradeDialog() {

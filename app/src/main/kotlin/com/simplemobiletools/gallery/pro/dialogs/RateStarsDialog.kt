@@ -1,7 +1,5 @@
 package com.simplemobiletools.gallery.pro.dialogs
 
-import android.app.Activity
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -34,67 +32,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.databinding.DialogRateStarsBinding
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.DialogSurface
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogTextColor
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.Shapes
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.redirectToRateUs
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RateStarsDialog(val activity: Activity) {
-    private var dialog: AlertDialog? = null
-
-    init {
-        val view = DialogRateStarsBinding.inflate(activity.layoutInflater, null, false).apply {
-            val primaryColor = activity.getProperPrimaryColor()
-            arrayOf(rateStar1, rateStar2, rateStar3, rateStar4, rateStar5).forEach {
-                it.applyColorFilter(primaryColor)
-            }
-
-            rateStar1.setOnClickListener { dialogCancelled(true) }
-            rateStar2.setOnClickListener { dialogCancelled(true) }
-            rateStar3.setOnClickListener { dialogCancelled(true) }
-            rateStar4.setOnClickListener { dialogCancelled(true) }
-            rateStar5.setOnClickListener {
-                activity.redirectToRateUs()
-                dialogCancelled(true)
-            }
-        }
-
-        activity.getAlertDialogBuilder()
-            .setNegativeButton(R.string.later) { _, _ -> dialogCancelled(false) }
-            .setOnCancelListener { dialogCancelled(false) }
-            .apply {
-                activity.setupDialogStuff(
-                    view.root,
-                    this,
-                    cancelOnTouchOutside = false
-                ) { alertDialog ->
-                    dialog = alertDialog
-                }
-            }
-    }
-
-    private fun dialogCancelled(showThankYou: Boolean) {
-        dialog?.dismiss()
-        if (showThankYou) {
-            activity.toast(R.string.thank_you)
-            activity.baseConfig.wasAppRated = true
-        }
-    }
-}
 
 @Composable
 fun RateStarsAlertDialog(
@@ -186,10 +131,4 @@ private fun StarRating(
     }
 }
 
-@Composable
-@MyDevices
-private fun RateStarsAlertDialogPreview() {
-    AppThemeSurface {
-        RateStarsAlertDialog(alertDialogState = rememberAlertDialogState(), onRating = {})
-    }
-}
+

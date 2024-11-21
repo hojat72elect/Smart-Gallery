@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:configure="com.simplemobiletools.gallery.pro.activities.WidgetConfigureActivity"
     android:initialLayout="@layout/widget"
     android:minWidth="@dimen/widget_initial_size"
@@ -9,4 +10,5 @@
     android:previewImage="@drawable/img_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="2"
-    android:targetCellHeight="1" />
+    android:targetCellHeight="1"
+    tools:ignore="NewApi" />

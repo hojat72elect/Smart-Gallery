@@ -16,19 +16,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.models.LanguageContributor
 import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.lists.SimpleLazyListScaffold
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsGroupTitle
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsListItem
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsTitleTextComponent
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.models.LanguageContributor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 private val startingPadding = Modifier.padding(start = 58.dp)
 
@@ -143,37 +140,4 @@ private fun ContributorItem(
             )
         }
     )
-}
-
-@Composable
-@MyDevices
-private fun ContributorsScreenPreview() {
-    AppThemeSurface {
-        ContributorsScreen(
-            goBack = {},
-            contributors = listOf(
-                LanguageContributor(
-                    R.drawable.ic_flag_arabic_vector,
-                    R.string.translation_arabic,
-                    R.string.translators_arabic
-                ),
-                LanguageContributor(
-                    R.drawable.ic_flag_azerbaijani_vector,
-                    R.string.translation_azerbaijani,
-                    R.string.translators_azerbaijani
-                ),
-                LanguageContributor(
-                    R.drawable.ic_flag_bengali_vector,
-                    R.string.translation_bengali,
-                    R.string.translators_bengali
-                ),
-                LanguageContributor(
-                    R.drawable.ic_flag_catalan_vector,
-                    R.string.translation_catalan,
-                    R.string.translators_catalan
-                ),
-            ).toImmutableList(),
-            showContributorsLabel = true,
-        )
-    }
 }

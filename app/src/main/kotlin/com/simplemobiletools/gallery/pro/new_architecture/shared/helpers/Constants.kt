@@ -305,7 +305,6 @@ const val HIGHER_ALPHA = 0.75f
 
 // shared preferences
 const val PREFS_KEY = "Prefs"
-const val APP_RUN_COUNT = "app_run_count"
 const val LAST_VERSION = "last_version"
 const val SD_TREE_URI = "tree_uri_2"
 const val PRIMARY_ANDROID_DATA_TREE_URI = "primary_android_data_tree_uri_2"

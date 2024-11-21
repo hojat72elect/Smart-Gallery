@@ -23,10 +23,6 @@ open class BaseConfig(val context: Context) {
         fun newInstance(context: Context) = BaseConfig(context)
     }
 
-    var appRunCount: Int
-        get() = prefs.getInt(APP_RUN_COUNT, 0)
-        set(appRunCount) = prefs.edit().putInt(APP_RUN_COUNT, appRunCount).apply()
-
     var lastVersion: Int
         get() = prefs.getInt(LAST_VERSION, 0)
         set(lastVersion) = prefs.edit().putInt(LAST_VERSION, lastVersion).apply()

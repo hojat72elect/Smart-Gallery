@@ -45,7 +45,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.MediaActivity
-import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.databinding.DialogTitleBinding
 import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
 import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
@@ -478,8 +477,8 @@ fun Activity.launchPurchaseThankYouIntent() {
     }
 }
 
-fun Activity.launchMoreAppsFromUsIntent() {
-    launchViewIntent(DEVELOPER_PLAY_STORE_URL)
+fun launchMoreAppsFromUsIntent() {
+   // todo will be implemented later
 }
 
 fun Activity.launchViewIntent(id: Int) = launchViewIntent(getString(id))

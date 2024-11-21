@@ -52,7 +52,6 @@ import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.CustomizationActivity
 import com.simplemobiletools.gallery.pro.asynctasks.CopyMoveTask
-import com.simplemobiletools.gallery.pro.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
@@ -65,6 +64,13 @@ import com.simplemobiletools.gallery.pro.dialogs.ResizeMultipleImagesDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeWithPathDialog
 import com.simplemobiletools.gallery.pro.dialogs.WhatsNewDialog
 import com.simplemobiletools.gallery.pro.dialogs.WritePermissionDialog
+import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
+import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
+import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.Release
+import com.simplemobiletools.gallery.pro.new_architecture.feature_about.AboutActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_settings.SettingsActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addBit
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addPathToDB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.adjustAlpha
@@ -145,12 +151,10 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isRe
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isRestrictedWithSAFSdk30
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isSDCardSetAsDefaultStorage
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isUsingGestureNavigation
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchViewIntent
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.mediaDB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.navigationBarHeight
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.needsStupidWritePermissions
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.openNotificationSettings
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.random
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.recycleBin
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.recycleBinPath
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.removeBit
@@ -233,13 +237,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isUpsideDownCakePlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
-import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
-import com.simplemobiletools.gallery.pro.models.FAQItem
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.Release
-import com.simplemobiletools.gallery.pro.new_architecture.feature_about.AboutActivity
-import com.simplemobiletools.gallery.pro.new_architecture.feature_settings.SettingsActivity
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileNotFoundException
@@ -329,15 +326,6 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        if (!packageName.startsWith("com.simplemobiletools.", true)) {
-            if ((0..50).random() == 10 || baseConfig.appRunCount % 100 == 0) {
-                val label =
-                    "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
-                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
-                    launchViewIntent(DEVELOPER_PLAY_STORE_URL)
-                }
-            }
-        }
     }
 
     @SuppressLint("NewApi")
@@ -1077,16 +1065,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun startCustomizationActivity() {
-        if (!packageName.contains("slootelibomelpmis".reversed(), true)) {
-            if (baseConfig.appRunCount > 100) {
-                val label =
-                    "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
-                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
-                    launchViewIntent(DEVELOPER_PLAY_STORE_URL)
-                }
-                return
-            }
-        }
 
         Intent(applicationContext, CustomizationActivity::class.java).apply {
             putExtra(APP_ICON_IDS, getAppIconIDs())
