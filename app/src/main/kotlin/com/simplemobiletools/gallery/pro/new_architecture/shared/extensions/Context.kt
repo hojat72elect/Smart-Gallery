@@ -2,10 +2,8 @@ package com.simplemobiletools.gallery.pro.new_architecture.shared.extensions
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.NotificationManager
-import android.app.role.RoleManager
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ClipData
@@ -39,7 +37,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import android.provider.BaseColumns
-import android.provider.BlockedNumberContract
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
@@ -47,7 +44,6 @@ import android.provider.MediaStore.Images
 import android.provider.OpenableColumns
 import android.provider.Settings
 import android.telecom.TelecomManager
-import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -85,14 +81,23 @@ import com.bumptech.glide.signature.ObjectKey
 import com.github.ajalt.reprint.core.Reprint
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
-import com.simplemobiletools.gallery.pro.databases.ContactsDatabase
 import com.simplemobiletools.gallery.pro.databases.GalleryDatabase
+import com.simplemobiletools.gallery.pro.interfaces.DateTakensDao
+import com.simplemobiletools.gallery.pro.interfaces.DirectoryDao
+import com.simplemobiletools.gallery.pro.interfaces.FavoritesDao
+import com.simplemobiletools.gallery.pro.interfaces.MediumDao
+import com.simplemobiletools.gallery.pro.interfaces.WidgetsDao
+import com.simplemobiletools.gallery.pro.models.AlbumCover
+import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.models.Favorite
+import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.models.SharedTheme
+import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.AlphanumericComparator
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BaseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.Config
-import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ContactsHelper
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DARK_GREY
-import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DEFAULT_MIMETYPE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXTERNAL_STORAGE_PROVIDER_AUTHORITY
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ExternalStorageProviderHack
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FAVORITES
@@ -143,7 +148,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ROUNDED
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SD_OTG_PATTERN
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SD_OTG_SHORT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL
-import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SMT_PRIVATE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_CUSTOM
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_DATE_MODIFIED
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_DATE_TAKEN
@@ -171,24 +175,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.proPackages
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.interfaces.ContactsDao
-import com.simplemobiletools.gallery.pro.interfaces.DateTakensDao
-import com.simplemobiletools.gallery.pro.interfaces.DirectoryDao
-import com.simplemobiletools.gallery.pro.interfaces.FavoritesDao
-import com.simplemobiletools.gallery.pro.interfaces.GroupsDao
-import com.simplemobiletools.gallery.pro.interfaces.MediumDao
-import com.simplemobiletools.gallery.pro.interfaces.WidgetsDao
-import com.simplemobiletools.gallery.pro.models.AlbumCover
-import com.simplemobiletools.gallery.pro.models.BlockedNumber
-import com.simplemobiletools.gallery.pro.models.Directory
-import com.simplemobiletools.gallery.pro.models.Favorite
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.SharedTheme
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
-import com.simplemobiletools.gallery.pro.models.contacts.Contact
-import com.simplemobiletools.gallery.pro.models.contacts.ContactSource
-import com.simplemobiletools.gallery.pro.models.contacts.Organization
 import com.simplemobiletools.gallery.pro.svg.SvgSoftwareLayerSetter
 import com.simplemobiletools.gallery.pro.views.MyAppCompatCheckbox
 import com.simplemobiletools.gallery.pro.views.MyAppCompatSpinner
@@ -2294,179 +2280,6 @@ fun Context.isUsingGestureNavigation(): Boolean {
     }
 }
 
-// we need the Default Dialer functionality only in Simple Dialer and in Simple Contacts for now
-fun Context.isDefaultDialer(): Boolean {
-    return if (!packageName.startsWith("com.simplemobiletools.contacts") && !packageName.startsWith(
-            "com.simplemobiletools.dialer"
-        )
-    ) {
-        true
-    } else if ((packageName.startsWith("com.simplemobiletools.contacts") || packageName.startsWith("com.simplemobiletools.dialer")) && isQPlus()) {
-        val roleManager = getSystemService(RoleManager::class.java)
-        roleManager!!.isRoleAvailable(RoleManager.ROLE_DIALER) && roleManager.isRoleHeld(RoleManager.ROLE_DIALER)
-    } else {
-        telecomManager.defaultDialerPackage == packageName
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.getContactsHasMap(
-    withComparableNumbers: Boolean = false,
-    callback: (java.util.HashMap<String, String>) -> Unit
-) {
-    ContactsHelper(this).getContacts(showOnlyContactsWithNumbers = true) { contactList ->
-        val privateContacts: java.util.HashMap<String, String> = java.util.HashMap()
-        for (contact in contactList) {
-            for (phoneNumber in contact.phoneNumbers) {
-                var number = PhoneNumberUtils.stripSeparators(phoneNumber.value)
-                if (withComparableNumbers) {
-                    number = number.trimToComparableNumber()
-                }
-
-                privateContacts[number] = contact.name
-            }
-        }
-        callback(privateContacts)
-    }
-}
-
-@TargetApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.getBlockedNumbersWithContact(callback: (java.util.ArrayList<BlockedNumber>) -> Unit) {
-    getContactsHasMap(true) { contacts ->
-        val blockedNumbers = java.util.ArrayList<BlockedNumber>()
-        if (!isNougatPlus() || !isDefaultDialer()) {
-            callback(blockedNumbers)
-        }
-
-        val uri = BlockedNumberContract.BlockedNumbers.CONTENT_URI
-        val projection = arrayOf(
-            BlockedNumberContract.BlockedNumbers.COLUMN_ID,
-            BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER,
-            BlockedNumberContract.BlockedNumbers.COLUMN_E164_NUMBER,
-        )
-
-        queryCursor(uri, projection) { cursor ->
-            val id = cursor.getLongValue(BlockedNumberContract.BlockedNumbers.COLUMN_ID)
-            val number =
-                cursor.getStringValue(BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER)
-            val normalizedNumber =
-                cursor.getStringValue(BlockedNumberContract.BlockedNumbers.COLUMN_E164_NUMBER)
-            val comparableNumber = normalizedNumber.trimToComparableNumber()
-
-            val contactName = contacts[comparableNumber]
-            val blockedNumber =
-                BlockedNumber(id, number, normalizedNumber, comparableNumber, contactName)
-            blockedNumbers.add(blockedNumber)
-        }
-
-        val blockedNumbersPair = blockedNumbers.partition { it.contactName != null }
-        val blockedNumbersWithNameSorted = blockedNumbersPair.first.sortedBy { it.contactName }
-        val blockedNumbersNoNameSorted = blockedNumbersPair.second.sortedBy { it.number }
-
-        callback(java.util.ArrayList(blockedNumbersWithNameSorted + blockedNumbersNoNameSorted))
-    }
-}
-
-@TargetApi(Build.VERSION_CODES.N)
-fun Context.getBlockedNumbers(): java.util.ArrayList<BlockedNumber> {
-    val blockedNumbers = java.util.ArrayList<BlockedNumber>()
-    if (!isNougatPlus() || !isDefaultDialer()) {
-        return blockedNumbers
-    }
-
-    val uri = BlockedNumberContract.BlockedNumbers.CONTENT_URI
-    val projection = arrayOf(
-        BlockedNumberContract.BlockedNumbers.COLUMN_ID,
-        BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER,
-        BlockedNumberContract.BlockedNumbers.COLUMN_E164_NUMBER
-    )
-
-    queryCursor(uri, projection) { cursor ->
-        val id = cursor.getLongValue(BlockedNumberContract.BlockedNumbers.COLUMN_ID)
-        val number =
-            cursor.getStringValue(BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER) ?: ""
-        val normalizedNumber =
-            cursor.getStringValue(BlockedNumberContract.BlockedNumbers.COLUMN_E164_NUMBER) ?: number
-        val comparableNumber = normalizedNumber.trimToComparableNumber()
-        val blockedNumber = BlockedNumber(id, number, normalizedNumber, comparableNumber)
-        blockedNumbers.add(blockedNumber)
-    }
-
-    return blockedNumbers
-}
-
-@TargetApi(Build.VERSION_CODES.N)
-fun Context.addBlockedNumber(number: String): Boolean {
-    ContentValues().apply {
-        put(BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER, number)
-        if (number.isPhoneNumber()) {
-            put(
-                BlockedNumberContract.BlockedNumbers.COLUMN_E164_NUMBER,
-                PhoneNumberUtils.normalizeNumber(number)
-            )
-        }
-        try {
-            contentResolver.insert(BlockedNumberContract.BlockedNumbers.CONTENT_URI, this)
-        } catch (e: Exception) {
-            showErrorToast(e)
-            return false
-        }
-    }
-    return true
-}
-
-@TargetApi(Build.VERSION_CODES.N)
-fun Context.deleteBlockedNumber(number: String): Boolean {
-    val selection = "${BlockedNumberContract.BlockedNumbers.COLUMN_ORIGINAL_NUMBER} = ?"
-    val selectionArgs = arrayOf(number)
-
-    return if (isNumberBlocked(number)) {
-        val deletedRowCount = contentResolver.delete(
-            BlockedNumberContract.BlockedNumbers.CONTENT_URI,
-            selection,
-            selectionArgs
-        )
-
-        deletedRowCount > 0
-    } else {
-        true
-    }
-}
-
-fun Context.isNumberBlocked(
-    number: String,
-    blockedNumbers: java.util.ArrayList<BlockedNumber> = getBlockedNumbers()
-): Boolean {
-    if (!isNougatPlus()) {
-        return false
-    }
-
-    val numberToCompare = number.trimToComparableNumber()
-
-    return blockedNumbers.any {
-        numberToCompare == it.numberToCompare ||
-                numberToCompare == it.number ||
-                PhoneNumberUtils.stripSeparators(number) == it.number
-    } || isNumberBlockedByPattern(number, blockedNumbers)
-}
-
-fun Context.isNumberBlockedByPattern(
-    number: String,
-    blockedNumbers: java.util.ArrayList<BlockedNumber> = getBlockedNumbers()
-): Boolean {
-    for (blockedNumber in blockedNumbers) {
-        val num = blockedNumber.number
-        if (num.isBlockedNumberPattern()) {
-            val pattern = num.replace("+", "\\+").replace("*", ".*")
-            if (number.matches(pattern.toRegex())) {
-                return true
-            }
-        }
-    }
-    return false
-}
-
-
 fun Context.openNotificationSettings() {
     if (isOreoPlus()) {
         val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
@@ -2479,69 +2292,6 @@ fun Context.openNotificationSettings() {
         startActivity(intent)
     }
 }
-
-val Context.contactsDB: ContactsDao
-    get() = ContactsDatabase.getInstance(applicationContext).ContactsDao()
-
-val Context.groupsDB: GroupsDao get() = ContactsDatabase.getInstance(applicationContext).GroupsDao()
-
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.getEmptyContact(): Contact {
-    val originalContactSource =
-        if (hasContactPermissions()) baseConfig.lastUsedContactSource else SMT_PRIVATE
-    val organization = Organization("", "")
-    return Contact(
-        0,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ArrayList(),
-        ArrayList(),
-        ArrayList(),
-        ArrayList(),
-        originalContactSource,
-        0,
-        0,
-        "",
-        null,
-        "",
-        ArrayList(),
-        organization,
-        ArrayList(),
-        ArrayList(),
-        DEFAULT_MIMETYPE,
-        null
-    )
-}
-
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.hasContactPermissions() =
-    hasPermission(PERMISSION_READ_CONTACTS) && hasPermission(PERMISSION_WRITE_CONTACTS)
-
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.getVisibleContactSources(): ArrayList<String> {
-    val sources = getAllContactSources()
-    val ignoredContactSources = baseConfig.ignoredContactSources
-    return ArrayList(sources).filter { !ignoredContactSources.contains(it.getFullIdentifier()) }
-        .map { it.name }.toMutableList() as ArrayList<String>
-}
-
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.getAllContactSources(): ArrayList<ContactSource> {
-    val sources = ContactsHelper(this).getDeviceContactSources()
-    sources.add(getPrivateContactSource())
-    return sources.toMutableList() as ArrayList<ContactSource>
-}
-
-fun Context.getPrivateContactSource() = ContactSource(
-    SMT_PRIVATE,
-    SMT_PRIVATE,
-    getString(R.string.phone_storage_hidden)
-)
 
 private const val ANDROID_DATA_DIR = "/Android/data/"
 private const val ANDROID_OBB_DIR = "/Android/obb/"
@@ -2779,7 +2529,6 @@ fun Context.isAStorageRootFolder(path: String): Boolean {
         true
     ) || trimmed.equals(otgPath, true)
 }
-
 
 fun Context.tryFastDocumentDelete(path: String, allowDeleteFolder: Boolean): Boolean {
     val document = getFastDocumentFile(path)
