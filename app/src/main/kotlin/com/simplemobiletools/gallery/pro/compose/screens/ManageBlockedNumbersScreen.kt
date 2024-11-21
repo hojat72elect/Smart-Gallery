@@ -96,8 +96,8 @@ import com.simplemobiletools.gallery.pro.compose.theme.actionModeColor
 import com.simplemobiletools.gallery.pro.compose.theme.iconsColor
 import com.simplemobiletools.gallery.pro.compose.theme.isLitWell
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
-import com.simplemobiletools.gallery.pro.extensions.darkenColor
-import com.simplemobiletools.gallery.pro.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.darkenColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getContrastColor
 import com.simplemobiletools.gallery.pro.models.BlockedNumber
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

@@ -2,9 +2,9 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.app.Activity
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.gallery.pro.extensions.beGoneIf
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogDeleteWithRememberBinding
 import com.simplemobiletools.gallery.pro.R
 

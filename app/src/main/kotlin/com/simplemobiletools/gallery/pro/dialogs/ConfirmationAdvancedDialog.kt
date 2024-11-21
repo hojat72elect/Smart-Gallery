@@ -16,8 +16,8 @@ import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 
 // similar fo ConfirmationDialog, but has a callback for negative button too
 class ConfirmationAdvancedDialog(

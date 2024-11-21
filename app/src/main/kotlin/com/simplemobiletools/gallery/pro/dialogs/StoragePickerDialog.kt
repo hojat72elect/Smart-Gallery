@@ -9,14 +9,14 @@ import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogRadioGroupBinding
 import com.simplemobiletools.gallery.pro.databinding.RadioButtonBinding
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getBasePath
-import com.simplemobiletools.gallery.pro.extensions.hasExternalSDCard
-import com.simplemobiletools.gallery.pro.extensions.hasOTGConnected
-import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
-import com.simplemobiletools.gallery.pro.extensions.otgPath
-import com.simplemobiletools.gallery.pro.extensions.sdCardPath
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getBasePath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hasExternalSDCard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hasOTGConnected
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.otgPath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.sdCardPath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 /**

@@ -26,7 +26,7 @@ import com.simplemobiletools.gallery.pro.compose.settings.SettingsListItem
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsTitleTextComponent
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.extensions.fromHtml
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

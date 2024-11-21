@@ -9,14 +9,14 @@ import android.view.WindowInsetsController
 import android.widget.RelativeLayout
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityPanoramaPhotoBinding
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.navigationBarHeight
-import com.simplemobiletools.gallery.pro.extensions.navigationBarWidth
-import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.helpers.PATH
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.navigationBarHeight
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.navigationBarWidth
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PATH
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 open class PanoramaPhotoActivity : BaseActivity() {

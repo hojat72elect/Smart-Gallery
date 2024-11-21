@@ -43,13 +43,13 @@ import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.Shapes
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.extensions.redirectToRateUs
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.redirectToRateUs
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

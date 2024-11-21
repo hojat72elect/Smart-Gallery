@@ -12,17 +12,17 @@ import com.simplemobiletools.gallery.pro.adapters.toItemBinding
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeFolderThumbnailStyleBinding
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridRoundedCornersBinding
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridSquareBinding
-import com.simplemobiletools.gallery.pro.extensions.beGone
-import com.simplemobiletools.gallery.pro.extensions.beVisible
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_BRACKETS
-import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_LINE
-import com.simplemobiletools.gallery.pro.helpers.FOLDER_MEDIA_CNT_NONE
-import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_ROUNDED_CORNERS
-import com.simplemobiletools.gallery.pro.helpers.FOLDER_STYLE_SQUARE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_MEDIA_CNT_BRACKETS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_MEDIA_CNT_LINE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_MEDIA_CNT_NONE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_STYLE_ROUNDED_CORNERS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_STYLE_SQUARE
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ChangeFolderThumbnailStyleDialog(val activity: BaseActivity, val callback: () -> Unit) :

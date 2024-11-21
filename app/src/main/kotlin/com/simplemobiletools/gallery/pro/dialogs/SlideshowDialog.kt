@@ -3,15 +3,15 @@ package com.simplemobiletools.gallery.pro.dialogs
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogSlideshowBinding
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.extensions.value
-import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_FADE
-import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_NONE
-import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_ANIMATION_SLIDE
-import com.simplemobiletools.gallery.pro.helpers.SLIDESHOW_DEFAULT_INTERVAL
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_ANIMATION_FADE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_ANIMATION_NONE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_ANIMATION_SLIDE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_DEFAULT_INTERVAL
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 

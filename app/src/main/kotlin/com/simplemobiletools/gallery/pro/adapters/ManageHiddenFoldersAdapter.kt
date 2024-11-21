@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ItemManageFolderBinding
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.isPathOnSD
-import com.simplemobiletools.gallery.pro.extensions.setupViewBackground
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isPathOnSD
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupViewBackground
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView

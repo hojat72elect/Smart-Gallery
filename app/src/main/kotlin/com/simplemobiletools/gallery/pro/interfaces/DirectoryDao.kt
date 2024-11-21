@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.models.Directory
 
 @Dao

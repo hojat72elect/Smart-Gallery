@@ -28,9 +28,9 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.system_ui_controller.rememberSystemUiController
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.compose.theme.isLitWell
-import com.simplemobiletools.gallery.pro.extensions.darkenColor
-import com.simplemobiletools.gallery.pro.extensions.getActivity
-import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.darkenColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchViewIntent
 
 
 @Composable

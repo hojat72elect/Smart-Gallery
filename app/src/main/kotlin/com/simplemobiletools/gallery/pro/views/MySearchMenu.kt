@@ -7,17 +7,17 @@ import android.view.LayoutInflater
 import com.google.android.material.appbar.AppBarLayout
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.MenuSearchBinding
-import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.getContrastColor
-import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
-import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.extensions.hideKeyboard
-import com.simplemobiletools.gallery.pro.extensions.onTextChangeListener
-import com.simplemobiletools.gallery.pro.extensions.removeBit
-import com.simplemobiletools.gallery.pro.extensions.showKeyboard
-import com.simplemobiletools.gallery.pro.helpers.LOWER_ALPHA
-import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.adjustAlpha
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.hideKeyboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onTextChangeListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.removeBit
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LOWER_ALPHA
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MEDIUM_ALPHA
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class MySearchMenu(context: Context, attrs: AttributeSet) : AppBarLayout(context, attrs) {

@@ -6,16 +6,16 @@ import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.RenameAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameBinding
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
-import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.onPageChangeListener
-import com.simplemobiletools.gallery.pro.extensions.onTabSelectionChanged
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.helpers.RENAME_PATTERN
-import com.simplemobiletools.gallery.pro.helpers.RENAME_SIMPLE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onPageChangeListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onTabSelectionChanged
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RENAME_PATTERN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RENAME_SIMPLE
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyViewPager
 

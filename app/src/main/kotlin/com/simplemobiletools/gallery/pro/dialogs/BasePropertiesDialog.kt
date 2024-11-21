@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ItemPropertyBinding
 import com.simplemobiletools.gallery.pro.databinding.DialogPropertiesBinding
-import com.simplemobiletools.gallery.pro.extensions.copyToClipboard
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.showLocationOnMap
-import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.copyToClipboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showLocationOnMap
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 
 abstract class BasePropertiesDialog(activity: Activity) {
     private val mInflater: LayoutInflater = LayoutInflater.from(activity)

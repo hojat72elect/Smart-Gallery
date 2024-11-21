@@ -3,15 +3,15 @@ package com.simplemobiletools.gallery.pro.activities
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
-import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.ManageFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
-import com.simplemobiletools.gallery.pro.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)

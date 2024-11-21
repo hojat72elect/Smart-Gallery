@@ -27,8 +27,8 @@ import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.compose.theme.isNotLitWell
 import com.simplemobiletools.gallery.pro.compose.theme.isSurfaceLitWell
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
-import com.simplemobiletools.gallery.pro.extensions.getColoredMaterialStatusBarColor
-import com.simplemobiletools.gallery.pro.extensions.getContrastColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getColoredMaterialStatusBarColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getContrastColor
 
 @Composable
 internal fun SystemUISettingsScaffoldStatusBarColor(scrolledColor: Color) {

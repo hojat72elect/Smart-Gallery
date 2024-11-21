@@ -21,11 +21,11 @@ import androidx.compose.ui.platform.LocalView
 import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme.Companion.systemDefaultMaterialYou
-import com.simplemobiletools.gallery.pro.extensions.getActivity
-import com.simplemobiletools.gallery.pro.extensions.getAppIconIds
-import com.simplemobiletools.gallery.pro.extensions.getAppLauncherName
-import com.simplemobiletools.gallery.pro.helpers.BaseConfig
-import com.simplemobiletools.gallery.pro.helpers.isSPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAppIconIds
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAppLauncherName
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BaseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 
 @Composable
 internal fun Theme(

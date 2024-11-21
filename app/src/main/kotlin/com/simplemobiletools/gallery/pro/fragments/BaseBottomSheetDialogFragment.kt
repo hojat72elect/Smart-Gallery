@@ -9,12 +9,12 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogBottomSheetBinding
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.isBlackAndWhiteTheme
-import com.simplemobiletools.gallery.pro.extensions.setTextOrBeGone
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isBlackAndWhiteTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setTextOrBeGone
 
 abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 

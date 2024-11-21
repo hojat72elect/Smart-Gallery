@@ -27,20 +27,20 @@ import com.simplemobiletools.gallery.pro.compose.extensions.enableEdgeToEdgeSimp
 import com.simplemobiletools.gallery.pro.compose.extensions.rateStarsRedirectAndThankYou
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedAlertDialog
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.getStoreUrl
-import com.simplemobiletools.gallery.pro.extensions.launchMoreAppsFromUsIntent
-import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
-import com.simplemobiletools.gallery.pro.extensions.redirectToRateUs
-import com.simplemobiletools.gallery.pro.extensions.showErrorToast
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.helpers.APP_FAQ
-import com.simplemobiletools.gallery.pro.helpers.APP_ICON_IDS
-import com.simplemobiletools.gallery.pro.helpers.APP_LAUNCHER_NAME
-import com.simplemobiletools.gallery.pro.helpers.APP_LICENSES
-import com.simplemobiletools.gallery.pro.helpers.APP_NAME
-import com.simplemobiletools.gallery.pro.helpers.APP_VERSION_NAME
-import com.simplemobiletools.gallery.pro.helpers.SHOW_FAQ_BEFORE_MAIL
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getStoreUrl
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchMoreAppsFromUsIntent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.redirectToRateUs
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showErrorToast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_FAQ
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_ICON_IDS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_LAUNCHER_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_LICENSES
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_VERSION_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_FAQ_BEFORE_MAIL
 import com.simplemobiletools.gallery.pro.models.FAQItem
 
 class AboutActivity : ComponentActivity() {

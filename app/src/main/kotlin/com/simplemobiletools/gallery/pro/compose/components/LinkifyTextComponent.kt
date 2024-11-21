@@ -16,8 +16,8 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.extensions.removeUnderlines
-import com.simplemobiletools.gallery.pro.extensions.fromHtml
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.removeUnderlines
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 
 @Composable
 fun LinkifyTextComponent(

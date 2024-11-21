@@ -12,10 +12,10 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.extensions.audioManager
-import com.simplemobiletools.gallery.pro.helpers.DRAG_THRESHOLD
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.audioManager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DRAG_THRESHOLD
 import kotlin.math.abs
 
 // allow horizontal swipes through the layout, else it can cause glitches at zoomed in images

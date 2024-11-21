@@ -336,7 +336,7 @@
         </receiver>
 
         <receiver
-            android:name=".helpers.MyWidgetProvider"
+            android:name="com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MyWidgetProvider"
             android:exported="true"
             android:icon="@drawable/img_widget_preview"
             android:label="@string/folder">

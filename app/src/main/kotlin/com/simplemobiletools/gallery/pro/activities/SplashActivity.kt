@@ -6,19 +6,19 @@ import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.checkAppIconColor
-import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.favoritesDB
-import com.simplemobiletools.gallery.pro.extensions.getFavoriteFromPath
-import com.simplemobiletools.gallery.pro.extensions.getSharedTheme
-import com.simplemobiletools.gallery.pro.extensions.isUsingSystemDarkTheme
-import com.simplemobiletools.gallery.pro.extensions.mediaDB
-import com.simplemobiletools.gallery.pro.extensions.showSideloadingDialog
-import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_TRUE
-import com.simplemobiletools.gallery.pro.helpers.SIDELOADING_UNCHECKED
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppIconColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppSideloading
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.favoritesDB
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getFavoriteFromPath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getSharedTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isUsingSystemDarkTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.mediaDB
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showSideloadingDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SIDELOADING_TRUE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SIDELOADING_UNCHECKED
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.models.Favorite
 
 @OptIn(UnstableApi::class)

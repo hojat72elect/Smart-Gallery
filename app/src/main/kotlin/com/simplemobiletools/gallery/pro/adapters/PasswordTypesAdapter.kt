@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.biometric.auth.AuthPromptHost
 import androidx.viewpager.widget.PagerAdapter
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.helpers.PROTECTION_FINGERPRINT
-import com.simplemobiletools.gallery.pro.helpers.PROTECTION_PATTERN
-import com.simplemobiletools.gallery.pro.helpers.PROTECTION_PIN
-import com.simplemobiletools.gallery.pro.helpers.isRPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_FINGERPRINT
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PATTERN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PIN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
 import com.simplemobiletools.gallery.pro.views.MyScrollView

@@ -13,12 +13,12 @@ import com.andrognito.patternlockview.listener.PatternLockViewListener
 import com.andrognito.patternlockview.utils.PatternLockUtils
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.TabPatternBinding
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.performHapticFeedback
-import com.simplemobiletools.gallery.pro.extensions.updateTextColors
-import com.simplemobiletools.gallery.pro.helpers.PROTECTION_PATTERN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.performHapticFeedback
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PATTERN
 import com.simplemobiletools.gallery.pro.interfaces.BaseSecurityTab
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
 

@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.gallery.pro.extensions.getFileKey
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getFileKey
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.PortraitPhotoItemBinding
 

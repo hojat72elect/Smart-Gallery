@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import com.simplemobiletools.gallery.pro.helpers.CLICK_MAX_DISTANCE
-import com.simplemobiletools.gallery.pro.helpers.CLICK_MAX_DURATION
-import com.simplemobiletools.gallery.pro.helpers.DRAG_THRESHOLD
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.CLICK_MAX_DISTANCE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.CLICK_MAX_DURATION
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DRAG_THRESHOLD
 import kotlin.math.abs
 
 // handle only one finger clicks, pass other events to the parent view and ignore it when received again

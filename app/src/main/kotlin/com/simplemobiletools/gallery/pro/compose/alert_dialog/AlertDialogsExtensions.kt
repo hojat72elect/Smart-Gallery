@@ -19,8 +19,8 @@ import com.simplemobiletools.gallery.pro.compose.theme.Shapes
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.compose.theme.light_grey_stroke
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.helpers.isSPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 import kotlinx.coroutines.android.awaitFrame
 
 val dialogContainerColor

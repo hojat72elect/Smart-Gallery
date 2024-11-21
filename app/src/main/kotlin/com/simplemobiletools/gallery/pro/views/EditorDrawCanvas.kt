@@ -10,7 +10,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.models.PaintOptions
 

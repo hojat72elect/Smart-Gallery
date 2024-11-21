@@ -43,13 +43,13 @@ import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.databinding.DialogLineColorPickerBinding
-import com.simplemobiletools.gallery.pro.extensions.beGoneIf
-import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
-import com.simplemobiletools.gallery.pro.extensions.copyToClipboard
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.extensions.toHex
-import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.copyToClipboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toHex
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 import com.simplemobiletools.gallery.pro.interfaces.LineColorPickerListener
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 

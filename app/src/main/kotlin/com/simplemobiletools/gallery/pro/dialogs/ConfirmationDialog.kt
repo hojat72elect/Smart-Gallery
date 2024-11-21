@@ -17,8 +17,8 @@ import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialo
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.databinding.DialogMessageBinding
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 
 /**
  * A simple dialog without any view, just a messageId, a positive button and optionally a negative button

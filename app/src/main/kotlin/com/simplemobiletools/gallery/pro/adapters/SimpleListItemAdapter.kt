@@ -1,11 +1,11 @@
 package com.simplemobiletools.gallery.pro.adapters
 
 import com.simplemobiletools.gallery.pro.databinding.ItemSimpleListBinding
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
-import com.simplemobiletools.gallery.pro.extensions.getProperPrimaryColor
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.setImageResourceOrBeGone
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setImageResourceOrBeGone
 import com.simplemobiletools.gallery.pro.models.SimpleListItem
 
 fun setupSimpleListItem(

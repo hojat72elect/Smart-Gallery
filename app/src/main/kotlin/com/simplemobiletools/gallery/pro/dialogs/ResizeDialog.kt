@@ -5,13 +5,13 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogResizeImageBinding
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.onTextChangeListener
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.extensions.showKeyboard
-import com.simplemobiletools.gallery.pro.extensions.toInt
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onTextChangeListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showKeyboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toInt
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ResizeDialog(

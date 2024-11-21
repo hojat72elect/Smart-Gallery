@@ -7,10 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.simplemobiletools.gallery.pro.helpers.Converters
-import com.simplemobiletools.gallery.pro.helpers.FIRST_CONTACT_ID
-import com.simplemobiletools.gallery.pro.helpers.FIRST_GROUP_ID
-import com.simplemobiletools.gallery.pro.helpers.getEmptyLocalContact
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.Converters
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FIRST_CONTACT_ID
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FIRST_GROUP_ID
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getEmptyLocalContact
 import com.simplemobiletools.gallery.pro.interfaces.ContactsDao
 import com.simplemobiletools.gallery.pro.interfaces.GroupsDao
 import com.simplemobiletools.gallery.pro.models.contacts.Group

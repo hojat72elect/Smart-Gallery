@@ -37,9 +37,9 @@ import com.simplemobiletools.gallery.pro.compose.components.RadioGroupDialogComp
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.helpers.DAY_SECONDS
-import com.simplemobiletools.gallery.pro.helpers.HOUR_SECONDS
-import com.simplemobiletools.gallery.pro.helpers.MINUTE_SECONDS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DAY_SECONDS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.HOUR_SECONDS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MINUTE_SECONDS
 import kotlinx.collections.immutable.toImmutableList
 
 

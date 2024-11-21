@@ -22,12 +22,12 @@ import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.extensions.composeDonateIntent
 import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.fromHtml
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.launchPurchaseThankYouIntent
-import com.simplemobiletools.gallery.pro.extensions.removeUnderlines
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchPurchaseThankYouIntent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.removeUnderlines
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 
 class PurchaseThankYouDialog(val activity: Activity) {
     init {

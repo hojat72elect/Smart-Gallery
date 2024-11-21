@@ -2,13 +2,13 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogChangeViewTypeBinding
-import com.simplemobiletools.gallery.pro.extensions.beVisibleIf
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.helpers.SHOW_ALL
-import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.gallery.pro.helpers.VIEW_TYPE_LIST
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_GRID
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_LIST
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ChangeViewTypeDialog(

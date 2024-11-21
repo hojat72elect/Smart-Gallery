@@ -15,11 +15,11 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Video
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.extensions.addPathToDB
-import com.simplemobiletools.gallery.pro.extensions.getParentPath
-import com.simplemobiletools.gallery.pro.extensions.getStringValue
-import com.simplemobiletools.gallery.pro.extensions.updateDirectoryPath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addPathToDB
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getParentPath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getStringValue
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateDirectoryPath
 
 // based on https://developer.android.com/reference/android/app/job/JobInfo.Builder.html#addTriggerContentUri(android.app.job.JobInfo.TriggerContentUri)
 @TargetApi(Build.VERSION_CODES.N)

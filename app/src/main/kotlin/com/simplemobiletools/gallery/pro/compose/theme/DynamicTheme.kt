@@ -5,9 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.model.Theme
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.isBlackAndWhiteTheme
-import com.simplemobiletools.gallery.pro.extensions.isWhiteTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isBlackAndWhiteTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isWhiteTheme
 
 fun getTheme(context: Context, materialYouTheme: Theme.SystemDefaultMaterialYou): Theme {
     val baseConfig = context.config

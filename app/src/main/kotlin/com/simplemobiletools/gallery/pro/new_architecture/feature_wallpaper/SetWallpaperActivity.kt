@@ -15,12 +15,12 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.MainActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
-import com.simplemobiletools.gallery.pro.extensions.checkAppSideloading
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.helpers.NavigationIcon
-import com.simplemobiletools.gallery.pro.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppSideloading
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.NavigationIcon
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 

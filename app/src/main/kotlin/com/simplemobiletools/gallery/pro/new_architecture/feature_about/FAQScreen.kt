@@ -20,7 +20,7 @@ import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.extensions.fromHtml
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import com.simplemobiletools.gallery.pro.models.FAQItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

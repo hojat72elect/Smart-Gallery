@@ -12,12 +12,12 @@ import com.github.ajalt.reprint.core.AuthenticationListener
 import com.github.ajalt.reprint.core.Reprint
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.TabFingerprintBinding
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.beGoneIf
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.updateTextColors
-import com.simplemobiletools.gallery.pro.helpers.PROTECTION_FINGERPRINT
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_FINGERPRINT
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
 

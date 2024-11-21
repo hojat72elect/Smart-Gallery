@@ -7,15 +7,15 @@ import androidx.room.Ignore
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.gallery.pro.extensions.formatDate
-import com.simplemobiletools.gallery.pro.extensions.formatSize
-import com.simplemobiletools.gallery.pro.helpers.FAVORITES
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_DATE_MODIFIED
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_NAME
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_PATH
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_RANDOM
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_SIZE
-import com.simplemobiletools.gallery.pro.helpers.RECYCLE_BIN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.formatDate
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.formatSize
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FAVORITES
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_DATE_MODIFIED
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_PATH
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_RANDOM
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_SIZE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RECYCLE_BIN
 
 @Entity(tableName = "directories", indices = [Index(value = ["path"], unique = true)])
 data class Directory(

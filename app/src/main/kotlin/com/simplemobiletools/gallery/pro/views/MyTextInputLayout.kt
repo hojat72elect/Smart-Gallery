@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputLayout
-import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
-import com.simplemobiletools.gallery.pro.helpers.HIGHER_ALPHA
-import com.simplemobiletools.gallery.pro.helpers.MEDIUM_ALPHA
-import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.adjustAlpha
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.HIGHER_ALPHA
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MEDIUM_ALPHA
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 
 class MyTextInputLayout : TextInputLayout {
     constructor(context: Context) : super(context)

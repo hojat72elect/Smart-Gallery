@@ -5,17 +5,17 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogExportSettingsBinding
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.beGone
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getDoesFilePathExist
-import com.simplemobiletools.gallery.pro.extensions.getFilenameFromPath
-import com.simplemobiletools.gallery.pro.extensions.humanizePath
-import com.simplemobiletools.gallery.pro.extensions.internalStoragePath
-import com.simplemobiletools.gallery.pro.extensions.isAValidFilename
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.extensions.toast
-import com.simplemobiletools.gallery.pro.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getDoesFilePathExist
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getFilenameFromPath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.internalStoragePath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isAValidFilename
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)

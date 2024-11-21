@@ -50,20 +50,20 @@ import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.beVisible
-import com.simplemobiletools.gallery.pro.extensions.copyToClipboard
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.extensions.onTextChangeListener
-import com.simplemobiletools.gallery.pro.extensions.setFillWithStroke
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.extensions.toHex
-import com.simplemobiletools.gallery.pro.extensions.updateTextColors
-import com.simplemobiletools.gallery.pro.extensions.value
-import com.simplemobiletools.gallery.pro.helpers.isQPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.copyToClipboard
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onTextChangeListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setFillWithStroke
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toHex
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isQPlus
 import java.util.LinkedList
 
 private const val RECENT_COLORS_NUMBER = 5

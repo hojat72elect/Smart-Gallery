@@ -1,13 +1,13 @@
 package com.simplemobiletools.gallery.pro.models.contacts
 
 import android.graphics.Bitmap
-import com.simplemobiletools.gallery.pro.extensions.normalizeString
-import com.simplemobiletools.gallery.pro.helpers.SMT_PRIVATE
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_FIRST_NAME
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_FULL_NAME
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_MIDDLE_NAME
-import com.simplemobiletools.gallery.pro.helpers.SORT_BY_SURNAME
-import com.simplemobiletools.gallery.pro.helpers.SORT_DESCENDING
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.normalizeString
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SMT_PRIVATE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_FIRST_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_FULL_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_MIDDLE_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_SURNAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_DESCENDING
 import com.simplemobiletools.gallery.pro.models.PhoneNumber
 import java.util.Locale
 import kotlinx.serialization.Contextual

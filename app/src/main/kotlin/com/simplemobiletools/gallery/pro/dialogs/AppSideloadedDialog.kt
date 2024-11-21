@@ -22,11 +22,11 @@ import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialo
 import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
 import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.extensions.fromHtml
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.getStringsPackageName
-import com.simplemobiletools.gallery.pro.extensions.launchViewIntent
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getStringsPackageName
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchViewIntent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 
 class AppSideloadedDialog(val activity: Activity, val callback: () -> Unit) {
     private var dialog: AlertDialog? = null

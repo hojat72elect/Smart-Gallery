@@ -10,7 +10,7 @@ import androidx.compose.ui.res.colorResource
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.extensions.config
 import com.simplemobiletools.gallery.pro.compose.theme.isInDarkThemeAndSurfaceIsNotLitWell
-import com.simplemobiletools.gallery.pro.helpers.isSPlus
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 
 @Stable
 sealed class Theme : CommonTheme {

@@ -14,14 +14,14 @@ import androidx.core.view.ViewCompat
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ItemBreadcrumbBinding
 import com.simplemobiletools.gallery.pro.databinding.ItemBreadcrumbFirstBinding
-import com.simplemobiletools.gallery.pro.extensions.adjustAlpha
-import com.simplemobiletools.gallery.pro.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.extensions.getBasePath
-import com.simplemobiletools.gallery.pro.extensions.getProperBackgroundColor
-import com.simplemobiletools.gallery.pro.extensions.getProperTextColor
-import com.simplemobiletools.gallery.pro.extensions.humanizePath
-import com.simplemobiletools.gallery.pro.extensions.onGlobalLayout
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.adjustAlpha
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getBasePath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperBackgroundColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.humanizePath
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 
 class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(context, attrs) {

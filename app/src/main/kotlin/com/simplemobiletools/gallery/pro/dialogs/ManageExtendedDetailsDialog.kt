@@ -2,18 +2,18 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogManageExtendedDetailsBinding
-import com.simplemobiletools.gallery.pro.extensions.config
-import com.simplemobiletools.gallery.pro.extensions.getAlertDialogBuilder
-import com.simplemobiletools.gallery.pro.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.helpers.EXT_CAMERA_MODEL
-import com.simplemobiletools.gallery.pro.helpers.EXT_DATE_TAKEN
-import com.simplemobiletools.gallery.pro.helpers.EXT_EXIF_PROPERTIES
-import com.simplemobiletools.gallery.pro.helpers.EXT_GPS
-import com.simplemobiletools.gallery.pro.helpers.EXT_LAST_MODIFIED
-import com.simplemobiletools.gallery.pro.helpers.EXT_NAME
-import com.simplemobiletools.gallery.pro.helpers.EXT_PATH
-import com.simplemobiletools.gallery.pro.helpers.EXT_RESOLUTION
-import com.simplemobiletools.gallery.pro.helpers.EXT_SIZE
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_CAMERA_MODEL
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_DATE_TAKEN
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_EXIF_PROPERTIES
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_GPS
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_LAST_MODIFIED
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_NAME
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_PATH
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_RESOLUTION
+import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_SIZE
 import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
 
 class ManageExtendedDetailsDialog(
