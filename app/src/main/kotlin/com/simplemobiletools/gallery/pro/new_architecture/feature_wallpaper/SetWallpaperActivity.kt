@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.wallpaper
+package com.simplemobiletools.gallery.pro.new_architecture.feature_wallpaper
 
 import android.app.Activity
 import android.app.WallpaperManager
