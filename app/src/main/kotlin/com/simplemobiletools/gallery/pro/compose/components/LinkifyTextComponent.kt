@@ -8,16 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.removeUnderlines
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 
 @Composable
 fun LinkifyTextComponent(
@@ -46,11 +41,4 @@ fun LinkifyTextComponent(
     }
 }
 
-@Composable
-@MyDevices
-private fun LinkifyTextComponentPreview() = AppThemeSurface {
-    val source = stringResource(id = R.string.contributors_label)
-    LinkifyTextComponent {
-        source.fromHtml()
-    }
-}
+

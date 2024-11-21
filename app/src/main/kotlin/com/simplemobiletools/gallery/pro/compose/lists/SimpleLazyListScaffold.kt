@@ -2,23 +2,15 @@ package com.simplemobiletools.gallery.pro.compose.lists
 
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,10 +20,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.simplemobiletools.gallery.pro.compose.extensions.AdjustNavigationBarColors
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.extensions.plus
 import com.simplemobiletools.gallery.pro.compose.extensions.rememberMutableInteractionSource
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 
 @Composable
 fun SimpleLazyListScaffold(
@@ -162,62 +152,3 @@ fun SimpleLazyListScaffold(
     }
 }
 
-
-@Composable
-fun SimpleScaffold(
-    modifier: Modifier = Modifier,
-    darkStatusBarIcons: Boolean = true,
-    customTopBar: @Composable (scrolledColor: Color, navigationInteractionSource: MutableInteractionSource, scrollBehavior: TopAppBarScrollBehavior, statusBarColor: Int, colorTransitionFraction: Float, contrastColor: Color) -> Unit,
-    customContent: @Composable (BoxScope.(PaddingValues) -> Unit)
-) {
-    val context = LocalContext.current
-
-    val (statusBarColor, contrastColor) = statusBarAndContrastColor(
-        context
-    )
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    val (colorTransitionFraction, scrolledColor) = transitionFractionAndScrolledColor(
-        scrollBehavior,
-        contrastColor,
-        darkStatusBarIcons
-    )
-    SystemUISettingsScaffoldStatusBarColor(scrolledColor)
-    val navigationIconInteractionSource = rememberMutableInteractionSource()
-    AdjustNavigationBarColors()
-
-    Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            customTopBar(
-                scrolledColor,
-                navigationIconInteractionSource,
-                scrollBehavior,
-                statusBarColor,
-                colorTransitionFraction,
-                contrastColor
-            )
-        }
-    ) { paddingValues ->
-        ScreenBoxSettingsScaffold(paddingValues) {
-            customContent(paddingValues)
-        }
-    }
-}
-
-
-@MyDevices
-@Composable
-private fun SimpleLazyListScaffoldPreview() {
-    AppThemeSurface {
-        SimpleLazyListScaffold(title = "About", goBack = {}) {
-            item {
-                ListItem(headlineContent = { Text(text = "Some text") },
-                    leadingContent = {
-                        Icon(imageVector = Icons.Filled.AccessTime, contentDescription = null)
-                    })
-            }
-        }
-    }
-}

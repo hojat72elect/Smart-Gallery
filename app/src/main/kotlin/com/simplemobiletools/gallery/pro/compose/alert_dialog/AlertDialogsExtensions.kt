@@ -64,16 +64,4 @@ fun DialogSurface(
     }
 }
 
-@Composable
-fun ShowKeyboardWhenDialogIsOpenedAndRequestFocus(
-    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current,
-    focusRequester: FocusRequester?
-) {
-    LaunchedEffect(Unit) {
-        //await two frames to render the scrim and the dialog
-        awaitFrame()
-        awaitFrame()
-        keyboardController?.show()
-        focusRequester?.requestFocus()
-    }
-}
+

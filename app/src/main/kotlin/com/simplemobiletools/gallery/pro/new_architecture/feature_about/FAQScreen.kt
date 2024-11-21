@@ -14,16 +14,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
 import com.simplemobiletools.gallery.pro.compose.lists.SimpleLazyListScaffold
 import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun FAQScreen(
@@ -80,19 +77,3 @@ internal fun FAQScreen(
     }
 }
 
-@MyDevices
-@Composable
-private fun FAQScreenPreview() {
-    AppThemeSurface {
-        FAQScreen(
-            goBack = {},
-            faqItems = listOf(
-                FAQItem(R.string.faq_1_title_commons, R.string.faq_1_text_commons),
-                FAQItem(R.string.faq_1_title_commons, R.string.faq_1_text_commons),
-                FAQItem(R.string.faq_4_title_commons, R.string.faq_4_text_commons),
-                FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons),
-                FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons)
-            ).toImmutableList()
-        )
-    }
-}

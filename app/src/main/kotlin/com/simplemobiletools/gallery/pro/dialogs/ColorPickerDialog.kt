@@ -11,45 +11,11 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.viewinterop.AndroidViewBinding
-import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.DialogWindowProvider
 import androidx.core.view.children
-import androidx.core.view.updateLayoutParams
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogColorPickerBinding
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.extensions.config
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible
@@ -61,7 +27,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onTe
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setFillWithStroke
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toHex
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isQPlus
 import java.util.LinkedList
@@ -163,123 +128,6 @@ class ColorPickerDialog(
     }
 }
 
-@Composable
-fun ColorPickerAlertDialog(
-    alertDialogState: AlertDialogState,
-    @ColorInt color: Int,
-    modifier: Modifier = Modifier,
-    removeDimmedBackground: Boolean = false,
-    addDefaultColorButton: Boolean = false,
-    onActiveColorChange: (color: Int) -> Unit,
-    onButtonPressed: (wasPositivePressed: Boolean, color: Int) -> Unit
-) {
-    val view = LocalView.current
-    val context = LocalContext.current
-    var wasDimmedBackgroundRemoved by remember { mutableStateOf(false) }
-
-    AlertDialog(
-        modifier = modifier
-            .dialogBorder,
-        onDismissRequest = alertDialogState::hide,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
-    ) {
-        DialogSurface {
-            Column(
-                Modifier
-                    .fillMaxWidth(0.95f)
-                    .padding(SimpleTheme.dimens.padding.extraLarge)
-            ) {
-                var dialogColorPickerBinding by remember {
-                    mutableStateOf<DialogColorPickerBinding?>(
-                        null
-                    )
-                }
-                val currentColorHsv by remember {
-                    derivedStateOf {
-                        Hsv(FloatArray(3)).apply {
-                            Color.colorToHSV(
-                                color,
-                                this.value
-                            )
-                        }
-                    }
-                }
-                AndroidViewBinding(
-                    DialogColorPickerBinding::inflate,
-                    onRelease = {
-                        dialogColorPickerBinding = null
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                ) {
-                    root.updateLayoutParams<FrameLayout.LayoutParams> {
-                        height = FrameLayout.LayoutParams.WRAP_CONTENT
-                    }
-                    dialogColorPickerBinding = this
-
-                    init(
-                        color = color,
-                        backgroundColor = context.config.backgroundColor,
-                        recentColors = context.config.colorPickerRecentColors,
-                        hsv = currentColorHsv,
-                        currentColorCallback = {
-                            if (removeDimmedBackground) {
-                                if (!wasDimmedBackgroundRemoved) {
-                                    (view.parent as? DialogWindowProvider)?.window?.setDimAmount(0f)
-                                    wasDimmedBackgroundRemoved = true
-                                }
-                            }
-
-                            onActiveColorChange(it)
-                        }
-                    )
-
-                    val textColor = context.getProperTextColor()
-                    colorPickerArrow.applyColorFilter(textColor)
-                    colorPickerHexArrow.applyColorFilter(textColor)
-                    colorPickerHueCursor.applyColorFilter(textColor)
-                    context.updateTextColors(root)
-                }
-
-                Row(
-                    Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = {
-                        alertDialogState.hide()
-                        onButtonPressed(false, 0)
-                    }) {
-                        Text(text = stringResource(id = R.string.cancel))
-                    }
-                    if (addDefaultColorButton) {
-                        TextButton(onClick = {
-                            alertDialogState.hide()
-                            onButtonPressed(true, 0)
-                        }) {
-                            Text(text = stringResource(id = R.string.default_color))
-                        }
-                    }
-                    TextButton(onClick = {
-                        alertDialogState.hide()
-                        val hexValue = dialogColorPickerBinding?.colorPickerNewHex?.value
-                        val newColor = if (hexValue?.length == 6) {
-                            Color.parseColor("#$hexValue")
-                        } else {
-                            currentColorHsv.getColor()
-                        }
-
-                        context.addRecentColor(newColor)
-                        onButtonPressed(true, newColor)
-                    }) {
-                        Text(text = stringResource(id = R.string.ok))
-                    }
-                }
-            }
-        }
-    }
-
-}
 
 @SuppressLint("SetTextI18n")
 private fun DialogColorPickerBinding.init(
@@ -447,16 +295,4 @@ private fun Context.addRecentColor(color: Int) {
     recentColors.addFirst(color)
 
     baseConfig.colorPickerRecentColors = recentColors
-}
-
-@Composable
-@MyDevices
-private fun ColorPickerAlertDialogPreview() {
-    AppThemeSurface {
-        ColorPickerAlertDialog(
-            alertDialogState = rememberAlertDialogState(),
-            color = colorResource(id = R.color.color_primary).toArgb(),
-            onActiveColorChange = {}
-        ) { _, _ -> }
-    }
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -28,14 +27,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.extensions.rememberMutableInteractionSource
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 
 @Composable
@@ -111,40 +107,6 @@ fun SimpleScaffoldTopBar(
 }
 
 @Composable
-fun SimpleScaffoldTopBar(
-    modifier: Modifier = Modifier,
-    title: @Composable (scrolledColor: Color) -> Unit,
-    actions: @Composable RowScope.() -> Unit,
-    scrolledColor: Color,
-    navigationIconInteractionSource: MutableInteractionSource = rememberMutableInteractionSource(),
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
-        rememberTopAppBarState()
-    ),
-    statusBarColor: Int,
-    colorTransitionFraction: Float,
-    contrastColor: Color,
-    goBack: () -> Unit,
-) {
-    TopAppBar(
-        title = {
-            title(scrolledColor)
-        },
-        navigationIcon = {
-            SimpleNavigationIcon(
-                goBack = goBack,
-                navigationIconInteractionSource = navigationIconInteractionSource,
-                iconColor = scrolledColor
-            )
-        },
-        actions = actions,
-        scrollBehavior = scrollBehavior,
-        colors = simpleTopAppBarColors(statusBarColor, colorTransitionFraction, contrastColor),
-        modifier = modifier.topAppBarPaddings(),
-        windowInsets = topAppBarInsets()
-    )
-}
-
-@Composable
 fun simpleTopAppBarColors(
     statusBarColor: Int,
     colorTransitionFraction: Float,
@@ -207,23 +169,6 @@ fun SimpleBackIcon(iconColor: Color?) {
             contentDescription = stringResource(id = R.string.back),
             tint = iconColor,
             modifier = Modifier.padding(SimpleTheme.dimens.padding.small)
-        )
-    }
-}
-
-
-@Composable
-@MyDevices
-private fun SimpleScaffoldTopBarPreview() {
-    AppThemeSurface {
-        SimpleScaffoldTopBar(
-            title = "SettingsScaffoldTopBar",
-            scrolledColor = Color.Black,
-            navigationIconInteractionSource = rememberMutableInteractionSource(),
-            goBack = {},
-            statusBarColor = Color.Magenta.toArgb(),
-            colorTransitionFraction = 1.0f,
-            contrastColor = Color.Gray
         )
     }
 }

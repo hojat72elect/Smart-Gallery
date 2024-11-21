@@ -7,8 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 
 @Composable
 fun RadioGroupDialogComponent(
@@ -34,20 +32,5 @@ fun RadioGroupDialogComponent(
                 )
             )
         }
-    }
-}
-
-@Composable
-@MyDevices
-private fun RadioGroupDialogComponentPreview() {
-    AppThemeSurface {
-        RadioGroupDialogComponent(items = listOf(
-            "Test 1",
-            "Test 2",
-            "Test 3",
-            "Test 4",
-            "Test 5",
-            "Test 6",
-        ), selected = null, setSelected = {})
     }
 }

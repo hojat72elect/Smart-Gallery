@@ -8,8 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 
 @Composable
@@ -33,8 +31,4 @@ fun SettingsTitleTextComponent(
     }
 }
 
-@MyDevices
-@Composable
-private fun SettingsTitleTextComponentPreview() = AppThemeSurface {
-    SettingsTitleTextComponent(text = "Color customization")
-}
+

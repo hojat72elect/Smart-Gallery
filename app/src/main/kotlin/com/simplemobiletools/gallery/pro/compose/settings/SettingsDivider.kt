@@ -6,8 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.divider_grey
 
 @Composable
@@ -20,10 +18,4 @@ fun SettingsHorizontalDivider(
 }
 
 
-@Composable
-@MyDevices
-private fun SettingsHorizontalDividerPreview() {
-    AppThemeSurface {
-        SettingsHorizontalDivider()
-    }
-}
+

@@ -10,12 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -24,9 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import com.simplemobiletools.gallery.pro.compose.extensions.AdjustNavigationBarColors
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
 import com.simplemobiletools.gallery.pro.compose.extensions.rememberMutableInteractionSource
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 
 @Composable
 fun SimpleColumnScaffold(
@@ -85,17 +78,3 @@ fun SimpleColumnScaffold(
     }
 }
 
-
-
-@MyDevices
-@Composable
-private fun SimpleColumnScaffoldPreview() {
-    AppThemeSurface {
-        SimpleColumnScaffold(title = "About", goBack = {}) {
-            ListItem(headlineContent = { Text(text = "Some text") },
-                leadingContent = {
-                    Icon(imageVector = Icons.Filled.AccessTime, contentDescription = null)
-                })
-        }
-    }
-}

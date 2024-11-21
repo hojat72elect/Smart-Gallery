@@ -2,19 +2,7 @@ package com.simplemobiletools.gallery.pro.dialogs
 
 import android.app.Activity
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.databinding.DialogMessageBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
@@ -42,61 +30,3 @@ class PermissionRequiredDialog(
     }
 }
 
-@Composable
-fun PermissionRequiredAlertDialog(
-    alertDialogState: AlertDialogState,
-    text: String,
-    modifier: Modifier = Modifier,
-    negativeActionCallback: (() -> Unit)? = null,
-    positiveActionCallback: () -> Unit
-) {
-    AlertDialog(
-        containerColor = dialogContainerColor,
-        modifier = modifier
-            .dialogBorder,
-        onDismissRequest = alertDialogState::hide,
-        shape = dialogShape,
-        tonalElevation = dialogElevation,
-        dismissButton = {
-            TextButton(onClick = {
-                alertDialogState.hide()
-                negativeActionCallback?.invoke()
-            }) {
-                Text(text = stringResource(id = R.string.cancel))
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                alertDialogState.hide()
-                positiveActionCallback()
-            }) {
-                Text(text = stringResource(id = R.string.grant_permission))
-            }
-        },
-        title = {
-            Text(
-                text = stringResource(id = R.string.permission_required),
-                fontSize = 21.sp,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        text = {
-            Text(
-                fontSize = 16.sp,
-                text = text
-            )
-        }
-    )
-}
-
-@Composable
-@MyDevices
-private fun PermissionRequiredAlertDialogPreview() {
-    AppThemeSurface {
-        PermissionRequiredAlertDialog(
-            alertDialogState = rememberAlertDialogState(),
-            text = "Test",
-            negativeActionCallback = {}
-        ) {}
-    }
-}

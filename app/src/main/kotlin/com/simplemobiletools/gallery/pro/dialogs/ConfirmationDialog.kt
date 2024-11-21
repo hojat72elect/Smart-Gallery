@@ -13,9 +13,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.rememberAlertDialogState
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.databinding.DialogMessageBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
@@ -135,12 +132,3 @@ fun ConfirmationAlertDialog(
     )
 }
 
-@Composable
-@MyDevices
-private fun ConfirmationAlertDialogPreview() {
-    AppThemeSurface {
-        ConfirmationAlertDialog(
-            alertDialogState = rememberAlertDialogState()
-        ) {}
-    }
-}

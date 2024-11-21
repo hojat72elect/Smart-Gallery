@@ -16,12 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.TextUnit
-import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.extensions.BooleanPreviewParameterProvider
-import com.simplemobiletools.gallery.pro.compose.extensions.MyDevices
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
 
 @Composable
@@ -147,15 +142,3 @@ fun SettingsListItem(
 }
 
 
-@MyDevices
-@Composable
-private fun SettingsListItem(@PreviewParameter(BooleanPreviewParameterProvider::class) isImage: Boolean) {
-    AppThemeSurface {
-        SettingsListItem(
-            click = {},
-            text = "Simple Mobile Tools",
-            icon = if (isImage) R.drawable.ic_telegram_vector else R.drawable.ic_dollar_vector,
-            isImage = isImage
-        )
-    }
-}

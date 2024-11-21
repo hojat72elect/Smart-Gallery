@@ -212,46 +212,4 @@ internal fun TwoLinerTextItem(text: String, icon: Int, click: () -> Unit) {
     )
 }
 
-@MyDevices
-@Composable
-private fun AboutScreenPreview() {
-    AppThemeSurface {
-        AboutScreen(
-            goBack = {},
-            helpUsSection = {
-                HelpUsSection(
-                    onRateUsClick = {},
-                    onInviteClick = {},
-                    onContributorsClick = {},
-                    showRateUs = true,
-                    showInvite = true,
-                    showDonate = true,
-                    onDonateClick = {}
-                )
-            },
-            aboutSection = {
-                AboutSection(setupFAQ = true, onFAQClick = {}, onEmailClick = {})
-            },
-            socialSection = {
-                SocialSection(
-                    onFacebookClick = {},
-                    onGithubClick = {},
-                    onRedditClick = {},
-                    onTelegramClick = {}
-                )
-            }
-        ) {
-            OtherSection(
-                showMoreApps = true,
-                onMoreAppsClick = {},
-                onWebsiteClick = {},
-                showWebsite = true,
-                showPrivacyPolicy = true,
-                onPrivacyPolicyClick = {},
-                onLicenseClick = {},
-                version = "5.0.4",
-                onVersionClick = {}
-            )
-        }
-    }
-}
+

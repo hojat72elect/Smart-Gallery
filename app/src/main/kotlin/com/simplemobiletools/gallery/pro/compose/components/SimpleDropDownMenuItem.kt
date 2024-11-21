@@ -82,10 +82,4 @@ fun SimpleDropDownMenuItem(
     }
 
 
-@MyDevices
-@Composable
-private fun SimpleDropDownMenuItemPreview() {
-    AppThemeSurface {
-        SimpleDropDownMenuItem(text = R.string.copy, onClick = {})
-    }
-}
+
