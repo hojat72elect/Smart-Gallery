@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.settings
+package com.simplemobiletools.gallery.pro.new_architecture.feature_settings
 
 import android.app.Activity
 import android.text.format.DateFormat

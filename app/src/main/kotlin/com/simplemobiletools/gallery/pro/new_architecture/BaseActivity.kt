@@ -238,8 +238,8 @@ import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FAQItem
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Release
-import com.simplemobiletools.gallery.pro.new_architecture.about.AboutActivity
-import com.simplemobiletools.gallery.pro.new_architecture.settings.SettingsActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_about.AboutActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_settings.SettingsActivity
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileNotFoundException

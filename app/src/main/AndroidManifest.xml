@@ -128,23 +128,23 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.about.AboutActivity"
+            android:name=".new_architecture.feature_about.AboutActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/about"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
-            android:name=".new_architecture.about.LicenseActivity"
+            android:name=".new_architecture.feature_about.LicenseActivity"
             android:configChanges="orientation"
             android:label="@string/third_party_licences" />
 
         <activity
-            android:name=".new_architecture.about.FAQActivity"
+            android:name=".new_architecture.feature_about.FAQActivity"
             android:configChanges="orientation" />
 
         <activity
-            android:name=".new_architecture.about.ContributorsActivity"
+            android:name=".new_architecture.feature_about.ContributorsActivity"
             android:configChanges="orientation" />
 
 
@@ -153,10 +153,10 @@
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/customize_colors"
-            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
+            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity" />
 
         <activity
-            android:name=".new_architecture.settings.SettingsActivity"
+            android:name=".new_architecture.feature_settings.SettingsActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/settings"
@@ -198,21 +198,21 @@
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/include_folders"
-            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
+            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity" />
 
         <activity
             android:name=".activities.ExcludedFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/excluded_folders"
-            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
+            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity" />
 
         <activity
             android:name=".activities.HiddenFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/hidden_folders"
-            android:parentActivityName=".new_architecture.settings.SettingsActivity" />
+            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity" />
 
         <activity
             android:name=".activities.PhotoActivity"

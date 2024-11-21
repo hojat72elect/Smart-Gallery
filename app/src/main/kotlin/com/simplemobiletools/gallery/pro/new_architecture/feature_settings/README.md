@@ -1,0 +1,1 @@
+`Settings` section which allows user to change almost all settings of the app.

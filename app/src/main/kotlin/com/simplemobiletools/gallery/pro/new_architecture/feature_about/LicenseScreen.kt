@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.about
+package com.simplemobiletools.gallery.pro.new_architecture.feature_about
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
