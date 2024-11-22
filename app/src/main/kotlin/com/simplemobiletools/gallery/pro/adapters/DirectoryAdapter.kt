@@ -32,7 +32,7 @@ import com.simplemobiletools.gallery.pro.interfaces.ItemTouchHelperContract
 import com.simplemobiletools.gallery.pro.interfaces.StartReorderDragListener
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.MediaActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridRoundedCornersBinding
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridSquareBinding
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemListBinding

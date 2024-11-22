@@ -97,7 +97,7 @@
         </activity>
 
         <activity
-            android:name=".activities.MediaActivity"
+            android:name=".new_architecture.feature_media_viewer.MediaActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:parentActivityName=".new_architecture.feature_home.HomeActivity"
@@ -118,7 +118,7 @@
             android:name=".activities.ViewPagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:parentActivityName=".activities.MediaActivity"
+            android:parentActivityName=".new_architecture.feature_media_viewer.MediaActivity"
             android:theme="@style/TranslucentTheme">
 
             <intent-filter>
@@ -186,7 +186,7 @@
             android:name=".new_architecture.feature_media_viewer.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:parentActivityName=".activities.MediaActivity"
+            android:parentActivityName=".new_architecture.feature_media_viewer.MediaActivity"
             android:theme="@style/TranslucentTheme"
             tools:ignore="NewApi" />
 

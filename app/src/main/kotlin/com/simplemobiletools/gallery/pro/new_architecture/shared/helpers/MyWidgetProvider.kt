@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.MediaActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.directoryDB

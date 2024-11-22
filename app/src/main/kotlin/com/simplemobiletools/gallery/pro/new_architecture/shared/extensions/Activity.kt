@@ -44,7 +44,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.MediaActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogTitleBinding
 import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
 import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
