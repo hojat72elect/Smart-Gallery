@@ -12,8 +12,6 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.HiddenFoldersActivity
-import com.simplemobiletools.gallery.pro.activities.IncludedFoldersActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySettingsBinding
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFileThumbnailStyleDialog
 import com.simplemobiletools.gallery.pro.dialogs.ChangeFolderThumbnailStyleDialog
@@ -371,7 +369,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setupManageHiddenFolders() {
-        binding.settingsManageHiddenFoldersHolder.beGoneIf(isQPlus())
+        binding.settingsManageHiddenFoldersHolder.beGoneIf(isQPlus()) // In devices running API level 29 and above, we don't show this item.
         binding.settingsManageHiddenFoldersHolder.setOnClickListener {
             handleHiddenFolderPasswordProtection {
                 startActivity(Intent(this, HiddenFoldersActivity::class.java))

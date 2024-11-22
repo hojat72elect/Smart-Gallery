@@ -204,7 +204,7 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.IncludedFoldersActivity"
+            android:name=".new_architecture.feature_settings.IncludedFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/include_folders"
@@ -220,7 +220,7 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.HiddenFoldersActivity"
+            android:name=".new_architecture.feature_settings.HiddenFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/hidden_folders"
