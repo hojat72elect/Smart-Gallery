@@ -40,7 +40,7 @@ import com.bumptech.glide.Glide
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.activities.PanoramaVideoActivity
-import com.simplemobiletools.gallery.pro.activities.VideoActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.VideoActivity
 import com.simplemobiletools.gallery.pro.databinding.PagerVideoItemBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf

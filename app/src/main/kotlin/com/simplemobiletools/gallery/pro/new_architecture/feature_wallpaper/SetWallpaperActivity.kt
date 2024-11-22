@@ -22,7 +22,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.Navigat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.RadioItem
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 
 @RequiresApi(Build.VERSION_CODES.O)

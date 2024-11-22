@@ -176,7 +176,7 @@
         </activity>
 
         <activity
-            android:name=".activities.PhotoVideoActivity"
+            android:name=".new_architecture.feature_media_viewer.PhotoVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:theme="@style/TranslucentTheme"
@@ -242,7 +242,7 @@
         </activity>
 
         <activity
-            android:name=".activities.VideoActivity"
+            android:name=".new_architecture.feature_media_viewer.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             tools:ignore="NewApi">

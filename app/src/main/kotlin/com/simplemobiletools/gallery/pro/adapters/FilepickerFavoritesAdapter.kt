@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.FilepickerFavoriteBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getTextSize
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.O)

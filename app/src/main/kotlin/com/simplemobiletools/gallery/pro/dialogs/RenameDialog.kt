@@ -16,7 +16,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onTa
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RENAME_PATTERN
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RENAME_SIMPLE
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyViewPager
 
 class RenameDialog(

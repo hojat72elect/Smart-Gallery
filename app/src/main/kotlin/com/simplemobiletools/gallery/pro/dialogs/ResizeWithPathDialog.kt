@@ -21,7 +21,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.show
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toInt
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")

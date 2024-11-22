@@ -8,7 +8,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getA
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 class CustomAspectRatioDialog(
     val activity: BaseActivity,

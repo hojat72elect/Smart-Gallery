@@ -171,7 +171,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_VI
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import java.io.File
 import kotlin.math.min
 

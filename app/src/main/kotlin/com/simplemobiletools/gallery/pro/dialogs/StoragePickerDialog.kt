@@ -17,7 +17,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.inte
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.otgPath
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.sdCardPath
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 /**
  * A dialog for choosing between internal, root, SD card (optional) storage

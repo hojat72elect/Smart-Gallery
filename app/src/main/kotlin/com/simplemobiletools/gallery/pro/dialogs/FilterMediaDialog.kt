@@ -12,7 +12,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_RA
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getDefaultFileFilter
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 class FilterMediaDialog(val activity: BaseActivity, val callback: (result: Int) -> Unit) {
     private val binding = DialogFilterMediaBinding.inflate(activity.layoutInflater)

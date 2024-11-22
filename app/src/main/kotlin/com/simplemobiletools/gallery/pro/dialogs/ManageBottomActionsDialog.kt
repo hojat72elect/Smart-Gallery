@@ -20,7 +20,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_SLIDESHOW
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_TOGGLE_FAVORITE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_TOGGLE_VISIBILITY
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 class ManageBottomActionsDialog(
     val activity: BaseActivity,

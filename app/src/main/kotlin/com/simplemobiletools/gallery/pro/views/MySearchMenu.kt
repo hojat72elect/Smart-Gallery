@@ -18,7 +18,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.remo
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LOWER_ALPHA
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MEDIUM_ALPHA
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 class MySearchMenu(context: Context, attrs: AttributeSet) : AppBarLayout(context, attrs) {
     var isSearchOpen = false

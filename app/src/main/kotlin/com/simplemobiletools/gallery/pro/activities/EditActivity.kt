@@ -29,12 +29,10 @@ import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityEditBinding
 import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
 import com.simplemobiletools.gallery.pro.dialogs.OtherAspectRatioDialog
 import com.simplemobiletools.gallery.pro.dialogs.ResizeDialog
 import com.simplemobiletools.gallery.pro.dialogs.SaveAsDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible
@@ -55,7 +53,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.inte
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isPathOnOTG
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isVisible
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchViewIntent
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onSeekBarChangeListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.rescanPaths
@@ -74,7 +71,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File

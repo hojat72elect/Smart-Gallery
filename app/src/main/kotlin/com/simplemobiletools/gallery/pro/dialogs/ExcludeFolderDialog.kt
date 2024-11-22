@@ -10,7 +10,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.databinding.DialogExcludeFolderBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 class ExcludeFolderDialog(
     val activity: BaseActivity,

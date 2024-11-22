@@ -14,7 +14,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_NAM
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_PATH
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_RESOLUTION
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_SIZE
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 class ManageExtendedDetailsDialog(
     val activity: BaseActivity,

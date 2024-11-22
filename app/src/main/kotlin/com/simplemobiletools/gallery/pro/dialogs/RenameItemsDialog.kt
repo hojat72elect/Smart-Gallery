@@ -15,7 +15,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isPa
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 // used at renaming folders
 @RequiresApi(Build.VERSION_CODES.O)

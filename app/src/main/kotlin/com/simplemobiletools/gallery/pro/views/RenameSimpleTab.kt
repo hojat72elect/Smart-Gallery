@@ -26,7 +26,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.upda
 import com.simplemobiletools.gallery.pro.interfaces.RenameTab
 import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.R)

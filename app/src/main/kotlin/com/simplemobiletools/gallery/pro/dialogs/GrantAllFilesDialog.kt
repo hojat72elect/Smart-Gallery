@@ -8,7 +8,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.appl
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.R)
 class GrantAllFilesDialog(val activity: BaseActivity) {

@@ -72,7 +72,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ROTATE_
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ROTATE_BY_SYSTEM_SETTING
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_NEXT_ITEM
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_PREV_ITEM
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)

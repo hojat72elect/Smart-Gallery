@@ -41,7 +41,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.models.MyTheme
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.SharedTheme
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)

@@ -12,7 +12,7 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.ManageFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 class IncludedFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {

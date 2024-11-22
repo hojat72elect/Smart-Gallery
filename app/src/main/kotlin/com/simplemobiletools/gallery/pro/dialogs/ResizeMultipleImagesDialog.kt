@@ -15,7 +15,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.show
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toInt
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 import java.io.File
 import kotlin.math.roundToInt
 

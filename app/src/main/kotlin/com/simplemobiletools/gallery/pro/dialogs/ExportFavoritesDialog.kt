@@ -16,7 +16,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isAV
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
-import com.simplemobiletools.gallery.pro.new_architecture.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ExportFavoritesDialog(
