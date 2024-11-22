@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.feature_search
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,6 +11,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.adapters.MediaAdapter
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.ActivitySearchBinding

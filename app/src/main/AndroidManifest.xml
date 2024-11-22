@@ -104,7 +104,7 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.SearchActivity"
+            android:name=".new_architecture.feature_search.SearchActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/search"
