@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.databases
+package com.simplemobiletools.gallery.pro.new_architecture.shared.data.db
 
 import android.content.Context
 import androidx.room.Database
