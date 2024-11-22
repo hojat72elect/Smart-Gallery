@@ -183,7 +183,7 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.VideoPlayerActivity"
+            android:name=".new_architecture.feature_media_viewer.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:parentActivityName=".activities.MediaActivity"
