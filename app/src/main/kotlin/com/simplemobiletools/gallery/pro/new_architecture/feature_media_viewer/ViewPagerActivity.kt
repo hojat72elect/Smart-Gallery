@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer
 
 import android.animation.Animator
 import android.animation.ValueAnimator
@@ -171,7 +171,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_VI
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
-import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import kotlin.math.min

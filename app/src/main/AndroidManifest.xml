@@ -115,7 +115,7 @@
 
 
         <activity
-            android:name=".activities.ViewPagerActivity"
+            android:name=".new_architecture.feature_media_viewer.ViewPagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:parentActivityName=".new_architecture.feature_media_viewer.MediaActivity"

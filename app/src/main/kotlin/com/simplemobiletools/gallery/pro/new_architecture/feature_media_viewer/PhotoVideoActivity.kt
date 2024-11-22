@@ -17,7 +17,6 @@ import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
-import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.databinding.FragmentHolderBinding
 import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.actionBarHeight

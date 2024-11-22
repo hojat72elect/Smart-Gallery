@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.databinding.PhotoItemGridBinding
 import com.simplemobiletools.gallery.pro.databinding.PhotoItemListBinding
 import com.simplemobiletools.gallery.pro.databinding.ThumbnailSectionBinding
