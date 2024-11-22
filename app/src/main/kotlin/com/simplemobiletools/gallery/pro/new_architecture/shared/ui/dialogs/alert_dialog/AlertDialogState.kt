@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.alert_dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

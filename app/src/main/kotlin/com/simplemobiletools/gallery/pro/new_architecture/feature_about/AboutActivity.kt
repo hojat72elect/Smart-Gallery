@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RateStarsAlertDialog
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.rememberAlertDialogState
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.alert_dialog.rememberAlertDialogState
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.enableEdgeToEdgeSimple
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.rateStarsRedirectAndThankYou
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.AppThemeSurface

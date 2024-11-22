@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.dialogContainerColor
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.dialogElevation
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.alert_dialog.dialogContainerColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.alert_dialog.dialogElevation
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.LocalTheme
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.Shapes
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.light_grey_stroke

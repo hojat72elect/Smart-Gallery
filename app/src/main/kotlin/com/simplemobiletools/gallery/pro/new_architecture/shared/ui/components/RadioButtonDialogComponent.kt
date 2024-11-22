@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.dialogTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.alert_dialog.dialogTextColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.rememberMutableInteractionSource
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
 
