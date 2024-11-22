@@ -154,7 +154,7 @@
 
 
         <activity
-            android:name=".activities.CustomizationActivity"
+            android:name=".new_architecture.feature_settings.CustomizationActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/customize_colors"

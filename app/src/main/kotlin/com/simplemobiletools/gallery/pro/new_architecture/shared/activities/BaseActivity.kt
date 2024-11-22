@@ -50,7 +50,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.CustomizationActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_settings.CustomizationActivity
 import com.simplemobiletools.gallery.pro.asynctasks.CopyMoveTask
 import com.simplemobiletools.gallery.pro.dialogs.AllFilesPermissionDialog
 import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
