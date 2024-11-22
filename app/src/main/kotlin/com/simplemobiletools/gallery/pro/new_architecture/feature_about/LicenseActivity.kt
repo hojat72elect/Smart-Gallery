@@ -7,8 +7,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.extensions.enableEdgeToEdgeSimple
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.enableEdgeToEdgeSimple
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.launchViewIntent
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_LICENSES
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LICENSE_ANDROID_LAME

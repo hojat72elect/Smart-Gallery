@@ -8,12 +8,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.lists.SimpleColumnScaffold
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsGroup
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsListItem
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsTitleTextComponent
-import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.lists.SimpleColumnScaffold
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsGroup
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsListItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsTitleTextComponent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
 
 private val startingTitlePadding = Modifier.padding(start = 60.dp)
 

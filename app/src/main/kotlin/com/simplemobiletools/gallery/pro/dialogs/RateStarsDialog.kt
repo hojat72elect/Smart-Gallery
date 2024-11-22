@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.AlertDialogState
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.DialogSurface
-import com.simplemobiletools.gallery.pro.compose.alert_dialog.dialogTextColor
-import com.simplemobiletools.gallery.pro.compose.theme.Shapes
-import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.AlertDialogState
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.DialogSurface
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog.dialogTextColor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.Shapes
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

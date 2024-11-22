@@ -14,10 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.components.LinkifyTextComponent
-import com.simplemobiletools.gallery.pro.compose.lists.SimpleLazyListScaffold
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.components.LinkifyTextComponent
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.lists.SimpleLazyListScaffold
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.models.FAQItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import kotlinx.collections.immutable.ImmutableList

@@ -1,16 +1,12 @@
-package com.simplemobiletools.gallery.pro.dialogs
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.alert_dialog
 
 import androidx.compose.foundation.border
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.simplemobiletools.gallery.pro.R
@@ -21,8 +17,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.light_
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.model.Theme
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
-import kotlinx.coroutines.android.awaitFrame
-
 
 val dialogContainerColor
     @ReadOnlyComposable
@@ -65,16 +59,4 @@ fun DialogSurface(
     }
 }
 
-@Composable
-fun ShowKeyboardWhenDialogIsOpenedAndRequestFocus(
-    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current,
-    focusRequester: FocusRequester?
-) {
-    LaunchedEffect(Unit) {
-        //await two frames to render the scrim and the dialog
-        awaitFrame()
-        awaitFrame()
-        keyboardController?.show()
-        focusRequester?.requestFocus()
-    }
-}
+

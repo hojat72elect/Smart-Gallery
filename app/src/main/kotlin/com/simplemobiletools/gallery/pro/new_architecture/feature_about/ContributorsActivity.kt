@@ -5,8 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.remember
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.extensions.enableEdgeToEdgeSimple
-import com.simplemobiletools.gallery.pro.compose.theme.AppThemeSurface
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.enableEdgeToEdgeSimple
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.models.LanguageContributor
 import kotlinx.collections.immutable.toImmutableList
 

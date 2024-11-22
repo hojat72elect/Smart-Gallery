@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.compose.lists.SimpleLazyListScaffold
-import com.simplemobiletools.gallery.pro.compose.settings.SettingsHorizontalDivider
-import com.simplemobiletools.gallery.pro.compose.theme.SimpleTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.lists.SimpleLazyListScaffold
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsHorizontalDivider
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
 import com.simplemobiletools.gallery.pro.models.License
 import kotlinx.collections.immutable.ImmutableList
 
