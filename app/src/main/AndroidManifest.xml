@@ -191,13 +191,13 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.PanoramaPhotoActivity"
+            android:name=".new_architecture.feature_media_viewer.PanoramaPhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
 
         <activity
-            android:name=".activities.PanoramaVideoActivity"
+            android:name=".new_architecture.feature_media_viewer.PanoramaVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:theme="@style/FullScreenTheme"
@@ -228,7 +228,7 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.PhotoActivity"
+            android:name=".new_architecture.feature_media_viewer.PhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter tools:ignore="AppLinkUrlError">

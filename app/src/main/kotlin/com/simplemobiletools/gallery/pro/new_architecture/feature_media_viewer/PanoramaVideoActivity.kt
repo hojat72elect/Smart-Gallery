@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
