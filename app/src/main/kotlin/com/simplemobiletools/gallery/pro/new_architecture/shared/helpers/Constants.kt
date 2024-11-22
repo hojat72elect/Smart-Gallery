@@ -8,7 +8,6 @@ import android.provider.ContactsContract
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.models.contacts.LocalContact
 
 const val HOUR_MINUTES = 60
 const val MINUTE_SECONDS = 60
@@ -691,31 +690,6 @@ const val DEFAULT_MIMETYPE = ContactsContract.CommonDataKinds.StructuredName.CON
 // apps with special handling
 const val TELEGRAM_PACKAGE = "org.telegram.messenger"
 const val VIBER_PACKAGE = "com.viber.voip"
-
-
-fun getEmptyLocalContact() = LocalContact(
-    0,
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    null,
-    "",
-    ArrayList(),
-    ArrayList(),
-    ArrayList(),
-    0,
-    ArrayList(),
-    "",
-    ArrayList(),
-    "",
-    "",
-    ArrayList(),
-    ArrayList(),
-    null
-)
 
 
 fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {
