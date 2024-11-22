@@ -212,7 +212,7 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".activities.ExcludedFoldersActivity"
+            android:name=".new_architecture.feature_settings.ExcludedFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/excluded_folders"

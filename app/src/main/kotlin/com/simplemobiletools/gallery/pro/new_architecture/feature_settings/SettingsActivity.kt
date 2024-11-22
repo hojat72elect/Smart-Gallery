@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.ExcludedFoldersActivity
 import com.simplemobiletools.gallery.pro.activities.HiddenFoldersActivity
 import com.simplemobiletools.gallery.pro.activities.IncludedFoldersActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySettingsBinding
