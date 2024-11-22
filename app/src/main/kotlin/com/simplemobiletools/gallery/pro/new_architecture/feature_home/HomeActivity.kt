@@ -22,7 +22,7 @@ import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.new_architecture.feature_search.SearchActivity
-import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.DirectoryAdapter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.GalleryDatabase
 import com.simplemobiletools.gallery.pro.databinding.ActivityMainBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ChangeSortingDialog

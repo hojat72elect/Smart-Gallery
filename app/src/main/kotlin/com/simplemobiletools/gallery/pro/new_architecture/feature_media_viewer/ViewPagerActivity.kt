@@ -51,7 +51,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.MyPagerAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MyPagerAdapter
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.ActivityMediumBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.DeleteWithRememberDialog

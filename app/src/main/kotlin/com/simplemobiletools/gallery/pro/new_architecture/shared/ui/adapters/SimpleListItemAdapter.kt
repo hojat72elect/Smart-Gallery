@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.adapters
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters
 
 import com.simplemobiletools.gallery.pro.databinding.ItemSimpleListBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter

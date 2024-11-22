@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.RenameAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.RenameAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogRenameBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder

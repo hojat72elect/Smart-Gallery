@@ -11,7 +11,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.Navigat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.ManageHiddenFoldersAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.ManageHiddenFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getNoMediaFolders

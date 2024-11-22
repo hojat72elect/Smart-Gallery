@@ -9,7 +9,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.view
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.ManageFoldersAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.ManageFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity

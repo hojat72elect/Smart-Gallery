@@ -7,7 +7,7 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.MyArrayAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MyArrayAdapter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 
 class MyAppCompatSpinner : AppCompatSpinner {

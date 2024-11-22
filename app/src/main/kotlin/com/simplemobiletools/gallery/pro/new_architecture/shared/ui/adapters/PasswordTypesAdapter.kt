@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.adapters
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters
 
 import android.content.Context
 import android.util.SparseArray

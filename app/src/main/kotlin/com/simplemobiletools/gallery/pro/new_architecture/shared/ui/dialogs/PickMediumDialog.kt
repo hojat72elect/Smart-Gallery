@@ -11,7 +11,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setu
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.MediaAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MediaAdapter
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.DialogMediumPickerBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config

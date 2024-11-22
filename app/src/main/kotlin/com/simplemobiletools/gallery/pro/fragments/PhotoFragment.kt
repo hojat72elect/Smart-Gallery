@@ -51,7 +51,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.P
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.PhotoActivity
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.PhotoVideoActivity
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerActivity
-import com.simplemobiletools.gallery.pro.adapters.PortraitPhotosAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.PortraitPhotosAdapter
 import com.simplemobiletools.gallery.pro.databinding.PagerPhotoItemBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beInvisible

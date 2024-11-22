@@ -12,8 +12,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.FilepickerFavoritesAdapter
-import com.simplemobiletools.gallery.pro.adapters.FilepickerItemsAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.FilepickerFavoritesAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.FilepickerItemsAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogFilepickerBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.areSystemAnimationsEnabled
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig

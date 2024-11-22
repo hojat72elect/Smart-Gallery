@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.DirectoryAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogDirectoryPickerBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addTempFolderIfNeeded
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
