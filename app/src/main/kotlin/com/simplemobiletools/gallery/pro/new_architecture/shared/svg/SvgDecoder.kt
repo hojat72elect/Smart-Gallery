@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.svg
+package com.simplemobiletools.gallery.pro.new_architecture.shared.svg
 
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.ResourceDecoder

@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.svg
+package com.simplemobiletools.gallery.pro.new_architecture.shared.svg
 
 import android.graphics.drawable.PictureDrawable
 import android.widget.ImageView

@@ -175,7 +175,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.proPackages
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.svg.SvgSoftwareLayerSetter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.svg.SvgSoftwareLayerSetter
 import com.simplemobiletools.gallery.pro.views.MyAppCompatCheckbox
 import com.simplemobiletools.gallery.pro.views.MyAppCompatSpinner
 import com.simplemobiletools.gallery.pro.views.MyAutoCompleteTextView

@@ -83,7 +83,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
-import com.simplemobiletools.gallery.pro.svg.SvgSoftwareLayerSetter
+import com.simplemobiletools.gallery.pro.new_architecture.shared.svg.SvgSoftwareLayerSetter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import it.sephiroth.android.library.exif2.ExifInterface

@@ -1,0 +1,1 @@
+This package allows us to decode and show SVG files in our gallery.
