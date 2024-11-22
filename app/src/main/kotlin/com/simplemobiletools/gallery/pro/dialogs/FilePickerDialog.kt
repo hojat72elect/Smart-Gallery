@@ -50,7 +50,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setu
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.Breadcrumbs
 import java.io.File
 

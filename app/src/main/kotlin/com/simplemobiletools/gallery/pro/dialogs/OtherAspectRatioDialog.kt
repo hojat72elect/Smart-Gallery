@@ -5,7 +5,7 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogOtherAspectRatioBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class OtherAspectRatioDialog(
     val activity: BaseActivity,

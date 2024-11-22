@@ -1,0 +1,1 @@
+The `main screen` of the app which I consider to be our home. This package controls everything that goes on in this page.

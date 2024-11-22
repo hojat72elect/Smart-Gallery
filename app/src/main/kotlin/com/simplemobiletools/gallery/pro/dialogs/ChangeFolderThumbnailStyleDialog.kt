@@ -23,7 +23,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_MEDIA_CNT_NONE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_STYLE_ROUNDED_CORNERS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FOLDER_STYLE_SQUARE
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class ChangeFolderThumbnailStyleDialog(val activity: BaseActivity, val callback: () -> Unit) :
     DialogInterface.OnClickListener {

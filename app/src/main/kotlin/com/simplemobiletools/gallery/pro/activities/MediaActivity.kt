@@ -103,7 +103,8 @@ import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailItem
 import com.simplemobiletools.gallery.pro.models.ThumbnailSection
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
@@ -627,7 +628,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
     private fun switchToFolderView() {
         hideKeyboard()
         config.showAll = false
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 

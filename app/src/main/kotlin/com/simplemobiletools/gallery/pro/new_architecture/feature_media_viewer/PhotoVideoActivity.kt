@@ -16,7 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.MainActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
 import com.simplemobiletools.gallery.pro.activities.MediaActivity
 import com.simplemobiletools.gallery.pro.activities.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.databinding.FragmentHolderBinding
@@ -88,7 +88,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import java.io.FileInputStream
 
@@ -213,7 +213,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
     private fun checkIntent(savedInstanceState: Bundle? = null) {
         if (intent.data == null && intent.action == Intent.ACTION_VIEW) {
             hideKeyboard()
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()
             return
         }

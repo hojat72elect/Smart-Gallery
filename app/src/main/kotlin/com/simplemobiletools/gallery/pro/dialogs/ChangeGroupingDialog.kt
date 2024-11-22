@@ -18,7 +18,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.GROUP_B
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.GROUP_DESCENDING
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.GROUP_SHOW_FILE_COUNT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class ChangeGroupingDialog(
     val activity: BaseActivity,

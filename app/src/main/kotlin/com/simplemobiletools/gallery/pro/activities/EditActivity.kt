@@ -71,7 +71,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File

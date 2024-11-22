@@ -15,7 +15,7 @@ import com.simplemobiletools.gallery.pro.adapters.ManageHiddenFoldersAdapter
 import com.simplemobiletools.gallery.pro.databinding.ActivityManageFoldersBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getNoMediaFolders
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 class HiddenFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {

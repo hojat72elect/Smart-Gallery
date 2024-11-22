@@ -9,7 +9,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setu
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_LIST
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class ChangeViewTypeDialog(
     val activity: BaseActivity,

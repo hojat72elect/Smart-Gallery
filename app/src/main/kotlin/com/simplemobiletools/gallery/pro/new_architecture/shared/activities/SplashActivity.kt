@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.shared.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.util.UnstableApi
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppIconColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppSideloading
@@ -100,7 +101,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 }

@@ -161,7 +161,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isTiram
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.AlbumCover
 import com.simplemobiletools.gallery.pro.models.RadioItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream

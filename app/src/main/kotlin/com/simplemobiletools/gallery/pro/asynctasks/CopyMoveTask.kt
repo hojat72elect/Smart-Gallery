@@ -44,7 +44,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getConf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream

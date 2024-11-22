@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared
+package com.simplemobiletools.gallery.pro.new_architecture.shared.activities
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator

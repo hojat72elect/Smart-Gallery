@@ -46,7 +46,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByInt
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyTextView
 import java.io.File
 

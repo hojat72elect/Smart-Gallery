@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import com.canhub.cropper.CropImageView
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.activities.MainActivity
+import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
 import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppSideloading
@@ -22,7 +22,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.Navigat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.models.RadioItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -48,7 +48,7 @@ class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteLi
 
         setupOptionsMenu()
         if (intent.data == null) {
-            val pickIntent = Intent(applicationContext, MainActivity::class.java)
+            val pickIntent = Intent(applicationContext, HomeActivity::class.java)
             pickIntent.action = Intent.ACTION_PICK
             pickIntent.type = "image/*"
             startActivityForResult(pickIntent, PICK_IMAGE)

@@ -16,7 +16,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setu
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showKeyboard
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 class RenameItemDialog(

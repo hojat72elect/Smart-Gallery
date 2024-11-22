@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.feature_home
 
 import android.app.Activity
 import android.content.ClipData
@@ -20,6 +20,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
+import com.simplemobiletools.gallery.pro.activities.MediaActivity
+import com.simplemobiletools.gallery.pro.activities.SearchActivity
 import com.simplemobiletools.gallery.pro.adapters.DirectoryAdapter
 import com.simplemobiletools.gallery.pro.databases.GalleryDatabase
 import com.simplemobiletools.gallery.pro.databinding.ActivityMainBinding
@@ -152,7 +154,7 @@ import com.simplemobiletools.gallery.pro.models.FileDirItem
 import com.simplemobiletools.gallery.pro.models.Medium
 import com.simplemobiletools.gallery.pro.models.RadioItem
 import com.simplemobiletools.gallery.pro.models.Release
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File
@@ -161,9 +163,12 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.OutputStream
 
+/**
+ * Main page of the app, I consider it as Home screen of the app.
+ */
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
-class MainActivity : BaseActivity(), DirectoryOperationsListener {
+class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     companion object {
         private const val PICK_MEDIA = 2
         private const val PICK_WALLPAPER = 3

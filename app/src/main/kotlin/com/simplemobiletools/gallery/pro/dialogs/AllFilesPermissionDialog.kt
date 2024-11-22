@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 @SuppressLint("InflateParams")
 class AllFilesPermissionDialog(

@@ -19,7 +19,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_BY_SIZE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_DESCENDING
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SORT_USE_NUMERIC_VALUE
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class ChangeSortingDialog(
     val activity: BaseActivity,

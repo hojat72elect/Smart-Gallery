@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogCreateNewFolderBinding
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.createAndroidSAFDirectory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.createSAFDirectorySdk30
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder

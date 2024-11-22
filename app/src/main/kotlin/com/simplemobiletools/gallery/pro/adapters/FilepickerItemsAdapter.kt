@@ -29,7 +29,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isPa
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isRestrictedSAFOnlyRoot
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getFilePlaceholderDrawables
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.util.Locale
 

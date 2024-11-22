@@ -30,7 +30,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNouga
 import com.simplemobiletools.gallery.pro.interfaces.RenameTab
 import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar

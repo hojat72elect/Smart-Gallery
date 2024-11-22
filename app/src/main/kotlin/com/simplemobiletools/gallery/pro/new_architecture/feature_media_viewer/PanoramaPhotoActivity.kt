@@ -17,7 +17,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PATH
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 open class PanoramaPhotoActivity : BaseActivity() {
 

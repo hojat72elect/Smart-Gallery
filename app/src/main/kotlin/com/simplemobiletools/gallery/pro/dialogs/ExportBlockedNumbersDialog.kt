@@ -20,7 +20,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BLOCKED_NUMBERS_EXPORT_EXTENSION
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 
 @SuppressLint("SetTextI18n")

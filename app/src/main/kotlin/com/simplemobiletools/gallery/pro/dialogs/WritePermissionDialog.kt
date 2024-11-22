@@ -14,7 +14,7 @@ import com.simplemobiletools.gallery.pro.databinding.DialogWritePermissionOtgBin
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.humanizePath
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 
 @RequiresApi(Build.VERSION_CODES.O)

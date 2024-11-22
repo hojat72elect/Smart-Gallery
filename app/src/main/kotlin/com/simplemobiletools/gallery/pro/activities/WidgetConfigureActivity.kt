@@ -38,7 +38,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MyWidge
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ROUNDED_CORNERS_NONE
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Widget
-import com.simplemobiletools.gallery.pro.new_architecture.shared.BaseActivity
+import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
