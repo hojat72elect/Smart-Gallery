@@ -278,7 +278,7 @@
         </activity>
 
         <activity
-            android:name=".activities.WidgetConfigureActivity"
+            android:name=".new_architecture.feature_widget.WidgetConfigureActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/MyWidgetConfigTheme"

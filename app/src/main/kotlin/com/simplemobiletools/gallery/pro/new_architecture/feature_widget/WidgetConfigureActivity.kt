@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.activities
+package com.simplemobiletools.gallery.pro.new_architecture.feature_widget
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
