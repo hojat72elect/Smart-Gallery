@@ -25,10 +25,10 @@ import com.simplemobiletools.gallery.pro.databinding.PhotoItemListBinding
 import com.simplemobiletools.gallery.pro.databinding.ThumbnailSectionBinding
 import com.simplemobiletools.gallery.pro.databinding.VideoItemGridBinding
 import com.simplemobiletools.gallery.pro.databinding.VideoItemListBinding
-import com.simplemobiletools.gallery.pro.dialogs.DeleteWithRememberDialog
-import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
-import com.simplemobiletools.gallery.pro.dialogs.RenameDialog
-import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.DeleteWithRememberDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.PropertiesDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RenameDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RenameItemDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible

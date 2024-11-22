@@ -46,8 +46,8 @@ import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.databinding.DialogTitleBinding
-import com.simplemobiletools.gallery.pro.dialogs.AppSideloadedDialog
-import com.simplemobiletools.gallery.pro.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.AppSideloadedDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.SecurityDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_ICON_IDS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_LAUNCHER_NAME
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DARK_GREY

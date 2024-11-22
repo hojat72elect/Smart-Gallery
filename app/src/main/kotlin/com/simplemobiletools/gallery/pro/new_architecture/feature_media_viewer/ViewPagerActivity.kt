@@ -35,8 +35,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.simplemobiletools.gallery.pro.dialogs.PropertiesDialog
-import com.simplemobiletools.gallery.pro.dialogs.RenameItemDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.PropertiesDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RenameItemDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FAVORITES
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.IS_FROM_GALLERY
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.NOMEDIA
@@ -54,9 +54,9 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.adapters.MyPagerAdapter
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.ActivityMediumBinding
-import com.simplemobiletools.gallery.pro.dialogs.DeleteWithRememberDialog
-import com.simplemobiletools.gallery.pro.dialogs.SaveAsDialog
-import com.simplemobiletools.gallery.pro.dialogs.SlideshowDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.DeleteWithRememberDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.SaveAsDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.SlideshowDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.actionBarHeight
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone

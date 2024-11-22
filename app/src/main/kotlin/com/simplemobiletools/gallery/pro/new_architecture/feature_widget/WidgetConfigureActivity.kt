@@ -12,11 +12,11 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.signature.ObjectKey
-import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ColorPickerDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityWidgetConfigBinding
-import com.simplemobiletools.gallery.pro.dialogs.PickDirectoryDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.PickDirectoryDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.adjustAlpha
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf

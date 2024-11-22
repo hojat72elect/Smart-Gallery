@@ -10,11 +10,11 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.ActivityCustomizationBinding
-import com.simplemobiletools.gallery.pro.dialogs.ColorPickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationAdvancedDialog
-import com.simplemobiletools.gallery.pro.dialogs.ConfirmationDialog
-import com.simplemobiletools.gallery.pro.dialogs.LineColorPickerDialog
-import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ColorPickerDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ConfirmationAdvancedDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ConfirmationDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.LineColorPickerDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone

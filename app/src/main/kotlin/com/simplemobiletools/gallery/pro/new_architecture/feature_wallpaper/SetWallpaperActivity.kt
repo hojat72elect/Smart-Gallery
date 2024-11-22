@@ -14,7 +14,7 @@ import com.canhub.cropper.CropImageView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
 import com.simplemobiletools.gallery.pro.databinding.ActivitySetWallpaperBinding
-import com.simplemobiletools.gallery.pro.dialogs.RadioGroupDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.checkAppSideloading
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding

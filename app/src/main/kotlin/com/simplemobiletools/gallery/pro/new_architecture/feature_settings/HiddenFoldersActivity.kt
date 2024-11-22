@@ -3,7 +3,7 @@ package com.simplemobiletools.gallery.pro.new_architecture.feature_settings
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
-import com.simplemobiletools.gallery.pro.dialogs.FilePickerDialog
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.FilePickerDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
