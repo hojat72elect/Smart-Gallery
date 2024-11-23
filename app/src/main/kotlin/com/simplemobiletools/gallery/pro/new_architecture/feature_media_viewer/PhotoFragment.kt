@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.fragments
+package com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -47,12 +47,9 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.penfeizhou.animation.apng.APNGDrawable
 import com.github.penfeizhou.animation.webp.WebPDrawable
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.PanoramaPhotoActivity
-import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.PhotoActivity
-import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.PhotoVideoActivity
-import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.PortraitPhotosAdapter
 import com.simplemobiletools.gallery.pro.databinding.PagerPhotoItemBinding
+import com.simplemobiletools.gallery.pro.fragments.ViewPagerFragment
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beInvisible
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible

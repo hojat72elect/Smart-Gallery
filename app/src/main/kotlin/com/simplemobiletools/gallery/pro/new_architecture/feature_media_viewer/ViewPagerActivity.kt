@@ -118,8 +118,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.tryG
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateDBMediaPath
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateFavorite
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.fragments.PhotoFragment
-import com.simplemobiletools.gallery.pro.fragments.VideoFragment
 import com.simplemobiletools.gallery.pro.fragments.ViewPagerFragment
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_CHANGE_ORIENTATION
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_COPY

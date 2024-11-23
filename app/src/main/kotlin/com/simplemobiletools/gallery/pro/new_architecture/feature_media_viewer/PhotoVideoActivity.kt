@@ -59,8 +59,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.stat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toHex
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.viewBinding
-import com.simplemobiletools.gallery.pro.fragments.PhotoFragment
-import com.simplemobiletools.gallery.pro.fragments.VideoFragment
 import com.simplemobiletools.gallery.pro.fragments.ViewPagerFragment
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_EDIT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.BOTTOM_ACTION_PROPERTIES
