@@ -65,7 +65,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.FAST_FO
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MEDIUM
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PATH
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOULD_INIT_FRAGMENT
-import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.views.MediaSideScroll
 import java.io.File
 import java.io.FileInputStream

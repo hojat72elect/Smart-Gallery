@@ -2,7 +2,7 @@ package com.simplemobiletools.gallery.pro.new_architecture.shared.helpers
 
 import android.content.ContentValues
 import android.net.Uri
-import com.simplemobiletools.gallery.pro.models.SharedTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.SharedTheme
 
 class MyContentProvider {
     companion object {

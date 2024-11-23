@@ -33,7 +33,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isRe
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MySearchMenu

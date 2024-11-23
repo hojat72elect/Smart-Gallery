@@ -29,7 +29,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_PAT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_RESOLUTION
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.EXT_SIZE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MAX_CLOSE_DOWN_GESTURE_DURATION
-import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import java.io.File
 import kotlin.math.abs
 

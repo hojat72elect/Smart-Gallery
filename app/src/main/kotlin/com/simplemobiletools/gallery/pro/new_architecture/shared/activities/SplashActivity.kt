@@ -20,7 +20,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.show
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SIDELOADING_TRUE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SIDELOADING_UNCHECKED
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
-import com.simplemobiletools.gallery.pro.models.Favorite
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Favorite
 
 @OptIn(UnstableApi::class)
 class SplashActivity : AppCompatActivity() {

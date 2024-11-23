@@ -41,7 +41,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_LIC
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_NAME
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_VERSION_NAME
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_FAQ_BEFORE_MAIL
-import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FAQItem
 
 class AboutActivity : ComponentActivity() {
     private val appName get() = intent.getStringExtra(APP_NAME) ?: ""

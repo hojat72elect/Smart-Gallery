@@ -6,7 +6,7 @@ import android.os.Environment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.models.AlbumCover
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.AlbumCover
 import java.util.Locale
 
 class Config(context: Context) : BaseConfig(context) {

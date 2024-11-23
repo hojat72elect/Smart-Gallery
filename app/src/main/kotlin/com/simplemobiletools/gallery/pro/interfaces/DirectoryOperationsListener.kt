@@ -1,6 +1,6 @@
 package com.simplemobiletools.gallery.pro.interfaces
 
-import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import java.io.File
 
 interface DirectoryOperationsListener {

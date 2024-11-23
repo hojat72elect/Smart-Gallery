@@ -36,8 +36,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.view
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.widgetsDB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MyWidgetProvider
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ROUNDED_CORNERS_NONE
-import com.simplemobiletools.gallery.pro.models.Directory
-import com.simplemobiletools.gallery.pro.models.Widget
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Widget
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.O)

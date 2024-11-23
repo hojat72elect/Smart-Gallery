@@ -18,9 +18,9 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.conf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getCachedMedia
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.GridSpacingItemDecoration
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
-import com.simplemobiletools.gallery.pro.models.ThumbnailSection
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailSection
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)

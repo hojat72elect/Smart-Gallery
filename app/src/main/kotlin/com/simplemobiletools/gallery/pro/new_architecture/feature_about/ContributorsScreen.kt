@@ -23,7 +23,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.Set
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsListItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsTitleTextComponent
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.models.LanguageContributor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.LanguageContributor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.fromHtml
 import kotlinx.collections.immutable.ImmutableList
 

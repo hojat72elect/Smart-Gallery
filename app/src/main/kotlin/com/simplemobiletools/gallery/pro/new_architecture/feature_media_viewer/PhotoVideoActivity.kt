@@ -82,7 +82,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_VI
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import java.io.FileInputStream

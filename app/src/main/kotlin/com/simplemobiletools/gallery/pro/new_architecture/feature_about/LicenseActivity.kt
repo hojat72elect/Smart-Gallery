@@ -44,7 +44,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LICENSE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LICENSE_STETHO
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LICENSE_SUBSAMPLING
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LICENSE_ZIP4J
-import com.simplemobiletools.gallery.pro.models.License
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.License
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.LICENSE_KOTLIN
 import kotlinx.collections.immutable.toImmutableList
 

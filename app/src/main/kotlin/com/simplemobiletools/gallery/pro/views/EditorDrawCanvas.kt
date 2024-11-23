@@ -12,7 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.models.PaintOptions
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.PaintOptions
 
 class EditorDrawCanvas(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mCurX = 0f

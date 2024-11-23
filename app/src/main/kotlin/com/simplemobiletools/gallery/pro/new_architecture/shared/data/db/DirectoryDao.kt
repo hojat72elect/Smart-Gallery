@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RECYCLE_BIN
-import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 
 @Dao
 interface DirectoryDao {

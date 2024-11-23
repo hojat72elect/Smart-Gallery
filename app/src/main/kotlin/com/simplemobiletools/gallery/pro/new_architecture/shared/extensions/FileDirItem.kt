@@ -1,7 +1,7 @@
 package com.simplemobiletools.gallery.pro.new_architecture.shared.extensions
 
 import android.content.Context
-import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 
 fun FileDirItem.isDownloadsFolder() = path.isDownloadsFolder()
 

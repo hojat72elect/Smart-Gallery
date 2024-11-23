@@ -6,7 +6,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_PO
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_RAWS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_VIDEOS
-import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 
 fun ArrayList<Medium>.getDirMediaTypes(): Int {
     var types = 0

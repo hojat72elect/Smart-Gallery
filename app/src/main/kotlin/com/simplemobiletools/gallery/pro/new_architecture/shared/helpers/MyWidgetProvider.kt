@@ -21,7 +21,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getF
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setText
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setVisibleIf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.widgetsDB
-import com.simplemobiletools.gallery.pro.models.Widget
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Widget
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class MyWidgetProvider : AppWidgetProvider() {

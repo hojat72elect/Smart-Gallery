@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.enableEdgeToEdgeSimple
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.AppThemeSurface
-import com.simplemobiletools.gallery.pro.models.LanguageContributor
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.LanguageContributor
 import kotlinx.collections.immutable.toImmutableList
 
 class ContributorsActivity : AppCompatActivity() {

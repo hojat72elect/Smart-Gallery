@@ -15,7 +15,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.V
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerFragment
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MEDIUM
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOULD_INIT_FRAGMENT
-import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 
 @SuppressLint("NewApi")
 @UnstableApi

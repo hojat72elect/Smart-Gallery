@@ -7,7 +7,7 @@ import com.simplemobiletools.gallery.pro.databinding.DialogChangeFileThumbnailSt
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.config
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
-import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class ChangeFileThumbnailStyleDialog(val activity: BaseActivity) :

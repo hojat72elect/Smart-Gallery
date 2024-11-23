@@ -1,6 +1,6 @@
 package com.simplemobiletools.gallery.pro.new_architecture.shared.helpers
 
-import com.simplemobiletools.gallery.pro.models.BlockedNumber
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.BlockedNumber
 import java.io.OutputStream
 
 object BlockedNumbersExporter {

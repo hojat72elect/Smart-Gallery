@@ -21,7 +21,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.view
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.NavigationIcon
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
-import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 

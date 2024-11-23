@@ -30,7 +30,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.Secu
 import com.simplemobiletools.gallery.pro.interfaces.ItemMoveCallback
 import com.simplemobiletools.gallery.pro.interfaces.ItemTouchHelperContract
 import com.simplemobiletools.gallery.pro.interfaces.StartReorderDragListener
-import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.MediaActivity
 import com.simplemobiletools.gallery.pro.databinding.DirectoryItemGridRoundedCornersBinding
@@ -98,8 +98,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
-import com.simplemobiletools.gallery.pro.models.AlbumCover
-import com.simplemobiletools.gallery.pro.models.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.AlbumCover
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 import java.io.File

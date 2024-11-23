@@ -39,9 +39,9 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.quer
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.shouldFolderBeVisible
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.showErrorToast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toInt
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
-import com.simplemobiletools.gallery.pro.models.ThumbnailSection
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailSection
 import java.io.File
 import java.util.Calendar
 import java.util.Locale

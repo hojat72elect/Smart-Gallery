@@ -81,10 +81,10 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
-import com.simplemobiletools.gallery.pro.models.ThumbnailSection
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailSection
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView
 

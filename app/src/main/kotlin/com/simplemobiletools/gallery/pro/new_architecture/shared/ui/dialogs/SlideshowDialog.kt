@@ -12,7 +12,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESH
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_ANIMATION_NONE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_ANIMATION_SLIDE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SLIDESHOW_DEFAULT_INTERVAL
-import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 
 class SlideshowDialog(val activity: BaseActivity, val callback: () -> Unit) {

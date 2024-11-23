@@ -156,8 +156,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isQPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.models.AlbumCover
-import com.simplemobiletools.gallery.pro.models.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.AlbumCover
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import java.io.InputStream

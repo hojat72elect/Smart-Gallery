@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.simplemobiletools.gallery.pro.models.DateTaken
-import com.simplemobiletools.gallery.pro.models.Directory
-import com.simplemobiletools.gallery.pro.models.Favorite
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.Widget
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.DateTaken
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Favorite
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Widget
 
 @Database(
     entities = [Directory::class, Medium::class, Widget::class, DateTaken::class, Favorite::class],

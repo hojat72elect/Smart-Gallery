@@ -14,7 +14,7 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.lists.SimpleLazyListScaffold
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.settings.SettingsHorizontalDivider
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.SimpleTheme
-import com.simplemobiletools.gallery.pro.models.License
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.License
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

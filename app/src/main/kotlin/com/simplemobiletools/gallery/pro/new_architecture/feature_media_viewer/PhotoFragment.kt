@@ -77,7 +77,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOULD_
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.WEIRD_TILE_DPI
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.models.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.svg.SvgSoftwareLayerSetter
 import com.squareup.picasso.Callback

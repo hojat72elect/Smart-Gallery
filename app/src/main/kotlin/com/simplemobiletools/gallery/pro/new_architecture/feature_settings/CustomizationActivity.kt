@@ -38,9 +38,9 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.Navigat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SAVE_DISCARD_PROMPT_INTERVAL
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isSPlus
-import com.simplemobiletools.gallery.pro.models.MyTheme
-import com.simplemobiletools.gallery.pro.models.RadioItem
-import com.simplemobiletools.gallery.pro.models.SharedTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.MyTheme
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.SharedTheme
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import kotlin.math.abs
 

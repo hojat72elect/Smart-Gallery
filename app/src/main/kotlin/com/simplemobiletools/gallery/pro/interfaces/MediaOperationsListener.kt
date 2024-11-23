@@ -1,7 +1,7 @@
 package com.simplemobiletools.gallery.pro.interfaces
 
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 
 interface MediaOperationsListener {
     fun refreshItems()

@@ -16,8 +16,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.GROUP_B
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MediaFetcher
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RECYCLE_BIN
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 
 @SuppressLint("StaticFieldLeak")
 class GetMediaAsyncTask(

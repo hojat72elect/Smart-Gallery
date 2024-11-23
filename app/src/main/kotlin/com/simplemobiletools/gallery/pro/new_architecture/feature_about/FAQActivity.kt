@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.extensions.enableEdgeToEdgeSimple
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.theme.AppThemeSurface
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.APP_FAQ
-import com.simplemobiletools.gallery.pro.models.FAQItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FAQItem
 import kotlinx.collections.immutable.toImmutableList
 
 class FAQActivity : ComponentActivity() {

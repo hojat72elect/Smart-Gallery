@@ -6,7 +6,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.NOMEDIA
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.photoExtensions
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.rawExtensions
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.videoExtensions
-import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import java.io.File
 
 

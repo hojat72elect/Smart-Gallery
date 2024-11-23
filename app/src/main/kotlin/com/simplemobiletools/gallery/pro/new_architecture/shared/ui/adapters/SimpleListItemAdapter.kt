@@ -6,7 +6,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVi
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setImageResourceOrBeGone
-import com.simplemobiletools.gallery.pro.models.SimpleListItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.SimpleListItem
 
 fun setupSimpleListItem(
     view: ItemSimpleListBinding,

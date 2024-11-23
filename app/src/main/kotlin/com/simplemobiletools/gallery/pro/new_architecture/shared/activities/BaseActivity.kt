@@ -65,10 +65,10 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.Resi
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.WhatsNewDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.WritePermissionDialog
 import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
-import com.simplemobiletools.gallery.pro.models.Android30RenameFormat
-import com.simplemobiletools.gallery.pro.models.FAQItem
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.Release
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Android30RenameFormat
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FAQItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Release
 import com.simplemobiletools.gallery.pro.new_architecture.feature_about.AboutActivity
 import com.simplemobiletools.gallery.pro.new_architecture.feature_settings.SettingsActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addBit

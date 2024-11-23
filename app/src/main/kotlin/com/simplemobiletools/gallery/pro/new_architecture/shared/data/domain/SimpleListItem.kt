@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.models
+package com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable

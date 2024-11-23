@@ -48,7 +48,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.models.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MyPagerAdapter
@@ -166,8 +166,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_RA
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_SVGS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.TYPE_VIDEOS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File
 import kotlin.math.min

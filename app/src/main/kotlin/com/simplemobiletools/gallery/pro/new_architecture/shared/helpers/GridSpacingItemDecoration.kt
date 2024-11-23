@@ -3,8 +3,8 @@ package com.simplemobiletools.gallery.pro.new_architecture.shared.helpers
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.ThumbnailItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 
 class GridSpacingItemDecoration(
     val spanCount: Int,

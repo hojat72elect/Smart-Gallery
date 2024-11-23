@@ -149,11 +149,11 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.jobs.NewPhotoFetcher
-import com.simplemobiletools.gallery.pro.models.Directory
-import com.simplemobiletools.gallery.pro.models.FileDirItem
-import com.simplemobiletools.gallery.pro.models.Medium
-import com.simplemobiletools.gallery.pro.models.RadioItem
-import com.simplemobiletools.gallery.pro.models.Release
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Release
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.views.MyRecyclerView

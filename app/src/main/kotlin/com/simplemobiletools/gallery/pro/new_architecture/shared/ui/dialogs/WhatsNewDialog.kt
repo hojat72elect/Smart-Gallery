@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogWhatsNewBinding
-import com.simplemobiletools.gallery.pro.models.Release
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Release
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getAlertDialogBuilder
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 
