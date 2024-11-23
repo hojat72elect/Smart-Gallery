@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views
+package com.simplemobiletools.gallery.pro.new_architecture.feature_lock
 
 import android.content.Context
 import android.util.AttributeSet
@@ -14,8 +14,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MINIMUM_PIN_LENGTH
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PIN
-import com.simplemobiletools.gallery.pro.interfaces.BaseSecurityTab
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.util.Locale

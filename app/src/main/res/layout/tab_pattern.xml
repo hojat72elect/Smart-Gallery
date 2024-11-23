@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.PatternTab xmlns:android="http://schemas.android.com/apk/res/android"
+<com.simplemobiletools.gallery.pro.new_architecture.feature_lock.PatternTab xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pattern_lock_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -35,4 +35,4 @@
         android:layout_below="@+id/pattern_lock_title"
         android:layout_centerInParent="true" />
 
-</com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.PatternTab>
+</com.simplemobiletools.gallery.pro.new_architecture.feature_lock.PatternTab>
