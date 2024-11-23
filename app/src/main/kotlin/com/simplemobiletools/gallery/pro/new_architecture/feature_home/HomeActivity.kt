@@ -33,7 +33,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.File
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.FilterMediaDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.GrantAllFilesDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RadioGroupDialog
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.new_architecture.feature_lock.SecurityDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.UpgradeToProDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.addTempFolderIfNeeded
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.areSystemAnimationsEnabled

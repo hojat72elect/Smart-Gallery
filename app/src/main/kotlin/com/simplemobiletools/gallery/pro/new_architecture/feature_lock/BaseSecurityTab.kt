@@ -10,7 +10,6 @@ import androidx.annotation.ColorInt
 import androidx.core.os.postDelayed
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
-import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.countdown
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor

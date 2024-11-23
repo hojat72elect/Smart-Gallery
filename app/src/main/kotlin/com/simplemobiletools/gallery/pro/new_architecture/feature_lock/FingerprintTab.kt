@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views
+package com.simplemobiletools.gallery.pro.new_architecture.feature_lock
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_FINGERPRINT
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
-import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 
 class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
     SecurityTab {

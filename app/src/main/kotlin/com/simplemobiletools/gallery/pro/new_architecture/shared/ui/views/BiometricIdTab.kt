@@ -12,7 +12,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.show
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.DARK_GREY
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
-import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
+import com.simplemobiletools.gallery.pro.new_architecture.feature_lock.SecurityTab
 
 class BiometricIdTab(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs),
     SecurityTab {

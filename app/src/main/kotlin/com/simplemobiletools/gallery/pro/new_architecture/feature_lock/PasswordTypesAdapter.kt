@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters
+package com.simplemobiletools.gallery.pro.new_architecture.feature_lock
 
 import android.content.Context
 import android.util.SparseArray
@@ -13,7 +13,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PIN
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
-import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 
 class PasswordTypesAdapter(

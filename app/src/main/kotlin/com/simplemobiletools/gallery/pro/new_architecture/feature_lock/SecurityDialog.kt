@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs
+package com.simplemobiletools.gallery.pro.new_architecture.feature_lock
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.biometric.auth.AuthPromptHost
 import androidx.fragment.app.FragmentActivity
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.PasswordTypesAdapter
 import com.simplemobiletools.gallery.pro.databinding.DialogSecurityBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone

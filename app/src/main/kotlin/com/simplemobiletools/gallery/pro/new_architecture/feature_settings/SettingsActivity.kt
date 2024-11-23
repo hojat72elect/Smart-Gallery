@@ -22,7 +22,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.Gran
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ManageBottomActionsDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ManageExtendedDetailsDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RadioGroupDialog
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.SecurityDialog
+import com.simplemobiletools.gallery.pro.new_architecture.feature_lock.SecurityDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
