@@ -331,7 +331,7 @@
         </receiver>
 
         <service
-            android:name=".jobs.NewPhotoFetcher"
+            android:name=".new_architecture.feature_home.NewPhotoFetcher"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

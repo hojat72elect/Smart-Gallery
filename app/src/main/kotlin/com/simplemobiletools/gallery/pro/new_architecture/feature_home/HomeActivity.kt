@@ -148,7 +148,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNouga
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isTiramisuPlus
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
-import com.simplemobiletools.gallery.pro.jobs.NewPhotoFetcher
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium

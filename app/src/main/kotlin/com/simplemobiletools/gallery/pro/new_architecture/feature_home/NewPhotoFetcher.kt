@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.jobs
+package com.simplemobiletools.gallery.pro.new_architecture.feature_home
 
 import android.annotation.TargetApi
 import android.app.job.JobInfo
@@ -21,7 +21,12 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getStringValue
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateDirectoryPath
 
-// based on https://developer.android.com/reference/android/app/job/JobInfo.Builder.html#addTriggerContentUri(android.app.job.JobInfo.TriggerContentUri)
+
+/**
+ * This class schedules a job that monitors the device's media store for new photos and videos.
+ *
+ * based on https://developer.android.com/reference/android/app/job/JobInfo.Builder.html#addTriggerContentUri(android.app.job.JobInfo.TriggerContentUri)
+ */
 @TargetApi(Build.VERSION_CODES.N)
 class NewPhotoFetcher : JobService() {
     companion object {
