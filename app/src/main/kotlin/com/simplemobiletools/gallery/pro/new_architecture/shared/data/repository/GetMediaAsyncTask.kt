@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.asynctasks
+package com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,6 +19,10 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_AL
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 
+/**
+ * This class fetches media files from the device storage in the background and then returns the results to the UI thread.
+ * TODO: Should be migrated to a UseCase with Coroutines.
+ */
 @SuppressLint("StaticFieldLeak")
 class GetMediaAsyncTask(
     val context: Context,

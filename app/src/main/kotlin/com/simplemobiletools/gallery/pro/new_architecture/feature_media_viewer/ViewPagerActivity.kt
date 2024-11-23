@@ -52,7 +52,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Fil
 import com.simplemobiletools.gallery.pro.BuildConfig
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MyPagerAdapter
-import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.ActivityMediumBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.DeleteWithRememberDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.SaveAsDialog

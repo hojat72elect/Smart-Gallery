@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MediaAdapter
-import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.databinding.ActivitySearchBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGone
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisible

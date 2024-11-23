@@ -21,7 +21,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MediaAdapter
-import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.GalleryDatabase
 import com.simplemobiletools.gallery.pro.databinding.ActivityMediaBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ChangeGroupingDialog

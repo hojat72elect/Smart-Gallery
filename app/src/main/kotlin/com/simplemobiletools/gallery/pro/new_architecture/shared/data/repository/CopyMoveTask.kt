@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.asynctasks
+package com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -50,6 +50,10 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.lang.ref.WeakReference
 
+/**
+ * This AsyncTask is used for moving mediums from one directory to another one.
+ * TODO: Should be migrated to a UseCase with Coroutines.
+ */
 @SuppressLint("StaticFieldLeak")
 @RequiresApi(Build.VERSION_CODES.O)
 class CopyMoveTask(

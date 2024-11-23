@@ -80,7 +80,7 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import com.github.ajalt.reprint.core.Reprint
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.GalleryDatabase
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.DateTakensDao
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.DirectoryDao
