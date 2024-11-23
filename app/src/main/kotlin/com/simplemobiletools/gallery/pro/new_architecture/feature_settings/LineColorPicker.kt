@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views
+package com.simplemobiletools.gallery.pro.new_architecture.feature_settings
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isRTLLayout
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.interfaces.LineColorPickerListener
 import kotlin.math.max
 import kotlin.math.min
 

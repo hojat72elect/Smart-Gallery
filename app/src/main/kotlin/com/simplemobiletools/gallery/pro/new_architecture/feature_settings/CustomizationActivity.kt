@@ -13,7 +13,6 @@ import com.simplemobiletools.gallery.pro.databinding.ActivityCustomizationBindin
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ColorPickerDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ConfirmationDialog
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.LineColorPickerDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RadioGroupDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig

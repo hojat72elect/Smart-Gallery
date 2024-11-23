@@ -1,6 +1,4 @@
-package com.simplemobiletools.gallery.pro.interfaces
-
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MyRecyclerViewAdapter
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters
 
 interface ItemTouchHelperContract {
     fun onRowMoved(fromPosition: Int, toPosition: Int)

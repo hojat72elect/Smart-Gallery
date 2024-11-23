@@ -1,8 +1,7 @@
-package com.simplemobiletools.gallery.pro.interfaces
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MyRecyclerViewAdapter
 
 open class ItemMoveCallback(
     private val mAdapter: ItemTouchHelperContract,

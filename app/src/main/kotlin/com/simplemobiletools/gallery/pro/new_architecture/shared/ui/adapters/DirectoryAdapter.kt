@@ -27,8 +27,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.Prop
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RenameItemDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.RenameItemsDialog
 import com.simplemobiletools.gallery.pro.new_architecture.feature_lock.SecurityDialog
-import com.simplemobiletools.gallery.pro.interfaces.ItemMoveCallback
-import com.simplemobiletools.gallery.pro.interfaces.ItemTouchHelperContract
 import com.simplemobiletools.gallery.pro.interfaces.StartReorderDragListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.R

@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs
+package com.simplemobiletools.gallery.pro.new_architecture.feature_settings
 
 import android.os.Build
 import android.view.WindowManager
@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.appbar.MaterialToolbar
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.DialogLineColorPickerBinding
-import com.simplemobiletools.gallery.pro.interfaces.LineColorPickerListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beGoneIf
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.beVisibleIf
