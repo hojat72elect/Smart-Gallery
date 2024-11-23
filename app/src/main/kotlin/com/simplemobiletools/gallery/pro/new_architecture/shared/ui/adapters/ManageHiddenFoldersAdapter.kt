@@ -10,7 +10,6 @@ import com.simplemobiletools.gallery.pro.databinding.ItemManageFolderBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isPathOnSD
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupViewBackground
-import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 

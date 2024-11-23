@@ -27,7 +27,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.upda
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.value
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
-import com.simplemobiletools.gallery.pro.interfaces.RenameTab
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.RenameTab
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity

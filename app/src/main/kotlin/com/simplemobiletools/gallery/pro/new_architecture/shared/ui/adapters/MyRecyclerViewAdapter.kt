@@ -21,7 +21,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperTextColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.onGlobalLayout
-import com.simplemobiletools.gallery.pro.interfaces.MyActionModeCallback
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 import kotlin.math.max

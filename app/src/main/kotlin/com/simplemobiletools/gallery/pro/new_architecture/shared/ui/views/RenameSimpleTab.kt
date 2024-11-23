@@ -23,7 +23,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toFi
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateInMediaStore
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
-import com.simplemobiletools.gallery.pro.interfaces.RenameTab
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.RenameTab
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity

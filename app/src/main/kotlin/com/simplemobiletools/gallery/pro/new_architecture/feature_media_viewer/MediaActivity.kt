@@ -97,7 +97,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TY
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getPermissionToRequest
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MediaOperationsListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem

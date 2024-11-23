@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.interfaces
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters
 
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 

@@ -80,7 +80,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
-import com.simplemobiletools.gallery.pro.interfaces.MediaOperationsListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem

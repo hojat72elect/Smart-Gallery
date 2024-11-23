@@ -8,7 +8,7 @@ import android.view.ScaleGestureDetector
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.simplemobiletools.gallery.pro.R
-import com.simplemobiletools.gallery.pro.interfaces.RecyclerScrollCallback
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.RecyclerScrollCallback
 
 // drag selection is based on https://github.com/afollestad/drag-select-recyclerview
 open class MyRecyclerView : RecyclerView {
