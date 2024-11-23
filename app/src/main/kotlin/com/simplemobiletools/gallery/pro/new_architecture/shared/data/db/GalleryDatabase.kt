@@ -8,9 +8,6 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.simplemobiletools.gallery.pro.interfaces.DateTakensDao
 import com.simplemobiletools.gallery.pro.interfaces.DirectoryDao
-import com.simplemobiletools.gallery.pro.interfaces.FavoritesDao
-import com.simplemobiletools.gallery.pro.interfaces.MediumDao
-import com.simplemobiletools.gallery.pro.interfaces.WidgetsDao
 import com.simplemobiletools.gallery.pro.models.DateTaken
 import com.simplemobiletools.gallery.pro.models.Directory
 import com.simplemobiletools.gallery.pro.models.Favorite
