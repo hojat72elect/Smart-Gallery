@@ -18,7 +18,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toast
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_FINGERPRINT
-import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 
 class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),

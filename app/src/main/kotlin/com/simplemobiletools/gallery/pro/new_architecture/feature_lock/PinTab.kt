@@ -14,7 +14,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MINIMUM_PIN_LENGTH
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PIN
-import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 import java.math.BigInteger
 import java.security.MessageDigest

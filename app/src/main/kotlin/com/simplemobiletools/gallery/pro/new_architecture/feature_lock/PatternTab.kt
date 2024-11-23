@@ -19,7 +19,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.performHapticFeedback
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.updateTextColors
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PATTERN
-import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 
 class PatternTab(context: Context, attrs: AttributeSet) : BaseSecurityTab(context, attrs) {

@@ -42,7 +42,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.CONFLIC
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.CONFLICT_SKIP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getConflictResolution
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoPlus
-import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
 import java.io.File

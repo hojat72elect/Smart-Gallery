@@ -97,7 +97,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TY
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOreoPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.AlbumCover
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity

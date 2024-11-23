@@ -64,7 +64,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.Resi
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.ResizeWithPathDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.WhatsNewDialog
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.dialogs.WritePermissionDialog
-import com.simplemobiletools.gallery.pro.interfaces.CopyMoveListener
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository.CopyMoveListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Android30RenameFormat
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FAQItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem

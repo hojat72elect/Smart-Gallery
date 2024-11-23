@@ -24,7 +24,6 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECTION_PIN
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOW_ALL_TABS
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
-import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyDialogViewPager
 
 class SecurityDialog(
