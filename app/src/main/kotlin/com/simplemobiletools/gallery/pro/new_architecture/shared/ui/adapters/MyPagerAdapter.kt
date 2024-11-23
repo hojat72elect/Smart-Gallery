@@ -12,7 +12,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerActivity
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.PhotoFragment
 import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.VideoFragment
-import com.simplemobiletools.gallery.pro.fragments.ViewPagerFragment
+import com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer.ViewPagerFragment
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MEDIUM
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.SHOULD_INIT_FRAGMENT
 import com.simplemobiletools.gallery.pro.models.Medium

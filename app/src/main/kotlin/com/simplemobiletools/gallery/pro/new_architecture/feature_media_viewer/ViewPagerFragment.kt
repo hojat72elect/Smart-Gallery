@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.fragments
+package com.simplemobiletools.gallery.pro.new_architecture.feature_media_viewer
 
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
