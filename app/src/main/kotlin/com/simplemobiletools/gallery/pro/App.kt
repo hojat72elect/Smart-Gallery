@@ -2,8 +2,8 @@ package com.simplemobiletools.gallery.pro
 
 import android.app.Application
 import com.github.ajalt.reprint.core.Reprint
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.baseConfig
-import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
+import com.simplemobiletools.gallery.pro.shared.extensions.baseConfig
+import com.simplemobiletools.gallery.pro.shared.helpers.isNougatPlus
 import com.squareup.picasso.Downloader
 import com.squareup.picasso.Picasso
 import java.util.Locale

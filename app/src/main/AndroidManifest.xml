@@ -54,7 +54,7 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".new_architecture.shared.activities.SplashActivity"
+            android:name="com.simplemobiletools.gallery.pro.shared.activities.SplashActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher"
@@ -66,7 +66,7 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_home.HomeActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_home.HomeActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:resizeableActivity="true"
@@ -97,28 +97,28 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.MediaActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.MediaActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:parentActivityName=".new_architecture.feature_home.HomeActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_home.HomeActivity"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_search.SearchActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_search.SearchActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/search"
-            android:parentActivityName=".new_architecture.feature_home.HomeActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_home.HomeActivity"
             android:resizeableActivity="true"
             tools:ignore="NewApi"
             tools:targetApi="n" />
 
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.ViewPagerActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.ViewPagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:parentActivityName=".new_architecture.feature_media_viewer.MediaActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_media_viewer.MediaActivity"
             android:theme="@style/TranslucentTheme">
 
             <intent-filter>
@@ -133,40 +133,40 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_about.AboutActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_about.AboutActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/about"
-            android:parentActivityName=".new_architecture.feature_home.HomeActivity" />
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_home.HomeActivity" />
 
         <activity
-            android:name=".new_architecture.feature_about.LicenseActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_about.LicenseActivity"
             android:configChanges="orientation"
             android:label="@string/third_party_licences" />
 
         <activity
-            android:name=".new_architecture.feature_about.FAQActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_about.FAQActivity"
             android:configChanges="orientation" />
 
         <activity
-            android:name=".new_architecture.feature_about.ContributorsActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_about.ContributorsActivity"
             android:configChanges="orientation" />
 
 
         <activity
-            android:name=".new_architecture.feature_settings.CustomizationActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_settings.CustomizationActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/customize_colors"
-            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_settings.SettingsActivity"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_settings.SettingsActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_settings.SettingsActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/settings"
-            android:parentActivityName=".new_architecture.feature_home.HomeActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_home.HomeActivity"
             tools:ignore="NewApi">
 
             <intent-filter>
@@ -176,59 +176,59 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.PhotoVideoActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.PhotoVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:theme="@style/TranslucentTheme"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.VideoPlayerActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:parentActivityName=".new_architecture.feature_media_viewer.MediaActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_media_viewer.MediaActivity"
             android:theme="@style/TranslucentTheme"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.PanoramaPhotoActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.PanoramaPhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.PanoramaVideoActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.PanoramaVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:theme="@style/FullScreenTheme"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_settings.IncludedFoldersActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_settings.IncludedFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/include_folders"
-            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_settings.SettingsActivity"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_settings.ExcludedFoldersActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_settings.ExcludedFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/excluded_folders"
-            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_settings.SettingsActivity"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_settings.HiddenFoldersActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_settings.HiddenFoldersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/hidden_folders"
-            android:parentActivityName=".new_architecture.feature_settings.SettingsActivity"
+            android:parentActivityName="com.simplemobiletools.gallery.pro.feature_settings.SettingsActivity"
             tools:ignore="NewApi" />
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.PhotoActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.PhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter tools:ignore="AppLinkUrlError">
@@ -242,7 +242,7 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_media_viewer.VideoActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_media_viewer.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             tools:ignore="NewApi">
@@ -257,7 +257,7 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_wallpaper.SetWallpaperActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_wallpaper.SetWallpaperActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/simple_wallpaper"
@@ -278,7 +278,7 @@
         </activity>
 
         <activity
-            android:name=".new_architecture.feature_widget.WidgetConfigureActivity"
+            android:name="com.simplemobiletools.gallery.pro.feature_widget.WidgetConfigureActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/MyWidgetConfigTheme"
@@ -299,7 +299,7 @@
         </provider>
 
         <receiver
-            android:name="com.simplemobiletools.gallery.pro.new_architecture.shared.broadcast_receivers.RefreshMediaReceiver"
+            android:name="com.simplemobiletools.gallery.pro.shared.broadcast_receivers.RefreshMediaReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.simplemobiletools.REFRESH_MEDIA" />
@@ -307,7 +307,7 @@
         </receiver>
 
         <receiver
-            android:name="com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.MyWidgetProvider"
+            android:name="com.simplemobiletools.gallery.pro.shared.helpers.MyWidgetProvider"
             android:exported="true"
             android:icon="@drawable/img_widget_preview"
             android:label="@string/folder">
@@ -321,7 +321,7 @@
         </receiver>
 
         <receiver
-            android:name="com.simplemobiletools.gallery.pro.new_architecture.shared.broadcast_receivers.BootCompletedReceiver"
+            android:name="com.simplemobiletools.gallery.pro.shared.broadcast_receivers.BootCompletedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -331,7 +331,7 @@
         </receiver>
 
         <service
-            android:name=".new_architecture.feature_home.NewPhotoFetcher"
+            android:name="com.simplemobiletools.gallery.pro.feature_home.NewPhotoFetcher"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

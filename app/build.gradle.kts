@@ -57,16 +57,6 @@ android {
             // we cannot change the original package name, else PhotoEditorSDK won't work
             //applicationIdSuffix = ".debug"
         }
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("release")
-            }
-        }
     }
 
     sourceSets {

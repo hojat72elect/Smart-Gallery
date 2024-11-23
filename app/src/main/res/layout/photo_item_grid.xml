@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MySquareImageView
+    <com.simplemobiletools.gallery.pro.shared.ui.views.MySquareImageView
         android:id="@+id/medium_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

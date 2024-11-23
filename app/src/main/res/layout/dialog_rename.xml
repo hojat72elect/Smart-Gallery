@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.simplemobiletools.gallery.pro.shared.ui.views.MyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialog_scrollview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -26,11 +26,11 @@
 
         </com.google.android.material.tabs.TabLayout>
 
-        <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyViewPager
+        <com.simplemobiletools.gallery.pro.shared.ui.views.MyViewPager
             android:id="@+id/dialog_tab_view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_tab_layout" />
 
     </RelativeLayout>
-</com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView>
+</com.simplemobiletools.gallery.pro.shared.ui.views.MyScrollView>

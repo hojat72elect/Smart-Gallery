@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:configure="com.simplemobiletools.gallery.pro.new_architecture.feature_widget.WidgetConfigureActivity"
+    android:configure="com.simplemobiletools.gallery.pro.feature_widget.WidgetConfigureActivity"
     android:initialLayout="@layout/widget"
     android:minWidth="@dimen/widget_initial_size"
     android:minHeight="40dp"

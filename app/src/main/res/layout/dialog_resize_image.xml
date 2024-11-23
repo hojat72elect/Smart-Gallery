@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/activity_margin"
     android:paddingRight="@dimen/activity_margin">
 
-    <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextInputLayout
+    <com.simplemobiletools.gallery.pro.shared.ui.views.MyTextInputLayout
         android:id="@+id/resize_image_width_hint"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -25,9 +25,9 @@
             android:textCursorDrawable="@null"
             android:textSize="@dimen/bigger_text_size" />
 
-    </com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextInputLayout>
+    </com.simplemobiletools.gallery.pro.shared.ui.views.MyTextInputLayout>
 
-    <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextView
+    <com.simplemobiletools.gallery.pro.shared.ui.views.MyTextView
         android:id="@+id/resize_image_colon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:text=":"
         android:textStyle="bold" />
 
-    <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextInputLayout
+    <com.simplemobiletools.gallery.pro.shared.ui.views.MyTextInputLayout
         android:id="@+id/resize_image_height_hint"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -59,9 +59,9 @@
             android:textCursorDrawable="@null"
             android:textSize="@dimen/bigger_text_size" />
 
-    </com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextInputLayout>
+    </com.simplemobiletools.gallery.pro.shared.ui.views.MyTextInputLayout>
 
-    <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyAppCompatCheckbox
+    <com.simplemobiletools.gallery.pro.shared.ui.views.MyAppCompatCheckbox
         android:id="@+id/keep_aspect_ratio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
