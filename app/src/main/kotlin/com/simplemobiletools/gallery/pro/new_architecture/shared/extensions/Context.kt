@@ -82,8 +82,8 @@ import com.github.ajalt.reprint.core.Reprint
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.asynctasks.GetMediaAsyncTask
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.GalleryDatabase
-import com.simplemobiletools.gallery.pro.interfaces.DateTakensDao
-import com.simplemobiletools.gallery.pro.interfaces.DirectoryDao
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.DateTakensDao
+import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.DirectoryDao
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.FavoritesDao
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.MediumDao
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.db.WidgetsDao

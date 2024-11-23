@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.interfaces
+package com.simplemobiletools.gallery.pro.new_architecture.shared.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
