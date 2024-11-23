@@ -40,7 +40,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Fil
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Medium
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyGridLayoutManager
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.O)

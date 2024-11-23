@@ -17,7 +17,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setu
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RENAME_PATTERN
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.RENAME_SIMPLE
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyViewPager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyViewPager
 
 class RenameDialog(
     val activity: BaseActivity,

@@ -1,4 +1,4 @@
-package com.simplemobiletools.gallery.pro.views
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views
 
 import android.content.Context
 import android.content.res.ColorStateList

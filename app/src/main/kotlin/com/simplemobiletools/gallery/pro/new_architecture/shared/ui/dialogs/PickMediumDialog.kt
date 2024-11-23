@@ -9,7 +9,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getA
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getProperPrimaryColor
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupDialogStuff
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_GRID
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyGridLayoutManager
 import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.adapters.MediaAdapter
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.repository.GetMediaAsyncTask

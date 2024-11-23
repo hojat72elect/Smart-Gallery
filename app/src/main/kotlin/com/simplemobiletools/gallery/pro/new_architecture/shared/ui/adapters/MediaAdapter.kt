@@ -86,7 +86,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Med
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailSection
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi

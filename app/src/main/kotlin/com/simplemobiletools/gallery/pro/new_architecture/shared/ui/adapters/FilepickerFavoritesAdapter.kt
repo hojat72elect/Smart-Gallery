@@ -9,7 +9,7 @@ import com.simplemobiletools.gallery.pro.R
 import com.simplemobiletools.gallery.pro.databinding.FilepickerFavoriteBinding
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getTextSize
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class FilepickerFavoritesAdapter(

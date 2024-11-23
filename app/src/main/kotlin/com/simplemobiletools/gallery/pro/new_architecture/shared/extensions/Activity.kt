@@ -63,7 +63,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureB
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isNougatPlus
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isOnMainThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.DateTaken
-import com.simplemobiletools.gallery.pro.views.MyTextView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextView
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat

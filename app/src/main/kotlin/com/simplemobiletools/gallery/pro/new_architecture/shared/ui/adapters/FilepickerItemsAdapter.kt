@@ -30,7 +30,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.isRe
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.getFilePlaceholderDrawables
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)

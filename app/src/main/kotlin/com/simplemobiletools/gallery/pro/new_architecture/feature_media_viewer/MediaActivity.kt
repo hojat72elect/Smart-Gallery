@@ -105,8 +105,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Thu
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.ThumbnailSection
 import com.simplemobiletools.gallery.pro.new_architecture.feature_home.HomeActivity
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 import java.io.File
 import java.io.IOException
 

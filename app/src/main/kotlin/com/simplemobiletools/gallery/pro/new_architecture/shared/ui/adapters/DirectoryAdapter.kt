@@ -101,7 +101,7 @@ import com.simplemobiletools.gallery.pro.interfaces.DirectoryOperationsListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.AlbumCover
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 import java.io.File
 import java.util.Collections
 

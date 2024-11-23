@@ -47,7 +47,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByIn
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.sumByLong
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyTextView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyTextView
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)

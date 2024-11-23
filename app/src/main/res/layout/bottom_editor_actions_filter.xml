@@ -7,13 +7,13 @@
     android:layout_height="@dimen/bottom_filters_height"
     android:paddingTop="@dimen/medium_margin">
 
-    <com.simplemobiletools.gallery.pro.views.MyRecyclerView
+    <com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
         android:id="@+id/bottom_actions_filter_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_filters_height"
         android:background="@color/crop_image_view_background"
         android:orientation="horizontal"
         android:overScrollMode="never"
-        app:layoutManager="com.simplemobiletools.gallery.pro.views.MyLinearLayoutManager"/>
+        app:layoutManager=".new_architecture.shared.ui.views.MyLinearLayoutManager"/>
 
 </RelativeLayout>

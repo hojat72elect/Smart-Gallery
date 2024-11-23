@@ -35,8 +35,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.VIEW_TYPE_GRID
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Directory
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
-import com.simplemobiletools.gallery.pro.views.MySearchMenu
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MySearchMenu
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi

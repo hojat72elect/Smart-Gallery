@@ -51,7 +51,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.toas
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.ensureBackgroundThread
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.FileDirItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.Breadcrumbs
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.Breadcrumbs
 import java.io.File
 
 /**

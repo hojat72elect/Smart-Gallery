@@ -14,7 +14,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.PROTECT
 import com.simplemobiletools.gallery.pro.new_architecture.shared.helpers.isRPlus
 import com.simplemobiletools.gallery.pro.interfaces.HashListener
 import com.simplemobiletools.gallery.pro.interfaces.SecurityTab
-import com.simplemobiletools.gallery.pro.views.MyScrollView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 
 class PasswordTypesAdapter(
     private val context: Context,

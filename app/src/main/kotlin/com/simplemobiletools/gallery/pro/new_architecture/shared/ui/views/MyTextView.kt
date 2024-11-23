@@ -1,13 +1,12 @@
-package com.simplemobiletools.gallery.pro.views
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.SeekBar
-import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.applyColorFilter
+import android.widget.TextView
 
 @SuppressLint("AppCompatCustomView")
-class MySeekBar : SeekBar {
+class MyTextView : TextView {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -18,8 +17,8 @@ class MySeekBar : SeekBar {
         defStyle
     )
 
-    fun setColors(accentColor: Int) {
-        progressDrawable.applyColorFilter(accentColor)
-        thumb?.applyColorFilter(accentColor)
+    fun setColors(textColor: Int, accentColor: Int) {
+        setTextColor(textColor)
+        setLinkTextColor(accentColor)
     }
 }

@@ -16,7 +16,7 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.getP
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.setupViewBackground
 import com.simplemobiletools.gallery.pro.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ManageFoldersAdapter(

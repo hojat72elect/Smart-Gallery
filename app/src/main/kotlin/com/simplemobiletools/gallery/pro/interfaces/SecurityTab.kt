@@ -1,7 +1,7 @@
 package com.simplemobiletools.gallery.pro.interfaces
 
 import androidx.biometric.auth.AuthPromptHost
-import com.simplemobiletools.gallery.pro.views.MyScrollView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyScrollView
 
 interface SecurityTab {
     fun initTab(

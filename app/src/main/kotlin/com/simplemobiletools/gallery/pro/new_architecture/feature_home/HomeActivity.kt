@@ -154,8 +154,8 @@ import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Med
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.RadioItem
 import com.simplemobiletools.gallery.pro.new_architecture.shared.data.domain.Release
 import com.simplemobiletools.gallery.pro.new_architecture.shared.activities.BaseActivity
-import com.simplemobiletools.gallery.pro.views.MyGridLayoutManager
-import com.simplemobiletools.gallery.pro.views.MyRecyclerView
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyGridLayoutManager
+import com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views.MyRecyclerView
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException

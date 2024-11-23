@@ -1,13 +1,13 @@
-package com.simplemobiletools.gallery.pro.views
+package com.simplemobiletools.gallery.pro.new_architecture.shared.ui.views
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatRadioButton
+import androidx.appcompat.widget.AppCompatCheckBox
 import com.simplemobiletools.gallery.pro.new_architecture.shared.extensions.adjustAlpha
 
-class MyCompatRadioButton : AppCompatRadioButton {
+class MyAppCompatCheckbox : AppCompatCheckBox {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
