@@ -519,8 +519,7 @@ open class BaseActivity : AppCompatActivity() {
             faqItems.add(
                 0,
                 FAQItem(
-                    R.string.faq_16_title,
-                    "${getString(R.string.faq_16_text)} ${getString(R.string.faq_16_text_extra)}"
+                    R.string.faq_16_title, R.string.faq_16_text
                 )
             )
             faqItems.add(1, FAQItem(R.string.faq_17_title, R.string.faq_17_text))

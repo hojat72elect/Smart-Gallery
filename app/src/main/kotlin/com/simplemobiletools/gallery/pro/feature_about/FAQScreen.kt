@@ -36,10 +36,8 @@ internal fun FAQScreen(
             Column(modifier = Modifier.fillMaxWidth()) {
                 ListItem(
                     headlineContent = {
-                        val text =
-                            if (faqItem.title is Int) stringResource(faqItem.title) else faqItem.title as String
                         Text(
-                            text = text,
+                            text = stringResource(faqItem.title) ,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 6.dp),
@@ -48,20 +46,12 @@ internal fun FAQScreen(
                         )
                     },
                     supportingContent = {
-                        if (faqItem.text is Int) {
-                            val text = stringResource(id = faqItem.text).fromHtml()
-                            LinkifyTextComponent(
-                                text = { text },
-                                modifier = Modifier.fillMaxWidth(),
-                                fontSize = 14.sp
-                            )
-                        } else {
-                            Text(
-                                text = faqItem.text as String,
-                                modifier = Modifier.fillMaxWidth(),
-                                fontSize = 14.sp
-                            )
-                        }
+                        val text = stringResource(id = faqItem.text).fromHtml()
+                        LinkifyTextComponent(
+                            text = { text },
+                            modifier = Modifier.fillMaxWidth(),
+                            fontSize = 14.sp
+                        )
                     },
                 )
                 Spacer(modifier = Modifier.padding(bottom = SimpleTheme.dimens.padding.medium))
