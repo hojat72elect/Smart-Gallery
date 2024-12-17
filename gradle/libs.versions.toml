@@ -62,7 +62,7 @@ app-build-minimumSDK = "23"
 app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
 #versioning
-app-version-appId = "com.simplemobiletools.gallery.pro"
+app-version-appId = "ca.hojat.smart.gallery"
 app-version-versionCode = "396"
 app-version-versionName = "6.28.1"
 subsamplingScaleImageView = "80efdaa570"

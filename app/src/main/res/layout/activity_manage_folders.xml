@@ -19,15 +19,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <com.simplemobiletools.gallery.pro.shared.ui.views.MyRecyclerView
+        <ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
             android:id="@+id/manage_folders_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:scrollbars="none"
-            app:layoutManager=".shared.ui.views.MyLinearLayoutManager" />
+            app:layoutManager="ca.hojat.smart.gallery.shared.ui.views.MyLinearLayoutManager" />
 
-        <com.simplemobiletools.gallery.pro.shared.ui.views.MyTextView
+        <ca.hojat.smart.gallery.shared.ui.views.MyTextView
             android:id="@+id/manage_folders_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

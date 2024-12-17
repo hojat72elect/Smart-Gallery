@@ -9,7 +9,7 @@
     android:focusable="true"
     android:paddingStart="@dimen/activity_margin">
 
-    <com.simplemobiletools.gallery.pro.shared.ui.views.MyTextView
+    <ca.hojat.smart.gallery.shared.ui.views.MyTextView
         android:id="@+id/manage_folder_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
