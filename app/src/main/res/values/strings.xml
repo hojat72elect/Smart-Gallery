@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple Gallery</string>
-    <string name="app_launcher_name">Gallery</string>
+    <string name="app_name">Smart Gallery</string>
+    <string name="app_launcher_name">Smart Gallery</string>
     <string name="edit">Edit</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
