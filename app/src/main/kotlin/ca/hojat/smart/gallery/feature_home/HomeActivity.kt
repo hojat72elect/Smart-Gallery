@@ -664,17 +664,6 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                     mWasDefaultFolderChecked = true
                 }
 
-                if (isPackageInstalled("ca.hojat.smart.gallery")) {
-                    ConfirmationDialog(
-                        this,
-                        "",
-                        R.string.upgraded_from_free_gallery,
-                        R.string.ok,
-                        0,
-                        false
-                    ) {}
-                }
-
                 checkOTGPath()
                 checkDefaultSpamFolders()
 

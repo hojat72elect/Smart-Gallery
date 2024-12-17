@@ -182,17 +182,6 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
 
         if (mShowAll) {
             registerFileUpdateListener()
-
-            if (isPackageInstalled("com.simplemobiletools.gallery")) {
-                ConfirmationDialog(
-                    this,
-                    "",
-                    R.string.upgraded_from_free_gallery,
-                    R.string.ok,
-                    0,
-                    false
-                ) {}
-            }
         }
 
         binding.mediaEmptyTextPlaceholder2.setOnClickListener {
