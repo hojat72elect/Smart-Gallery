@@ -40,7 +40,7 @@ gson = "2.10.1"
 #Room
 room = "2.6.0-beta01"
 #Gradle
-gradlePlugins-agp = "8.5.0"
+gradlePlugins-agp = "8.7.3"
 #Other
 androidGifDrawable = "1.2.25"
 androidImageCropper = "4.5.0"
