@@ -14,7 +14,6 @@ import ca.hojat.smart.gallery.databinding.ActivityManageFoldersBinding
 import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 class IncludedFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)

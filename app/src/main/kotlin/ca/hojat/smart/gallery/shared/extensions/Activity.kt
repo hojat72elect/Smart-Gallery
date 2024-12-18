@@ -1,7 +1,6 @@
 package ca.hojat.smart.gallery.shared.extensions
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
@@ -15,7 +14,6 @@ import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.TransactionTooLargeException
@@ -37,17 +35,12 @@ import androidx.biometric.auth.Class2BiometricAuthPrompt
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.FragmentActivity
 import androidx.media3.common.util.UnstableApi
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
 import ca.hojat.smart.gallery.databinding.DialogTitleBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.AppSideloadedDialog
 import ca.hojat.smart.gallery.feature_lock.SecurityDialog
+import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
+import ca.hojat.smart.gallery.shared.data.domain.DateTaken
 import ca.hojat.smart.gallery.shared.helpers.APP_ICON_IDS
 import ca.hojat.smart.gallery.shared.helpers.APP_LAUNCHER_NAME
 import ca.hojat.smart.gallery.shared.helpers.DARK_GREY
@@ -60,10 +53,14 @@ import ca.hojat.smart.gallery.shared.helpers.REQUEST_SET_AS
 import ca.hojat.smart.gallery.shared.helpers.SIDELOADING_FALSE
 import ca.hojat.smart.gallery.shared.helpers.SIDELOADING_TRUE
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isNougatPlus
 import ca.hojat.smart.gallery.shared.helpers.isOnMainThread
-import ca.hojat.smart.gallery.shared.data.domain.DateTaken
+import ca.hojat.smart.gallery.shared.ui.dialogs.AppSideloadedDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyTextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -362,10 +359,9 @@ fun Activity.getShortcutImage(tmb: String, drawable: Drawable, callback: () -> U
     }
 }
 
-@TargetApi(Build.VERSION_CODES.N)
 fun Activity.showFileOnMap(path: String) {
     val exif = try {
-        if (path.startsWith("content://") && isNougatPlus()) {
+        if (path.startsWith("content://")) {
             ExifInterface(contentResolver.openInputStream(Uri.parse(path))!!)
         } else {
             ExifInterface(path)
@@ -468,17 +464,9 @@ fun Activity.isAppInstalledOnSDCard(): Boolean = try {
     false
 }
 
-fun Activity.launchPurchaseThankYouIntent() {
-    hideKeyboard()
-    try {
-        launchViewIntent("market://details?id=com.simplemobiletools.thankyou")
-    } catch (ignored: Exception) {
-        launchViewIntent(getString(R.string.thank_you_url))
-    }
-}
 
 fun launchMoreAppsFromUsIntent() {
-   // todo will be implemented later
+    // todo will be implemented later
 }
 
 fun Activity.launchViewIntent(id: Int) = launchViewIntent(getString(id))

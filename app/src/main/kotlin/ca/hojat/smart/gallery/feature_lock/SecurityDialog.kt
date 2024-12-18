@@ -14,7 +14,6 @@ import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.isBiometricIdAvailable
-import ca.hojat.smart.gallery.shared.extensions.isFingerPrintSensorAvailable
 import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
 import ca.hojat.smart.gallery.shared.extensions.onPageChangeListener
 import ca.hojat.smart.gallery.shared.extensions.onTabSelectionChanged
@@ -23,7 +22,6 @@ import ca.hojat.smart.gallery.shared.helpers.PROTECTION_FINGERPRINT
 import ca.hojat.smart.gallery.shared.helpers.PROTECTION_PATTERN
 import ca.hojat.smart.gallery.shared.helpers.PROTECTION_PIN
 import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL_TABS
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
 import ca.hojat.smart.gallery.shared.ui.views.MyDialogViewPager
 
 class SecurityDialog(
@@ -48,7 +46,7 @@ class SecurityDialog(
                 scrollView = dialogScrollview,
                 biometricPromptHost = AuthPromptHost(activity as FragmentActivity),
                 showBiometricIdTab = shouldShowBiometricIdTab(),
-                showBiometricAuthentication = showTabIndex == PROTECTION_FINGERPRINT && isRPlus()
+                showBiometricAuthentication = showTabIndex == PROTECTION_FINGERPRINT
             )
             viewPager.adapter = tabsAdapter
             viewPager.onPageChangeListener {
@@ -63,7 +61,7 @@ class SecurityDialog(
                 val textColor = root.context.getProperTextColor()
 
                 if (shouldShowBiometricIdTab()) {
-                    val tabTitle = if (isRPlus()) R.string.biometrics else R.string.fingerprint
+                    val tabTitle = R.string.biometrics
                     dialogTabLayout.addTab(
                         dialogTabLayout.newTab().setText(tabTitle),
                         PROTECTION_FINGERPRINT
@@ -133,10 +131,6 @@ class SecurityDialog(
     }
 
     private fun shouldShowBiometricIdTab(): Boolean {
-        return if (isRPlus()) {
-            activity.isBiometricIdAvailable()
-        } else {
-            isFingerPrintSensorAvailable()
-        }
+        return activity.isBiometricIdAvailable()
     }
 }

@@ -1,8 +1,6 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogCreateNewFolderBinding
@@ -24,10 +22,8 @@ import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.O)
 class CreateNewFolderDialog(
     val activity: BaseActivity,
     val path: String,
@@ -84,7 +80,7 @@ class CreateNewFolderDialog(
                     }
                 }
 
-                activity.needsStupidWritePermissions(path) -> activity.handleSAFDialog(path) {
+                activity.needsStupidWritePermissions(path) -> activity.handleSAFDialog {
                     if (it) {
                         try {
                             val documentFile = activity.getDocumentFile(path.getParentPath())
@@ -102,9 +98,7 @@ class CreateNewFolderDialog(
                 }
 
                 File(path).mkdirs() -> sendSuccess(alertDialog, path)
-                isRPlus() && activity.isAStorageRootFolder(path.getParentPath()) -> activity.handleSAFCreateDocumentDialogSdk30(
-                    path
-                ) {
+                activity.isAStorageRootFolder(path.getParentPath()) -> activity.handleSAFCreateDocumentDialogSdk30(path) {
                     if (it) {
                         sendSuccess(alertDialog, path)
                     }

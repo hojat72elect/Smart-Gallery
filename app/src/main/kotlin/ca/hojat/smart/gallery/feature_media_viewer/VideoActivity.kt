@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import ca.hojat.smart.gallery.feature_media_viewer.PhotoVideoActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class VideoActivity : PhotoVideoActivity() {
 

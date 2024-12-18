@@ -6,36 +6,26 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Icon
-import android.os.Build
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.FolderLockingNoticeDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemsDialog
-import ca.hojat.smart.gallery.feature_lock.SecurityDialog
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
 import ca.hojat.smart.gallery.databinding.DirectoryItemGridRoundedCornersBinding
 import ca.hojat.smart.gallery.databinding.DirectoryItemGridSquareBinding
 import ca.hojat.smart.gallery.databinding.DirectoryItemListBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmDeleteFolderDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ExcludeFolderDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.PickMediumDialog
+import ca.hojat.smart.gallery.feature_lock.SecurityDialog
+import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
+import ca.hojat.smart.gallery.shared.data.domain.Directory
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
@@ -92,16 +82,21 @@ import ca.hojat.smart.gallery.shared.helpers.TYPE_SVGS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_VIDEOS
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_LIST
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isOreoPlus
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
-import ca.hojat.smart.gallery.shared.data.domain.Directory
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmDeleteFolderDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ExcludeFolderDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.FolderLockingNoticeDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.PickMediumDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemsDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import java.io.File
 import java.util.Collections
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class DirectoryAdapter(
     activity: BaseActivity,
@@ -189,7 +184,7 @@ class DirectoryAdapter(
             findItem(R.id.cab_empty_disable_recycle_bin).isVisible =
                 isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
 
-            findItem(R.id.cab_create_shortcut).isVisible = isOreoPlus() && isOneItemSelected
+            findItem(R.id.cab_create_shortcut).isVisible = isOneItemSelected
 
             checkHideBtnVisibility(this, selectedPaths)
             checkPinBtnVisibility(this, selectedPaths)
@@ -258,7 +253,7 @@ class DirectoryAdapter(
 
     private fun checkHideBtnVisibility(menu: Menu, selectedPaths: ArrayList<String>) {
         menu.findItem(R.id.cab_hide).isVisible =
-            (!isRPlus() || isExternalStorageManager()) && selectedPaths.any {
+            (isExternalStorageManager()) && selectedPaths.any {
                 !it.doesThisOrParentHaveNoMedia(
                     HashMap(),
                     null
@@ -266,7 +261,7 @@ class DirectoryAdapter(
             }
 
         menu.findItem(R.id.cab_unhide).isVisible =
-            (!isRPlus() || isExternalStorageManager()) && selectedPaths.any {
+            (isExternalStorageManager()) && selectedPaths.any {
                 it.doesThisOrParentHaveNoMedia(
                     HashMap(),
                     null
@@ -662,10 +657,6 @@ class DirectoryAdapter(
     }
 
     private fun tryCreateShortcut() {
-        if (!isOreoPlus()) {
-            return
-        }
-
         activity.handleLockedFolderOpening(getFirstSelectedItemPath() ?: "") { success ->
             if (success) {
                 createShortcut()
@@ -761,7 +752,7 @@ class DirectoryAdapter(
 
         val sAFPath = getFirstSelectedItemPath() ?: return
         val selectedDirs = getSelectedItems()
-        activity.handleSAFDialog(sAFPath) {
+        activity.handleSAFDialog {
             if (!it) {
                 return@handleSAFDialog
             }

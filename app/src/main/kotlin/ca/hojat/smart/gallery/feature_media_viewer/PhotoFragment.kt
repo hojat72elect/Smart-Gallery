@@ -20,7 +20,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90
@@ -28,27 +27,10 @@ import androidx.exifinterface.media.ExifInterface.ORIENTATION_TRANSPOSE
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_TRANSVERSE
 import androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION
 import androidx.media3.common.util.UnstableApi
-import com.alexvasilkov.gestures.GestureController
-import com.alexvasilkov.gestures.State
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.Rotate
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.davemorrissey.labs.subscaleview.DecoderFactory
-import com.davemorrissey.labs.subscaleview.ImageDecoder
-import com.davemorrissey.labs.subscaleview.ImageRegionDecoder
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.github.penfeizhou.animation.apng.APNGDrawable
-import com.github.penfeizhou.animation.webp.WebPDrawable
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.PortraitPhotosAdapter
 import ca.hojat.smart.gallery.databinding.PagerPhotoItemBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.Medium
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beInvisible
 import ca.hojat.smart.gallery.shared.extensions.beVisible
@@ -76,25 +58,40 @@ import ca.hojat.smart.gallery.shared.helpers.PicassoRegionDecoder
 import ca.hojat.smart.gallery.shared.helpers.SHOULD_INIT_FRAGMENT
 import ca.hojat.smart.gallery.shared.helpers.WEIRD_TILE_DPI
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.svg.SvgSoftwareLayerSetter
+import ca.hojat.smart.gallery.shared.ui.adapters.PortraitPhotosAdapter
+import com.alexvasilkov.gestures.GestureController
+import com.alexvasilkov.gestures.State
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.Rotate
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.davemorrissey.labs.subscaleview.DecoderFactory
+import com.davemorrissey.labs.subscaleview.ImageDecoder
+import com.davemorrissey.labs.subscaleview.ImageRegionDecoder
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.github.penfeizhou.animation.apng.APNGDrawable
+import com.github.penfeizhou.animation.webp.WebPDrawable
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import it.sephiroth.android.library.exif2.ExifInterface
+import org.apache.sanselan.common.byteSources.ByteSourceInputStream
+import org.apache.sanselan.formats.jpeg.JpegImageParser
+import pl.droidsonroids.gif.InputSource
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.ceil
-import org.apache.sanselan.common.byteSources.ByteSourceInputStream
-import org.apache.sanselan.formats.jpeg.JpegImageParser
-import pl.droidsonroids.gif.InputSource
 
 @UnstableApi
 @SuppressLint("WrongThread", "ClickableViewAccessibility")
-@RequiresApi(Build.VERSION_CODES.O)
 class PhotoFragment : ViewPagerFragment() {
 
     var mCurrentRotationDegrees = 0
@@ -208,7 +205,7 @@ class PhotoFragment : ViewPagerFragment() {
         if (mMedium.path.startsWith("content://") && !mMedium.path.startsWith("content://mms/")) {
             mMedium.path =
                 requireContext().getRealPathFromURI(Uri.parse(mOriginalPath)) ?: mMedium.path
-            if (isRPlus() && !isExternalStorageManager() && mMedium.path.startsWith("/storage/") && mMedium.isHidden()) {
+            if (!isExternalStorageManager() && mMedium.path.startsWith("/storage/") && mMedium.isHidden()) {
                 mMedium.path = mOriginalPath
             }
 
@@ -988,7 +985,7 @@ class PhotoFragment : ViewPagerFragment() {
         return requireContext().realScreenSize.y - height - actionsHeight - fullscreenOffset
     }
 
-    companion object{
+    companion object {
         private const val DEFAULT_DOUBLE_TAP_ZOOM = 2f
         private const val ZOOMABLE_VIEW_LOAD_DELAY = 100L
         private const val SAME_ASPECT_RATIO_THRESHOLD = 0.01

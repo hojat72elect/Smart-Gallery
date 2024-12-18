@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
@@ -15,26 +14,21 @@ import android.provider.MediaStore.Video
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
+import ca.hojat.smart.gallery.databinding.ActivityMainBinding
+import ca.hojat.smart.gallery.feature_lock.SecurityDialog
 import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
 import ca.hojat.smart.gallery.feature_search.SearchActivity
-import ca.hojat.smart.gallery.shared.ui.adapters.DirectoryAdapter
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.data.db.GalleryDatabase
-import ca.hojat.smart.gallery.databinding.ActivityMainBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeSortingDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeViewTypeDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.CreateNewFolderDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.FilterMediaDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
-import ca.hojat.smart.gallery.feature_lock.SecurityDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.UpgradeToProDialog
+import ca.hojat.smart.gallery.shared.data.domain.Directory
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
+import ca.hojat.smart.gallery.shared.data.domain.Medium
+import ca.hojat.smart.gallery.shared.data.domain.RadioItem
+import ca.hojat.smart.gallery.shared.data.domain.Release
 import ca.hojat.smart.gallery.shared.extensions.addTempFolderIfNeeded
 import ca.hojat.smart.gallery.shared.extensions.areSystemAnimationsEnabled
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
@@ -47,7 +41,6 @@ import ca.hojat.smart.gallery.shared.extensions.directoryDB
 import ca.hojat.smart.gallery.shared.extensions.getAppIconColors
 import ca.hojat.smart.gallery.shared.extensions.getCachedDirectories
 import ca.hojat.smart.gallery.shared.extensions.getCachedMedia
-import ca.hojat.smart.gallery.shared.extensions.getCanAppBeUpgraded
 import ca.hojat.smart.gallery.shared.extensions.getDirectorySortingValue
 import ca.hojat.smart.gallery.shared.extensions.getDirsToShow
 import ca.hojat.smart.gallery.shared.extensions.getDistinctPath
@@ -82,13 +75,11 @@ import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
-import ca.hojat.smart.gallery.shared.extensions.isPackageInstalled
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
 import ca.hojat.smart.gallery.shared.extensions.isSvg
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.launchCamera
-import ca.hojat.smart.gallery.shared.extensions.launchMoreAppsFromUsIntent
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.movePinnedDirectoriesToFront
 import ca.hojat.smart.gallery.shared.extensions.openRecycleBin
@@ -121,6 +112,7 @@ import ca.hojat.smart.gallery.shared.helpers.MAX_COLUMN_COUNT
 import ca.hojat.smart.gallery.shared.helpers.MONTH_MILLISECONDS
 import ca.hojat.smart.gallery.shared.helpers.MediaFetcher
 import ca.hojat.smart.gallery.shared.helpers.PERMISSION_MEDIA_LOCATION
+import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_MEDIA_IMAGES
 import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_MEDIA_VIDEO
 import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_STORAGE
 import ca.hojat.smart.gallery.shared.helpers.PICKED_PATHS
@@ -143,17 +135,15 @@ import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_LIST
 import ca.hojat.smart.gallery.shared.helpers.WAS_PROTECTION_HANDLED
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.helpers.getDefaultFileFilter
-import ca.hojat.smart.gallery.shared.helpers.getPermissionToRequest
-import ca.hojat.smart.gallery.shared.helpers.isNougatPlus
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.helpers.isTiramisuPlus
+import ca.hojat.smart.gallery.shared.ui.adapters.DirectoryAdapter
 import ca.hojat.smart.gallery.shared.ui.adapters.DirectoryOperationsListener
-import ca.hojat.smart.gallery.shared.data.domain.Directory
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.data.domain.RadioItem
-import ca.hojat.smart.gallery.shared.data.domain.Release
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeSortingDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeViewTypeDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.CreateNewFolderDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.FilterMediaDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 import java.io.File
@@ -165,7 +155,6 @@ import java.io.OutputStream
 /**
  * Main page of the app, I consider it as Home screen of the app.
  */
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     companion object {
@@ -296,13 +285,12 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     }
 
     private fun handleMediaPermissions(callback: (granted: Boolean) -> Unit) {
-        handlePermission(getPermissionToRequest()) { granted ->
+        handlePermission(PERMISSION_READ_MEDIA_IMAGES) { granted ->
             callback(granted)
-            if (granted && isRPlus()) {
+            if (granted) {
                 handlePermission(PERMISSION_MEDIA_LOCATION) {}
-                if (isTiramisuPlus()) {
-                    handlePermission(PERMISSION_READ_MEDIA_VIDEO) {}
-                }
+                handlePermission(PERMISSION_READ_MEDIA_VIDEO) {}
+
 
                 if (!mWasMediaManagementPromptShown) {
                     mWasMediaManagementPromptShown = true
@@ -501,7 +489,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         binding.mainMenu.getToolbar().menu.apply {
             findItem(R.id.temporarily_show_hidden).isVisible = !config.shouldShowHidden
             findItem(R.id.stop_showing_hidden).isVisible =
-                (!isRPlus() || isExternalStorageManager()) && config.temporarilyShowHidden
+                (isExternalStorageManager()) && config.temporarilyShowHidden
 
             findItem(R.id.temporarily_show_excluded).isVisible = !config.temporarilyShowExcluded
             findItem(R.id.stop_showing_excluded).isVisible = config.temporarilyShowExcluded
@@ -547,7 +535,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 R.id.open_recycle_bin -> openRecycleBin()
                 R.id.column_count -> changeColumnCount()
                 R.id.set_as_default_folder -> setAsDefaultFolder()
-                R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
+                R.id.more_apps_from_us -> {}
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
@@ -585,11 +573,9 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     }
 
     private fun startNewPhotoFetcher() {
-        if (isNougatPlus()) {
-            val photoFetcher = NewPhotoFetcher()
-            if (!photoFetcher.isScheduled(applicationContext)) {
-                photoFetcher.scheduleJob(applicationContext)
-            }
+        val photoFetcher = NewPhotoFetcher()
+        if (!photoFetcher.isScheduled(applicationContext)) {
+            photoFetcher.scheduleJob(applicationContext)
         }
     }
 
@@ -619,7 +605,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
 
     private fun checkOTGPath() {
         ensureBackgroundThread {
-            if (!config.wasOTGHandled && hasPermission(getPermissionToRequest()) && hasOTGConnected() && config.otgPath.isEmpty()) {
+            if (!config.wasOTGHandled && hasPermission(PERMISSION_READ_MEDIA_IMAGES) && hasOTGConnected() && config.otgPath.isEmpty()) {
                 getStorageDirectories().firstOrNull {
                     it.trimEnd('/') != internalStoragePath && it.trimEnd(
                         '/'
@@ -652,7 +638,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
 
     private fun tryLoadGallery() {
         // avoid calling anything right after granting the permission, it will be called from onResume()
-        val wasMissingPermission = !hasPermission(getPermissionToRequest())
+        val wasMissingPermission = !hasPermission(PERMISSION_READ_MEDIA_IMAGES)
         handleMediaPermissions { success ->
             if (success) {
                 if (wasMissingPermission) {
@@ -763,7 +749,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         if (config.temporarilyShowHidden) {
             toggleTemporarilyShowHidden(false)
         } else {
-            if (isRPlus() && !isExternalStorageManager()) {
+            if (!isExternalStorageManager()) {
                 GrantAllFilesDialog(this)
             } else {
                 handleHiddenFolderPasswordProtection {
@@ -1465,7 +1451,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 getString(R.string.no_items_found)
             binding.directoriesEmptyPlaceholder2.beGone()
         } else if (dirs.isEmpty() && config.filterMedia == getDefaultFileFilter()) {
-            if (isRPlus() && !isExternalStorageManager()) {
+            if (!isExternalStorageManager()) {
                 binding.directoriesEmptyPlaceholder.text =
                     getString(R.string.no_items_found)
                 binding.directoriesEmptyPlaceholder2.beGone()
@@ -1569,8 +1555,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         dirs.filter { !it.areFavorites() && !it.isRecycleBin() }.forEach {
             if (!getDoesFilePathExist(it.path, otgPath)) {
                 invalidDirs.add(it)
-            } else if (it.path != config.tempFolderPath && (!isRPlus() || isExternalStorageManager())) {
-                // avoid calling file.list() or listfiles() on Android 11+, it became way too slow
+            } else if (it.path != config.tempFolderPath && isExternalStorageManager()) {
                 val children = if (isPathOnOTG(it.path)) {
                     getOTGFolderChildrenNames(it.path)
                 } else {
@@ -1691,7 +1676,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                         currentString += "${element}/"
 
                         if (!checkedPaths.contains(currentString)) {
-                            val cnt = paths.count {path -> path.startsWith(currentString) }
+                            val cnt = paths.count { path -> path.startsWith(currentString) }
                             if (cnt > 50 && currentString.startsWith("/Android/data", true)) {
                                 oftenRepeatedPaths.add(currentString)
                             }
@@ -1823,11 +1808,5 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
             baseConfig.lastIconColor = primaryColor
         }
 
-    }
-
-    private fun showDonateOrUpgradeDialog() {
-        if (getCanAppBeUpgraded()) {
-            UpgradeToProDialog(this)
-        }
     }
 }

@@ -82,7 +82,7 @@ class MediaFetcher(val context: Context) {
                 curMedia.addAll(newMedia)
             }
         } else {
-            if (curPath != FAVORITES && curPath != RECYCLE_BIN && isRPlus() && !isExternalStorageManager()) {
+            if (curPath != FAVORITES && curPath != RECYCLE_BIN && !isExternalStorageManager()) {
                 if (android11Files?.containsKey(curPath.lowercase()) == true) {
                     curMedia.addAll(android11Files[curPath.lowercase()]!!)
                 } else if (android11Files == null) {
@@ -115,7 +115,7 @@ class MediaFetcher(val context: Context) {
                     dateTakens.clone() as HashMap<String, Long>
                 )
 
-                if (curPath == FAVORITES && isRPlus() && !isExternalStorageManager()) {
+                if (curPath == FAVORITES && !isExternalStorageManager()) {
                     val files =
                         getAndroid11FolderMedia(
                             isPickImage,
@@ -213,32 +213,21 @@ class MediaFetcher(val context: Context) {
         val parents = LinkedHashSet<String>()
         var cursor: Cursor? = null
         try {
-            if (isRPlus()) {
-                val bundle = Bundle().apply {
-                    putInt(ContentResolver.QUERY_ARG_LIMIT, 10)
-                    putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, arrayOf(BaseColumns._ID))
-                    putInt(
-                        ContentResolver.QUERY_ARG_SORT_DIRECTION,
-                        ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
-                    )
-                }
+            val bundle = Bundle().apply {
+                putInt(ContentResolver.QUERY_ARG_LIMIT, 10)
+                putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, arrayOf(BaseColumns._ID))
+                putInt(
+                    ContentResolver.QUERY_ARG_SORT_DIRECTION,
+                    ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
+                )
+            }
 
-                cursor = context.contentResolver.query(uri, projection, bundle, null)
-                if (cursor?.moveToFirst() == true) {
-                    do {
-                        val path = cursor.getStringValue(Images.ImageColumns.DATA)
-                        parents.add(path.getParentPath())
-                    } while (cursor.moveToNext())
-                }
-            } else {
-                val sorting = "${BaseColumns._ID} DESC LIMIT 10"
-                cursor = context.contentResolver.query(uri, projection, null, null, sorting)
-                if (cursor?.moveToFirst() == true) {
-                    do {
-                        val path = cursor.getStringValue(Images.ImageColumns.DATA)
-                        parents.add(path.getParentPath())
-                    } while (cursor.moveToNext())
-                }
+            cursor = context.contentResolver.query(uri, projection, bundle, null)
+            if (cursor?.moveToFirst() == true) {
+                do {
+                    val path = cursor.getStringValue(Images.ImageColumns.DATA)
+                    parents.add(path.getParentPath())
+                } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
             context.showErrorToast(e)
@@ -542,7 +531,7 @@ class MediaFetcher(val context: Context) {
         dateTakens: HashMap<String, Long>
     ): HashMap<String, ArrayList<Medium>> {
         val media = HashMap<String, ArrayList<Medium>>()
-        if (!isRPlus() || Environment.isExternalStorageManager()) {
+        if (Environment.isExternalStorageManager()) {
             return media
         }
 

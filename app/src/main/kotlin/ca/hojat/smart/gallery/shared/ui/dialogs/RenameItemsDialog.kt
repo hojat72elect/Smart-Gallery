@@ -1,7 +1,5 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogRenameItemsBinding
@@ -18,7 +16,6 @@ import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
 // used at renaming folders
-@RequiresApi(Build.VERSION_CODES.O)
 class RenameItemsDialog(
     val activity: BaseActivity,
     val paths: ArrayList<String>,
@@ -63,7 +60,7 @@ class RenameItemsDialog(
                             return@setOnClickListener
                         }
 
-                        activity.handleSAFDialog(sdFilePath) {
+                        activity.handleSAFDialog {
                             if (!it) {
                                 return@handleSAFDialog
                             }

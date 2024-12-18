@@ -17,7 +17,6 @@ import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.getNoMediaFolders
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 class HiddenFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)

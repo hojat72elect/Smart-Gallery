@@ -40,7 +40,6 @@ import ca.hojat.smart.gallery.shared.data.domain.Directory
 import ca.hojat.smart.gallery.shared.data.domain.Widget
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class WidgetConfigureActivity : BaseActivity() {
     private var mBgAlpha = 0f
@@ -190,7 +189,6 @@ class WidgetConfigureActivity : BaseActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun changeSelectedFolder() {
         PickDirectoryDialog(
             this, "",

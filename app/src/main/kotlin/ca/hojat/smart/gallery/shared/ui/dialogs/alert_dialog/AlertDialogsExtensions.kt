@@ -16,13 +16,12 @@ import ca.hojat.smart.gallery.shared.ui.theme.SimpleTheme
 import ca.hojat.smart.gallery.shared.ui.theme.light_grey_stroke
 import ca.hojat.smart.gallery.shared.ui.theme.model.Theme
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
-import ca.hojat.smart.gallery.shared.helpers.isSPlus
 
 val dialogContainerColor
     @ReadOnlyComposable
     @Composable get() = when (LocalTheme.current) {
         is Theme.BlackAndWhite -> Color.Black
-        is Theme.SystemDefaultMaterialYou -> if (isSPlus()) colorResource(R.color.you_dialog_background_color) else SimpleTheme.colorScheme.surface
+        is Theme.SystemDefaultMaterialYou -> colorResource(R.color.you_dialog_background_color)
         else -> {
             val context = LocalContext.current
             Color(context.baseConfig.backgroundColor)

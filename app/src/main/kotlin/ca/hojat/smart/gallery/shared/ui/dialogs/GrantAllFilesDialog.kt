@@ -10,7 +10,6 @@ import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.R)
 class GrantAllFilesDialog(val activity: BaseActivity) {
     init {
         val binding = DialogGrantAllFilesBinding.inflate(activity.layoutInflater)

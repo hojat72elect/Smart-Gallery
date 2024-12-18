@@ -65,7 +65,6 @@ import java.io.File
  * @param callback the callback used for returning the selected file/folder
  */
 @SuppressLint("SetTextI18n")
-@RequiresApi(Build.VERSION_CODES.O)
 class FilePickerDialog(
     val activity: BaseActivity,
     var currPath: String = Environment.getExternalStorageDirectory().toString(),

@@ -4,25 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivitySettingsBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeFileThumbnailStyleDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeFolderThumbnailStyleDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ExportFavoritesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ManageBottomActionsDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ManageExtendedDetailsDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.feature_lock.SecurityDialog
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
+import ca.hojat.smart.gallery.shared.data.domain.RadioItem
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.beGoneIf
 import ca.hojat.smart.gallery.shared.extensions.beVisibleIf
@@ -44,7 +34,6 @@ import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.recycleBinPath
 import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toBoolean
-import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
 import ca.hojat.smart.gallery.shared.extensions.toInt
 import ca.hojat.smart.gallery.shared.extensions.toStringSet
 import ca.hojat.smart.gallery.shared.extensions.toast
@@ -104,8 +93,6 @@ import ca.hojat.smart.gallery.shared.helpers.MAX_BRIGHTNESS
 import ca.hojat.smart.gallery.shared.helpers.MEDIA_COLUMN_CNT
 import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
 import ca.hojat.smart.gallery.shared.helpers.OPEN_VIDEOS_ON_SEPARATE_SCREEN
-import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_STORAGE
-import ca.hojat.smart.gallery.shared.helpers.PERMISSION_WRITE_STORAGE
 import ca.hojat.smart.gallery.shared.helpers.PINNED_FOLDERS
 import ca.hojat.smart.gallery.shared.helpers.PRIMARY_COLOR
 import ca.hojat.smart.gallery.shared.helpers.PRIORITY_COMPROMISE
@@ -151,21 +138,22 @@ import ca.hojat.smart.gallery.shared.helpers.WAS_USE_ENGLISH_TOGGLED
 import ca.hojat.smart.gallery.shared.helpers.WIDGET_BG_COLOR
 import ca.hojat.smart.gallery.shared.helpers.WIDGET_TEXT_COLOR
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isPiePlus
-import ca.hojat.smart.gallery.shared.helpers.isQPlus
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.helpers.isTiramisuPlus
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
-import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
-import ca.hojat.smart.gallery.shared.data.domain.RadioItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeFileThumbnailStyleDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeFolderThumbnailStyleDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ExportFavoritesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ManageBottomActionsDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ManageExtendedDetailsDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.Locale
-import kotlin.system.exitProcess
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class SettingsActivity : BaseActivity() {
     companion object {
         private const val PICK_IMPORT_SOURCE_INTENT = 1
@@ -198,13 +186,11 @@ class SettingsActivity : BaseActivity() {
 
     private fun setupSettingItems() {
         setupCustomizeColors()
-        setupUseEnglish()
         setupLanguage()
         setupChangeDateTimeFormat()
         setupFileLoadingPriority()
         setupManageIncludedFolders()
         setupManageExcludedFolders()
-        setupManageHiddenFolders()
         setupSearchAllFiles()
         setupShowHiddenItems()
         setupAutoplayVideos()
@@ -293,19 +279,8 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setupUseEnglish() {
-        binding.settingsUseEnglishHolder.beVisibleIf((config.wasUseEnglishToggled || Locale.getDefault().language != "en") && !isTiramisuPlus())
-        binding.settingsUseEnglish.isChecked = config.useEnglish
-        binding.settingsUseEnglishHolder.setOnClickListener {
-            binding.settingsUseEnglish.toggle()
-            config.useEnglish = binding.settingsUseEnglish.isChecked
-            exitProcess(0)
-        }
-    }
-
     private fun setupLanguage() {
         binding.settingsLanguage.text = Locale.getDefault().displayLanguage
-        binding.settingsLanguageHolder.beVisibleIf(isTiramisuPlus())
         binding.settingsLanguageHolder.setOnClickListener {
             launchChangeAppLanguageIntent()
         }
@@ -318,7 +293,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setupFileLoadingPriority() {
-        binding.settingsFileLoadingPriorityHolder.beGoneIf(isRPlus() && !isExternalStorageManager())
+        binding.settingsFileLoadingPriorityHolder.beGoneIf(!isExternalStorageManager())
         binding.settingsFileLoadingPriority.text = getFileLoadingPriorityText()
         binding.settingsFileLoadingPriorityHolder.setOnClickListener {
             val items = arrayListOf(
@@ -344,7 +319,7 @@ class SettingsActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setupManageIncludedFolders() {
-        if (isRPlus() && !isExternalStorageManager()) {
+        if (!isExternalStorageManager()) {
             binding.settingsManageIncludedFolders.text =
                 "${getString(R.string.manage_included_folders)} (${getString(R.string.no_permission)})"
         } else {
@@ -352,7 +327,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         binding.settingsManageIncludedFoldersHolder.setOnClickListener {
-            if (isRPlus() && !isExternalStorageManager()) {
+            if (!isExternalStorageManager()) {
                 GrantAllFilesDialog(this)
             } else {
                 startActivity(Intent(this, IncludedFoldersActivity::class.java))
@@ -368,18 +343,9 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setupManageHiddenFolders() {
-        binding.settingsManageHiddenFoldersHolder.beGoneIf(isQPlus()) // In devices running API level 29 and above, we don't show this item.
-        binding.settingsManageHiddenFoldersHolder.setOnClickListener {
-            handleHiddenFolderPasswordProtection {
-                startActivity(Intent(this, HiddenFoldersActivity::class.java))
-            }
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     private fun setupShowHiddenItems() {
-        if (isRPlus() && !isExternalStorageManager()) {
+        if (!isExternalStorageManager()) {
             binding.settingsShowHiddenItems.text =
                 "${getString(R.string.show_hidden_items)} (${
                     getString(
@@ -392,7 +358,7 @@ class SettingsActivity : BaseActivity() {
 
         binding.settingsShowHiddenItems.isChecked = config.showHiddenMedia
         binding.settingsShowHiddenItemsHolder.setOnClickListener {
-            if (isRPlus() && !isExternalStorageManager()) {
+            if (!isExternalStorageManager()) {
                 GrantAllFilesDialog(this)
             } else if (config.showHiddenMedia) {
                 toggleHiddenItems()
@@ -503,7 +469,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setupHiddenItemPasswordProtection() {
-        binding.settingsHiddenItemPasswordProtectionHolder.beGoneIf(isRPlus() && !isExternalStorageManager())
+        binding.settingsHiddenItemPasswordProtectionHolder.beGoneIf(!isExternalStorageManager())
         binding.settingsHiddenItemPasswordProtection.isChecked = config.isHiddenPasswordProtectionOn
         binding.settingsHiddenItemPasswordProtectionHolder.setOnClickListener {
             val tabToShow =
@@ -669,7 +635,6 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setupShowNotch() {
-        binding.settingsShowNotchHolder.beVisibleIf(isPiePlus())
         binding.settingsShowNotch.isChecked = config.showNotch
         binding.settingsShowNotchHolder.setOnClickListener {
             binding.settingsShowNotch.toggle()
@@ -940,38 +905,22 @@ class SettingsActivity : BaseActivity() {
 
     private fun setupExportFavorites() {
         binding.settingsExportFavoritesHolder.setOnClickListener {
-            if (isQPlus()) {
-                ExportFavoritesDialog(this, getExportFavoritesFilename(), true) { _, filename ->
-                    Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_TITLE, filename)
-                        addCategory(Intent.CATEGORY_OPENABLE)
 
-                        try {
-                            startActivityForResult(this, SELECT_EXPORT_FAVORITES_FILE_INTENT)
-                        } catch (e: ActivityNotFoundException) {
-                            toast(
-                                R.string.system_service_disabled,
-                                Toast.LENGTH_LONG
-                            )
-                        } catch (e: Exception) {
-                            showErrorToast(e)
-                        }
-                    }
-                }
-            } else {
-                handlePermission(PERMISSION_WRITE_STORAGE) {
-                    if (it) {
-                        ExportFavoritesDialog(
-                            this,
-                            getExportFavoritesFilename(),
-                            false
-                        ) { path, _ ->
-                            val file = File(path)
-                            getFileOutputStream(file.toFileDirItem(this), true) {
-                                exportFavoritesTo(it)
-                            }
-                        }
+            ExportFavoritesDialog(this, getExportFavoritesFilename(), true) { _, filename ->
+                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TITLE, filename)
+                    addCategory(Intent.CATEGORY_OPENABLE)
+
+                    try {
+                        startActivityForResult(this, SELECT_EXPORT_FAVORITES_FILE_INTENT)
+                    } catch (e: ActivityNotFoundException) {
+                        toast(
+                            R.string.system_service_disabled,
+                            Toast.LENGTH_LONG
+                        )
+                    } catch (e: Exception) {
+                        showErrorToast(e)
                     }
                 }
             }
@@ -1008,22 +957,10 @@ class SettingsActivity : BaseActivity() {
 
     private fun setupImportFavorites() {
         binding.settingsImportFavoritesHolder.setOnClickListener {
-            if (isQPlus()) {
-                Intent(Intent.ACTION_GET_CONTENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/plain"
-                    startActivityForResult(this, SELECT_IMPORT_FAVORITES_FILE_INTENT)
-                }
-            } else {
-                handlePermission(PERMISSION_READ_STORAGE) {
-                    if (it) {
-                        FilePickerDialog(this) {
-                            ensureBackgroundThread {
-                                importFavorites(File(it).inputStream())
-                            }
-                        }
-                    }
-                }
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "text/plain"
+                startActivityForResult(this, SELECT_IMPORT_FAVORITES_FILE_INTENT)
             }
         }
     }
@@ -1151,22 +1088,10 @@ class SettingsActivity : BaseActivity() {
 
     private fun setupImportSettings() {
         binding.settingsImportHolder.setOnClickListener {
-            if (isQPlus()) {
-                Intent(Intent.ACTION_GET_CONTENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/plain"
-                    startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
-                }
-            } else {
-                handlePermission(PERMISSION_READ_STORAGE) {
-                    if (it) {
-                        FilePickerDialog(this) {
-                            ensureBackgroundThread {
-                                parseFile(File(it).inputStream())
-                            }
-                        }
-                    }
-                }
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "text/plain"
+                startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
             }
         }
     }

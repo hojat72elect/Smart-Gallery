@@ -38,7 +38,6 @@ import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MySearchMenu
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class PickDirectoryDialog(
     val activity: BaseActivity,

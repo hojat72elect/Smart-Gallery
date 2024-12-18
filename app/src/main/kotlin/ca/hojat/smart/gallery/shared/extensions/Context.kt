@@ -31,7 +31,6 @@ import android.media.AudioManager
 import android.media.MediaMetadataRetriever
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -43,14 +42,12 @@ import android.provider.MediaStore.Files
 import android.provider.MediaStore.Images
 import android.provider.OpenableColumns
 import android.provider.Settings
-import android.telecom.TelecomManager
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -59,32 +56,11 @@ import androidx.core.os.bundleOf
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import androidx.loader.content.CursorLoader
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.integration.webp.WebpBitmapFactory
-import com.bumptech.glide.integration.webp.decoder.WebpDownsampler
-import com.bumptech.glide.integration.webp.decoder.WebpDrawable
-import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.signature.ObjectKey
-import com.github.ajalt.reprint.core.Reprint
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
-import ca.hojat.smart.gallery.shared.data.db.GalleryDatabase
 import ca.hojat.smart.gallery.shared.data.db.DateTakensDao
 import ca.hojat.smart.gallery.shared.data.db.DirectoryDao
 import ca.hojat.smart.gallery.shared.data.db.FavoritesDao
+import ca.hojat.smart.gallery.shared.data.db.GalleryDatabase
 import ca.hojat.smart.gallery.shared.data.db.MediumDao
 import ca.hojat.smart.gallery.shared.data.db.WidgetsDao
 import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
@@ -94,6 +70,7 @@ import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.data.domain.Medium
 import ca.hojat.smart.gallery.shared.data.domain.SharedTheme
 import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
+import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.shared.helpers.AlphanumericComparator
 import ca.hojat.smart.gallery.shared.helpers.BaseConfig
 import ca.hojat.smart.gallery.shared.helpers.Config
@@ -167,13 +144,7 @@ import ca.hojat.smart.gallery.shared.helpers.TYPE_SVGS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_VIDEOS
 import ca.hojat.smart.gallery.shared.helpers.appIconColorStrings
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isNougatPlus
 import ca.hojat.smart.gallery.shared.helpers.isOnMainThread
-import ca.hojat.smart.gallery.shared.helpers.isOreoPlus
-import ca.hojat.smart.gallery.shared.helpers.isQPlus
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.helpers.isSPlus
-import ca.hojat.smart.gallery.shared.helpers.proPackages
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
 import ca.hojat.smart.gallery.shared.svg.SvgSoftwareLayerSetter
 import ca.hojat.smart.gallery.shared.ui.views.MyAppCompatCheckbox
@@ -187,6 +158,26 @@ import ca.hojat.smart.gallery.shared.ui.views.MySeekBar
 import ca.hojat.smart.gallery.shared.ui.views.MySquareImageView
 import ca.hojat.smart.gallery.shared.ui.views.MyTextInputLayout
 import ca.hojat.smart.gallery.shared.ui.views.MyTextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.integration.webp.WebpBitmapFactory
+import com.bumptech.glide.integration.webp.decoder.WebpDownsampler
+import com.bumptech.glide.integration.webp.decoder.WebpDrawable
+import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.signature.ObjectKey
+import com.github.ajalt.reprint.core.Reprint
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileInputStream
@@ -1627,17 +1618,13 @@ private fun Context.queryCursorDesc(
     sortColumn: String,
     limit: Int,
 ): Cursor? {
-    return if (isRPlus()) {
-        val queryArgs = bundleOf(
-            ContentResolver.QUERY_ARG_LIMIT to limit,
-            ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING,
-            ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(sortColumn),
-        )
-        contentResolver.query(uri, projection, queryArgs, null)
-    } else {
-        val sortOrder = "$sortColumn DESC LIMIT $limit"
-        contentResolver.query(uri, projection, null, null, sortOrder)
-    }
+
+    val queryArgs = bundleOf(
+        ContentResolver.QUERY_ARG_LIMIT to limit,
+        ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING,
+        ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(sortColumn),
+    )
+    return contentResolver.query(uri, projection, queryArgs, null)
 }
 
 fun Context.getLatestMediaByDateId(uri: Uri = Files.getContentUri("external")): Long {
@@ -1731,17 +1718,11 @@ private fun isDownloadsDocument(uri: Uri) =
 private fun isExternalStorageDocument(uri: Uri) =
     uri.authority == "com.android.externalstorage.documents"
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.hasPermission(permId: Int) = ContextCompat.checkSelfPermission(
     this,
     getPermissionString(permId)
 ) == PackageManager.PERMISSION_GRANTED
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun Context.hasAllPermissions(permIds: Collection<Int>) = permIds.all(this::hasPermission)
-
-
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun getPermissionString(id: Int) = when (id) {
     PERMISSION_READ_STORAGE -> Manifest.permission.READ_EXTERNAL_STORAGE
     PERMISSION_WRITE_STORAGE -> Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -1758,7 +1739,7 @@ fun getPermissionString(id: Int) = when (id) {
     PERMISSION_READ_SMS -> Manifest.permission.READ_SMS
     PERMISSION_SEND_SMS -> Manifest.permission.SEND_SMS
     PERMISSION_READ_PHONE_STATE -> Manifest.permission.READ_PHONE_STATE
-    PERMISSION_MEDIA_LOCATION -> if (isQPlus()) Manifest.permission.ACCESS_MEDIA_LOCATION else ""
+    PERMISSION_MEDIA_LOCATION -> Manifest.permission.ACCESS_MEDIA_LOCATION
     PERMISSION_POST_NOTIFICATIONS -> Manifest.permission.POST_NOTIFICATIONS
     PERMISSION_READ_MEDIA_IMAGES -> Manifest.permission.READ_MEDIA_IMAGES
     PERMISSION_READ_MEDIA_VIDEO -> Manifest.permission.READ_MEDIA_VIDEO
@@ -1884,7 +1865,6 @@ fun Context.ensurePublicUri(path: String, applicationId: String): Uri? {
     }
 }
 
-
 fun Context.getFilenameFromContentUri(uri: Uri): String? {
     val projection = arrayOf(
         OpenableColumns.DISPLAY_NAME
@@ -1942,26 +1922,12 @@ fun Context.getUriMimeType(path: String, newUri: Uri): String {
     return mimeType
 }
 
-fun Context.isAProApp() =
-    packageName.startsWith("com.simplemobiletools.") && packageName.removeSuffix(".debug")
-        .endsWith(".pro")
-
-fun Context.isPackageInstalled(pkgName: String): Boolean {
-    return try {
-        packageManager.getPackageInfo(pkgName, 0)
-        true
-    } catch (e: Exception) {
-        false
-    }
-}
-
 @SuppressLint("Recycle")
-@RequiresApi(Build.VERSION_CODES.N)
 fun Context.saveImageRotation(path: String, degrees: Int): Boolean {
     if (!needsStupidWritePermissions(path)) {
         saveExifRotation(ExifInterface(path), degrees)
         return true
-    } else if (isNougatPlus()) {
+    } else {
         val documentFile = getSomeDocumentFile(path)
         if (documentFile != null) {
             val parcelFileDescriptor = contentResolver.openFileDescriptor(documentFile.uri, "rw")
@@ -1980,10 +1946,6 @@ fun saveExifRotation(exif: ExifInterface, degrees: Int) {
     exif.setAttribute(ExifInterface.TAG_ORIENTATION, orientationDegrees.orientationFromDegrees())
     exif.saveAttributes()
 }
-
-fun Context.getCanAppBeUpgraded() = proPackages.contains(
-    baseConfig.appId.removeSuffix(".debug").removePrefix("com.simplemobiletools.")
-)
 
 fun Context.getStoreUrl() =
     "https://play.google.com/store/apps/details?id=${packageName.removeSuffix(".debug")}"
@@ -2205,10 +2167,8 @@ fun Context.getMediaStoreLastModified(path: String): Long {
 
 fun Context.getStringsPackageName() = getString(R.string.package_name)
 
-val Context.telecomManager: TelecomManager get() = getSystemService(Context.TELECOM_SERVICE) as TelecomManager
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 val Context.notificationManager: NotificationManager get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
 
 val Context.portrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 val Context.navigationBarOnSide: Boolean get() = usableScreenSize.x < realScreenSize.x && usableScreenSize.x > usableScreenSize.y
@@ -2281,16 +2241,11 @@ fun Context.isUsingGestureNavigation(): Boolean {
 }
 
 fun Context.openNotificationSettings() {
-    if (isOreoPlus()) {
-        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-        intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-        startActivity(intent)
-    } else {
-        // For Android versions below Oreo, you can't directly open the app's notification settings.
-        // You can open the general notification settings instead.
-        val intent = Intent(Settings.ACTION_SETTINGS)
-        startActivity(intent)
-    }
+
+    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+    intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+    startActivity(intent)
+
 }
 
 private const val ANDROID_DATA_DIR = "/Android/data/"
@@ -2417,31 +2372,11 @@ fun Context.isSAFOnlyRoot(path: String): Boolean {
 }
 
 fun Context.isRestrictedSAFOnlyRoot(path: String): Boolean {
-    return isRPlus() && isSAFOnlyRoot(path)
+    return isSAFOnlyRoot(path)
 }
 
 // no need to use DocumentFile if an SD card is set as the default storage
-fun Context.needsStupidWritePermissions(path: String) =
-    (!isRPlus() && isPathOnSD(path) && !isSDCardSetAsDefaultStorage()) || isPathOnOTG(path)
-
-fun Context.isSDCardSetAsDefaultStorage() =
-    sdCardPath.isNotEmpty() && Environment.getExternalStorageDirectory().absolutePath.equals(
-        sdCardPath,
-        true
-    )
-
-fun Context.hasProperStoredTreeUri(isOTG: Boolean): Boolean {
-    val uri = if (isOTG) baseConfig.otgTreeUri else baseConfig.sdTreeUri
-    val hasProperUri = contentResolver.persistedUriPermissions.any { it.uri.toString() == uri }
-    if (!hasProperUri) {
-        if (isOTG) {
-            baseConfig.otgTreeUri = ""
-        } else {
-            baseConfig.sdTreeUri = ""
-        }
-    }
-    return hasProperUri
-}
+fun Context.needsStupidWritePermissions(path: String) = isPathOnOTG(path)
 
 fun Context.hasProperStoredAndroidTreeUri(path: String): Boolean {
     val uri = getAndroidTreeUri(path)
@@ -2756,7 +2691,6 @@ fun Context.getOTGItems(
     callback(items)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun Context.getAndroidSAFFileItems(
     path: String,
     shouldShowHidden: Boolean,
@@ -3431,12 +3365,12 @@ fun Context.isAccessibleWithSAFSdk30(path: String): Boolean {
     val isDirectory = File(firstParentPath).isDirectory
     val isAnAccessibleDirectory =
         DIRS_INACCESSIBLE_WITH_SAF_SDK_30.all { !firstParentDir.equals(it, true) }
-    return isRPlus() && isValidName && isDirectory && isAnAccessibleDirectory
+    return isValidName && isDirectory && isAnAccessibleDirectory
 }
 
 fun Context.getFirstParentLevel(path: String): Int {
     return when {
-        isRPlus() && (isInAndroidDir(path) || isInSubFolderInDownloadDir(path)) -> 1
+        isInAndroidDir(path) || isInSubFolderInDownloadDir(path) -> 1
         else -> 0
     }
 }
@@ -3454,7 +3388,7 @@ fun Context.isRestrictedWithSAFSdk30(path: String): Boolean {
     val isDirectory = File(firstParentPath).isDirectory
     val isARestrictedDirectory =
         DIRS_INACCESSIBLE_WITH_SAF_SDK_30.any { firstParentDir.equals(it, true) }
-    return isRPlus() && (isInvalidName || (isDirectory && isARestrictedDirectory))
+    return isInvalidName || (isDirectory && isARestrictedDirectory)
 }
 
 fun Context.isInDownloadDir(path: String): Boolean {
@@ -3489,12 +3423,12 @@ fun Context.isInAndroidDir(path: String): Boolean {
 }
 
 fun isExternalStorageManager(): Boolean {
-    return isRPlus() && Environment.isExternalStorageManager()
+    return Environment.isExternalStorageManager()
 }
 
 // is the app a Media Management App on Android 12+?
 fun Context.canManageMedia(): Boolean {
-    return isSPlus() && MediaStore.canManageMedia(this)
+    return MediaStore.canManageMedia(this)
 }
 
 fun Context.createFirstParentTreeUriUsingRootTree(fullPath: String): Uri {
@@ -3755,7 +3689,7 @@ fun Context.isUsingSystemDarkTheme() =
     resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
 
 fun Context.getPopupMenuTheme(): Int {
-    return if (isSPlus() && baseConfig.isUsingSystemTheme) {
+    return if (baseConfig.isUsingSystemTheme) {
         R.style.AppTheme_YouPopupMenuStyle
     } else if (isWhiteTheme()) {
         R.style.AppTheme_PopupMenuLightStyle
@@ -3831,18 +3765,6 @@ fun Context.copyToClipboard(text: String) {
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
     val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
     toast(toastText)
-}
-
-fun Context.getTempFile(folderName: String, filename: String): File? {
-    val folder = File(cacheDir, folderName)
-    if (!folder.exists()) {
-        if (!folder.mkdir()) {
-            toast(R.string.unknown_error_occurred)
-            return null
-        }
-    }
-
-    return File(folder, filename)
 }
 
 val Context.internalStoragePath: String get() = baseConfig.internalStoragePath

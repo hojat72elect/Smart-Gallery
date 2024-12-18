@@ -24,7 +24,6 @@ import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import java.io.File
 
 @SuppressLint("SetTextI18n")
-@RequiresApi(Build.VERSION_CODES.O)
 class ExportBlockedNumbersDialog(
     val activity: BaseActivity,
     val path: String,

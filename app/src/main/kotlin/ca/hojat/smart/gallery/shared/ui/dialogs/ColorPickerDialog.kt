@@ -28,7 +28,6 @@ import ca.hojat.smart.gallery.shared.extensions.setFillWithStroke
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.toHex
 import ca.hojat.smart.gallery.shared.extensions.value
-import ca.hojat.smart.gallery.shared.helpers.isQPlus
 import java.util.LinkedList
 
 private const val RECENT_COLORS_NUMBER = 5
@@ -138,10 +137,8 @@ private fun DialogColorPickerBinding.init(
     currentColorCallback: ((color: Int) -> Unit)
 ) {
     var isHueBeingDragged = false
+    root.isForceDarkAllowed = false
 
-    if (isQPlus()) {
-        root.isForceDarkAllowed = false
-    }
 
     colorPickerSquare.setHue(hsv.getHue())
 

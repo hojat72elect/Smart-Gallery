@@ -5,30 +5,27 @@ import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.view.allViews
 import androidx.media3.common.util.UnstableApi
-import com.bumptech.glide.Glide
-import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.feature_media_viewer.ViewPagerActivity
 import ca.hojat.smart.gallery.databinding.PhotoItemGridBinding
 import ca.hojat.smart.gallery.databinding.PhotoItemListBinding
 import ca.hojat.smart.gallery.databinding.ThumbnailSectionBinding
 import ca.hojat.smart.gallery.databinding.VideoItemGridBinding
 import ca.hojat.smart.gallery.databinding.VideoItemListBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.DeleteWithRememberDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RenameDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
+import ca.hojat.smart.gallery.feature_media_viewer.ViewPagerActivity
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
+import ca.hojat.smart.gallery.shared.data.domain.Medium
+import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
+import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
 import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
@@ -77,17 +74,15 @@ import ca.hojat.smart.gallery.shared.helpers.TYPE_GIFS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_RAWS
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_LIST
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isOreoPlus
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
-import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.DeleteWithRememberDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RenameDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import com.bumptech.glide.Glide
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class MediaAdapter(
     activity: BaseActivity,
@@ -201,7 +196,7 @@ class MediaAdapter(
                 isAGetIntent && allowMultiplePicks && selectedKeys.isNotEmpty()
             findItem(R.id.cab_restore_recycle_bin_files).isVisible =
                 selectedPaths.all { it.startsWith(activity.recycleBinPath) }
-            findItem(R.id.cab_create_shortcut).isVisible = isOreoPlus() && isOneItemSelected
+            findItem(R.id.cab_create_shortcut).isVisible = true && isOneItemSelected
 
             checkHideBtnVisibility(this, selectedItems)
             checkFavoriteBtnVisibility(this, selectedItems)
@@ -269,10 +264,8 @@ class MediaAdapter(
 
     private fun checkHideBtnVisibility(menu: Menu, selectedItems: ArrayList<Medium>) {
         val isInRecycleBin = selectedItems.firstOrNull()?.getIsInRecycleBin() == true
-        menu.findItem(R.id.cab_hide).isVisible =
-            (!isRPlus() || isExternalStorageManager()) && !isInRecycleBin && selectedItems.any { !it.isHidden() }
-        menu.findItem(R.id.cab_unhide).isVisible =
-            (!isRPlus() || isExternalStorageManager()) && !isInRecycleBin && selectedItems.any { it.isHidden() }
+        menu.findItem(R.id.cab_hide).isVisible = (isExternalStorageManager()) && !isInRecycleBin && selectedItems.any { !it.isHidden() }
+        menu.findItem(R.id.cab_unhide).isVisible = (isExternalStorageManager()) && !isInRecycleBin && selectedItems.any { it.isHidden() }
     }
 
     private fun checkFavoriteBtnVisibility(menu: Menu, selectedItems: ArrayList<Medium>) {
@@ -311,7 +304,7 @@ class MediaAdapter(
             activity.isAStorageRootFolder(firstPath.getParentPath()) && !firstPath.startsWith(
                 activity.internalStoragePath
             )
-        if (isRPlus() && isSDOrOtgRootFolder && !isExternalStorageManager()) {
+        if (isSDOrOtgRootFolder && !isExternalStorageManager()) {
             activity.toast(
                 R.string.rename_in_sd_card_system_restriction,
                 Toast.LENGTH_LONG
@@ -449,7 +442,7 @@ class MediaAdapter(
         val paths = getSelectedPaths().filter { it.isImageFast() }
 
         if (paths.any { activity.needsStupidWritePermissions(it) }) {
-            activity.handleSAFDialog(paths.first { activity.needsStupidWritePermissions(it) }) {
+            activity.handleSAFDialog {
                 if (it) {
                     handleRotate(paths, degrees)
                 }
@@ -512,9 +505,6 @@ class MediaAdapter(
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun createShortcut() {
-        if (!isOreoPlus()) {
-            return
-        }
 
         val manager = activity.getSystemService(ShortcutManager::class.java)
         if (manager.isRequestPinShortcutSupported) {
@@ -618,9 +608,9 @@ class MediaAdapter(
 
         val selectedItems = getSelectedItems()
         val selectedPaths = selectedItems.map { it.path } as ArrayList<String>
-        val sAFPath = selectedPaths.firstOrNull { activity.needsStupidWritePermissions(it) }
+        selectedPaths.firstOrNull { activity.needsStupidWritePermissions(it) }
             ?: getFirstSelectedItemPath() ?: return
-        activity.handleSAFDialog(sAFPath) {
+        activity.handleSAFDialog {
             if (!it) {
                 return@handleSAFDialog
             }

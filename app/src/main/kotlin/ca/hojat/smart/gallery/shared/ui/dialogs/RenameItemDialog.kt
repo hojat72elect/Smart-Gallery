@@ -18,7 +18,6 @@ import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 class RenameItemDialog(
     val activity: BaseActivity,
     val path: String,

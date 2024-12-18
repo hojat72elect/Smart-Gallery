@@ -5,15 +5,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivityCustomizationBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.ColorPickerDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationAdvancedDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.MyTheme
+import ca.hojat.smart.gallery.shared.data.domain.RadioItem
+import ca.hojat.smart.gallery.shared.data.domain.SharedTheme
 import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.beGone
@@ -36,14 +34,12 @@ import ca.hojat.smart.gallery.shared.helpers.MyContentProvider
 import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
 import ca.hojat.smart.gallery.shared.helpers.SAVE_DISCARD_PROMPT_INTERVAL
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isSPlus
-import ca.hojat.smart.gallery.shared.data.domain.MyTheme
-import ca.hojat.smart.gallery.shared.data.domain.RadioItem
-import ca.hojat.smart.gallery.shared.data.domain.SharedTheme
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.ColorPickerDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationAdvancedDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import kotlin.math.abs
 
-@RequiresApi(Build.VERSION_CODES.O)
 class CustomizationActivity : BaseActivity() {
 
 
@@ -168,10 +164,8 @@ class CustomizationActivity : BaseActivity() {
 
     private fun setupThemes() {
         predefinedThemes.apply {
-            if (isSPlus()) {
-                put(THEME_SYSTEM, getSystemThemeColors())
-            }
 
+            put(THEME_SYSTEM, getSystemThemeColors())
             put(THEME_AUTO, getAutoThemeColors())
             put(
                 THEME_LIGHT,

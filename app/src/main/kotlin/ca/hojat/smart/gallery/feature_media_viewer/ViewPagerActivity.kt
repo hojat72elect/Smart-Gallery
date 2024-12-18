@@ -28,35 +28,14 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.media3.common.util.UnstableApi
 import androidx.print.PrintHelper
 import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
-import ca.hojat.smart.gallery.shared.helpers.FAVORITES
-import ca.hojat.smart.gallery.shared.helpers.IS_FROM_GALLERY
-import ca.hojat.smart.gallery.shared.helpers.NOMEDIA
-import ca.hojat.smart.gallery.shared.helpers.REAL_FILE_PATH
-import ca.hojat.smart.gallery.shared.helpers.REQUEST_EDIT_IMAGE
-import ca.hojat.smart.gallery.shared.helpers.REQUEST_SET_AS
-import ca.hojat.smart.gallery.shared.helpers.SORT_BY_RANDOM
-import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isNougatPlus
-import ca.hojat.smart.gallery.shared.helpers.isOreoPlus
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.MyPagerAdapter
-import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.databinding.ActivityMediumBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.DeleteWithRememberDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.SaveAsDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.SlideshowDialog
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
+import ca.hojat.smart.gallery.shared.data.domain.Medium
+import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
+import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.shared.extensions.actionBarHeight
 import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.beGone
@@ -134,15 +113,22 @@ import ca.hojat.smart.gallery.shared.helpers.BOTTOM_ACTION_SLIDESHOW
 import ca.hojat.smart.gallery.shared.helpers.BOTTOM_ACTION_TOGGLE_FAVORITE
 import ca.hojat.smart.gallery.shared.helpers.BOTTOM_ACTION_TOGGLE_VISIBILITY
 import ca.hojat.smart.gallery.shared.helpers.DefaultPageTransformer
+import ca.hojat.smart.gallery.shared.helpers.FAVORITES
 import ca.hojat.smart.gallery.shared.helpers.FadePageTransformer
 import ca.hojat.smart.gallery.shared.helpers.GO_TO_NEXT_ITEM
 import ca.hojat.smart.gallery.shared.helpers.GO_TO_PREV_ITEM
 import ca.hojat.smart.gallery.shared.helpers.HIDE_SYSTEM_UI_DELAY
+import ca.hojat.smart.gallery.shared.helpers.IS_FROM_GALLERY
 import ca.hojat.smart.gallery.shared.helpers.IS_VIEW_INTENT
 import ca.hojat.smart.gallery.shared.helpers.MAX_PRINT_SIDE_SIZE
+import ca.hojat.smart.gallery.shared.helpers.NOMEDIA
 import ca.hojat.smart.gallery.shared.helpers.PATH
+import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_MEDIA_IMAGES
 import ca.hojat.smart.gallery.shared.helpers.PORTRAIT_PATH
+import ca.hojat.smart.gallery.shared.helpers.REAL_FILE_PATH
 import ca.hojat.smart.gallery.shared.helpers.RECYCLE_BIN
+import ca.hojat.smart.gallery.shared.helpers.REQUEST_EDIT_IMAGE
+import ca.hojat.smart.gallery.shared.helpers.REQUEST_SET_AS
 import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_ASPECT_RATIO
 import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_DEVICE_ROTATION
 import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_SYSTEM_SETTING
@@ -159,16 +145,27 @@ import ca.hojat.smart.gallery.shared.helpers.SLIDESHOW_DEFAULT_INTERVAL
 import ca.hojat.smart.gallery.shared.helpers.SLIDESHOW_FADE_DURATION
 import ca.hojat.smart.gallery.shared.helpers.SLIDESHOW_SLIDE_DURATION
 import ca.hojat.smart.gallery.shared.helpers.SLIDESHOW_START_ON_ENTER
+import ca.hojat.smart.gallery.shared.helpers.SORT_BY_RANDOM
 import ca.hojat.smart.gallery.shared.helpers.TYPE_GIFS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_IMAGES
 import ca.hojat.smart.gallery.shared.helpers.TYPE_PORTRAITS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_RAWS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_SVGS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_VIDEOS
-import ca.hojat.smart.gallery.shared.helpers.getPermissionToRequest
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
+import ca.hojat.smart.gallery.shared.ui.adapters.MyPagerAdapter
+import ca.hojat.smart.gallery.shared.ui.dialogs.DeleteWithRememberDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.SaveAsDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.SlideshowDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import java.io.File
 import kotlin.math.min
 
@@ -216,7 +213,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
             Medium::class.java
         )
 
-        handlePermission(getPermissionToRequest()) {
+        handlePermission(PERMISSION_READ_MEDIA_IMAGES) {
             if (it) {
                 initViewPager()
             } else {
@@ -230,7 +227,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
 
     override fun onResume() {
         super.onResume()
-        if (!hasPermission(getPermissionToRequest())) {
+        if (!hasPermission(PERMISSION_READ_MEDIA_IMAGES)) {
             finish()
             return
         }
@@ -313,10 +310,10 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                 findItem(R.id.menu_resize).isVisible =
                     visibleBottomActions and BOTTOM_ACTION_RESIZE == 0 && currentMedium.isImage()
                 findItem(R.id.menu_hide).isVisible =
-                    (!isRPlus() || isExternalStorageManager()) && !currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
+                    (isExternalStorageManager()) && !currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
 
                 findItem(R.id.menu_unhide).isVisible =
-                    (!isRPlus() || isExternalStorageManager()) && currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
+                    (isExternalStorageManager()) && currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
 
                 findItem(R.id.menu_add_to_favorites).isVisible =
                     !currentMedium.isFavorite && visibleBottomActions and BOTTOM_ACTION_TOGGLE_FAVORITE == 0 && !currentMedium.getIsInRecycleBin()
@@ -326,7 +323,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
 
                 findItem(R.id.menu_restore_file).isVisible =
                     currentMedium.path.startsWith(recycleBinPath)
-                findItem(R.id.menu_create_shortcut).isVisible = isOreoPlus()
+                findItem(R.id.menu_create_shortcut).isVisible = true
                 findItem(R.id.menu_change_orientation).isVisible =
                     rotationDegrees == 0 && visibleBottomActions and BOTTOM_ACTION_CHANGE_ORIENTATION == 0
                 findItem(R.id.menu_change_orientation).icon =
@@ -559,7 +556,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
-            mIsFullScreen = if (isNougatPlus() && isInMultiWindowMode) {
+            mIsFullScreen = if (isInMultiWindowMode) {
                 visibility and View.SYSTEM_UI_FLAG_LOW_PROFILE != 0
             } else if (visibility and View.SYSTEM_UI_FLAG_LOW_PROFILE == 0) {
                 false
@@ -873,7 +870,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     private fun rotateImage(degrees: Int) {
         val currentPath = getCurrentPath()
         if (needsStupidWritePermissions(currentPath)) {
-            handleSAFDialog(currentPath) {
+            handleSAFDialog {
                 if (it) {
                     rotateBy(degrees)
                 }
@@ -910,7 +907,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         val currPath = getCurrentPath()
         SaveAsDialog(this, currPath, false) {
             val newPath = it
-            handleSAFDialog(it) {
+            handleSAFDialog {
                 if (!it) {
                     return@handleSAFDialog
                 }
@@ -934,9 +931,6 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     }
 
     private fun createShortcut() {
-        if (!isOreoPlus()) {
-            return
-        }
 
         val manager = getSystemService(ShortcutManager::class.java)
         if (manager.isRequestPinShortcutSupported) {
@@ -1027,7 +1021,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         binding.bottomActions.bottomEdit.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_EDIT != 0 && currentMedium?.isSVG() == false)
         binding.bottomActions.bottomEdit.setOnLongClickListener { toast(R.string.edit); true }
         binding.bottomActions.bottomEdit.setOnClickListener {
-          toast("This feature is not implemented yet")
+            toast("This feature is not implemented yet")
         }
 
         binding.bottomActions.bottomShare.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHARE != 0)
@@ -1385,7 +1379,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
 
         val isSDOrOtgRootFolder =
             isAStorageRootFolder(oldPath.getParentPath()) && !oldPath.startsWith(internalStoragePath)
-        if (isRPlus() && isSDOrOtgRootFolder && !isExternalStorageManager()) {
+        if (isSDOrOtgRootFolder && !isExternalStorageManager()) {
             toast(
                 R.string.rename_in_sd_card_system_restriction,
                 Toast.LENGTH_LONG

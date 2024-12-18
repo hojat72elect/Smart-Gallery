@@ -29,7 +29,6 @@ import ca.hojat.smart.gallery.shared.ui.theme.AppThemeSurface
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationAdvancedAlertDialog
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.getStoreUrl
-import ca.hojat.smart.gallery.shared.extensions.launchMoreAppsFromUsIntent
 import ca.hojat.smart.gallery.shared.extensions.launchViewIntent
 import ca.hojat.smart.gallery.shared.extensions.redirectToRateUs
 import ca.hojat.smart.gallery.shared.extensions.showErrorToast
@@ -117,7 +116,7 @@ class AboutActivity : ComponentActivity() {
                     )
                     OtherSection(
                         showMoreApps = showGoogleRelations,
-                        onMoreAppsClick = ::launchMoreAppsFromUsIntent,
+                        onMoreAppsClick = {},
                         showWebsite = showWebsite,
                         onWebsiteClick = ::onWebsiteClick,
                         showPrivacyPolicy = showExternalLinks,

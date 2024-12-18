@@ -16,7 +16,6 @@ import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.PATH
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
 open class PanoramaPhotoActivity : BaseActivity() {
@@ -45,15 +44,11 @@ open class PanoramaPhotoActivity : BaseActivity() {
             isExploreEnabled = !isExploreEnabled
             binding.explore.setImageResource(if (isExploreEnabled) R.drawable.ic_explore_vector else R.drawable.ic_explore_off_vector)
         }
-
         checkIntent()
-
-        if (isRPlus()) {
-            window.insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            )
-        }
+        window.insetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
     }
 
     override fun onResume() {

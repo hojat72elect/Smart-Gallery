@@ -3,7 +3,6 @@ package ca.hojat.smart.gallery.feature_media_viewer
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -12,9 +11,9 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.SeekBar
-import androidx.annotation.RequiresApi
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivityPanoramaVideoBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.getFormattedDuration
 import ca.hojat.smart.gallery.shared.extensions.hasNavBar
@@ -25,10 +24,7 @@ import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.PATH
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
@@ -49,16 +45,9 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         checkNotchSupport()
         checkIntent()
-
-        if (isRPlus()) {
-            window.insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            )
-        }
+        window.insetsController?.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
     }
 
 

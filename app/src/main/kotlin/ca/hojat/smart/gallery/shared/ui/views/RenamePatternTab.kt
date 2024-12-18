@@ -2,15 +2,16 @@ package ca.hojat.smart.gallery.shared.ui.views
 
 import android.content.ContentValues
 import android.content.Context
-import android.os.Build
 import android.provider.MediaStore
 import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.widget.RelativeLayout
-import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogRenameItemsPatternBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.Android30RenameFormat
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.ensureTwoDigits
 import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
@@ -26,17 +27,12 @@ import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.updateInMediaStore
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
 import ca.hojat.smart.gallery.shared.extensions.value
-import ca.hojat.smart.gallery.shared.helpers.isNougatPlus
 import ca.hojat.smart.gallery.shared.ui.adapters.RenameTab
-import ca.hojat.smart.gallery.shared.data.domain.Android30RenameFormat
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.R)
 class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
     RenameTab {
     private var ignoreClicks = false
@@ -85,7 +81,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
         }
 
         activity?.baseConfig?.lastRenamePatternUsed = binding.renameItemsValue.value
-        activity?.handleSAFDialog(sdFilePath) {
+        activity?.handleSAFDialog {
             if (!it) {
                 return@handleSAFDialog
             }
@@ -137,13 +133,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
     private fun getNewPath(path: String, useMediaFileExtension: Boolean): String? {
         try {
             val exif = ExifInterface(path)
-            var dateTime = if (isNougatPlus()) {
-                exif.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL) ?: exif.getAttribute(
-                    ExifInterface.TAG_DATETIME
-                )
-            } else {
-                exif.getAttribute(ExifInterface.TAG_DATETIME)
-            }
+            var dateTime = exif.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL) ?: exif.getAttribute(ExifInterface.TAG_DATETIME)
 
             if (dateTime == null) {
                 val calendar = Calendar.getInstance(Locale.ENGLISH)

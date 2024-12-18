@@ -21,7 +21,6 @@ import kotlin.math.roundToInt
 
 private const val DEFAULT_RESIZE_FACTOR = "75"
 
-@RequiresApi(Build.VERSION_CODES.O)
 class ResizeMultipleImagesDialog(
     private val activity: BaseActivity,
     private val imagePaths: List<String>,

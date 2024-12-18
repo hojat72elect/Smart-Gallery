@@ -23,7 +23,6 @@ import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
 import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @UnstableApi
 class PickMediumDialog(
     val activity: BaseActivity,

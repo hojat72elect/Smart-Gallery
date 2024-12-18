@@ -25,7 +25,6 @@ import ca.hojat.smart.gallery.shared.extensions.getActivity
 import ca.hojat.smart.gallery.shared.extensions.getAppIconIds
 import ca.hojat.smart.gallery.shared.extensions.getAppLauncherName
 import ca.hojat.smart.gallery.shared.helpers.BaseConfig
-import ca.hojat.smart.gallery.shared.helpers.isSPlus
 
 @Composable
 internal fun Theme(
@@ -38,8 +37,8 @@ internal fun Theme(
     val isSystemInDarkTheme = isSystemInDarkTheme()
 
     val colorScheme = if (!view.isInEditMode) {
-        when {
-            theme is Theme.SystemDefaultMaterialYou && isSPlus() -> {
+        when (theme) {
+            is Theme.SystemDefaultMaterialYou -> {
                 if (isSystemInDarkTheme) {
                     dynamicDarkColorScheme(context)
                 } else {
@@ -47,27 +46,26 @@ internal fun Theme(
                 }
             }
 
-            theme is Theme.Custom || theme is Theme.Dark -> darkColorScheme(
+            is Theme.Custom, is Theme.Dark -> darkColorScheme(
                 primary = theme.primaryColor,
                 surface = theme.backgroundColor,
                 onSurface = theme.textColor
             )
 
-            theme is Theme.White -> darkColorScheme(
+            is Theme.White -> darkColorScheme(
                 primary = Color(theme.accentColor),
                 surface = theme.backgroundColor,
                 tertiary = theme.primaryColor,
                 onSurface = theme.textColor,
             )
 
-            theme is Theme.BlackAndWhite -> darkColorScheme(
+            is Theme.BlackAndWhite -> darkColorScheme(
                 primary = Color(theme.accentColor),
                 surface = theme.backgroundColor,
                 tertiary = theme.primaryColor,
                 onSurface = theme.textColor
             )
 
-            else -> darkColorScheme
         }
     } else {
         previewColorScheme()

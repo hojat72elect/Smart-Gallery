@@ -33,7 +33,6 @@ import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 class FilepickerItemsAdapter(
     activity: BaseActivity, val fileDirItems: List<FileDirItem>, recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit

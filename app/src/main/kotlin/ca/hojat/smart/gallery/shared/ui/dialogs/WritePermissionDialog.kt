@@ -17,7 +17,6 @@ import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 class WritePermissionDialog(activity: Activity, private val mode: Mode, val callback: () -> Unit) {
 
     @Immutable

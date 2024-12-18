@@ -1,10 +1,8 @@
 package ca.hojat.smart.gallery.shared.ui.adapters
 
-import android.os.Build
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ItemManageFolderBinding
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
@@ -13,7 +11,6 @@ import ca.hojat.smart.gallery.shared.extensions.setupViewBackground
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 
-@RequiresApi(Build.VERSION_CODES.O)
 class ManageHiddenFoldersAdapter(
     activity: BaseActivity,
     var folders: ArrayList<String>,
@@ -92,7 +89,7 @@ class ManageHiddenFoldersAdapter(
         }
 
         if (sdCardPaths.isNotEmpty()) {
-            activity.handleSAFDialog(sdCardPaths.first()) {
+            activity.handleSAFDialog {
                 if (it) {
                     unhideFolders(removeFolders)
                 }

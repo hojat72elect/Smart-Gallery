@@ -5,14 +5,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentValues
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Handler
 import android.provider.MediaStore
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.util.Pair
 import androidx.documentfile.provider.DocumentFile
 import ca.hojat.smart.gallery.R
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.canManageMedia
 import ca.hojat.smart.gallery.shared.extensions.createDirectorySync
@@ -41,9 +41,6 @@ import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
 import ca.hojat.smart.gallery.shared.helpers.CONFLICT_KEEP_BOTH
 import ca.hojat.smart.gallery.shared.helpers.CONFLICT_SKIP
 import ca.hojat.smart.gallery.shared.helpers.getConflictResolution
-import ca.hojat.smart.gallery.shared.helpers.isOreoPlus
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -54,7 +51,6 @@ import java.lang.ref.WeakReference
  * TODO: Should be migrated to a UseCase with Coroutines.
  */
 @SuppressLint("StaticFieldLeak")
-@RequiresApi(Build.VERSION_CODES.O)
 class CopyMoveTask(
     val activity: BaseActivity,
     private val copyOnly: Boolean,
@@ -174,14 +170,14 @@ class CopyMoveTask(
     private fun initProgressNotification() {
         val channelId = "Copy/Move"
         val title = activity.getString(if (copyOnly) R.string.copying else R.string.moving)
-        if (isOreoPlus()) {
-            val importance = NotificationManager.IMPORTANCE_LOW
-            NotificationChannel(channelId, title, importance).apply {
-                enableLights(false)
-                enableVibration(false)
-                activity.notificationManager.createNotificationChannel(this)
-            }
+
+        val importance = NotificationManager.IMPORTANCE_LOW
+        NotificationChannel(channelId, title, importance).apply {
+            enableLights(false)
+            enableVibration(false)
+            activity.notificationManager.createNotificationChannel(this)
         }
+
 
         mNotificationBuilder.setContentTitle(title)
             .setSmallIcon(R.drawable.ic_copy_vector)

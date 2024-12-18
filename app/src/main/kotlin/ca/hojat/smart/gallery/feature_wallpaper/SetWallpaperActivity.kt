@@ -5,27 +5,22 @@ import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.OptIn
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
-import com.canhub.cropper.CropImageView
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.feature_home.HomeActivity
 import ca.hojat.smart.gallery.databinding.ActivitySetWallpaperBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import ca.hojat.smart.gallery.feature_home.HomeActivity
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.RadioItem
 import ca.hojat.smart.gallery.shared.extensions.checkAppSideloading
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isNougatPlus
-import ca.hojat.smart.gallery.shared.data.domain.RadioItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import com.canhub.cropper.CropImageView
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(UnstableApi::class)
 class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteListener {
 
@@ -134,21 +129,17 @@ class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteLi
     }
 
     private fun confirmWallpaper() {
-        if (isNougatPlus()) {
-            val items = arrayListOf(
-                RadioItem(WallpaperManager.FLAG_SYSTEM, getString(R.string.home_screen)),
-                RadioItem(WallpaperManager.FLAG_LOCK, getString(R.string.lock_screen)),
-                RadioItem(
-                    WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK,
-                    getString(R.string.home_and_lock_screen)
-                )
+        val items = arrayListOf(
+            RadioItem(WallpaperManager.FLAG_SYSTEM, getString(R.string.home_screen)),
+            RadioItem(WallpaperManager.FLAG_LOCK, getString(R.string.lock_screen)),
+            RadioItem(
+                WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK,
+                getString(R.string.home_and_lock_screen)
             )
+        )
 
-            RadioGroupDialog(this, items) {
-                wallpaperFlag = it as Int
-                binding.cropImageView.croppedImageAsync()
-            }
-        } else {
+        RadioGroupDialog(this, items) {
+            wallpaperFlag = it as Int
             binding.cropImageView.croppedImageAsync()
         }
     }
@@ -165,13 +156,8 @@ class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteLi
                 val ratio = wantedHeight / bitmap.height.toFloat()
                 val wantedWidth = (bitmap.width * ratio).toInt()
                 try {
-                    val scaledBitmap =
-                        Bitmap.createScaledBitmap(bitmap, wantedWidth, wantedHeight, true)
-                    if (isNougatPlus()) {
-                        wallpaperManager.setBitmap(scaledBitmap, null, true, wallpaperFlag)
-                    } else {
-                        wallpaperManager.setBitmap(scaledBitmap)
-                    }
+                    val scaledBitmap = Bitmap.createScaledBitmap(bitmap, wantedWidth, wantedHeight, true)
+                    wallpaperManager.setBitmap(scaledBitmap, null, true, wallpaperFlag)
                     setResult(RESULT_OK)
                 } catch (e: OutOfMemoryError) {
                     toast(R.string.out_of_memory_error)

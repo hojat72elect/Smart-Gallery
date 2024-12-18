@@ -11,7 +11,6 @@ import ca.hojat.smart.gallery.shared.extensions.getTextSize
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 
-@RequiresApi(Build.VERSION_CODES.O)
 class FilepickerFavoritesAdapter(
     activity: BaseActivity, val paths: List<String>, recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit

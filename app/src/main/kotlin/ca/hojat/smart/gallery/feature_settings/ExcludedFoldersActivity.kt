@@ -1,24 +1,20 @@
 package ca.hojat.smart.gallery.feature_settings
 
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
-import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
-import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
-import ca.hojat.smart.gallery.shared.extensions.viewBinding
-import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.ui.adapters.RefreshRecyclerViewListener
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.ManageFoldersAdapter
 import ca.hojat.smart.gallery.databinding.ActivityManageFoldersBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.beVisibleIf
 import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
+import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.extensions.viewBinding
+import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
+import ca.hojat.smart.gallery.shared.ui.adapters.ManageFoldersAdapter
+import ca.hojat.smart.gallery.shared.ui.adapters.RefreshRecyclerViewListener
+import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
 
-@RequiresApi(Build.VERSION_CODES.O)
 class ExcludedFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 
     private val binding by viewBinding(ActivityManageFoldersBinding::inflate)
@@ -54,7 +50,7 @@ class ExcludedFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
             beVisibleIf(folders.isEmpty())
             setTextColor(getProperTextColor())
 
-            if (isRPlus() && !isExternalStorageManager()) {
+            if (!isExternalStorageManager()) {
                 placeholderText = placeholderText.substringBefore("\n")
             }
 

@@ -27,7 +27,6 @@ import kotlin.math.max
 import kotlin.math.min
 
 @SuppressLint("UseCompatLoadingForDrawables")
-@RequiresApi(Build.VERSION_CODES.O)
 abstract class MyRecyclerViewAdapter(
     val activity: BaseActivity,
     val recyclerView: MyRecyclerView,

@@ -8,13 +8,9 @@ import ca.hojat.smart.gallery.shared.extensions.getAppIconColors
 import ca.hojat.smart.gallery.shared.extensions.getInternalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.getSDCardPath
 import ca.hojat.smart.gallery.shared.extensions.getSharedPrefs
-import ca.hojat.smart.gallery.shared.extensions.sharedPreferencesCallback
 import java.text.SimpleDateFormat
 import java.util.LinkedList
 import java.util.Locale
-import kotlin.reflect.KProperty0
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
 
 open class BaseConfig(val context: Context) {
     protected val prefs = context.getSharedPrefs()
@@ -276,7 +272,7 @@ open class BaseConfig(val context: Context) {
             .apply()
 
     var isUsingSystemTheme: Boolean
-        get() = prefs.getBoolean(IS_USING_SYSTEM_THEME, isSPlus())
+        get() = prefs.getBoolean(IS_USING_SYSTEM_THEME, true)
         set(isUsingSystemTheme) = prefs.edit().putBoolean(IS_USING_SYSTEM_THEME, isUsingSystemTheme)
             .apply()
 
@@ -442,28 +438,9 @@ open class BaseConfig(val context: Context) {
         set(lastBlockedNumbersExportPath) = prefs.edit()
             .putString(LAST_BLOCKED_NUMBERS_EXPORT_PATH, lastBlockedNumbersExportPath).apply()
 
-    var blockUnknownNumbers: Boolean
-        get() = prefs.getBoolean(BLOCK_UNKNOWN_NUMBERS, false)
-        set(blockUnknownNumbers) = prefs.edit()
-            .putBoolean(BLOCK_UNKNOWN_NUMBERS, blockUnknownNumbers).apply()
-
-    val isBlockingUnknownNumbers: Flow<Boolean> = ::blockUnknownNumbers.asFlowNonNull()
-
-    var blockHiddenNumbers: Boolean
-        get() = prefs.getBoolean(BLOCK_HIDDEN_NUMBERS, false)
-        set(blockHiddenNumbers) = prefs.edit().putBoolean(BLOCK_HIDDEN_NUMBERS, blockHiddenNumbers)
-            .apply()
-
-    val isBlockingHiddenNumbers: Flow<Boolean> = ::blockHiddenNumbers.asFlowNonNull()
-
     var fontSize: Int
         get() = prefs.getInt(FONT_SIZE, context.resources.getInteger(R.integer.default_font_size))
         set(size) = prefs.edit().putInt(FONT_SIZE, size).apply()
-
-    var startNameWithSurname: Boolean
-        get() = prefs.getBoolean(START_NAME_WITH_SURNAME, false)
-        set(startNameWithSurname) = prefs.edit()
-            .putBoolean(START_NAME_WITH_SURNAME, startNameWithSurname).apply()
 
     var favorites: MutableSet<String>
         get() = prefs.getStringSet(FAVORITES, HashSet())!!
@@ -487,31 +464,6 @@ open class BaseConfig(val context: Context) {
             .putString(COLOR_PICKER_RECENT_COLORS, recentColors.joinToString(separator = "\n"))
             .apply()
 
-    var ignoredContactSources: HashSet<String>
-        get() = prefs.getStringSet(IGNORED_CONTACT_SOURCES, hashSetOf(".")) as HashSet
-        set(ignoreContactSources) = prefs.edit().remove(IGNORED_CONTACT_SOURCES)
-            .putStringSet(IGNORED_CONTACT_SOURCES, ignoreContactSources).apply()
-
-    var showOnlyContactsWithNumbers: Boolean
-        get() = prefs.getBoolean(SHOW_ONLY_CONTACTS_WITH_NUMBERS, false)
-        set(showOnlyContactsWithNumbers) = prefs.edit()
-            .putBoolean(SHOW_ONLY_CONTACTS_WITH_NUMBERS, showOnlyContactsWithNumbers).apply()
-
-    var lastUsedContactSource: String
-        get() = prefs.getString(LAST_USED_CONTACT_SOURCE, "")!!
-        set(lastUsedContactSource) = prefs.edit()
-            .putString(LAST_USED_CONTACT_SOURCE, lastUsedContactSource).apply()
-
-    var wasLocalAccountInitialized: Boolean
-        get() = prefs.getBoolean(WAS_LOCAL_ACCOUNT_INITIALIZED, false)
-        set(wasLocalAccountInitialized) = prefs.edit()
-            .putBoolean(WAS_LOCAL_ACCOUNT_INITIALIZED, wasLocalAccountInitialized).apply()
-
-    var mergeDuplicateContacts: Boolean
-        get() = prefs.getBoolean(MERGE_DUPLICATE_CONTACTS, true)
-        set(mergeDuplicateContacts) = prefs.edit()
-            .putBoolean(MERGE_DUPLICATE_CONTACTS, mergeDuplicateContacts).apply()
-
     var viewType: Int
         get() = prefs.getInt(VIEW_TYPE, VIEW_TYPE_LIST)
         set(viewType) = prefs.edit().putInt(VIEW_TYPE, viewType).apply()
@@ -525,12 +477,6 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getLong(PASSWORD_COUNTDOWN_START_MS, 0L)
         set(passwordCountdownStartMs) = prefs.edit()
             .putLong(PASSWORD_COUNTDOWN_START_MS, passwordCountdownStartMs).apply()
-
-    private fun <T> KProperty0<T>.asFlow(emitOnCollect: Boolean = false): Flow<T?> =
-        prefs.run { sharedPreferencesCallback(sendOnCollect = emitOnCollect) { this@asFlow.get() } }
-
-    private fun <T> KProperty0<T>.asFlowNonNull(emitOnCollect: Boolean = false): Flow<T> =
-        asFlow(emitOnCollect).filterNotNull()
 
     fun getCurrentAppIconColorIndex(context: Context): Int {
         val appIconColor = appIconColor

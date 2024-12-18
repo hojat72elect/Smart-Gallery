@@ -4,28 +4,24 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
-import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import android.provider.MediaStore
-import android.telephony.PhoneNumberUtils
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
-import com.bumptech.glide.signature.ObjectKey
 import ca.hojat.smart.gallery.shared.helpers.NOMEDIA
 import ca.hojat.smart.gallery.shared.helpers.audioExtensions
 import ca.hojat.smart.gallery.shared.helpers.extensionsSupportingEXIF
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
 import ca.hojat.smart.gallery.shared.helpers.normalizeRegex
 import ca.hojat.smart.gallery.shared.helpers.photoExtensions
 import ca.hojat.smart.gallery.shared.helpers.rawExtensions
 import ca.hojat.smart.gallery.shared.helpers.videoExtensions
+import com.bumptech.glide.signature.ObjectKey
 import java.io.File
 import java.io.IOException
 import java.text.Normalizer
 import java.util.Locale
-import kotlin.math.max
 
 fun String.isThisOrParentIncluded(includedPaths: MutableSet<String>) =
     includedPaths.any { equals(it, true) } || includedPaths.any {
@@ -84,7 +80,7 @@ fun String.shouldFolderBeVisible(
     val containsNoMedia = if (showHidden) {
         false
     } else {
-        folderNoMediaStatuses.getOrElse("$this/$NOMEDIA") { false } || ((!isRPlus() || isExternalStorageManager()) && File(
+        folderNoMediaStatuses.getOrElse("$this/$NOMEDIA") { false } || (isExternalStorageManager() && File(
             this,
             NOMEDIA
         ).exists())
@@ -163,12 +159,10 @@ fun String.isSvg() = endsWith(".svg", true)
 fun String?.fromHtml(): Spanned =
     when {
         this == null -> SpannableString("")
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(
+        else -> Html.fromHtml(
             this,
             Html.FROM_HTML_MODE_LEGACY
         )
-
-        else -> Html.fromHtml(this)
     }
 
 fun String.isGif() = endsWith(".gif", true)
@@ -350,24 +344,6 @@ fun String.getAvailableStorageB(): Long {
 fun String.normalizeString() = Normalizer.normalize(this, Normalizer.Form.NFD).replace(
     normalizeRegex, ""
 )
-
-// checks if string is a phone number
-fun String.isPhoneNumber(): Boolean {
-    return this.matches("^[0-9+\\-)( *#]+$".toRegex())
-}
-
-// if we are comparing phone numbers, compare just the last 9 digits
-fun String.trimToComparableNumber(): String {
-    // don't trim if it's not a phone number
-    if (!this.isPhoneNumber()) {
-        return this
-    }
-    val normalizedNumber = this.normalizeString()
-    val startIndex = max(0, normalizedNumber.length - 9)
-    return normalizedNumber.substring(startIndex)
-}
-
-fun String.normalizePhoneNumber() = PhoneNumberUtils.normalizeNumber(this)
 
 fun String.getMimeType(): String {
     val typesMap = java.util.HashMap<String, String>().apply {
@@ -974,5 +950,3 @@ fun String.getMimeType(): String {
 
     return typesMap[getFilenameExtension().lowercase(Locale.getDefault())] ?: ""
 }
-
-fun String.isBlockedNumberPattern() = contains("*")

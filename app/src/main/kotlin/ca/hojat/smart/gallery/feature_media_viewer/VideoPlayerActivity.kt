@@ -75,7 +75,6 @@ import ca.hojat.smart.gallery.shared.helpers.SHOW_PREV_ITEM
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import kotlin.math.abs
 
-@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 open class VideoPlayerActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener,
     TextureView.SurfaceTextureListener {

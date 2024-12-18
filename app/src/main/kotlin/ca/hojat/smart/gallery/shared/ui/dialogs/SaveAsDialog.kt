@@ -1,11 +1,10 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogSaveAsBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
 import ca.hojat.smart.gallery.shared.extensions.getFileUrisFromFileDirItems
@@ -23,11 +22,8 @@ import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")
 class SaveAsDialog(
     val activity: BaseActivity,
@@ -114,7 +110,7 @@ class SaveAsDialog(
                                 newFilename
                             )
                             ConfirmationDialog(activity, title) {
-                                if ((isRPlus() && !isExternalStorageManager())) {
+                                if (!isExternalStorageManager()) {
                                     val fileDirItem =
                                         arrayListOf(File(newPath).toFileDirItem(activity))
                                     val fileUris = activity.getFileUrisFromFileDirItems(fileDirItem)

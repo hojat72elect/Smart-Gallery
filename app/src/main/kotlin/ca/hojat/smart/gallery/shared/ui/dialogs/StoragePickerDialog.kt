@@ -28,7 +28,6 @@ import ca.hojat.smart.gallery.shared.activities.BaseActivity
  * @param callback an anonymous function
  *
  */
-@RequiresApi(Build.VERSION_CODES.O)
 class StoragePickerDialog(
     val activity: BaseActivity,
     private val currPath: String,

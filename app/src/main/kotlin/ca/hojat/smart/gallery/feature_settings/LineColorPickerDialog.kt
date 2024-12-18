@@ -16,7 +16,6 @@ import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.toHex
 import ca.hojat.smart.gallery.shared.extensions.value
 
-@RequiresApi(Build.VERSION_CODES.O)
 class LineColorPickerDialog(
     val activity: BaseActivity,
     val color: Int,

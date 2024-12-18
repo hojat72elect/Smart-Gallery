@@ -5,33 +5,25 @@ import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.OptIn
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
-import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
-import ca.hojat.smart.gallery.shared.data.db.GalleryDatabase
 import ca.hojat.smart.gallery.databinding.ActivityMediaBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeGroupingDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeSortingDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeViewTypeDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.CreateNewFolderDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.FilterMediaDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import ca.hojat.smart.gallery.feature_home.HomeActivity
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.db.GalleryDatabase
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
+import ca.hojat.smart.gallery.shared.data.domain.Medium
+import ca.hojat.smart.gallery.shared.data.domain.RadioItem
+import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
+import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
+import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.shared.extensions.areSystemAnimationsEnabled
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
@@ -58,7 +50,6 @@ import ca.hojat.smart.gallery.shared.extensions.isDownloadsFolder
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
-import ca.hojat.smart.gallery.shared.extensions.isPackageInstalled
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.launchCamera
@@ -81,6 +72,7 @@ import ca.hojat.smart.gallery.shared.helpers.IS_IN_RECYCLE_BIN
 import ca.hojat.smart.gallery.shared.helpers.MAX_COLUMN_COUNT
 import ca.hojat.smart.gallery.shared.helpers.MediaFetcher
 import ca.hojat.smart.gallery.shared.helpers.PATH
+import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_MEDIA_IMAGES
 import ca.hojat.smart.gallery.shared.helpers.PICKED_PATHS
 import ca.hojat.smart.gallery.shared.helpers.RECYCLE_BIN
 import ca.hojat.smart.gallery.shared.helpers.REQUEST_EDIT_IMAGE
@@ -95,25 +87,26 @@ import ca.hojat.smart.gallery.shared.helpers.SORT_BY_RANDOM
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_GRID
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_LIST
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.getPermissionToRequest
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
+import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
 import ca.hojat.smart.gallery.shared.ui.adapters.MediaOperationsListener
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.data.domain.RadioItem
-import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
-import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
-import ca.hojat.smart.gallery.feature_home.HomeActivity
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeGroupingDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeSortingDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeViewTypeDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.CreateNewFolderDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.FilterMediaDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import java.io.File
 import java.io.IOException
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @OptIn(UnstableApi::class)
 class MediaActivity : BaseActivity(), MediaOperationsListener {
-
 
     private var mPath = ""
     private var mIsGetImageIntent = false
@@ -341,8 +334,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
             findItem(R.id.open_recycle_bin).isVisible = config.useRecycleBin && mPath != RECYCLE_BIN
 
             findItem(R.id.temporarily_show_hidden).isVisible = !config.shouldShowHidden
-            findItem(R.id.stop_showing_hidden).isVisible =
-                (!isRPlus() || isExternalStorageManager()) && config.temporarilyShowHidden
+            findItem(R.id.stop_showing_hidden).isVisible = (isExternalStorageManager()) && config.temporarilyShowHidden
 
             findItem(R.id.set_as_default_folder).isVisible = !isDefaultFolder
             findItem(R.id.unset_as_default_folder).isVisible = isDefaultFolder
@@ -456,7 +448,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
     }
 
     private fun tryLoadGallery() {
-        handlePermission(getPermissionToRequest()) {
+        handlePermission(PERMISSION_READ_MEDIA_IMAGES) {
             if (it) {
                 val dirName = when (mPath) {
                     FAVORITES -> getString(R.string.favorites)
@@ -644,7 +636,8 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
             if (!fileDirItem.isDownloadsFolder() && fileDirItem.isDirectory) {
                 ensureBackgroundThread {
                     if (fileDirItem.getProperFileCount(this, true) == 0) {
-                        tryDeleteFileDirItem(fileDirItem,
+                        tryDeleteFileDirItem(
+                            fileDirItem,
                             allowDeleteFolder = true,
                             deleteFromDatabase = true
                         )
@@ -758,7 +751,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
         if (config.temporarilyShowHidden) {
             toggleTemporarilyShowHidden(false)
         } else {
-            if (isRPlus() && !isExternalStorageManager()) {
+            if (!isExternalStorageManager()) {
                 GrantAllFilesDialog(this)
             } else {
                 handleHiddenFolderPasswordProtection {

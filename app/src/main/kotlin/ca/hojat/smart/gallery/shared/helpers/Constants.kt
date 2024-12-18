@@ -2,20 +2,14 @@ package ca.hojat.smart.gallery.shared.helpers
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Looper
-import android.provider.ContactsContract
-import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
 import ca.hojat.smart.gallery.R
 
 const val HOUR_MINUTES = 60
-const val MINUTE_SECONDS = 60
 const val DAY_MINUTES = 24 * HOUR_MINUTES
 const val MONTH_MINUTES = DAY_MINUTES * 30
 
-
-const val HOUR_SECONDS = HOUR_MINUTES * 60
 const val DAY_SECONDS = DAY_MINUTES * 60
 const val MONTH_SECONDS = MONTH_MINUTES * 60
 
@@ -233,10 +227,6 @@ const val DEFAULT_BOTTOM_ACTIONS =
 
 // aspect ratios used at the editor for cropping
 const val ASPECT_RATIO_FREE = 0
-const val ASPECT_RATIO_ONE_ONE = 1
-const val ASPECT_RATIO_FOUR_THREE = 2
-const val ASPECT_RATIO_SIXTEEN_NINE = 3
-const val ASPECT_RATIO_OTHER = 4
 
 // constants related to image quality
 const val LOW_TILE_DPI = 160
@@ -254,9 +244,6 @@ const val FOLDER_MEDIA_CNT_NONE = 3
 
 const val FOLDER_STYLE_SQUARE = 1
 const val FOLDER_STYLE_ROUNDED_CORNERS = 2
-
-fun getPermissionToRequest() =
-    if (isTiramisuPlus()) PERMISSION_READ_MEDIA_IMAGES else PERMISSION_WRITE_STORAGE
 
 // possible icons at the top left corner
 enum class NavigationIcon(@StringRes val accessibilityResId: Int) {
@@ -290,9 +277,6 @@ const val SAVE_DISCARD_PROMPT_INTERVAL = 1000L
 const val SD_OTG_PATTERN = "^/storage/[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val SD_OTG_SHORT = "^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 
-const val SMT_PRIVATE =
-    "smt_private"   // used at the contact source of local contacts hidden from other apps
-const val FIRST_GROUP_ID = 10000L
 const val MD5 = "MD5"
 
 const val DARK_GREY = 0xFF333333.toInt()
@@ -384,28 +368,13 @@ const val LAST_RENAME_PATTERN_USED = "last_rename_pattern_used"
 const val LAST_EXPORTED_SETTINGS_FOLDER = "last_exported_settings_folder"
 
 const val LAST_BLOCKED_NUMBERS_EXPORT_PATH = "last_blocked_numbers_export_path"
-const val BLOCK_UNKNOWN_NUMBERS = "block_unknown_numbers"
-const val BLOCK_HIDDEN_NUMBERS = "block_hidden_numbers"
 const val FONT_SIZE = "font_size"
 
-const val START_NAME_WITH_SURNAME = "start_name_with_surname"
 const val FAVORITES = "favorites"
 
 const val COLOR_PICKER_RECENT_COLORS = "color_picker_recent_colors"
 
-const val SHOW_ONLY_CONTACTS_WITH_NUMBERS = "show_only_contacts_with_numbers"
-const val IGNORED_CONTACT_SOURCES = "ignored_contact_sources_2"
-const val LAST_USED_CONTACT_SOURCE = "last_used_contact_source"
-
-
-const val WAS_LOCAL_ACCOUNT_INITIALIZED = "was_local_account_initialized"
-
-
-const val MERGE_DUPLICATE_CONTACTS = "merge_duplicate_contacts"
-
-
 const val VIEW_TYPE = "view_type"
-
 
 const val PASSWORD_RETRY_COUNT = "password_retry_count"
 const val PASSWORD_COUNTDOWN_START_MS = "password_count_down_start_ms"
@@ -473,14 +442,10 @@ const val SORT_BY_DATE_TAKEN = 8
 const val SORT_BY_EXTENSION = 16
 const val SORT_BY_PATH = 32
 
-const val SORT_BY_FIRST_NAME = 128
-const val SORT_BY_MIDDLE_NAME = 256
-const val SORT_BY_SURNAME = 512
 const val SORT_DESCENDING = 1024
 
 const val SORT_BY_RANDOM = 16384
 const val SORT_USE_NUMERIC_VALUE = 32768
-const val SORT_BY_FULL_NAME = 65536
 const val SORT_BY_CUSTOM = 131072
 
 
@@ -645,32 +610,6 @@ fun ensureBackgroundThread(callback: () -> Unit) {
     }
 }
 
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
-fun isNougatPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
-fun isOreoPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
-fun isPiePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
-fun isQPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
-fun isRPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-fun isSPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
-fun isTiramisuPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun isUpsideDownCakePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-
-
 val normalizeRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
 fun getConflictResolution(resolutions: LinkedHashMap<String, Int>, path: String): Int {
@@ -682,15 +621,6 @@ fun getConflictResolution(resolutions: LinkedHashMap<String, Int>, path: String)
         CONFLICT_SKIP
     }
 }
-
-val proPackages = arrayListOf("draw", "gallery", "filemanager", "contacts", "notes", "calendar")
-const val FIRST_CONTACT_ID = 1000000
-const val DEFAULT_MIMETYPE = ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-
-// apps with special handling
-const val TELEGRAM_PACKAGE = "org.telegram.messenger"
-const val VIBER_PACKAGE = "com.viber.voip"
-
 
 fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {
     val fileDrawables = HashMap<String, Drawable>()

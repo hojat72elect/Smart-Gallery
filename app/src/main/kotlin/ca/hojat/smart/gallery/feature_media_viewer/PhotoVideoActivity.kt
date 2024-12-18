@@ -6,19 +6,18 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Html
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.feature_home.HomeActivity
 import ca.hojat.smart.gallery.databinding.FragmentHolderBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
+import ca.hojat.smart.gallery.feature_home.HomeActivity
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.Medium
 import ca.hojat.smart.gallery.shared.extensions.actionBarHeight
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
@@ -70,6 +69,7 @@ import ca.hojat.smart.gallery.shared.helpers.IS_VIEW_INTENT
 import ca.hojat.smart.gallery.shared.helpers.MEDIUM
 import ca.hojat.smart.gallery.shared.helpers.NOMEDIA
 import ca.hojat.smart.gallery.shared.helpers.PATH
+import ca.hojat.smart.gallery.shared.helpers.PERMISSION_READ_MEDIA_IMAGES
 import ca.hojat.smart.gallery.shared.helpers.REAL_FILE_PATH
 import ca.hojat.smart.gallery.shared.helpers.SHOW_FAVORITES
 import ca.hojat.smart.gallery.shared.helpers.SKIP_AUTHENTICATION
@@ -80,15 +80,11 @@ import ca.hojat.smart.gallery.shared.helpers.TYPE_RAWS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_SVGS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_VIDEOS
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.getPermissionToRequest
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
 import java.io.File
 import java.io.FileInputStream
 
 @SuppressLint("NewApi")
-@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListener {
     private var mMedium: Medium? = null
@@ -101,7 +97,6 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
 
     private val binding by viewBinding(FragmentHolderBinding::inflate)
 
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     public override fun onCreate(savedInstanceState: Bundle?) {
         showTransparentTop = true
 
@@ -113,7 +108,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
 
         setupOptionsMenu()
         refreshMenuItems()
-        handlePermission(getPermissionToRequest()) {
+        handlePermission(PERMISSION_READ_MEDIA_IMAGES) {
             if (it) {
                 checkIntent(savedInstanceState)
             } else {
@@ -244,8 +239,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
                     realPath.getParentPath(),
                     NOMEDIA
                 ).exists() || realPath.contains("/."))
-                val preventShowingHiddenFile =
-                    (isRPlus() && !isExternalStorageManager()) && isFileFolderHidden
+                val preventShowingHiddenFile = !isExternalStorageManager() && isFileFolderHidden
                 if (!preventShowingHiddenFile) {
                     if (realPath.getFilenameFromPath().contains('.') || filename.contains('.')) {
                         if (isFileTypeVisible(realPath)) {
@@ -275,8 +269,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
                 realPath.getParentPath(),
                 NOMEDIA
             ).exists() || realPath.contains("/."))
-            val preventShowingHiddenFile =
-                (isRPlus() && !isExternalStorageManager()) && isFileFolderHidden
+            val preventShowingHiddenFile = !isExternalStorageManager() && isFileFolderHidden
             if (!preventShowingHiddenFile) {
                 if (realPath != mUri.toString() && realPath.isNotEmpty() && mUri!!.authority != "mms" && filename.contains(
                         '.'
@@ -445,7 +438,6 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         return false
     }
 
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun showProperties() {
         PropertiesDialog(this, mUri!!.path!!)
     }
@@ -496,7 +488,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         val visibleBottomActions = if (config.bottomActions) config.visibleBottomActions else 0
         binding.bottomActions.bottomEdit.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_EDIT != 0 && mMedium?.isImage() == true)
         binding.bottomActions.bottomEdit.setOnClickListener {
-          toast("This feature is not implemented yet")
+            toast("This feature is not implemented yet")
         }
 
         binding.bottomActions.bottomShare.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHARE != 0)

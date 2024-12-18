@@ -11,7 +11,6 @@ import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.shared.helpers.PROTECTION_FINGERPRINT
 import ca.hojat.smart.gallery.shared.helpers.PROTECTION_PATTERN
 import ca.hojat.smart.gallery.shared.helpers.PROTECTION_PIN
-import ca.hojat.smart.gallery.shared.helpers.isRPlus
 import ca.hojat.smart.gallery.shared.ui.views.MyScrollView
 
 class PasswordTypesAdapter(
@@ -45,7 +44,7 @@ class PasswordTypesAdapter(
     private fun layoutSelection(position: Int): Int = when (position) {
         PROTECTION_PATTERN -> R.layout.tab_pattern
         PROTECTION_PIN -> R.layout.tab_pin
-        PROTECTION_FINGERPRINT -> if (isRPlus()) R.layout.tab_biometric_id else R.layout.tab_fingerprint
+        PROTECTION_FINGERPRINT -> R.layout.tab_biometric_id
         else -> throw RuntimeException("Only 3 tabs allowed")
     }
 

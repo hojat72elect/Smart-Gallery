@@ -3,14 +3,11 @@ package ca.hojat.smart.gallery.shared.ui.theme.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.shared.ui.extensions.config
-import ca.hojat.smart.gallery.shared.ui.theme.isInDarkThemeAndSurfaceIsNotLitWell
-import ca.hojat.smart.gallery.shared.helpers.isSPlus
 
 @Stable
 sealed class Theme : CommonTheme {
@@ -56,7 +53,7 @@ sealed class Theme : CommonTheme {
         override val appIconColorInt: Int,
         override val textColorInt: Int
     ) : Theme()
-    
+
     companion object {
         @Composable
         fun systemDefaultMaterialYou(): SystemDefaultMaterialYou {
@@ -66,7 +63,7 @@ sealed class Theme : CommonTheme {
                 appIconColorInt = config.appIconColor,
                 primaryColorInt = config.primaryColor,
                 backgroundColorInt = config.backgroundColor,
-                textColorInt = if (isSPlus()) colorResource(R.color.you_neutral_text_color).toArgb() else (if (isInDarkThemeAndSurfaceIsNotLitWell()) Color.White else Color.Black).toArgb()
+                textColorInt = colorResource(R.color.you_neutral_text_color).toArgb()
             )
         }
     }

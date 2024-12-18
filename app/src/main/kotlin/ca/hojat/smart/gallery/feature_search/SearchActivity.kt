@@ -43,7 +43,6 @@ import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.O)
 @UnstableApi
 class SearchActivity : BaseActivity(), MediaOperationsListener {
     private var mLastSearchedText = ""

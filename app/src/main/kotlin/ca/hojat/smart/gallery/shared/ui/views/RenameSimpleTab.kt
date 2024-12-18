@@ -2,11 +2,9 @@ package ca.hojat.smart.gallery.shared.ui.views
 
 import android.content.ContentValues
 import android.content.Context
-import android.os.Build
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.widget.RelativeLayout
-import androidx.annotation.RequiresApi
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.TabRenameSimpleBinding
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
@@ -29,7 +27,6 @@ import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.R)
 class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
     RenameTab {
     private var ignoreClicks = false
@@ -78,7 +75,7 @@ class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(co
             return
         }
 
-        activity?.handleSAFDialog(sdFilePath) {
+        activity?.handleSAFDialog {
             if (!it) {
                 return@handleSAFDialog
             }

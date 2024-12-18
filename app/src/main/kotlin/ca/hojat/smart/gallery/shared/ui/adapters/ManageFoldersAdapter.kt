@@ -17,7 +17,6 @@ import ca.hojat.smart.gallery.shared.extensions.setupViewBackground
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 
-@RequiresApi(Build.VERSION_CODES.O)
 class ManageFoldersAdapter(
     activity: BaseActivity,
     var folders: ArrayList<String>,
