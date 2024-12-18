@@ -1,21 +1,18 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
 import android.app.Activity
-import android.os.Build
 import android.text.Html
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Immutable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogWritePermissionBinding
 import ca.hojat.smart.gallery.databinding.DialogWritePermissionOtgBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.humanizePath
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
-
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class WritePermissionDialog(activity: Activity, private val mode: Mode, val callback: () -> Unit) {
 

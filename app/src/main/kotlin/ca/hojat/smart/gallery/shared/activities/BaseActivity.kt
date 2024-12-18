@@ -2740,7 +2740,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
 
-    fun getFileOutputStream(
+    private fun getFileOutputStream(
         fileDirItem: FileDirItem,
         allowCreatingNewFile: Boolean = false,
         callback: (outputStream: OutputStream?) -> Unit

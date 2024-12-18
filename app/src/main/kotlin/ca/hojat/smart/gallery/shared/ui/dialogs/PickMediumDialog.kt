@@ -1,27 +1,25 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
-import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
-import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
-import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_GRID
-import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
-import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.databinding.DialogMediumPickerBinding
-import ca.hojat.smart.gallery.shared.extensions.config
-import ca.hojat.smart.gallery.shared.extensions.getCachedMedia
-import ca.hojat.smart.gallery.shared.helpers.GridSpacingItemDecoration
-import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.data.domain.Medium
 import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
 import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
+import ca.hojat.smart.gallery.shared.extensions.config
+import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
+import ca.hojat.smart.gallery.shared.extensions.getCachedMedia
+import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
+import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
+import ca.hojat.smart.gallery.shared.helpers.GridSpacingItemDecoration
+import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL
+import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_GRID
+import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
+import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 
 @UnstableApi
 class PickMediumDialog(
@@ -78,7 +76,6 @@ class PickMediumDialog(
             gotMedia(it)
         }.execute()
     }
-
 
 
     private fun showOtherFolder() {

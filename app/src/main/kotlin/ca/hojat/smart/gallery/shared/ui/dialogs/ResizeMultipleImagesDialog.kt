@@ -1,11 +1,10 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
 import android.graphics.Point
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogResizeMultipleImagesBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getParentPath
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
@@ -15,7 +14,6 @@ import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toInt
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import java.io.File
 import kotlin.math.roundToInt
 

@@ -88,8 +88,7 @@ const val GROUP_DIRECT_SUBFOLDERS = "group_direct_subfolders"
 const val SHOW_WIDGET_FOLDER_NAME = "show_widget_folder_name"
 const val ALLOW_ONE_TO_ONE_ZOOM = "allow_one_to_one_zoom"
 const val ALLOW_ROTATING_WITH_GESTURES = "allow_rotating_with_gestures"
-const val LAST_EDITOR_DRAW_COLOR = "last_editor_draw_color"
-const val LAST_EDITOR_BRUSH_SIZE = "last_editor_brush_size"
+
 const val SHOW_NOTCH = "show_notch"
 const val FILE_LOADING_PRIORITY = "file_loading_priority"
 const val SPAM_FOLDERS_CHECKED = "spam_folders_checked"
@@ -267,8 +266,6 @@ const val IS_FROM_GALLERY = "is_from_gallery"
 
 const val REFRESH_PATH = "refresh_path"
 
-const val BLOCKED_NUMBERS_EXPORT_DELIMITER = ","
-const val BLOCKED_NUMBERS_EXPORT_EXTENSION = ".txt"
 const val NOMEDIA = ".nomedia"
 
 const val SHOW_FAQ_BEFORE_MAIL = "show_faq_before_mail"

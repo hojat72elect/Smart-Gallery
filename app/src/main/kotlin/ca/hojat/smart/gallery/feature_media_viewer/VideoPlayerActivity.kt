@@ -10,7 +10,6 @@ import android.graphics.Point
 import android.graphics.SurfaceTexture
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -22,7 +21,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.SeekBar
-import androidx.annotation.RequiresApi
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -39,6 +37,7 @@ import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivityVideoPlayerBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.actionBarHeight
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
@@ -72,7 +71,6 @@ import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_DEVICE_ROTATION
 import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_SYSTEM_SETTING
 import ca.hojat.smart.gallery.shared.helpers.SHOW_NEXT_ITEM
 import ca.hojat.smart.gallery.shared.helpers.SHOW_PREV_ITEM
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import kotlin.math.abs
 
 @UnstableApi

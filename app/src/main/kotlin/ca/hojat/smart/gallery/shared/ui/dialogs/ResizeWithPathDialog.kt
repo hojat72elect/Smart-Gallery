@@ -2,12 +2,11 @@ package ca.hojat.smart.gallery.shared.ui.dialogs
 
 import android.annotation.SuppressLint
 import android.graphics.Point
-import android.os.Build
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogResizeImageWithPathBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
@@ -21,7 +20,6 @@ import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toInt
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
 @SuppressLint("SetTextI18n")
 class ResizeWithPathDialog(

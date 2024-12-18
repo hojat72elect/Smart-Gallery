@@ -5,8 +5,6 @@ import android.text.SpannableString
 import android.text.TextPaint
 import android.text.style.URLSpan
 import android.widget.TextView
-import androidx.annotation.StringRes
-
 
 val TextView.value: String get() = text.toString().trim()
 
@@ -25,13 +23,4 @@ fun TextView.removeUnderlines() {
         }, spannable.getSpanStart(u), spannable.getSpanEnd(u), 0)
     }
     text = spannable
-}
-
-fun TextView.setTextOrBeGone(@StringRes textRes: Int?) {
-    if (textRes != null) {
-        beVisible()
-        this.text = context.getString(textRes)
-    } else {
-        beGone()
-    }
 }

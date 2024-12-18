@@ -1,14 +1,12 @@
 package ca.hojat.smart.gallery.shared.ui.adapters
 
-import android.os.Build
 import android.util.TypedValue
 import android.view.Menu
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.FilepickerFavoriteBinding
-import ca.hojat.smart.gallery.shared.extensions.getTextSize
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.extensions.getTextSize
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 
 class FilepickerFavoritesAdapter(

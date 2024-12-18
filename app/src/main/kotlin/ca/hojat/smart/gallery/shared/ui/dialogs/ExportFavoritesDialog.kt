@@ -1,10 +1,9 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogExportFavoritesBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
@@ -16,7 +15,6 @@ import ca.hojat.smart.gallery.shared.extensions.isAValidFilename
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
 class ExportFavoritesDialog(
     val activity: BaseActivity,

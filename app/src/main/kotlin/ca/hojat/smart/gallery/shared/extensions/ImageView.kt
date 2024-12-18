@@ -3,7 +3,6 @@ package ca.hojat.smart.gallery.shared.extensions
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 
 fun ImageView.applyColorFilter(color: Int) = setColorFilter(color, PorterDuff.Mode.SRC_IN)
 
@@ -20,11 +19,3 @@ fun ImageView.setFillWithStroke(fillColor: Int, backgroundColor: Int, drawRectan
     }
 }
 
-fun ImageView.setImageResourceOrBeGone(@DrawableRes imageRes: Int?) {
-    if (imageRes != null) {
-        beVisible()
-        setImageResource(imageRes)
-    } else {
-        beGone()
-    }
-}

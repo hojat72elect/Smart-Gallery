@@ -2,8 +2,6 @@ package ca.hojat.smart.gallery.shared.extensions
 
 import android.content.Context
 import android.text.format.DateFormat
-import ca.hojat.smart.gallery.shared.extensions.baseConfig
-import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
 import java.text.DecimalFormat
 import java.util.Calendar
 import java.util.Locale

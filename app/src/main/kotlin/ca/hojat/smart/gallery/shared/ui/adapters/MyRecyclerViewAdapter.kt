@@ -2,7 +2,6 @@ package ca.hojat.smart.gallery.shared.ui.adapters
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.os.Build
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
@@ -10,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.RecyclerView
 import ca.hojat.smart.gallery.R
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.getContrastColor
@@ -21,7 +20,6 @@ import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 import kotlin.math.max
 import kotlin.math.min

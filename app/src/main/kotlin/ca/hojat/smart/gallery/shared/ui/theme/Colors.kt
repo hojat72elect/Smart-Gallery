@@ -210,4 +210,3 @@ val md_yellow_900 = Color(0xFFF57F17)
 val theme_dark_background_color = md_grey_800_dark
 val default_background_color = theme_dark_background_color
 val ripple_light = Color(0x1f000000)
-val actionModeColor = Color(0xFF2D231D)

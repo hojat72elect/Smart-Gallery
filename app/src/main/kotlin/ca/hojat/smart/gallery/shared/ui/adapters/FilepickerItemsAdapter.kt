@@ -2,20 +2,13 @@ package ca.hojat.smart.gallery.shared.ui.adapters
 
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.TypedValue
 import android.view.Menu
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
-import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ItemFilepickerListBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.formatSize
 import ca.hojat.smart.gallery.shared.extensions.getAndroidSAFUri
@@ -28,9 +21,14 @@ import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRestrictedSAFOnlyRoot
 import ca.hojat.smart.gallery.shared.helpers.getFilePlaceholderDrawables
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import java.util.Locale
 
 class FilepickerItemsAdapter(

@@ -3,7 +3,6 @@ package ca.hojat.smart.gallery.shared.ui.system_ui_controller
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.compose.runtime.Composable
@@ -191,6 +190,7 @@ internal class AndroidSystemUiController(
                 // contrast
                 transformColorForLightContent(color)
             }
+
             else -> color
         }.toArgb()
     }
@@ -211,6 +211,7 @@ internal class AndroidSystemUiController(
                 // contrast
                 transformColorForLightContent(color)
             }
+
             else -> color
         }.toArgb()
     }
@@ -260,11 +261,9 @@ internal class AndroidSystemUiController(
         }
 
     override var isNavigationBarContrastEnforced: Boolean
-        get() = Build.VERSION.SDK_INT >= 29 && window?.isNavigationBarContrastEnforced == true
+        get() = window?.isNavigationBarContrastEnforced == true
         set(value) {
-            if (Build.VERSION.SDK_INT >= 29) {
-                window?.isNavigationBarContrastEnforced = value
-            }
+            window?.isNavigationBarContrastEnforced = value
         }
 }
 

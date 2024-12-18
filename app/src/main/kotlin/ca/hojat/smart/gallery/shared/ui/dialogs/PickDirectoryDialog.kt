@@ -1,17 +1,16 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
 import android.graphics.Color
-import android.os.Build
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.RecyclerView
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.DirectoryAdapter
 import ca.hojat.smart.gallery.databinding.DialogDirectoryPickerBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.Directory
 import ca.hojat.smart.gallery.shared.extensions.addTempFolderIfNeeded
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beInvisible
@@ -33,8 +32,7 @@ import ca.hojat.smart.gallery.shared.extensions.isRestrictedWithSAFSdk30
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_GRID
-import ca.hojat.smart.gallery.shared.data.domain.Directory
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.adapters.DirectoryAdapter
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MySearchMenu
 

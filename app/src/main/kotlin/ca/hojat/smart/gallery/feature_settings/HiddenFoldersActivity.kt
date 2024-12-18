@@ -1,21 +1,19 @@
 package ca.hojat.smart.gallery.feature_settings
 
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
-import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
+import ca.hojat.smart.gallery.R
+import ca.hojat.smart.gallery.databinding.ActivityManageFoldersBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.beVisibleIf
+import ca.hojat.smart.gallery.shared.extensions.config
+import ca.hojat.smart.gallery.shared.extensions.getNoMediaFolders
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.ui.adapters.RefreshRecyclerViewListener
-import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.shared.ui.adapters.ManageHiddenFoldersAdapter
-import ca.hojat.smart.gallery.databinding.ActivityManageFoldersBinding
-import ca.hojat.smart.gallery.shared.extensions.config
-import ca.hojat.smart.gallery.shared.extensions.getNoMediaFolders
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.adapters.RefreshRecyclerViewListener
+import ca.hojat.smart.gallery.shared.ui.dialogs.FilePickerDialog
 
 class HiddenFoldersActivity : BaseActivity(), RefreshRecyclerViewListener {
 

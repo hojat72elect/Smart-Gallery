@@ -15,22 +15,17 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import ca.hojat.smart.gallery.R
+import ca.hojat.smart.gallery.shared.extensions.darkenColor
 import ca.hojat.smart.gallery.shared.ui.system_ui_controller.rememberSystemUiController
 import ca.hojat.smart.gallery.shared.ui.theme.SimpleTheme
 import ca.hojat.smart.gallery.shared.ui.theme.isLitWell
-import ca.hojat.smart.gallery.shared.extensions.darkenColor
-import ca.hojat.smart.gallery.shared.extensions.getActivity
-import ca.hojat.smart.gallery.shared.extensions.launchViewIntent
 
 
 @Composable
@@ -133,12 +128,3 @@ internal fun TransparentSystemBars(darkIcons: Boolean = !isSystemInDarkTheme()) 
     }
 }
 
-@Composable
-fun composeDonateIntent(): () -> Unit {
-    val localContext = LocalContext.current
-    val localView = LocalView.current
-    return {
-        if (localView.isInEditMode) Unit else localContext.getActivity()
-            .launchViewIntent(R.string.thank_you_url)
-    }
-}

@@ -1,20 +1,18 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Environment
 import android.os.Parcelable
 import android.view.KeyEvent
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.FilepickerFavoritesAdapter
-import ca.hojat.smart.gallery.shared.ui.adapters.FilepickerItemsAdapter
 import ca.hojat.smart.gallery.databinding.DialogFilepickerBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.extensions.areSystemAnimationsEnabled
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.beGone
@@ -49,8 +47,8 @@ import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.adapters.FilepickerFavoritesAdapter
+import ca.hojat.smart.gallery.shared.ui.adapters.FilepickerItemsAdapter
 import ca.hojat.smart.gallery.shared.ui.views.Breadcrumbs
 import java.io.File
 

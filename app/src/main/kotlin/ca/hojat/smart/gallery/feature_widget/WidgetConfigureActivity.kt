@@ -6,17 +6,14 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
-import com.bumptech.glide.signature.ObjectKey
-import ca.hojat.smart.gallery.shared.ui.dialogs.ColorPickerDialog
-import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivityWidgetConfigBinding
-import ca.hojat.smart.gallery.shared.ui.dialogs.PickDirectoryDialog
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.Directory
+import ca.hojat.smart.gallery.shared.data.domain.Widget
 import ca.hojat.smart.gallery.shared.extensions.adjustAlpha
 import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.beVisibleIf
@@ -36,9 +33,10 @@ import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.extensions.widgetsDB
 import ca.hojat.smart.gallery.shared.helpers.MyWidgetProvider
 import ca.hojat.smart.gallery.shared.helpers.ROUNDED_CORNERS_NONE
-import ca.hojat.smart.gallery.shared.data.domain.Directory
-import ca.hojat.smart.gallery.shared.data.domain.Widget
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
+import ca.hojat.smart.gallery.shared.ui.dialogs.ColorPickerDialog
+import ca.hojat.smart.gallery.shared.ui.dialogs.PickDirectoryDialog
+import com.bumptech.glide.signature.ObjectKey
 
 @UnstableApi
 class WidgetConfigureActivity : BaseActivity() {

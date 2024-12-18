@@ -1,20 +1,18 @@
 package ca.hojat.smart.gallery.shared.ui.adapters
 
-import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.annotation.RequiresApi
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ItemManageFolderBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.getPopupMenuTheme
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.setupViewBackground
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
 
 class ManageFoldersAdapter(

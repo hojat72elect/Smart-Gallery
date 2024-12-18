@@ -433,11 +433,6 @@ open class BaseConfig(val context: Context) {
         set(lastExportedSettingsFolder) = prefs.edit()
             .putString(LAST_EXPORTED_SETTINGS_FOLDER, lastExportedSettingsFolder).apply()
 
-    var lastBlockedNumbersExportPath: String
-        get() = prefs.getString(LAST_BLOCKED_NUMBERS_EXPORT_PATH, "")!!
-        set(lastBlockedNumbersExportPath) = prefs.edit()
-            .putString(LAST_BLOCKED_NUMBERS_EXPORT_PATH, lastBlockedNumbersExportPath).apply()
-
     var fontSize: Int
         get() = prefs.getInt(FONT_SIZE, context.resources.getInteger(R.integer.default_font_size))
         set(size) = prefs.edit().putInt(FONT_SIZE, size).apply()

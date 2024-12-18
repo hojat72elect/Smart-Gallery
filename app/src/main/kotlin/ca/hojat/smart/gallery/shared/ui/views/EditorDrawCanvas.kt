@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
-import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.shared.data.domain.PaintOptions
+import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 
 class EditorDrawCanvas(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mCurX = 0f
@@ -119,37 +117,5 @@ class EditorDrawCanvas(context: Context, attrs: AttributeSet) : View(context, at
     private fun changePaint(paintOptions: PaintOptions) {
         mPaint.color = paintOptions.color
         mPaint.strokeWidth = paintOptions.strokeWidth
-    }
-
-    fun updateColor(newColor: Int) {
-        mPaintOptions.color = newColor
-    }
-
-    fun updateBrushSize(newBrushSize: Int) {
-        mPaintOptions.strokeWidth =
-            resources.getDimension(R.dimen.full_brush_size) * (newBrushSize / 100f)
-    }
-
-    fun updateBackgroundBitmap(bitmap: Bitmap) {
-        backgroundBitmap = bitmap
-        invalidate()
-    }
-
-    fun getBitmap(): Bitmap {
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.WHITE)
-        draw(canvas)
-        return bitmap
-    }
-
-    fun undo() {
-        if (mPaths.isEmpty()) {
-            return
-        }
-
-        val lastKey = mPaths.keys.lastOrNull()
-        mPaths.remove(lastKey)
-        invalidate()
     }
 }

@@ -2,19 +2,20 @@ package ca.hojat.smart.gallery.feature_search
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.feature_media_viewer.ViewPagerActivity
-import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
-import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.databinding.ActivitySearchBinding
+import ca.hojat.smart.gallery.feature_media_viewer.ViewPagerActivity
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
+import ca.hojat.smart.gallery.shared.data.domain.Medium
+import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
+import ca.hojat.smart.gallery.shared.data.repository.GetMediaAsyncTask
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
 import ca.hojat.smart.gallery.shared.extensions.config
@@ -35,11 +36,8 @@ import ca.hojat.smart.gallery.shared.helpers.PATH
 import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_GRID
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
+import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
 import ca.hojat.smart.gallery.shared.ui.adapters.MediaOperationsListener
-import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
-import ca.hojat.smart.gallery.shared.data.domain.Medium
-import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import java.io.File
 

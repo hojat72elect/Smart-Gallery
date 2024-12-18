@@ -464,11 +464,6 @@ fun Activity.isAppInstalledOnSDCard(): Boolean = try {
     false
 }
 
-
-fun launchMoreAppsFromUsIntent() {
-    // todo will be implemented later
-}
-
 fun Activity.launchViewIntent(id: Int) = launchViewIntent(getString(id))
 
 fun Activity.redirectToRateUs() {

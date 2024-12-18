@@ -1,14 +1,13 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogRadioGroupBinding
 import ca.hojat.smart.gallery.databinding.RadioButtonBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getBasePath
 import ca.hojat.smart.gallery.shared.extensions.hasExternalSDCard
@@ -17,7 +16,6 @@ import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.otgPath
 import ca.hojat.smart.gallery.shared.extensions.sdCardPath
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
 
 /**
  * A dialog for choosing between internal, root, SD card (optional) storage
@@ -155,7 +153,7 @@ class StoragePickerDialog(
         callback("/")
     }
 
-    companion object{
+    companion object {
         private const val ID_INTERNAL = 1
         private const val ID_SD = 2
         private const val ID_OTG = 3

@@ -1,8 +1,6 @@
 package ca.hojat.smart.gallery.shared.extensions
 
-import android.annotation.TargetApi
 import android.content.Context
-import android.os.Build
 import androidx.exifinterface.media.ExifInterface
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
@@ -144,7 +142,6 @@ fun ExifInterface.getExifProperties(): String {
     return exifString.trim()
 }
 
-@TargetApi(Build.VERSION_CODES.N)
 fun ExifInterface.getExifDateTaken(context: Context): String {
     val dateTime = getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL)
         ?: getAttribute(ExifInterface.TAG_DATETIME)

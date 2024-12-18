@@ -9,7 +9,6 @@ import ca.hojat.smart.gallery.shared.helpers.DARK_GREY
 import ca.hojat.smart.gallery.shared.helpers.SORT_DESCENDING
 import java.text.DecimalFormat
 import java.util.Locale
-import java.util.Random
 import kotlin.math.log10
 import kotlin.math.pow
 
@@ -72,8 +71,6 @@ fun Int.formatSize(): String {
 fun Int.removeBit(bit: Int) = addBit(bit) - bit
 
 fun Int.addBit(bit: Int) = this or bit
-
-fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) + start
 
 // taken from https://stackoverflow.com/a/40964456/1967672
 fun Int.darkenColor(factor: Int = 8): Int {

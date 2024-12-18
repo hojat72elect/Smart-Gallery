@@ -1,10 +1,7 @@
 package ca.hojat.smart.gallery.feature_settings
 
-import android.os.Build
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.appbar.MaterialToolbar
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogLineColorPickerBinding
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
@@ -15,6 +12,7 @@ import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.toHex
 import ca.hojat.smart.gallery.shared.extensions.value
+import com.google.android.material.appbar.MaterialToolbar
 
 class LineColorPickerDialog(
     val activity: BaseActivity,
