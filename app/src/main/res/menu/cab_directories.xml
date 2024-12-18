@@ -86,16 +86,7 @@
         android:showAsAction="never"
         android:title="@string/exclude"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/cab_lock"
-        android:showAsAction="never"
-        android:title="@string/lock_folder"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/cab_unlock"
-        android:showAsAction="never"
-        android:title="@string/unlock_folder"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/cab_change_cover_image"
         android:showAsAction="never"

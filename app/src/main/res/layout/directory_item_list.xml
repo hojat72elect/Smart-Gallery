@@ -27,7 +27,6 @@
         android:layout_alignBottom="@+id/dir_thumbnail"
         android:layout_centerInParent="true"
         android:background="@color/default_background_color"
-        android:contentDescription="@string/lock_folder"
         android:padding="@dimen/medium_margin"
         android:src="@drawable/ic_lock_vector"
         android:visibility="gone" />

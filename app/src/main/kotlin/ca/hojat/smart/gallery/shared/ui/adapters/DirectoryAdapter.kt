@@ -20,7 +20,6 @@ import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DirectoryItemGridRoundedCornersBinding
 import ca.hojat.smart.gallery.databinding.DirectoryItemGridSquareBinding
 import ca.hojat.smart.gallery.databinding.DirectoryItemListBinding
-import ca.hojat.smart.gallery.feature_lock.SecurityDialog
 import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
@@ -73,7 +72,6 @@ import ca.hojat.smart.gallery.shared.helpers.RECYCLE_BIN
 import ca.hojat.smart.gallery.shared.helpers.ROUNDED_CORNERS_BIG
 import ca.hojat.smart.gallery.shared.helpers.ROUNDED_CORNERS_NONE
 import ca.hojat.smart.gallery.shared.helpers.ROUNDED_CORNERS_SMALL
-import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL_TABS
 import ca.hojat.smart.gallery.shared.helpers.SORT_BY_CUSTOM
 import ca.hojat.smart.gallery.shared.helpers.TYPE_GIFS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_IMAGES
@@ -85,7 +83,6 @@ import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmDeleteFolderDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ExcludeFolderDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.FolderLockingNoticeDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.PickMediumDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
@@ -121,7 +118,6 @@ class DirectoryAdapter(
     private var lockedFolderPaths = ArrayList<String>()
     private var isDragAndDropping = false
     private var startReorderDragListener: StartReorderDragListener? = null
-
     private var showMediaCount = config.showFolderMediaCount
     private var folderStyle = config.folderStyle
     private var limitFolderTitle = config.limitFolderTitle
@@ -176,8 +172,6 @@ class DirectoryAdapter(
                 !selectedPaths.contains(FAVORITES) && !selectedPaths.contains(RECYCLE_BIN)
             findItem(R.id.cab_change_cover_image).isVisible = isOneItemSelected
 
-            findItem(R.id.cab_lock).isVisible = selectedPaths.any { !config.isFolderProtected(it) }
-            findItem(R.id.cab_unlock).isVisible = selectedPaths.any { config.isFolderProtected(it) }
 
             findItem(R.id.cab_empty_recycle_bin).isVisible =
                 isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
@@ -209,8 +203,6 @@ class DirectoryAdapter(
             R.id.cab_hide -> toggleFoldersVisibility(true)
             R.id.cab_unhide -> toggleFoldersVisibility(false)
             R.id.cab_exclude -> tryExcludeFolder()
-            R.id.cab_lock -> tryLockFolder()
-            R.id.cab_unlock -> unlockFolder()
             R.id.cab_copy_to -> copyFilesTo()
             R.id.cab_move_to -> moveFilesTo()
             R.id.cab_select_all -> selectAll()
@@ -530,53 +522,6 @@ class DirectoryAdapter(
             config.addExcludedFolders(paths)
             listener?.refreshItems()
             finishActMode()
-        }
-    }
-
-    private fun tryLockFolder() {
-        if (config.wasFolderLockingNoticeShown) {
-            lockFolder()
-        } else {
-            FolderLockingNoticeDialog(activity) {
-                lockFolder()
-            }
-        }
-    }
-
-    private fun lockFolder() {
-        SecurityDialog(activity, "", SHOW_ALL_TABS) { hash, type, success ->
-            if (success) {
-                getSelectedPaths().filter { !config.isFolderProtected(it) }.forEach {
-                    config.addFolderProtection(it, hash, type)
-                    lockedFolderPaths.add(it)
-                }
-
-                listener?.refreshItems()
-                finishActMode()
-            }
-        }
-    }
-
-    private fun unlockFolder() {
-        val paths = getSelectedPaths()
-        val firstPath = paths.first()
-        val tabToShow = config.getFolderProtectionType(firstPath)
-        val hashToCheck = config.getFolderProtectionHash(firstPath)
-        SecurityDialog(activity, hashToCheck, tabToShow) { _, _, success ->
-            if (success) {
-                paths.filter {
-                    config.isFolderProtected(it) && config.getFolderProtectionType(it) == tabToShow && config.getFolderProtectionHash(
-                        it
-                    ) == hashToCheck
-                }
-                    .forEach {
-                        config.removeFolderProtection(it)
-                        lockedFolderPaths.remove(it)
-                    }
-
-                listener?.refreshItems()
-                finishActMode()
-            }
         }
     }
 
