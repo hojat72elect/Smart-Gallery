@@ -26,7 +26,6 @@ import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
 import ca.hojat.smart.gallery.shared.extensions.getFavoriteFromPath
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperSize
-import ca.hojat.smart.gallery.shared.extensions.handleExcludedFolderPasswordProtection
 import ca.hojat.smart.gallery.shared.extensions.handleHiddenFolderPasswordProtection
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isVisible

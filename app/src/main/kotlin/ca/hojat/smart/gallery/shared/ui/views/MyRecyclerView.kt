@@ -12,7 +12,7 @@ import ca.hojat.smart.gallery.shared.ui.adapters.RecyclerScrollCallback
 
 // drag selection is based on https://github.com/afollestad/drag-select-recyclerview
 open class MyRecyclerView : RecyclerView {
-    private val AUTO_SCROLL_DELAY = 25L
+
     private var isZoomEnabled = false
     private var isDragSelectionEnabled = false
     private var zoomListener: MyZoomListener? = null
@@ -286,8 +286,7 @@ open class MyRecyclerView : RecyclerView {
 
     class GestureListener(private val gestureListener: MyGestureListener) :
         ScaleGestureDetector.SimpleOnScaleGestureListener() {
-        private val ZOOM_IN_THRESHOLD = -0.4f
-        private val ZOOM_OUT_THRESHOLD = 0.15f
+
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             gestureListener.apply {
@@ -338,5 +337,11 @@ open class MyRecyclerView : RecyclerView {
         fun updateTop()
 
         fun updateBottom()
+    }
+
+    companion object{
+        private const val AUTO_SCROLL_DELAY = 25L
+        private const val ZOOM_IN_THRESHOLD = -0.4f
+        private const val ZOOM_OUT_THRESHOLD = 0.15f
     }
 }

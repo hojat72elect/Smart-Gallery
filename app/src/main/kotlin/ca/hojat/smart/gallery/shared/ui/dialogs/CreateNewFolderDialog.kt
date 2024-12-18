@@ -1,5 +1,6 @@
 package ca.hojat.smart.gallery.shared.ui.dialogs
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
@@ -24,6 +25,7 @@ import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
 import java.io.File
 
+@SuppressLint("SetTextI18n")
 class CreateNewFolderDialog(
     val activity: BaseActivity,
     val path: String,

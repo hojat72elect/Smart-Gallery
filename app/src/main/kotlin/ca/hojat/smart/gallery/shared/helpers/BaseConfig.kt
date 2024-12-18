@@ -206,21 +206,6 @@ open class BaseConfig(val context: Context) {
         set(deleteProtectionType) = prefs.edit()
             .putInt(DELETE_PROTECTION_TYPE, deleteProtectionType).apply()
 
-    // folder locking
-    fun addFolderProtection(path: String, hash: String, type: Int) {
-        prefs.edit()
-            .putString("$PROTECTED_FOLDER_HASH$path", hash)
-            .putInt("$PROTECTED_FOLDER_TYPE$path", type)
-            .apply()
-    }
-
-    fun removeFolderProtection(path: String) {
-        prefs.edit()
-            .remove("$PROTECTED_FOLDER_HASH$path")
-            .remove("$PROTECTED_FOLDER_TYPE$path")
-            .apply()
-    }
-
     fun isFolderProtected(path: String) = getFolderProtectionType(path) != PROTECTION_NONE
 
     fun getFolderProtectionHash(path: String) =
@@ -413,11 +398,6 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(WAS_SORTING_BY_NUMERIC_VALUE_ADDED, false)
         set(wasSortingByNumericValueAdded) = prefs.edit()
             .putBoolean(WAS_SORTING_BY_NUMERIC_VALUE_ADDED, wasSortingByNumericValueAdded).apply()
-
-    var wasFolderLockingNoticeShown: Boolean
-        get() = prefs.getBoolean(WAS_FOLDER_LOCKING_NOTICE_SHOWN, false)
-        set(wasFolderLockingNoticeShown) = prefs.edit()
-            .putBoolean(WAS_FOLDER_LOCKING_NOTICE_SHOWN, wasFolderLockingNoticeShown).apply()
 
     var lastRenameUsed: Int
         get() = prefs.getInt(LAST_RENAME_USED, RENAME_SIMPLE)

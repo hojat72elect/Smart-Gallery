@@ -23,11 +23,8 @@ class LineColorPickerDialog(
     val toolbar: MaterialToolbar? = null,
     val callback: (wasPositivePressed: Boolean, color: Int) -> Unit
 ) {
-    private val PRIMARY_COLORS_COUNT = 19
-    private val DEFAULT_PRIMARY_COLOR_INDEX = 14
-    private val DEFAULT_SECONDARY_COLOR_INDEX = 6
-    private val DEFAULT_COLOR_VALUE = activity.resources.getColor(R.color.color_primary)
 
+    private val defaultColorValue = activity.resources.getColor(R.color.color_primary)
     private var wasDimmedBackgroundRemoved = false
     private var dialog: AlertDialog? = null
     private var view = DialogLineColorPickerBinding.inflate(activity.layoutInflater, null, false)
@@ -81,7 +78,6 @@ class LineColorPickerDialog(
 
     fun getSpecificColor() = view.secondaryLineColorPicker.getCurrentColor()
 
-
     private fun colorUpdated(color: Int) {
         view.hexCode.text = color.toHex()
         if (isPrimaryColorPicker) {
@@ -98,7 +94,7 @@ class LineColorPickerDialog(
     }
 
     private fun getColorIndexes(color: Int): Pair<Int, Int> {
-        if (color == DEFAULT_COLOR_VALUE) {
+        if (color == defaultColorValue) {
             return getDefaultColorPair()
         }
 
@@ -155,4 +151,10 @@ class LineColorPickerDialog(
     }
 
     private fun getColors(id: Int) = activity.resources.getIntArray(id).toCollection(ArrayList())
+
+    companion object {
+        private const val PRIMARY_COLORS_COUNT = 19
+        private const val DEFAULT_PRIMARY_COLOR_INDEX = 14
+        private const val DEFAULT_SECONDARY_COLOR_INDEX = 6
+    }
 }

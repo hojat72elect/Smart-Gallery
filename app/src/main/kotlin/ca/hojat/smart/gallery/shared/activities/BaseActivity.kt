@@ -2917,8 +2917,6 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun isShowingSAFDialog(path: String) = false
-
     private fun isShowingSAFDialogSdk30(path: String): Boolean {
         return if (isAccessibleWithSAFSdk30(path) && !hasProperStoredFirstParentUri(path)) {
             runOnUiThread {
@@ -3104,14 +3102,10 @@ open class BaseActivity : AppCompatActivity() {
         size: Point,
         callback: (success: Boolean) -> Unit
     ) {
-        var oldExif: ExifInterface?
+        val oldExif: ExifInterface?
         val inputStream = contentResolver.openInputStream(Uri.fromFile(File(oldPath)))
         oldExif = ExifInterface(inputStream!!)
-
-
-        val newBitmap =
-            Glide.with(applicationContext).asBitmap().load(oldPath).submit(size.x, size.y).get()
-
+        val newBitmap = Glide.with(applicationContext).asBitmap().load(oldPath).submit(size.x, size.y).get()
         val newFile = File(newPath)
         val newFileDirItem = FileDirItem(newPath, newPath.getFilenameFromPath())
         getFileOutputStream(newFileDirItem, true) { out ->
@@ -3119,8 +3113,6 @@ open class BaseActivity : AppCompatActivity() {
                 out.use {
                     try {
                         newBitmap.compress(newFile.absolutePath.getCompressionFormat(), 90, out)
-
-
                         val newExif = ExifInterface(newFile.absolutePath)
                         oldExif.copyNonDimensionAttributesTo(newExif)
 
