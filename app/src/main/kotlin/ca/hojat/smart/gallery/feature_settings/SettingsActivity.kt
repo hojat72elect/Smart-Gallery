@@ -190,7 +190,6 @@ class SettingsActivity : BaseActivity() {
         setupChangeDateTimeFormat()
         setupFileLoadingPriority()
         setupManageIncludedFolders()
-        setupManageExcludedFolders()
         setupSearchAllFiles()
         setupShowHiddenItems()
         setupAutoplayVideos()
@@ -331,14 +330,6 @@ class SettingsActivity : BaseActivity() {
                 GrantAllFilesDialog(this)
             } else {
                 startActivity(Intent(this, IncludedFoldersActivity::class.java))
-            }
-        }
-    }
-
-    private fun setupManageExcludedFolders() {
-        binding.settingsManageExcludedFoldersHolder.setOnClickListener {
-            handleExcludedFolderPasswordProtection {
-                startActivity(Intent(this, ExcludedFoldersActivity::class.java))
             }
         }
     }

@@ -67,7 +67,6 @@ import ca.hojat.smart.gallery.shared.helpers.FOLDER_STYLE_ROUNDED_CORNERS
 import ca.hojat.smart.gallery.shared.helpers.FOLDER_STYLE_SQUARE
 import ca.hojat.smart.gallery.shared.helpers.LOCATION_INTERNAL
 import ca.hojat.smart.gallery.shared.helpers.LOCATION_SD
-import ca.hojat.smart.gallery.shared.helpers.PATH
 import ca.hojat.smart.gallery.shared.helpers.RECYCLE_BIN
 import ca.hojat.smart.gallery.shared.helpers.ROUNDED_CORNERS_BIG
 import ca.hojat.smart.gallery.shared.helpers.ROUNDED_CORNERS_NONE
@@ -82,7 +81,6 @@ import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_LIST
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmDeleteFolderDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ExcludeFolderDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.PickMediumDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
@@ -202,7 +200,6 @@ class DirectoryAdapter(
             R.id.cab_empty_disable_recycle_bin -> emptyAndDisableRecycleBin()
             R.id.cab_hide -> toggleFoldersVisibility(true)
             R.id.cab_unhide -> toggleFoldersVisibility(false)
-            R.id.cab_exclude -> tryExcludeFolder()
             R.id.cab_copy_to -> copyFilesTo()
             R.id.cab_move_to -> moveFilesTo()
             R.id.cab_select_all -> selectAll()
@@ -498,30 +495,6 @@ class DirectoryAdapter(
                     listener?.updateDirectories(newDirs)
                 }
             }
-        }
-    }
-
-    private fun tryExcludeFolder() {
-        val selectedPaths = getSelectedPaths()
-        val paths =
-            selectedPaths.filter { it != PATH && it != RECYCLE_BIN && it != FAVORITES }.toSet()
-        if (selectedPaths.contains(RECYCLE_BIN)) {
-            config.showRecycleBinAtFolders = false
-            if (selectedPaths.size == 1) {
-                listener?.refreshItems()
-                finishActMode()
-            }
-        }
-
-        if (paths.size == 1) {
-            ExcludeFolderDialog(activity, paths.toMutableList()) {
-                listener?.refreshItems()
-                finishActMode()
-            }
-        } else if (paths.size > 1) {
-            config.addExcludedFolders(paths)
-            listener?.refreshItems()
-            finishActMode()
         }
     }
 
