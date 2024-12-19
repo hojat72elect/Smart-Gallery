@@ -493,9 +493,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     private fun initContinue() {
         if (intent.extras?.containsKey(IS_VIEW_INTENT) == true) {
             if (isShowHiddenFlagNeeded()) {
-                if (!config.isHiddenPasswordProtectionOn) {
-                    config.temporarilyShowHidden = true
-                }
+                config.temporarilyShowHidden = true
             }
 
             config.isThirdPartyIntent = true
@@ -1222,9 +1220,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         handleMediaManagementPrompt {
-            if (config.isDeletePasswordProtectionOn) {
-                deleteConfirmed(config.tempSkipRecycleBin)
-            } else if (config.tempSkipDeleteConfirmation || config.skipDeleteConfirmation) {
+            if (config.tempSkipDeleteConfirmation || config.skipDeleteConfirmation) {
                 deleteConfirmed(config.tempSkipRecycleBin)
             } else {
                 askConfirmDelete()

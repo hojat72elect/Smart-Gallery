@@ -3,7 +3,6 @@ package ca.hojat.smart.gallery.shared.extensions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.SystemClock
-import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
@@ -49,11 +48,6 @@ fun View.beInvisible() {
 fun View.isVisible() = visibility == View.VISIBLE
 
 fun View.isGone() = visibility == View.GONE
-
-fun View.performHapticFeedback() = performHapticFeedback(
-    HapticFeedbackConstants.VIRTUAL_KEY,
-    HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
-)
 
 @SuppressLint("UseCompatLoadingForDrawables")
 fun View.setupViewBackground(context: Context) {

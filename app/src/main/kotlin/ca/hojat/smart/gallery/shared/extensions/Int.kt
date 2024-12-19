@@ -1,9 +1,6 @@
 package ca.hojat.smart.gallery.shared.extensions
 
 import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
-import androidx.core.os.postDelayed
 import androidx.exifinterface.media.ExifInterface
 import ca.hojat.smart.gallery.shared.helpers.DARK_GREY
 import ca.hojat.smart.gallery.shared.helpers.SORT_DESCENDING
@@ -121,16 +118,5 @@ fun Int.ensureTwoDigits(): String {
         "0$this"
     } else {
         toString()
-    }
-}
-
-fun Int.countdown(intervalMillis: Long, callback: (count: Int) -> Unit) {
-    callback(this)
-    if (this == 0) {
-        return
-    }
-
-    Handler(Looper.getMainLooper()).postDelayed(intervalMillis) {
-        (this - 1).countdown(intervalMillis, callback)
     }
 }

@@ -169,7 +169,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     private var mIsThirdPartyIntent = false
     private var mIsGettingDirs = false
     private var mLoadedInitialPhotos = false
-    private var mIsPasswordProtectionPending = false
+
     private var mWasProtectionHandled = false
     private var mShouldStopFetching = false
     private var mWasDefaultFolderChecked = false
@@ -237,8 +237,6 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         binding.directoriesRefreshLayout.setOnRefreshListener { getDirectories() }
         storeStateVariables()
         checkWhatsNewDialog()
-
-        mIsPasswordProtectionPending = config.isAppPasswordProtectionOn
         setupLatestMediaId()
 
         if (!config.wereFavoritesPinned) {
@@ -354,19 +352,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
 
         if (!binding.mainMenu.isSearchOpen) {
             refreshMenuItems()
-            if (mIsPasswordProtectionPending && !mWasProtectionHandled) {
-                handleAppPasswordProtection {
-                    mWasProtectionHandled = it
-                    if (it) {
-                        mIsPasswordProtectionPending = false
-                        tryLoadGallery()
-                    } else {
-                        finish()
-                    }
-                }
-            } else {
-                tryLoadGallery()
-            }
+            tryLoadGallery()
         }
 
         if (config.searchAllFilesByDefault) {

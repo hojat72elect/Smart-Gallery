@@ -540,9 +540,7 @@ class MediaAdapter(
 
     private fun checkDeleteConfirmation() {
         activity.handleMediaManagementPrompt {
-            if (config.isDeletePasswordProtectionOn) {
-                deleteFiles(config.tempSkipRecycleBin)
-            } else if (config.tempSkipDeleteConfirmation || config.skipDeleteConfirmation) {
+           if (config.tempSkipDeleteConfirmation || config.skipDeleteConfirmation) {
                 deleteFiles(config.tempSkipRecycleBin)
             } else {
                 askConfirmDelete()

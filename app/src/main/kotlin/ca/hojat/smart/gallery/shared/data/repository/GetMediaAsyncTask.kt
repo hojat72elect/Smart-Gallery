@@ -57,7 +57,7 @@ class GetMediaAsyncTask(
 
         val media = if (showAll) {
             val foldersToScan = mediaFetcher.getFoldersToScan().filter {
-                it != RECYCLE_BIN && it != FAVORITES && !context.config.isFolderProtected(it)
+                it != RECYCLE_BIN && it != FAVORITES
             }
             val media = ArrayList<Medium>()
             foldersToScan.forEach {

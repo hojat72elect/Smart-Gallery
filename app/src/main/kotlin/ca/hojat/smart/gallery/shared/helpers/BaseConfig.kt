@@ -161,58 +161,6 @@ open class BaseConfig(val context: Context) {
         )
         set(widgetTextColor) = prefs.edit().putInt(WIDGET_TEXT_COLOR, widgetTextColor).apply()
 
-    // hidden folder visibility protection
-    var isHiddenPasswordProtectionOn: Boolean
-        get() = prefs.getBoolean(PASSWORD_PROTECTION, false)
-        set(isHiddenPasswordProtectionOn) = prefs.edit()
-            .putBoolean(PASSWORD_PROTECTION, isHiddenPasswordProtectionOn).apply()
-
-    var hiddenPasswordHash: String
-        get() = prefs.getString(PASSWORD_HASH, "")!!
-        set(hiddenPasswordHash) = prefs.edit().putString(PASSWORD_HASH, hiddenPasswordHash).apply()
-
-    var hiddenProtectionType: Int
-        get() = prefs.getInt(PROTECTION_TYPE, PROTECTION_PATTERN)
-        set(hiddenProtectionType) = prefs.edit().putInt(PROTECTION_TYPE, hiddenProtectionType)
-            .apply()
-
-    // whole app launch protection
-    var isAppPasswordProtectionOn: Boolean
-        get() = prefs.getBoolean(APP_PASSWORD_PROTECTION, false)
-        set(isAppPasswordProtectionOn) = prefs.edit()
-            .putBoolean(APP_PASSWORD_PROTECTION, isAppPasswordProtectionOn).apply()
-
-    var appPasswordHash: String
-        get() = prefs.getString(APP_PASSWORD_HASH, "")!!
-        set(appPasswordHash) = prefs.edit().putString(APP_PASSWORD_HASH, appPasswordHash).apply()
-
-    var appProtectionType: Int
-        get() = prefs.getInt(APP_PROTECTION_TYPE, PROTECTION_PATTERN)
-        set(appProtectionType) = prefs.edit().putInt(APP_PROTECTION_TYPE, appProtectionType).apply()
-
-    // file delete and move protection
-    var isDeletePasswordProtectionOn: Boolean
-        get() = prefs.getBoolean(DELETE_PASSWORD_PROTECTION, false)
-        set(isDeletePasswordProtectionOn) = prefs.edit()
-            .putBoolean(DELETE_PASSWORD_PROTECTION, isDeletePasswordProtectionOn).apply()
-
-    var deletePasswordHash: String
-        get() = prefs.getString(DELETE_PASSWORD_HASH, "")!!
-        set(deletePasswordHash) = prefs.edit().putString(DELETE_PASSWORD_HASH, deletePasswordHash)
-            .apply()
-
-    var deleteProtectionType: Int
-        get() = prefs.getInt(DELETE_PROTECTION_TYPE, PROTECTION_PATTERN)
-        set(deleteProtectionType) = prefs.edit()
-            .putInt(DELETE_PROTECTION_TYPE, deleteProtectionType).apply()
-
-    fun isFolderProtected(path: String) = getFolderProtectionType(path) != PROTECTION_NONE
-
-    fun getFolderProtectionHash(path: String) =
-        prefs.getString("$PROTECTED_FOLDER_HASH$path", "") ?: ""
-
-    fun getFolderProtectionType(path: String) =
-        prefs.getInt("$PROTECTED_FOLDER_TYPE$path", PROTECTION_NONE)
 
     var lastCopyPath: String
         get() = prefs.getString(LAST_COPY_PATH, "")!!
@@ -442,16 +390,6 @@ open class BaseConfig(val context: Context) {
     var viewType: Int
         get() = prefs.getInt(VIEW_TYPE, VIEW_TYPE_LIST)
         set(viewType) = prefs.edit().putInt(VIEW_TYPE, viewType).apply()
-
-    var passwordRetryCount: Int
-        get() = prefs.getInt(PASSWORD_RETRY_COUNT, 0)
-        set(passwordRetryCount) = prefs.edit().putInt(PASSWORD_RETRY_COUNT, passwordRetryCount)
-            .apply()
-
-    var passwordCountdownStartMs: Long
-        get() = prefs.getLong(PASSWORD_COUNTDOWN_START_MS, 0L)
-        set(passwordCountdownStartMs) = prefs.edit()
-            .putLong(PASSWORD_COUNTDOWN_START_MS, passwordCountdownStartMs).apply()
 
     fun getCurrentAppIconColorIndex(context: Context): Int {
         val appIconColor = appIconColor

@@ -48,7 +48,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.biometric.BiometricManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -1031,7 +1030,7 @@ fun Context.getCachedMedia(
         }
 
         val shouldShowHidden = config.shouldShowHidden
-        foldersToScan.filter { path.isNotEmpty() || !config.isFolderProtected(it) }.forEach {
+        foldersToScan.forEach {
             try {
                 val currMedia = mediaDB.getMediaFromPath(it)
                 media.addAll(currMedia)
@@ -1393,13 +1392,6 @@ fun Context.getDirectorySortingValue(
     }
 
     return result.toString()
-}
-
-fun Context.isBiometricIdAvailable(): Boolean = when (BiometricManager.from(this).canAuthenticate(
-    BiometricManager.Authenticators.BIOMETRIC_WEAK
-)) {
-    BiometricManager.BIOMETRIC_SUCCESS, BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> true
-    else -> false
 }
 
 fun Context.updateDirectoryPath(path: String) {

@@ -123,7 +123,6 @@ class DirectoryAdapter(
 
     init {
         setupDragListener()
-        fillLockedFolders()
     }
 
     override fun getActionMenuId() = R.menu.cab_directories
@@ -295,7 +294,7 @@ class DirectoryAdapter(
             }
         } else {
             PropertiesDialog(activity, getSelectedPaths().filter {
-                it != FAVORITES && it != RECYCLE_BIN && !config.isFolderProtected(it)
+                it != FAVORITES && it != RECYCLE_BIN
             }.toMutableList(), config.shouldShowHidden)
         }
     }
@@ -337,7 +336,7 @@ class DirectoryAdapter(
 
         } else {
             val paths = getSelectedPaths().filter {
-                !activity.isAStorageRootFolder(it) && !config.isFolderProtected(it)
+                !activity.isAStorageRootFolder(it)
             } as ArrayList<String>
             RenameItemsDialog(activity, paths) {
                 listener?.refreshItems()
@@ -377,9 +376,7 @@ class DirectoryAdapter(
             }
 
             selectedPaths.filter {
-                it != FAVORITES && it != RECYCLE_BIN && (selectedPaths.size == 1 || !config.isFolderProtected(
-                    it
-                ))
+                it != FAVORITES && it != RECYCLE_BIN
             }.forEach {
                 val path = it
                 if (path.containsNoMedia()) {
@@ -580,7 +577,6 @@ class DirectoryAdapter(
 
     private fun askConfirmDelete() {
         when {
-            config.isDeletePasswordProtectionOn -> deleteFolders()
 
             config.skipDeleteConfirmation -> deleteFolders()
             else -> {
@@ -679,12 +675,7 @@ class DirectoryAdapter(
         folders: Collection<String>,
         callback: (Collection<String>) -> Unit
     ) {
-        if (folders.size == 1) {
             callback(folders)
-        } else {
-            val filtered = folders.filter { !config.isFolderProtected(it) }
-            callback(filtered)
-        }
     }
 
     private fun tryChangeAlbumCover(useDefault: Boolean) {
@@ -740,20 +731,12 @@ class DirectoryAdapter(
     private fun getItemWithKey(key: Int): Directory? =
         dirs.firstOrNull { it.path.hashCode() == key }
 
-    private fun fillLockedFolders() {
-        lockedFolderPaths.clear()
-        dirs.map { it.path }.filter { config.isFolderProtected(it) }.forEach {
-            lockedFolderPaths.add(it)
-        }
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     fun updateDirs(newDirs: ArrayList<Directory>) {
         val directories = newDirs.clone() as ArrayList<Directory>
         if (directories.hashCode() != currentDirectoriesHash) {
             currentDirectoriesHash = directories.hashCode()
             dirs = directories
-            fillLockedFolders()
             notifyDataSetChanged()
             finishActMode()
         }

@@ -20,9 +20,7 @@ const val VIEW_TYPE_PREFIX = "view_type_folder_"
 const val SHOW_HIDDEN_MEDIA = "show_hidden_media"
 const val TEMPORARILY_SHOW_HIDDEN = "temporarily_show_hidden"
 const val TEMPORARILY_SHOW_EXCLUDED = "temporarily_show_excluded"
-const val EXCLUDED_PASSWORD_PROTECTION = "excluded_password_protection"
-const val EXCLUDED_PASSWORD_HASH = "excluded_password_hash"
-const val EXCLUDED_PROTECTION_TYPE = "excluded_protection_type"
+
 const val IS_THIRD_PARTY_INTENT = "is_third_party_intent"
 const val AUTOPLAY_VIDEOS = "autoplay_videos"
 const val REMEMBER_LAST_VIDEO_POSITION = "remember_last_video_position"
@@ -312,16 +310,12 @@ const val CUSTOM_APP_ICON_COLOR = "custom_app_icon_color"
 const val WIDGET_BG_COLOR = "widget_bg_color"
 const val WIDGET_TEXT_COLOR = "widget_text_color"
 const val PASSWORD_PROTECTION = "password_protection"
-const val PASSWORD_HASH = "password_hash"
-const val PROTECTION_TYPE = "protection_type"
-const val APP_PASSWORD_PROTECTION = "app_password_protection"
-const val APP_PASSWORD_HASH = "app_password_hash"
-const val APP_PROTECTION_TYPE = "app_protection_type"
-const val DELETE_PASSWORD_PROTECTION = "delete_password_protection"
-const val DELETE_PASSWORD_HASH = "delete_password_hash"
-const val DELETE_PROTECTION_TYPE = "delete_protection_type"
 
-const val PROTECTED_FOLDER_HASH = "protected_folder_hash_"
+const val APP_PASSWORD_PROTECTION = "app_password_protection"
+
+const val DELETE_PASSWORD_PROTECTION = "delete_password_protection"
+
+
 const val PROTECTED_FOLDER_TYPE = "protected_folder_type_"
 const val KEEP_LAST_MODIFIED = "keep_last_modified"
 const val USE_ENGLISH = "use_english"
@@ -359,12 +353,12 @@ const val WAS_OTG_HANDLED = "was_otg_handled_2"
 
 const val WAS_APP_RATED = "was_app_rated"
 const val WAS_SORTING_BY_NUMERIC_VALUE_ADDED = "was_sorting_by_numeric_value_added"
-const val WAS_FOLDER_LOCKING_NOTICE_SHOWN = "was_folder_locking_notice_shown"
+
 const val LAST_RENAME_USED = "last_rename_used"
 const val LAST_RENAME_PATTERN_USED = "last_rename_pattern_used"
 const val LAST_EXPORTED_SETTINGS_FOLDER = "last_exported_settings_folder"
 
-const val LAST_BLOCKED_NUMBERS_EXPORT_PATH = "last_blocked_numbers_export_path"
+
 const val FONT_SIZE = "font_size"
 
 const val FAVORITES = "favorites"
@@ -372,13 +366,6 @@ const val FAVORITES = "favorites"
 const val COLOR_PICKER_RECENT_COLORS = "color_picker_recent_colors"
 
 const val VIEW_TYPE = "view_type"
-
-const val PASSWORD_RETRY_COUNT = "password_retry_count"
-const val PASSWORD_COUNTDOWN_START_MS = "password_count_down_start_ms"
-
-const val MAX_PASSWORD_RETRY_COUNT = 3
-const val DEFAULT_PASSWORD_COUNTDOWN = 5
-const val MINIMUM_PIN_LENGTH = 4
 
 // licenses
 internal const val LICENSE_KOTLIN = 1L
@@ -449,16 +436,10 @@ const val SORT_BY_CUSTOM = 131072
 // security
 const val WAS_PROTECTION_HANDLED = "was_protection_handled"
 const val PROTECTION_NONE = -1
-const val PROTECTION_PATTERN = 0
-const val PROTECTION_PIN = 1
-const val PROTECTION_FINGERPRINT = 2
 
 // renaming
 const val RENAME_SIMPLE = 0
 const val RENAME_PATTERN = 1
-
-const val SHOW_ALL_TABS = -1
-
 
 // permissions
 const val PERMISSION_READ_STORAGE = 1
