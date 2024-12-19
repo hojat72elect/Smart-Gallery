@@ -60,8 +60,6 @@ import ca.hojat.smart.gallery.shared.extensions.getResolution
 import ca.hojat.smart.gallery.shared.extensions.getShortcutImage
 import ca.hojat.smart.gallery.shared.extensions.getStringValue
 import ca.hojat.smart.gallery.shared.extensions.getUriMimeType
-import ca.hojat.smart.gallery.shared.extensions.handleDeletePasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleLockedFolderOpening
 import ca.hojat.smart.gallery.shared.extensions.hasPermission
 import ca.hojat.smart.gallery.shared.extensions.hideKeyboard
 import ca.hojat.smart.gallery.shared.extensions.hideSystemUI
@@ -488,13 +486,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         if (intent.getBooleanExtra(SKIP_AUTHENTICATION, false)) {
             initContinue()
         } else {
-            handleLockedFolderOpening(mPath.getParentPath()) { success ->
-                if (success) {
-                    initContinue()
-                } else {
-                    finish()
-                }
-            }
+            initContinue()
         }
     }
 
@@ -815,9 +807,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     }
 
     private fun moveFileTo() {
-        handleDeletePasswordProtection {
-            checkMediaManagementAndCopy(false)
-        }
+        checkMediaManagementAndCopy(false)
     }
 
     private fun checkMediaManagementAndCopy(isCopyOperation: Boolean) {
@@ -1233,9 +1223,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
 
         handleMediaManagementPrompt {
             if (config.isDeletePasswordProtectionOn) {
-                handleDeletePasswordProtection {
-                    deleteConfirmed(config.tempSkipRecycleBin)
-                }
+                deleteConfirmed(config.tempSkipRecycleBin)
             } else if (config.tempSkipDeleteConfirmation || config.skipDeleteConfirmation) {
                 deleteConfirmed(config.tempSkipRecycleBin)
             } else {

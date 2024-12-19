@@ -35,8 +35,6 @@ import ca.hojat.smart.gallery.shared.extensions.getSomeAndroidSAFDocument
 import ca.hojat.smart.gallery.shared.extensions.getSomeDocumentFile
 import ca.hojat.smart.gallery.shared.extensions.getSomeDocumentSdk30
 import ca.hojat.smart.gallery.shared.extensions.getTextSize
-import ca.hojat.smart.gallery.shared.extensions.handleHiddenFolderPasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleLockedFolderOpening
 import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.isAccessibleWithSAFSdk30
 import ca.hojat.smart.gallery.shared.extensions.isInDownloadDir
@@ -145,11 +143,11 @@ class FilePickerDialog(
         mDialogView.filepickerFabShowHidden.apply {
             beVisibleIf(!showHidden && canAddShowHiddenButton)
             setOnClickListener {
-                activity.handleHiddenFolderPasswordProtection {
-                    beGone()
-                    showHidden = true
-                    tryUpdateItems()
-                }
+
+                beGone()
+                showHidden = true
+                tryUpdateItems()
+
             }
         }
 
@@ -207,12 +205,8 @@ class FilePickerDialog(
         val sortedItems = items.sortedWith(compareBy({ !it.isDirectory }, { it.name.lowercase() }))
         val adapter = FilepickerItemsAdapter(activity, sortedItems, mDialogView.filepickerList) {
             if ((it as FileDirItem).isDirectory) {
-                activity.handleLockedFolderOpening(it.path) { success ->
-                    if (success) {
-                        currPath = it.path
-                        tryUpdateItems()
-                    }
-                }
+                currPath = it.path
+                tryUpdateItems()
             } else if (pickFile) {
                 currPath = it.path
                 verifyPath()

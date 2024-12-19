@@ -1177,10 +1177,7 @@
     <string name="skip_delete_confirmation">Always skip delete confirmation dialog</string>
     <string name="keep_last_modified">Keep old last-modified value at file operations</string>
     <string name="file_operations">File operations</string>
-    <string name="password_protect_file_deletion">Password protect file deletion and moving</string>
-    <string name="password_protect_hidden_items">Password protect hidden item visibility</string>
-    <string name="password_protect_whole_app">Password protect the whole application</string>
-    <string name="security">Security</string>
+
     <string name="enable_pull_to_refresh">Enable pull-to-refresh from the top</string>
     <string name="scrolling">Scrolling</string>
     <string name="manage_excluded_folders">Manage excluded folders</string>

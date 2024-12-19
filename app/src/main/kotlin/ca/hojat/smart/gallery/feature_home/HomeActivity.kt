@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivityMainBinding
-import ca.hojat.smart.gallery.feature_lock.SecurityDialog
 import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
 import ca.hojat.smart.gallery.feature_search.SearchActivity
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
@@ -62,9 +61,6 @@ import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.getSortedDirectories
 import ca.hojat.smart.gallery.shared.extensions.getStorageDirectories
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
-import ca.hojat.smart.gallery.shared.extensions.handleExcludedFolderPasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleHiddenFolderPasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleLockedFolderOpening
 import ca.hojat.smart.gallery.shared.extensions.hasOTGConnected
 import ca.hojat.smart.gallery.shared.extensions.hasPermission
 import ca.hojat.smart.gallery.shared.extensions.hideKeyboard
@@ -489,7 +485,6 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         binding.mainMenu.getToolbar().menu.apply {
             findItem(R.id.temporarily_show_hidden).isVisible = !config.shouldShowHidden
             findItem(R.id.stop_showing_hidden).isVisible = (isExternalStorageManager()) && config.temporarilyShowHidden
-            findItem(R.id.stop_showing_excluded).isVisible = config.temporarilyShowExcluded
         }
     }
 
@@ -526,7 +521,6 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 R.id.change_view_type -> changeViewType()
                 R.id.temporarily_show_hidden -> tryToggleTemporarilyShowHidden()
                 R.id.stop_showing_hidden -> tryToggleTemporarilyShowHidden()
-                R.id.stop_showing_excluded -> tryToggleTemporarilyShowExcluded()
                 R.id.create_new_folder -> createNewFolder()
                 R.id.open_recycle_bin -> openRecycleBin()
                 R.id.column_count -> changeColumnCount()
@@ -748,9 +742,9 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
             if (!isExternalStorageManager()) {
                 GrantAllFilesDialog(this)
             } else {
-                handleHiddenFolderPasswordProtection {
-                    toggleTemporarilyShowHidden(true)
-                }
+
+                toggleTemporarilyShowHidden(true)
+
             }
         }
     }
@@ -758,24 +752,6 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     private fun toggleTemporarilyShowHidden(show: Boolean) {
         mLoadedInitialPhotos = false
         config.temporarilyShowHidden = show
-        binding.directoriesGrid.adapter = null
-        getDirectories()
-        refreshMenuItems()
-    }
-
-    private fun tryToggleTemporarilyShowExcluded() {
-        if (config.temporarilyShowExcluded) {
-            toggleTemporarilyShowExcluded(false)
-        } else {
-            handleExcludedFolderPasswordProtection {
-                toggleTemporarilyShowExcluded(true)
-            }
-        }
-    }
-
-    private fun toggleTemporarilyShowExcluded(show: Boolean) {
-        mLoadedInitialPhotos = false
-        config.temporarilyShowExcluded = show
         binding.directoriesGrid.adapter = null
         getDirectories()
         refreshMenuItems()
@@ -1088,14 +1064,10 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     }
 
     private fun itemClicked(path: String) {
-        handleLockedFolderOpening(path) { success ->
-            if (success) {
-                Intent(this, MediaActivity::class.java).apply {
-                    putExtra(SKIP_AUTHENTICATION, true)
-                    putExtra(DIRECTORY, path)
-                    handleMediaIntent(this)
-                }
-            }
+        Intent(this, MediaActivity::class.java).apply {
+            putExtra(SKIP_AUTHENTICATION, true)
+            putExtra(DIRECTORY, path)
+            handleMediaIntent(this)
         }
     }
 
@@ -1758,17 +1730,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
     }
 
     private fun handleAppPasswordProtection(callback: (success: Boolean) -> Unit) {
-        if (baseConfig.isAppPasswordProtectionOn) {
-            SecurityDialog(
-                this,
-                baseConfig.appPasswordHash,
-                baseConfig.appProtectionType
-            ) { _, _, success ->
-                callback(success)
-            }
-        } else {
-            callback(true)
-        }
+        callback(true)
     }
 
     private fun appLaunched() {

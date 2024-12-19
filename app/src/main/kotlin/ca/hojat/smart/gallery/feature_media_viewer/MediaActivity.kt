@@ -43,8 +43,6 @@ import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
-import ca.hojat.smart.gallery.shared.extensions.handleHiddenFolderPasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleLockedFolderOpening
 import ca.hojat.smart.gallery.shared.extensions.hideKeyboard
 import ca.hojat.smart.gallery.shared.extensions.isDownloadsFolder
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
@@ -247,13 +245,10 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
             if (shouldSkipAuthentication()) {
                 tryLoadGallery()
             } else {
-                handleLockedFolderOpening(mPath) { success ->
-                    if (success) {
-                        tryLoadGallery()
-                    } else {
-                        finish()
-                    }
-                }
+
+
+                tryLoadGallery()
+
             }
         }
     }
@@ -754,9 +749,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
             if (!isExternalStorageManager()) {
                 GrantAllFilesDialog(this)
             } else {
-                handleHiddenFolderPasswordProtection {
-                    toggleTemporarilyShowHidden(true)
-                }
+                toggleTemporarilyShowHidden(true)
             }
         }
     }

@@ -23,8 +23,6 @@ import ca.hojat.smart.gallery.shared.extensions.getDirsToShow
 import ca.hojat.smart.gallery.shared.extensions.getDistinctPath
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getSortedDirectories
-import ca.hojat.smart.gallery.shared.extensions.handleHiddenFolderPasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleLockedFolderOpening
 import ca.hojat.smart.gallery.shared.extensions.hideKeyboard
 import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isInDownloadDir
@@ -93,11 +91,11 @@ class PickDirectoryDialog(
                 dialog = alertDialog
                 binding.directoriesShowHidden.beVisibleIf(!context.config.shouldShowHidden)
                 binding.directoriesShowHidden.setOnClickListener {
-                    activity.handleHiddenFolderPasswordProtection {
-                        binding.directoriesShowHidden.beGone()
-                        showHidden = true
-                        fetchDirectories(true)
-                    }
+
+                    binding.directoriesShowHidden.beGone()
+                    showHidden = true
+                    fetchDirectories(true)
+
                 }
             }
         }
@@ -208,11 +206,7 @@ class PickDirectoryDialog(
             canAddShowHiddenButton = true
         ) {
             config.lastCopyPath = it
-            activity.handleLockedFolderOpening(it) { success ->
-                if (success) {
-                    callback(it)
-                }
-            }
+            callback(it)
         }
     }
 
@@ -256,11 +250,7 @@ class PickDirectoryDialog(
                     )
                     return@DirectoryAdapter
                 } else {
-                    activity.handleLockedFolderOpening(path) { success ->
-                        if (success) {
-                            callback(path)
-                        }
-                    }
+                    callback(path)
                     dialog?.dismiss()
                 }
             } else {

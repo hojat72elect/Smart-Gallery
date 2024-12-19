@@ -177,7 +177,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
-import com.github.ajalt.reprint.core.Reprint
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileInputStream
@@ -1592,9 +1591,6 @@ fun Context.showErrorToast(exception: Exception, length: Int = Toast.LENGTH_LONG
 }
 
 val Context.sdCardPath: String get() = baseConfig.sdCardPath
-
-
-fun isFingerPrintSensorAvailable() = Reprint.isHardwarePresent()
 
 fun Context.getLatestMediaId(uri: Uri = Files.getContentUri("external")): Long {
     val projection = arrayOf(

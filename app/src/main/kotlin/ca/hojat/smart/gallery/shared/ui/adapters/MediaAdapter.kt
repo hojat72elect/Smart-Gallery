@@ -40,7 +40,6 @@ import ca.hojat.smart.gallery.shared.extensions.getOTGPublicPath
 import ca.hojat.smart.gallery.shared.extensions.getParentPath
 import ca.hojat.smart.gallery.shared.extensions.getShortcutImage
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
-import ca.hojat.smart.gallery.shared.extensions.handleDeletePasswordProtection
 import ca.hojat.smart.gallery.shared.extensions.hasOTGConnected
 import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.isAStorageRootFolder
@@ -453,9 +452,7 @@ class MediaAdapter(
     }
 
     private fun moveFilesTo() {
-        activity.handleDeletePasswordProtection {
-            checkMediaManagementAndCopy(false)
-        }
+        checkMediaManagementAndCopy(false)
     }
 
     private fun checkMediaManagementAndCopy(isCopyOperation: Boolean) {
@@ -544,9 +541,7 @@ class MediaAdapter(
     private fun checkDeleteConfirmation() {
         activity.handleMediaManagementPrompt {
             if (config.isDeletePasswordProtectionOn) {
-                activity.handleDeletePasswordProtection {
-                    deleteFiles(config.tempSkipRecycleBin)
-                }
+                deleteFiles(config.tempSkipRecycleBin)
             } else if (config.tempSkipDeleteConfirmation || config.skipDeleteConfirmation) {
                 deleteFiles(config.tempSkipRecycleBin)
             } else {

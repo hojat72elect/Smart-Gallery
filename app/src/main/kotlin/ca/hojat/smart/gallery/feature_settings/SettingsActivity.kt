@@ -9,7 +9,6 @@ import android.text.TextUtils
 import android.widget.Toast
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.ActivitySettingsBinding
-import ca.hojat.smart.gallery.feature_lock.SecurityDialog
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.data.domain.AlbumCover
 import ca.hojat.smart.gallery.shared.data.domain.RadioItem
@@ -26,9 +25,7 @@ import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
 import ca.hojat.smart.gallery.shared.extensions.getFavoriteFromPath
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperSize
-import ca.hojat.smart.gallery.shared.extensions.handleHiddenFolderPasswordProtection
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
-import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.recycleBinPath
 import ca.hojat.smart.gallery.shared.extensions.showErrorToast
@@ -97,7 +94,6 @@ import ca.hojat.smart.gallery.shared.helpers.PRIMARY_COLOR
 import ca.hojat.smart.gallery.shared.helpers.PRIORITY_COMPROMISE
 import ca.hojat.smart.gallery.shared.helpers.PRIORITY_SPEED
 import ca.hojat.smart.gallery.shared.helpers.PRIORITY_VALIDITY
-import ca.hojat.smart.gallery.shared.helpers.PROTECTION_FINGERPRINT
 import ca.hojat.smart.gallery.shared.helpers.RECYCLE_BIN
 import ca.hojat.smart.gallery.shared.helpers.REMEMBER_LAST_VIDEO_POSITION
 import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_ASPECT_RATIO
@@ -107,7 +103,6 @@ import ca.hojat.smart.gallery.shared.helpers.SCREEN_ROTATION
 import ca.hojat.smart.gallery.shared.helpers.SCROLL_HORIZONTALLY
 import ca.hojat.smart.gallery.shared.helpers.SEARCH_ALL_FILES_BY_DEFAULT
 import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL
-import ca.hojat.smart.gallery.shared.helpers.SHOW_ALL_TABS
 import ca.hojat.smart.gallery.shared.helpers.SHOW_EXTENDED_DETAILS
 import ca.hojat.smart.gallery.shared.helpers.SHOW_HIDDEN_MEDIA
 import ca.hojat.smart.gallery.shared.helpers.SHOW_HIGHEST_QUALITY
@@ -140,7 +135,6 @@ import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
 import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeFileThumbnailStyleDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ChangeFolderThumbnailStyleDialog
-import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ExportFavoritesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ManageBottomActionsDialog
@@ -202,10 +196,6 @@ class SettingsActivity : BaseActivity() {
         setupScrollHorizontally()
         setupScreenRotation()
         setupHideSystemUI()
-        setupHiddenItemPasswordProtection()
-        setupExcludedItemPasswordProtection()
-        setupAppPasswordProtection()
-        setupFileDeletionPasswordProtection()
         setupDeleteEmptyFolders()
         setupAllowPhotoGestures()
         setupAllowVideoGestures()
@@ -246,7 +236,6 @@ class SettingsActivity : BaseActivity() {
             binding.settingsFullscreenMediaLabel,
             binding.settingsDeepZoomableImagesLabel,
             binding.settingsExtendedDetailsLabel,
-            binding.settingsSecurityLabel,
             binding.settingsFileOperationsLabel,
             binding.settingsBottomActionsLabel,
             binding.settingsRecycleBinLabel,
@@ -353,9 +342,7 @@ class SettingsActivity : BaseActivity() {
             } else if (config.showHiddenMedia) {
                 toggleHiddenItems()
             } else {
-                handleHiddenFolderPasswordProtection {
-                    toggleHiddenItems()
-                }
+                toggleHiddenItems()
             }
         }
     }
@@ -455,132 +442,6 @@ class SettingsActivity : BaseActivity() {
         binding.settingsHideSystemUiHolder.setOnClickListener {
             binding.settingsHideSystemUi.toggle()
             config.hideSystemUI = binding.settingsHideSystemUi.isChecked
-        }
-    }
-
-    private fun setupHiddenItemPasswordProtection() {
-        binding.settingsHiddenItemPasswordProtectionHolder.beGoneIf(!isExternalStorageManager())
-        binding.settingsHiddenItemPasswordProtection.isChecked = config.isHiddenPasswordProtectionOn
-        binding.settingsHiddenItemPasswordProtectionHolder.setOnClickListener {
-            val tabToShow =
-                if (config.isHiddenPasswordProtectionOn) config.hiddenProtectionType else SHOW_ALL_TABS
-            SecurityDialog(this, config.hiddenPasswordHash, tabToShow) { hash, type, success ->
-                if (success) {
-                    val hasPasswordProtection = config.isHiddenPasswordProtectionOn
-                    binding.settingsHiddenItemPasswordProtection.isChecked = !hasPasswordProtection
-                    config.isHiddenPasswordProtectionOn = !hasPasswordProtection
-                    config.hiddenPasswordHash = if (hasPasswordProtection) "" else hash
-                    config.hiddenProtectionType = type
-
-                    if (config.isHiddenPasswordProtectionOn) {
-                        val confirmationTextId =
-                            if (config.hiddenProtectionType == PROTECTION_FINGERPRINT)
-                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
-                        ConfirmationDialog(
-                            this,
-                            "",
-                            confirmationTextId,
-                            R.string.ok,
-                            0
-                        ) { }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setupExcludedItemPasswordProtection() {
-        binding.settingsExcludedItemPasswordProtectionHolder.beGoneIf(binding.settingsHiddenItemPasswordProtectionHolder.isVisible())
-        binding.settingsExcludedItemPasswordProtection.isChecked =
-            config.isExcludedPasswordProtectionOn
-        binding.settingsExcludedItemPasswordProtectionHolder.setOnClickListener {
-            val tabToShow =
-                if (config.isExcludedPasswordProtectionOn) config.excludedProtectionType else SHOW_ALL_TABS
-            SecurityDialog(this, config.excludedPasswordHash, tabToShow) { hash, type, success ->
-                if (success) {
-                    val hasPasswordProtection = config.isExcludedPasswordProtectionOn
-                    binding.settingsExcludedItemPasswordProtection.isChecked =
-                        !hasPasswordProtection
-                    config.isExcludedPasswordProtectionOn = !hasPasswordProtection
-                    config.excludedPasswordHash = if (hasPasswordProtection) "" else hash
-                    config.excludedProtectionType = type
-
-                    if (config.isExcludedPasswordProtectionOn) {
-                        val confirmationTextId =
-                            if (config.excludedProtectionType == PROTECTION_FINGERPRINT)
-                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
-                        ConfirmationDialog(
-                            this,
-                            "",
-                            confirmationTextId,
-                            R.string.ok,
-                            0
-                        ) { }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setupAppPasswordProtection() {
-        binding.settingsAppPasswordProtection.isChecked = config.isAppPasswordProtectionOn
-        binding.settingsAppPasswordProtectionHolder.setOnClickListener {
-            val tabToShow =
-                if (config.isAppPasswordProtectionOn) config.appProtectionType else SHOW_ALL_TABS
-            SecurityDialog(this, config.appPasswordHash, tabToShow) { hash, type, success ->
-                if (success) {
-                    val hasPasswordProtection = config.isAppPasswordProtectionOn
-                    binding.settingsAppPasswordProtection.isChecked = !hasPasswordProtection
-                    config.isAppPasswordProtectionOn = !hasPasswordProtection
-                    config.appPasswordHash = if (hasPasswordProtection) "" else hash
-                    config.appProtectionType = type
-
-                    if (config.isAppPasswordProtectionOn) {
-                        val confirmationTextId =
-                            if (config.appProtectionType == PROTECTION_FINGERPRINT)
-                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
-                        ConfirmationDialog(
-                            this,
-                            "",
-                            confirmationTextId,
-                            R.string.ok,
-                            0
-                        ) { }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setupFileDeletionPasswordProtection() {
-        binding.settingsFileDeletionPasswordProtection.isChecked =
-            config.isDeletePasswordProtectionOn
-        binding.settingsFileDeletionPasswordProtectionHolder.setOnClickListener {
-            val tabToShow =
-                if (config.isDeletePasswordProtectionOn) config.deleteProtectionType else SHOW_ALL_TABS
-            SecurityDialog(this, config.deletePasswordHash, tabToShow) { hash, type, success ->
-                if (success) {
-                    val hasPasswordProtection = config.isDeletePasswordProtectionOn
-                    binding.settingsFileDeletionPasswordProtection.isChecked =
-                        !hasPasswordProtection
-                    config.isDeletePasswordProtectionOn = !hasPasswordProtection
-                    config.deletePasswordHash = if (hasPasswordProtection) "" else hash
-                    config.deleteProtectionType = type
-
-                    if (config.isDeletePasswordProtectionOn) {
-                        val confirmationTextId =
-                            if (config.deleteProtectionType == PROTECTION_FINGERPRINT)
-                                R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
-                        ConfirmationDialog(
-                            this,
-                            "",
-                            confirmationTextId,
-                            R.string.ok,
-                            0
-                        ) { }
-                    }
-                }
-            }
         }
     }
 

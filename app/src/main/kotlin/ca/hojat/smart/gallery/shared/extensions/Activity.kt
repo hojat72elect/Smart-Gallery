@@ -28,17 +28,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricPrompt
-import androidx.biometric.auth.AuthPromptCallback
-import androidx.biometric.auth.AuthPromptHost
-import androidx.biometric.auth.Class2BiometricAuthPrompt
 import androidx.exifinterface.media.ExifInterface
-import androidx.fragment.app.FragmentActivity
 import androidx.media3.common.util.UnstableApi
 import ca.hojat.smart.gallery.BuildConfig
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogTitleBinding
-import ca.hojat.smart.gallery.feature_lock.SecurityDialog
 import ca.hojat.smart.gallery.feature_media_viewer.MediaActivity
 import ca.hojat.smart.gallery.shared.data.domain.DateTaken
 import ca.hojat.smart.gallery.shared.helpers.APP_ICON_IDS
@@ -46,7 +40,6 @@ import ca.hojat.smart.gallery.shared.helpers.APP_LAUNCHER_NAME
 import ca.hojat.smart.gallery.shared.helpers.DARK_GREY
 import ca.hojat.smart.gallery.shared.helpers.DIRECTORY
 import ca.hojat.smart.gallery.shared.helpers.IS_FROM_GALLERY
-import ca.hojat.smart.gallery.shared.helpers.PROTECTION_FINGERPRINT
 import ca.hojat.smart.gallery.shared.helpers.REAL_FILE_PATH
 import ca.hojat.smart.gallery.shared.helpers.RECYCLE_BIN
 import ca.hojat.smart.gallery.shared.helpers.REQUEST_SET_AS
@@ -379,22 +372,6 @@ fun Activity.showFileOnMap(path: String) {
     }
 }
 
-fun Activity.handleExcludedFolderPasswordProtection(callback: () -> Unit) {
-    if (config.isExcludedPasswordProtectionOn) {
-        SecurityDialog(
-            this,
-            config.excludedPasswordHash,
-            config.excludedProtectionType
-        ) { _, _, success ->
-            if (success) {
-                callback()
-            }
-        }
-    } else {
-        callback()
-    }
-}
-
 @UnstableApi
 fun Activity.openRecycleBin() {
     Intent(this, MediaActivity::class.java).apply {
@@ -543,43 +520,6 @@ fun Activity.sharePathsIntent(paths: List<String>, applicationId: String) {
     }
 }
 
-fun Activity.showBiometricPrompt(
-    successCallback: ((String, Int) -> Unit)? = null,
-    failureCallback: (() -> Unit)? = null
-) {
-    Class2BiometricAuthPrompt.Builder(getText(R.string.authenticate), getText(R.string.cancel))
-        .build()
-        .startAuthentication(
-            AuthPromptHost(this as FragmentActivity),
-            object : AuthPromptCallback() {
-                override fun onAuthenticationSucceeded(
-                    activity: FragmentActivity?,
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    successCallback?.invoke("", PROTECTION_FINGERPRINT)
-                }
-
-                override fun onAuthenticationError(
-                    activity: FragmentActivity?,
-                    errorCode: Int,
-                    errString: CharSequence
-                ) {
-                    val isCanceledByUser =
-                        errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON || errorCode == BiometricPrompt.ERROR_USER_CANCELED
-                    if (!isCanceledByUser) {
-                        toast(errString.toString())
-                    }
-                    failureCallback?.invoke()
-                }
-
-                override fun onAuthenticationFailed(activity: FragmentActivity?) {
-                    toast(R.string.authentication_failed)
-                    failureCallback?.invoke()
-                }
-            }
-        )
-}
-
 fun Activity.setAsIntent(path: String, applicationId: String) {
     ensureBackgroundThread {
         val newUri = getFinalUriFromPath(path, applicationId) ?: return@ensureBackgroundThread
@@ -725,52 +665,6 @@ fun Activity.showKeyboard(et: EditText) {
 fun Activity.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-}
-
-fun Activity.handleHiddenFolderPasswordProtection(callback: () -> Unit) {
-    if (baseConfig.isHiddenPasswordProtectionOn) {
-        SecurityDialog(
-            this,
-            baseConfig.hiddenPasswordHash,
-            baseConfig.hiddenProtectionType
-        ) { _, _, success ->
-            if (success) {
-                callback()
-            }
-        }
-    } else {
-        callback()
-    }
-}
-
-fun Activity.handleDeletePasswordProtection(callback: () -> Unit) {
-    if (baseConfig.isDeletePasswordProtectionOn) {
-        SecurityDialog(
-            this,
-            baseConfig.deletePasswordHash,
-            baseConfig.deleteProtectionType
-        ) { _, _, success ->
-            if (success) {
-                callback()
-            }
-        }
-    } else {
-        callback()
-    }
-}
-
-fun Activity.handleLockedFolderOpening(path: String, callback: (success: Boolean) -> Unit) {
-    if (baseConfig.isFolderProtected(path)) {
-        SecurityDialog(
-            this,
-            baseConfig.getFolderProtectionHash(path),
-            baseConfig.getFolderProtectionType(path)
-        ) { _, _, success ->
-            callback(success)
-        }
-    } else {
-        callback(true)
-    }
 }
 
 @SuppressLint("UseCompatLoadingForDrawables")

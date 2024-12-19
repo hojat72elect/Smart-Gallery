@@ -42,8 +42,6 @@ import ca.hojat.smart.gallery.shared.extensions.getFilenameFromPath
 import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getShortcutImage
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
-import ca.hojat.smart.gallery.shared.extensions.handleDeletePasswordProtection
-import ca.hojat.smart.gallery.shared.extensions.handleLockedFolderOpening
 import ca.hojat.smart.gallery.shared.extensions.isAStorageRootFolder
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isGif
@@ -293,11 +291,7 @@ class DirectoryAdapter(
         if (selectedKeys.size <= 1) {
             val path = getFirstSelectedItemPath() ?: return
             if (path != FAVORITES && path != RECYCLE_BIN) {
-                activity.handleLockedFolderOpening(path) { success ->
-                    if (success) {
-                        PropertiesDialog(activity, path, config.shouldShowHidden)
-                    }
-                }
+                PropertiesDialog(activity, path, config.shouldShowHidden)
             }
         } else {
             PropertiesDialog(activity, getSelectedPaths().filter {
@@ -317,33 +311,30 @@ class DirectoryAdapter(
                 return
             }
 
-            activity.handleLockedFolderOpening(sourcePath) { success ->
-                if (success) {
-                    RenameItemDialog(activity, dir.absolutePath) {
-                        activity.runOnUiThread {
-                            firstDir.apply {
-                                path = it
-                                name = it.getFilenameFromPath()
-                                tmb = File(it, tmb.getFilenameFromPath()).absolutePath
-                            }
-                            updateDirs(dirs)
-                            ensureBackgroundThread {
-                                try {
-                                    activity.directoryDB.updateDirectoryAfterRename(
-                                        firstDir.tmb,
-                                        firstDir.name,
-                                        firstDir.path,
-                                        sourcePath
-                                    )
-                                    listener?.refreshItems()
-                                } catch (e: Exception) {
-                                    activity.showErrorToast(e)
-                                }
-                            }
+            RenameItemDialog(activity, dir.absolutePath) {
+                activity.runOnUiThread {
+                    firstDir.apply {
+                        path = it
+                        name = it.getFilenameFromPath()
+                        tmb = File(it, tmb.getFilenameFromPath()).absolutePath
+                    }
+                    updateDirs(dirs)
+                    ensureBackgroundThread {
+                        try {
+                            activity.directoryDB.updateDirectoryAfterRename(
+                                firstDir.tmb,
+                                firstDir.name,
+                                firstDir.path,
+                                sourcePath
+                            )
+                            listener?.refreshItems()
+                        } catch (e: Exception) {
+                            activity.showErrorToast(e)
                         }
                     }
                 }
             }
+
         } else {
             val paths = getSelectedPaths().filter {
                 !activity.isAStorageRootFolder(it) && !config.isFolderProtected(it)
@@ -391,18 +382,14 @@ class DirectoryAdapter(
                 ))
             }.forEach {
                 val path = it
-                activity.handleLockedFolderOpening(path) { success ->
-                    if (success) {
-                        if (path.containsNoMedia()) {
-                            activity.removeNoMedia(path) {
-                                if (config.shouldShowHidden) {
-                                    updateFolderNames()
-                                } else {
-                                    activity.runOnUiThread {
-                                        listener?.refreshItems()
-                                        finishActMode()
-                                    }
-                                }
+                if (path.containsNoMedia()) {
+                    activity.removeNoMedia(path) {
+                        if (config.shouldShowHidden) {
+                            updateFolderNames()
+                        } else {
+                            activity.runOnUiThread {
+                                listener?.refreshItems()
+                                finishActMode()
                             }
                         }
                     }
@@ -413,11 +400,7 @@ class DirectoryAdapter(
 
     private fun hideFolders(paths: ArrayList<String>) {
         for (path in paths) {
-            activity.handleLockedFolderOpening(path) { success ->
-                if (success) {
-                    hideFolder(path)
-                }
-            }
+            hideFolder(path)
         }
     }
 
@@ -432,23 +415,15 @@ class DirectoryAdapter(
     }
 
     private fun emptyRecycleBin() {
-        activity.handleLockedFolderOpening(RECYCLE_BIN) { success ->
-            if (success) {
-                activity.emptyTheRecycleBin {
-                    listener?.refreshItems()
-                }
-            }
+        activity.emptyTheRecycleBin {
+            listener?.refreshItems()
         }
     }
 
     private fun emptyAndDisableRecycleBin() {
-        activity.handleLockedFolderOpening(RECYCLE_BIN) { success ->
-            if (success) {
-                activity.showRecycleBinEmptyingDialog {
-                    activity.emptyAndDisableTheRecycleBin {
-                        listener?.refreshItems()
-                    }
-                }
+        activity.showRecycleBinEmptyingDialog {
+            activity.emptyAndDisableTheRecycleBin {
+                listener?.refreshItems()
             }
         }
     }
@@ -535,10 +510,8 @@ class DirectoryAdapter(
     }
 
     private fun moveFilesTo() {
-        activity.handleDeletePasswordProtection {
-            handleLockedFolderOpeningForFolders(getSelectedPaths()) {
-                copyMoveTo(it, false)
-            }
+        handleLockedFolderOpeningForFolders(getSelectedPaths()) {
+            copyMoveTo(it, false)
         }
     }
 
@@ -575,11 +548,7 @@ class DirectoryAdapter(
     }
 
     private fun tryCreateShortcut() {
-        activity.handleLockedFolderOpening(getFirstSelectedItemPath() ?: "") { success ->
-            if (success) {
-                createShortcut()
-            }
-        }
+        createShortcut()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -611,9 +580,7 @@ class DirectoryAdapter(
 
     private fun askConfirmDelete() {
         when {
-            config.isDeletePasswordProtectionOn -> activity.handleDeletePasswordProtection {
-                deleteFolders()
-            }
+            config.isDeletePasswordProtectionOn -> deleteFolders()
 
             config.skipDeleteConfirmation -> deleteFolders()
             else -> {
@@ -713,11 +680,7 @@ class DirectoryAdapter(
         callback: (Collection<String>) -> Unit
     ) {
         if (folders.size == 1) {
-            activity.handleLockedFolderOpening(folders.first()) { success ->
-                if (success) {
-                    callback(folders)
-                }
-            }
+            callback(folders)
         } else {
             val filtered = folders.filter { !config.isFolderProtected(it) }
             callback(filtered)
@@ -725,11 +688,8 @@ class DirectoryAdapter(
     }
 
     private fun tryChangeAlbumCover(useDefault: Boolean) {
-        activity.handleLockedFolderOpening(getFirstSelectedItemPath() ?: "") { success ->
-            if (success) {
-                changeAlbumCover(useDefault)
-            }
-        }
+
+        changeAlbumCover(useDefault)
     }
 
     private fun changeAlbumCover(useDefault: Boolean) {
