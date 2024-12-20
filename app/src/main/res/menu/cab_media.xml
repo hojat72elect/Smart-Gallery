@@ -49,16 +49,6 @@
         android:title="@string/rename"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/cab_hide"
-        android:icon="@drawable/ic_hide_vector"
-        android:title="@string/hide"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/cab_unhide"
-        android:icon="@drawable/ic_unhide_vector"
-        android:title="@string/unhide"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/cab_copy_to"
         android:showAsAction="never"
         android:title="@string/copy_to"

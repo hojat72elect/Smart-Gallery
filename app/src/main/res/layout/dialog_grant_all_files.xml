@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/grant_all_files_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,21 +12,7 @@
         android:layout_height="@dimen/fab_size"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/bigger_margin"
-        android:src="@drawable/ic_folder_vector" />
-
-    <ca.hojat.smart.gallery.shared.ui.views.MyTextView
-        android:id="@+id/grant_all_files_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/grant_all_files_image"
-        android:gravity="center"
-        android:lineSpacingExtra="1sp"
-        android:paddingStart="@dimen/bigger_margin"
-        android:paddingTop="@dimen/normal_margin"
-        android:paddingEnd="@dimen/bigger_margin"
-        android:paddingBottom="@dimen/normal_margin"
-        android:text="@string/hidden_all_files"
-        android:textColorHighlight="@color/disabled_text_color_highlight"
-        android:textSize="@dimen/bigger_text_size" />
+        android:src="@drawable/ic_folder_vector"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

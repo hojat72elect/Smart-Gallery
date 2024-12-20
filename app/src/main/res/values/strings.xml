@@ -195,8 +195,6 @@
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="properties">Properties</string>
-    <string name="unhide">Unhide</string>
-    <string name="hide">Hide</string>
     <string name="rename">Rename</string>
     <string name="copy">Copy</string>
     <string name="move">Move</string>
@@ -240,24 +238,6 @@
     <string name="portraits">Portraits</string>
     <string name="no_media_with_filters">No media files have been found with the selected filters.</string>
     <string name="change_filters_underlined"><u>Change filters</u></string>
-
-    <!-- Hide / Exclude -->
-    <string name="hide_folder_description">This function hides the folder by adding a \'.nomedia\' file into it, it will hide all subfolders too. You can see them by toggling the \'Show hidden items\' option in Settings. Continue?</string>
-    <string name="exclude_folder_description">This will exclude the selection together with its subfolders from Simple Gallery only. You can manage excluded folders in Settings.</string>
-    <string name="exclude_folder_parent">Exclude a parent instead?</string>
-    <string name="excluded_activity_placeholder">Excluding folders will make them together with their subfolders hidden just in Simple Gallery, they will still be visible in other applications.\n\nIf you want to hide them from other apps too, use the Hide function.</string>
-    <string name="hidden_folders">Hidden folders</string>
-    <string name="manage_hidden_folders">Manage hidden folders</string>
-    <string name="hidden_folders_placeholder">Seems like you don\'t have any folders hidden with a \".nomedia\" file.</string>
-    <string name="hidden_all_files">You have to grant the app All Files access to see hidden files, else it cannot work.</string>
-    <string name="cant_unhide_folder">If a folder or one of its parent folders has a dot before its name, it is hidden and cannot be unhidden like this. You have to remove the dot by renaming it.</string>
-
-    <!-- Include folders -->
-    <string name="include_folders">Included folders</string>
-    <string name="manage_included_folders">Manage included folders</string>
-    <string name="add_folder">Add folder</string>
-    <string name="included_activity_placeholder">If you have some folders which contain media, but were not recognized by the app, you can add them manually here.\n\nAdding some items here will not exclude any other folder.</string>
-    <string name="no_media_add_included">No media files have been found. You can solve it by adding the folders containing media files manually.</string>
 
     <!-- Resizing -->
     <string name="resize_and_save">Resize selection and save</string>
@@ -964,8 +944,6 @@
     <string name="go_to_settings">Go to Settings</string>
     <string name="move_to_top">Move to the top</string>
     <string name="move_to_bottom">Move to the bottom</string>
-    <string name="hide_folder">Hide folder</string>
-    <string name="unhide_folder">Unhide folder</string>
     <string name="copy_to">Copy to</string>
     <string name="move_to">Move to</string>
     <string name="create_shortcut">Create shortcut</string>
@@ -1186,11 +1164,8 @@
     <string name="color_customization">Color customization</string>
     <string name="general_settings">General</string>
     <string name="filter">Filter</string>
-
-
-
-
-
+    <string name="add_folder">Add a folder</string>
+    <string name="no_media_add_included">No media add was included</string>
 
 
 </resources>

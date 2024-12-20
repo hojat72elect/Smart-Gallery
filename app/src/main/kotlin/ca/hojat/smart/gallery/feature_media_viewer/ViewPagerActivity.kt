@@ -307,11 +307,6 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                     currentMedium.isImage() || currentMedium.isRaw()
                 findItem(R.id.menu_resize).isVisible =
                     visibleBottomActions and BOTTOM_ACTION_RESIZE == 0 && currentMedium.isImage()
-                findItem(R.id.menu_hide).isVisible =
-                    (isExternalStorageManager()) && !currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
-
-                findItem(R.id.menu_unhide).isVisible =
-                    (isExternalStorageManager()) && currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
 
                 findItem(R.id.menu_add_to_favorites).isVisible =
                     !currentMedium.isFavorite && visibleBottomActions and BOTTOM_ACTION_TOGGLE_FAVORITE == 0 && !currentMedium.getIsInRecycleBin()
@@ -368,8 +363,6 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                 R.id.menu_copy_to -> checkMediaManagementAndCopy(true)
                 R.id.menu_move_to -> moveFileTo()
                 R.id.menu_open_with -> openPath(getCurrentPath(), true)
-                R.id.menu_hide -> toggleFileVisibility(true)
-                R.id.menu_unhide -> toggleFileVisibility(false)
                 R.id.menu_share -> shareMediumPath(getCurrentPath())
                 R.id.menu_delete -> checkDeleteConfirmation()
                 R.id.menu_rename -> checkMediaManagementAndRename()
@@ -1063,9 +1056,6 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         binding.bottomActions.bottomToggleFileVisibility.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY != 0)
-        binding.bottomActions.bottomToggleFileVisibility.setOnLongClickListener {
-            toast(if (currentMedium?.isHidden() == true) R.string.unhide else R.string.hide); true
-        }
 
         binding.bottomActions.bottomToggleFileVisibility.setOnClickListener {
             currentMedium?.apply {

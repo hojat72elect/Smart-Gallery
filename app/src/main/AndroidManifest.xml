@@ -206,22 +206,6 @@
             tools:ignore="NewApi" />
 
         <activity
-            android:name="ca.hojat.smart.gallery.feature_settings.IncludedFoldersActivity"
-            android:configChanges="orientation"
-            android:exported="false"
-            android:label="@string/include_folders"
-            android:parentActivityName="ca.hojat.smart.gallery.feature_settings.SettingsActivity"
-            tools:ignore="NewApi" />
-
-        <activity
-            android:name="ca.hojat.smart.gallery.feature_settings.HiddenFoldersActivity"
-            android:configChanges="orientation"
-            android:exported="false"
-            android:label="@string/hidden_folders"
-            android:parentActivityName="ca.hojat.smart.gallery.feature_settings.SettingsActivity"
-            tools:ignore="NewApi" />
-
-        <activity
             android:name="ca.hojat.smart.gallery.feature_media_viewer.PhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">

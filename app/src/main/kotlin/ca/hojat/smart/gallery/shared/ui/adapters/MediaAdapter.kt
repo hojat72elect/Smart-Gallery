@@ -191,13 +191,9 @@ class MediaAdapter(
             findItem(R.id.cab_edit).isVisible = isOneItemSelected
             findItem(R.id.cab_set_as).isVisible = isOneItemSelected
             findItem(R.id.cab_resize).isVisible = canResize(selectedItems)
-            findItem(R.id.cab_confirm_selection).isVisible =
-                isAGetIntent && allowMultiplePicks && selectedKeys.isNotEmpty()
-            findItem(R.id.cab_restore_recycle_bin_files).isVisible =
-                selectedPaths.all { it.startsWith(activity.recycleBinPath) }
+            findItem(R.id.cab_confirm_selection).isVisible = isAGetIntent && allowMultiplePicks && selectedKeys.isNotEmpty()
+            findItem(R.id.cab_restore_recycle_bin_files).isVisible = selectedPaths.all { it.startsWith(activity.recycleBinPath) }
             findItem(R.id.cab_create_shortcut).isVisible = true && isOneItemSelected
-
-            checkHideBtnVisibility(this, selectedItems)
             checkFavoriteBtnVisibility(this, selectedItems)
         }
     }
@@ -212,8 +208,6 @@ class MediaAdapter(
             R.id.cab_properties -> showProperties()
             R.id.cab_rename -> checkMediaManagementAndRename()
             R.id.cab_edit -> editFile()
-            R.id.cab_hide -> toggleFileVisibility(true)
-            R.id.cab_unhide -> toggleFileVisibility(false)
             R.id.cab_add_to_favorites -> toggleFavorites(true)
             R.id.cab_remove_from_favorites -> toggleFavorites(false)
             R.id.cab_restore_recycle_bin_files -> restoreFiles()
@@ -261,12 +255,6 @@ class MediaAdapter(
 
     fun isASectionTitle(position: Int) = media.getOrNull(position) is ThumbnailSection
 
-    private fun checkHideBtnVisibility(menu: Menu, selectedItems: ArrayList<Medium>) {
-        val isInRecycleBin = selectedItems.firstOrNull()?.getIsInRecycleBin() == true
-        menu.findItem(R.id.cab_hide).isVisible = (isExternalStorageManager()) && !isInRecycleBin && selectedItems.any { !it.isHidden() }
-        menu.findItem(R.id.cab_unhide).isVisible = (isExternalStorageManager()) && !isInRecycleBin && selectedItems.any { it.isHidden() }
-    }
-
     private fun checkFavoriteBtnVisibility(menu: Menu, selectedItems: ArrayList<Medium>) {
         menu.findItem(R.id.cab_add_to_favorites).isVisible =
             selectedItems.none { it.getIsInRecycleBin() } && selectedItems.any { !it.isFavorite }
@@ -277,7 +265,6 @@ class MediaAdapter(
     private fun confirmSelection() {
         listener?.selectedPaths(getSelectedPaths())
     }
-
 
     private fun showProperties() {
         if (selectedKeys.size <= 1) {

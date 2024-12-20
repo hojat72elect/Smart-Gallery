@@ -182,7 +182,6 @@ class SettingsActivity : BaseActivity() {
         setupLanguage()
         setupChangeDateTimeFormat()
         setupFileLoadingPriority()
-        setupManageIncludedFolders()
         setupSearchAllFiles()
         setupShowHiddenItems()
         setupAutoplayVideos()
@@ -303,24 +302,6 @@ class SettingsActivity : BaseActivity() {
             else -> R.string.avoid_showing_invalid_files
         }
     )
-
-    @SuppressLint("SetTextI18n")
-    private fun setupManageIncludedFolders() {
-        if (!isExternalStorageManager()) {
-            binding.settingsManageIncludedFolders.text =
-                "${getString(R.string.manage_included_folders)} (${getString(R.string.no_permission)})"
-        } else {
-            binding.settingsManageIncludedFolders.setText(R.string.manage_included_folders)
-        }
-
-        binding.settingsManageIncludedFoldersHolder.setOnClickListener {
-            if (!isExternalStorageManager()) {
-                GrantAllFilesDialog(this)
-            } else {
-                startActivity(Intent(this, IncludedFoldersActivity::class.java))
-            }
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private fun setupShowHiddenItems() {

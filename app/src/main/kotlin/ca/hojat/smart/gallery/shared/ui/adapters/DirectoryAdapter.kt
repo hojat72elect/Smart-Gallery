@@ -43,13 +43,11 @@ import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getShortcutImage
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
 import ca.hojat.smart.gallery.shared.extensions.isAStorageRootFolder
-import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
 import ca.hojat.smart.gallery.shared.extensions.isSvg
-import ca.hojat.smart.gallery.shared.extensions.isThisOrParentFolderHidden
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.loadImage
@@ -174,8 +172,6 @@ class DirectoryAdapter(
                 isOneItemSelected && selectedPaths.first() == RECYCLE_BIN
 
             findItem(R.id.cab_create_shortcut).isVisible = isOneItemSelected
-
-            checkHideBtnVisibility(this, selectedPaths)
             checkPinBtnVisibility(this, selectedPaths)
         }
     }
@@ -195,8 +191,6 @@ class DirectoryAdapter(
             R.id.cab_change_order -> changeOrder()
             R.id.cab_empty_recycle_bin -> tryEmptyRecycleBin(true)
             R.id.cab_empty_disable_recycle_bin -> emptyAndDisableRecycleBin()
-            R.id.cab_hide -> toggleFoldersVisibility(true)
-            R.id.cab_unhide -> toggleFoldersVisibility(false)
             R.id.cab_copy_to -> copyFilesTo()
             R.id.cab_move_to -> moveFilesTo()
             R.id.cab_select_all -> selectAll()
@@ -235,24 +229,6 @@ class DirectoryAdapter(
         if (!activity.isDestroyed) {
             Glide.with(activity).clear(bindItem(holder.itemView).dirThumbnail)
         }
-    }
-
-    private fun checkHideBtnVisibility(menu: Menu, selectedPaths: ArrayList<String>) {
-        menu.findItem(R.id.cab_hide).isVisible =
-            (isExternalStorageManager()) && selectedPaths.any {
-                !it.doesThisOrParentHaveNoMedia(
-                    HashMap(),
-                    null
-                )
-            }
-
-        menu.findItem(R.id.cab_unhide).isVisible =
-            (isExternalStorageManager()) && selectedPaths.any {
-                it.doesThisOrParentHaveNoMedia(
-                    HashMap(),
-                    null
-                )
-            }
     }
 
     private fun checkPinBtnVisibility(menu: Menu, selectedPaths: ArrayList<String>) {
@@ -354,40 +330,18 @@ class DirectoryAdapter(
             }
         }
 
-        if (hide) {
-            if (config.wasHideFolderTooltipShown) {
-                hideFolders(selectedPaths)
-            } else {
-                config.wasHideFolderTooltipShown = true
-                ConfirmationDialog(activity, activity.getString(R.string.hide_folder_description)) {
-                    hideFolders(selectedPaths)
-                }
-            }
-        } else {
-            if (selectedPaths.any { it.isThisOrParentFolderHidden() }) {
-                ConfirmationDialog(
-                    activity,
-                    "",
-                    R.string.cant_unhide_folder,
-                    R.string.ok,
-                    0
-                ) {}
-                return
-            }
-
-            selectedPaths.filter {
-                it != FAVORITES && it != RECYCLE_BIN
-            }.forEach {
-                val path = it
-                if (path.containsNoMedia()) {
-                    activity.removeNoMedia(path) {
-                        if (config.shouldShowHidden) {
-                            updateFolderNames()
-                        } else {
-                            activity.runOnUiThread {
-                                listener?.refreshItems()
-                                finishActMode()
-                            }
+        selectedPaths.filter {
+            it != FAVORITES && it != RECYCLE_BIN
+        }.forEach {
+            val path = it
+            if (path.containsNoMedia()) {
+                activity.removeNoMedia(path) {
+                    if (config.shouldShowHidden) {
+                        updateFolderNames()
+                    } else {
+                        activity.runOnUiThread {
+                            listener?.refreshItems()
+                            finishActMode()
                         }
                     }
                 }
@@ -675,7 +629,7 @@ class DirectoryAdapter(
         folders: Collection<String>,
         callback: (Collection<String>) -> Unit
     ) {
-            callback(folders)
+        callback(folders)
     }
 
     private fun tryChangeAlbumCover(useDefault: Boolean) {
