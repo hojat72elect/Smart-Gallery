@@ -362,18 +362,6 @@ class MediaAdapter(
         return isExternalStorageManager() || (isCommonParent && !isRestrictedDir)
     }
 
-    private fun toggleFileVisibility(hide: Boolean) {
-        ensureBackgroundThread {
-            getSelectedItems().forEach {
-                activity.toggleFileVisibility(it.path, hide)
-            }
-            activity.runOnUiThread {
-                listener?.refreshItems()
-                finishActMode()
-            }
-        }
-    }
-
     private fun toggleFavorites(add: Boolean) {
         ensureBackgroundThread {
             getSelectedItems().forEach {

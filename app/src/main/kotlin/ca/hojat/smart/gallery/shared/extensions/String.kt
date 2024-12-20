@@ -137,21 +137,6 @@ fun String.isDownloadsFolder() = equals(
     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), true
 )
 
-fun String.isThisOrParentFolderHidden(): Boolean {
-    var curFile = File(this)
-    while (true) {
-        if (curFile.isHidden) {
-            return true
-        }
-
-        curFile = curFile.parentFile ?: break
-        if (curFile.absolutePath == "/") {
-            break
-        }
-    }
-    return false
-}
-
 fun String.isWebP() = endsWith(".webp", true)
 
 fun String.isSvg() = endsWith(".svg", true)
@@ -283,9 +268,6 @@ fun String.getGenericMimeType(): String {
 }
 
 fun String.getParentPath() = removeSuffix("/${getFilenameFromPath()}")
-
-
-fun String.containsNoMedia() = File(this).containsNoMedia()
 
 fun String.doesThisOrParentHaveNoMedia(
     folderNoMediaStatuses: java.util.HashMap<String, Boolean>,

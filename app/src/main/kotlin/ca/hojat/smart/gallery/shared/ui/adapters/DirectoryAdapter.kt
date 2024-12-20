@@ -29,12 +29,9 @@ import ca.hojat.smart.gallery.shared.extensions.applyColorFilter
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beVisible
 import ca.hojat.smart.gallery.shared.extensions.beVisibleIf
-import ca.hojat.smart.gallery.shared.extensions.checkAppendingHidden
 import ca.hojat.smart.gallery.shared.extensions.config
-import ca.hojat.smart.gallery.shared.extensions.containsNoMedia
 import ca.hojat.smart.gallery.shared.extensions.convertToBitmap
 import ca.hojat.smart.gallery.shared.extensions.directoryDB
-import ca.hojat.smart.gallery.shared.extensions.doesThisOrParentHaveNoMedia
 import ca.hojat.smart.gallery.shared.extensions.favoritesDB
 import ca.hojat.smart.gallery.shared.extensions.fixDateTaken
 import ca.hojat.smart.gallery.shared.extensions.getContrastColor
@@ -320,41 +317,6 @@ class DirectoryAdapter(
         }
     }
 
-    private fun toggleFoldersVisibility(hide: Boolean) {
-        val selectedPaths = getSelectedPaths()
-        if (hide && selectedPaths.contains(RECYCLE_BIN)) {
-            config.showRecycleBinAtFolders = false
-            if (selectedPaths.size == 1) {
-                listener?.refreshItems()
-                finishActMode()
-            }
-        }
-
-        selectedPaths.filter {
-            it != FAVORITES && it != RECYCLE_BIN
-        }.forEach {
-            val path = it
-            if (path.containsNoMedia()) {
-                activity.removeNoMedia(path) {
-                    if (config.shouldShowHidden) {
-                        updateFolderNames()
-                    } else {
-                        activity.runOnUiThread {
-                            listener?.refreshItems()
-                            finishActMode()
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun hideFolders(paths: ArrayList<String>) {
-        for (path in paths) {
-            hideFolder(path)
-        }
-    }
-
     private fun tryEmptyRecycleBin(askConfirmation: Boolean) {
         if (askConfirmation) {
             activity.showRecycleBinEmptyingDialog {
@@ -375,51 +337,6 @@ class DirectoryAdapter(
         activity.showRecycleBinEmptyingDialog {
             activity.emptyAndDisableTheRecycleBin {
                 listener?.refreshItems()
-            }
-        }
-    }
-
-    private fun updateFolderNames() {
-        val includedFolders = config.includedFolders
-        val hidden = activity.getString(R.string.hidden)
-        dirs.forEach {
-            it.name = activity.checkAppendingHidden(it.path, hidden, includedFolders, ArrayList())
-        }
-        listener?.updateDirectories(dirs.toMutableList() as ArrayList)
-        activity.runOnUiThread {
-            updateDirs(dirs)
-        }
-    }
-
-    private fun hideFolder(path: String) {
-        activity.addNoMedia(path) {
-            if (config.shouldShowHidden) {
-                updateFolderNames()
-            } else {
-                val affectedPositions = ArrayList<Int>()
-                val includedFolders = config.includedFolders
-                val newDirs = dirs.filterIndexed { index, directory ->
-                    val removeDir = directory.path.doesThisOrParentHaveNoMedia(
-                        HashMap(),
-                        null
-                    ) && !includedFolders.contains(directory.path)
-                    if (removeDir) {
-                        affectedPositions.add(index)
-                    }
-                    !removeDir
-                } as ArrayList<Directory>
-
-                activity.runOnUiThread {
-                    affectedPositions.sortedDescending().forEach {
-                        notifyItemRemoved(it)
-                    }
-
-                    currentDirectoriesHash = newDirs.hashCode()
-                    dirs = newDirs
-
-                    finishActMode()
-                    listener?.updateDirectories(newDirs)
-                }
             }
         }
     }

@@ -1715,10 +1715,6 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         }
     }
 
-    private fun handleAppPasswordProtection(callback: (success: Boolean) -> Unit) {
-        callback(true)
-    }
-
     private fun appLaunched() {
         val appId = BuildConfig.APPLICATION_ID
         baseConfig.internalStoragePath = getInternalStoragePath()

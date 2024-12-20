@@ -57,10 +57,6 @@ class Config(context: Context) : BaseConfig(context) {
 
     fun hasCustomViewType(path: String) = prefs.contains(VIEW_TYPE_PREFIX + path.lowercase())
 
-    var wasHideFolderTooltipShown: Boolean
-        get() = prefs.getBoolean(HIDE_FOLDER_TOOLTIP_SHOWN, false)
-        set(wasShown) = prefs.edit().putBoolean(HIDE_FOLDER_TOOLTIP_SHOWN, wasShown).apply()
-
     var shouldShowHidden = showHiddenMedia || temporarilyShowHidden
 
     var showHiddenMedia: Boolean
@@ -116,12 +112,6 @@ class Config(context: Context) : BaseConfig(context) {
         excludedFolders = currExcludedFolders.filter { it.isNotEmpty() }.toHashSet()
     }
 
-    fun removeExcludedFolder(path: String) {
-        val currExcludedFolders = HashSet<String>(excludedFolders)
-        currExcludedFolders.remove(path)
-        excludedFolders = currExcludedFolders
-    }
-
     var excludedFolders: MutableSet<String>
         get() = prefs.getStringSet(EXCLUDED_FOLDERS, HashSet())!!
         set(excludedFolders) = prefs.edit().remove(EXCLUDED_FOLDERS)
@@ -137,12 +127,6 @@ class Config(context: Context) : BaseConfig(context) {
         val currIncludedFolders = HashSet<String>(includedFolders)
         currIncludedFolders.addAll(paths)
         includedFolders = currIncludedFolders.filter { it.isNotEmpty() }.toHashSet()
-    }
-
-    fun removeIncludedFolder(path: String) {
-        val currIncludedFolders = HashSet<String>(includedFolders)
-        currIncludedFolders.remove(path)
-        includedFolders = currIncludedFolders
     }
 
     var includedFolders: MutableSet<String>
