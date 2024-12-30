@@ -17,7 +17,7 @@ fun File.isVideoFast() = videoExtensions.any { absolutePath.endsWith(it, true) }
 fun File.isImageFast() = photoExtensions.any { absolutePath.endsWith(it, true) }
 
 fun File.isRawFast() = rawExtensions.any { absolutePath.endsWith(it, true) }
-fun File.isSvg() = absolutePath.isSvg()
+fun File.isSvg() = absolutePath.endsWith(".svg", true)
 fun File.isPortrait() = absolutePath.isPortrait()
 
 

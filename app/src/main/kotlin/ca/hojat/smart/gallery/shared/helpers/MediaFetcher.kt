@@ -31,7 +31,6 @@ import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
-import ca.hojat.smart.gallery.shared.extensions.isSvg
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.normalizeString
 import ca.hojat.smart.gallery.shared.extensions.queryCursor
@@ -403,7 +402,7 @@ class MediaFetcher(val context: Context) {
             val isVideo = if (isImage) false else path.isVideoFast()
             val isGif = if (isImage || isVideo) false else path.endsWith(".gif", true)
             val isRaw = if (isImage || isVideo || isGif) false else path.isRawFast()
-            val isSvg = if (isImage || isVideo || isGif || isRaw) false else path.isSvg()
+            val isSvg = if (isImage || isVideo || isGif || isRaw) false else path.endsWith(".svg", true)
 
             if (!isImage && !isVideo && !isGif && !isRaw && !isSvg) {
                 if (showPortraits && file.name.startsWith("img_", true) && file.isDirectory) {
@@ -567,7 +566,7 @@ class MediaFetcher(val context: Context) {
                 val isVideo = if (isImage) false else path.isVideoFast()
                 val isGif = if (isImage || isVideo) false else path.endsWith(".gif", true)
                 val isRaw = if (isImage || isVideo || isGif) false else path.isRawFast()
-                val isSvg = if (isImage || isVideo || isGif || isRaw) false else path.isSvg()
+                val isSvg = if (isImage || isVideo || isGif || isRaw) false else path.endsWith(".svg", true)
 
                 if (!isImage && !isVideo && !isGif && !isRaw && !isSvg) {
                     return@queryCursor
@@ -673,7 +672,7 @@ class MediaFetcher(val context: Context) {
             val isVideo = if (isImage) false else filename.isVideoFast()
             val isGif = if (isImage || isVideo) false else filename.endsWith(".gif", true)
             val isRaw = if (isImage || isVideo || isGif) false else filename.isRawFast()
-            val isSvg = if (isImage || isVideo || isGif || isRaw) false else filename.isSvg()
+            val isSvg = if (isImage || isVideo || isGif || isRaw) false else filename.endsWith(".svg", true)
 
             if (!isImage && !isVideo && !isGif && !isRaw && !isSvg)
                 continue

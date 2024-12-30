@@ -633,7 +633,7 @@ class DirectoryAdapter(
                 directory.tmb.isVideoFast() -> TYPE_VIDEOS
                 directory.tmb.endsWith(".gif", true) -> TYPE_GIFS
                 directory.tmb.isRawFast() -> TYPE_RAWS
-                directory.tmb.isSvg() -> TYPE_SVGS
+                directory.tmb.endsWith(".svg", true) -> TYPE_SVGS
                 else -> TYPE_IMAGES
             }
 

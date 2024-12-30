@@ -1275,7 +1275,7 @@ fun Context.addPathToDB(path: String) {
             path.isVideoFast() -> TYPE_VIDEOS
             path.endsWith(".gif", true) -> TYPE_GIFS
             path.isRawFast() -> TYPE_RAWS
-            path.isSvg() -> TYPE_SVGS
+            path.endsWith(".svg", true) -> TYPE_SVGS
             path.isPortrait() -> TYPE_PORTRAITS
             else -> TYPE_IMAGES
         }

@@ -39,7 +39,6 @@ import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isPortrait
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
-import ca.hojat.smart.gallery.shared.extensions.isSvg
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.navigationBarHeight
 import ca.hojat.smart.gallery.shared.extensions.navigationBarOnSide
@@ -301,7 +300,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
             filename.isVideoFast() || intentType.startsWith("video/") -> TYPE_VIDEOS
             filename.endsWith(".gif", true) || intentType.equals("image/gif", true) -> TYPE_GIFS
             filename.isRawFast() -> TYPE_RAWS
-            filename.isSvg() -> TYPE_SVGS
+            filename.endsWith(".svg", true) -> TYPE_SVGS
             file.isPortrait() -> TYPE_PORTRAITS
             else -> TYPE_IMAGES
         }
@@ -447,7 +446,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
                 path.isVideoFast() && filter and TYPE_VIDEOS == 0 ||
                 path.endsWith(".gif", true) && filter and TYPE_GIFS == 0 ||
                 path.isRawFast() && filter and TYPE_RAWS == 0 ||
-                path.isSvg() && filter and TYPE_SVGS == 0 ||
+                path.endsWith(".svg", true) && filter and TYPE_SVGS == 0 ||
                 path.isPortrait() && filter and TYPE_PORTRAITS == 0)
     }
 

@@ -139,8 +139,6 @@ fun String.isDownloadsFolder() = equals(
 
 fun String.isWebP() = endsWith(".webp", true)
 
-fun String.isSvg() = endsWith(".svg", true)
-
 fun String?.fromHtml(): Spanned =
     when {
         this == null -> SpannableString("")
@@ -222,7 +220,7 @@ fun String.getOTGPublicPath(context: Context) =
     }"
 
 fun String.isMediaFile() =
-    isImageFast() || isVideoFast() || endsWith(".gif", true) || isRawFast() || isSvg() || isPortrait()
+    isImageFast() || isVideoFast() || endsWith(".gif", true) || isRawFast() || endsWith(".svg", true) || isPortrait()
 
 fun String.isPortrait() = getFilenameFromPath().contains(
     "portrait",

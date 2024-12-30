@@ -70,7 +70,6 @@ import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isPortrait
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
-import ca.hojat.smart.gallery.shared.extensions.isSvg
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.navigationBarHeight
@@ -582,7 +581,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         return when {
             path.isVideoFast() -> TYPE_VIDEOS
             path.endsWith(".gif", true) -> TYPE_GIFS
-            path.isSvg() -> TYPE_SVGS
+            path.endsWith(".svg", true) -> TYPE_SVGS
             path.isRawFast() -> TYPE_RAWS
             path.isPortrait() -> TYPE_PORTRAITS
             else -> TYPE_IMAGES
