@@ -33,7 +33,6 @@ import ca.hojat.smart.gallery.shared.extensions.toInt
 import ca.hojat.smart.gallery.shared.extensions.toStringSet
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
-import ca.hojat.smart.gallery.shared.extensions.writeLn
 import ca.hojat.smart.gallery.shared.helpers.ACCENT_COLOR
 import ca.hojat.smart.gallery.shared.helpers.ALBUM_COVERS
 import ca.hojat.smart.gallery.shared.helpers.ALLOW_DOWN_GESTURE
@@ -769,7 +768,8 @@ class SettingsActivity : BaseActivity() {
             if (favoritePaths.isNotEmpty()) {
                 outputStream.bufferedWriter().use { out ->
                     favoritePaths.forEach { path ->
-                        out.writeLn(path)
+                        out.write(path)
+                        out.newLine()
                     }
                 }
 

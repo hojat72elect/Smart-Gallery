@@ -159,7 +159,6 @@ import ca.hojat.smart.gallery.shared.extensions.updateDirectoryPath
 import ca.hojat.smart.gallery.shared.extensions.updateInMediaStore
 import ca.hojat.smart.gallery.shared.extensions.updateLastModified
 import ca.hojat.smart.gallery.shared.extensions.updateOTGPathFromPartition
-import ca.hojat.smart.gallery.shared.extensions.writeLn
 import ca.hojat.smart.gallery.shared.helpers.APP_FAQ
 import ca.hojat.smart.gallery.shared.helpers.APP_ICON_IDS
 import ca.hojat.smart.gallery.shared.helpers.APP_LAUNCHER_NAME
@@ -1640,7 +1639,8 @@ open class BaseActivity : AppCompatActivity() {
         ensureBackgroundThread {
             outputStream.bufferedWriter().use { out ->
                 for ((key, value) in configItems) {
-                    out.writeLn("$key=$value")
+                    out.write("$key=$value")
+                    out.newLine()
                 }
             }
 

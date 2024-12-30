@@ -47,7 +47,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -578,12 +577,6 @@ fun updateSubfolderCounts(
                 }
             }
         }
-    }
-}
-
-fun Context.getNoMediaFolders(callback: (folders: ArrayList<String>) -> Unit) {
-    ensureBackgroundThread {
-        callback(getNoMediaFoldersSync())
     }
 }
 
@@ -3640,16 +3633,6 @@ fun Context.isWhiteTheme() =
 
 fun Context.isUsingSystemDarkTheme() =
     resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
-
-fun Context.getPopupMenuTheme(): Int {
-    return if (baseConfig.isUsingSystemTheme) {
-        R.style.AppTheme_YouPopupMenuStyle
-    } else if (isWhiteTheme()) {
-        R.style.AppTheme_PopupMenuLightStyle
-    } else {
-        R.style.AppTheme_PopupMenuDarkStyle
-    }
-}
 
 fun Context.getSharedTheme(callback: (sharedTheme: SharedTheme?) -> Unit) {
     val cursorLoader = getMyContentProviderCursorLoader()
