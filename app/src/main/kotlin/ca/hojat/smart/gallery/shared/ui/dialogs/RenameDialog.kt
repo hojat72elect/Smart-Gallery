@@ -3,20 +3,20 @@ package ca.hojat.smart.gallery.shared.ui.dialogs
 import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
+import androidx.viewpager.widget.ViewPager
 import ca.hojat.smart.gallery.R
-import ca.hojat.smart.gallery.shared.ui.adapters.RenameAdapter
 import ca.hojat.smart.gallery.databinding.DialogRenameBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
-import ca.hojat.smart.gallery.shared.extensions.onPageChangeListener
 import ca.hojat.smart.gallery.shared.extensions.onTabSelectionChanged
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.helpers.RENAME_PATTERN
 import ca.hojat.smart.gallery.shared.helpers.RENAME_SIMPLE
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.ui.adapters.RenameAdapter
 import ca.hojat.smart.gallery.shared.ui.views.MyViewPager
 
 class RenameDialog(
@@ -35,9 +35,15 @@ class RenameDialog(
             viewPager = dialogTabViewPager
             tabsAdapter = RenameAdapter(activity, paths)
             viewPager.adapter = tabsAdapter
-            viewPager.onPageChangeListener {
-                dialogTabLayout.getTabAt(it)!!.select()
-            }
+            viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+                override fun onPageSelected(position: Int) {
+                    dialogTabLayout.getTabAt(position)!!.select()
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {}
+            })
             viewPager.currentItem = activity.baseConfig.lastRenameUsed
 
             if (activity.baseConfig.isUsingSystemTheme) {
