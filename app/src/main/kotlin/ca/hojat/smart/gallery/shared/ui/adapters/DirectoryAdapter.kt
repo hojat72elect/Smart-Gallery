@@ -40,7 +40,6 @@ import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getShortcutImage
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
 import ca.hojat.smart.gallery.shared.extensions.isAStorageRootFolder
-import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
@@ -391,7 +390,7 @@ class DirectoryAdapter(
                         it.absolutePath.isMediaFile() && (showHidden || !it.name.startsWith('.')) &&
                         ((it.isImageFast() && filter and TYPE_IMAGES != 0) ||
                                 (it.isVideoFast() && filter and TYPE_VIDEOS != 0) ||
-                                (it.isGif() && filter and TYPE_GIFS != 0) ||
+                                (it.absolutePath.endsWith(".gif", true) && filter and TYPE_GIFS != 0) ||
                                 (it.isRawFast() && filter and TYPE_RAWS != 0) ||
                                 (it.absolutePath.endsWith(".svg", true) && filter and TYPE_SVGS != 0))
             }?.mapTo(paths) { it.absolutePath }

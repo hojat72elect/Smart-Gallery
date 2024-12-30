@@ -67,7 +67,6 @@ import ca.hojat.smart.gallery.shared.extensions.hideKeyboard
 import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.isDownloadsFolder
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
-import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
@@ -779,7 +778,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 file.absolutePath.isMediaFile() && (showHidden || !file.name.startsWith('.')) &&
                         ((file.isImageFast() && filter and TYPE_IMAGES != 0) ||
                                 (file.isVideoFast() && filter and TYPE_VIDEOS != 0) ||
-                                (file.isGif() && filter and TYPE_GIFS != 0) ||
+                                (file.absolutePath.endsWith(".gif", true) && filter and TYPE_GIFS != 0) ||
                                 (file.isRawFast() && filter and TYPE_RAWS != 0) ||
                                 (file.absolutePath.endsWith(".svg", true) && filter and TYPE_SVGS != 0))
             }?.mapTo(itemsToDelete) { it.toFileDirItem(applicationContext) }
@@ -1668,7 +1667,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 for (file in files) {
                     if (file.isDirectory && !file.startsWith("${config.internalStoragePath}/Android")) {
                         folders.addAll(getFoldersWithMedia(file.absolutePath))
-                    } else if (file.isFile && file.isMediaFile()) {
+                    } else if (file.isFile && file.absolutePath.isMediaFile()) {
                         folders.add(file.parent ?: "")
                         break
                     }
