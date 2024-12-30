@@ -13,8 +13,8 @@ import ca.hojat.smart.gallery.shared.extensions.humanizePath
 import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.isAValidFilename
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 class ExportSettingsDialog(
     val activity: BaseActivity,
@@ -59,14 +59,14 @@ class ExportSettingsDialog(
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         var filename = view.exportSettingsFilename.value
                         if (filename.isEmpty()) {
-                            activity.toast(R.string.filename_cannot_be_empty)
+                            ShowToastUseCase(activity, R.string.filename_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         filename += ".txt"
                         val newPath = "${folder.trimEnd('/')}/$filename"
                         if (!newPath.getFilenameFromPath().isAValidFilename()) {
-                            activity.toast(R.string.filename_invalid_characters)
+                            ShowToastUseCase(activity, R.string.filename_invalid_characters)
                             return@setOnClickListener
                         }
 

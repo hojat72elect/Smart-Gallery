@@ -50,8 +50,6 @@ import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.loadImage
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.rescanPaths
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.DIRECTORY
 import ca.hojat.smart.gallery.shared.helpers.FAVORITES
 import ca.hojat.smart.gallery.shared.helpers.FOLDER_MEDIA_CNT_BRACKETS
@@ -79,6 +77,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemsDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
@@ -279,7 +278,7 @@ class DirectoryAdapter(
             val sourcePath = firstDir.path
             val dir = File(sourcePath)
             if (activity.isAStorageRootFolder(dir.absolutePath)) {
-                activity.toast(R.string.rename_folder_root)
+                ShowToastUseCase(activity, R.string.rename_folder_root)
                 return
             }
 
@@ -301,7 +300,7 @@ class DirectoryAdapter(
                             )
                             listener?.refreshItems()
                         } catch (e: Exception) {
-                            activity.showErrorToast(e)
+                            ShowToastUseCase(activity, "Error : $e")
                         }
                     }
                 }

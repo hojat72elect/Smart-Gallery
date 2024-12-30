@@ -14,11 +14,11 @@ import ca.hojat.smart.gallery.feature_home.HomeActivity
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.data.domain.RadioItem
 import ca.hojat.smart.gallery.shared.extensions.checkAppSideloading
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.NavigationIcon
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.canhub.cropper.CropImageView
 
 @OptIn(UnstableApi::class)
@@ -85,7 +85,7 @@ class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteLi
     private fun handleImage(intent: Intent) {
         uri = intent.data!!
         if (uri.scheme != "file" && uri.scheme != "content") {
-            toast(R.string.unknown_file_location)
+            ShowToastUseCase(this, R.string.unknown_file_location)
             finish()
             return
         }
@@ -149,7 +149,7 @@ class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteLi
             return
 
         if (result.error == null && result.bitmap != null) {
-            toast(R.string.setting_wallpaper)
+            ShowToastUseCase(this, R.string.setting_wallpaper)
             ensureBackgroundThread {
                 val bitmap = result.bitmap!!
                 val wantedHeight = wallpaperManager.desiredMinimumHeight
@@ -160,13 +160,13 @@ class SetWallpaperActivity : BaseActivity(), CropImageView.OnCropImageCompleteLi
                     wallpaperManager.setBitmap(scaledBitmap, null, true, wallpaperFlag)
                     setResult(RESULT_OK)
                 } catch (e: OutOfMemoryError) {
-                    toast(R.string.out_of_memory_error)
+                    ShowToastUseCase(this, R.string.out_of_memory_error)
                     setResult(RESULT_CANCELED)
                 }
                 finish()
             }
         } else {
-            toast("${getString(R.string.image_editing_failed)}: ${result.error?.message}")
+            ShowToastUseCase(this, "${getString(R.string.image_editing_failed)}: ${result.error?.message}")
         }
     }
 

@@ -36,12 +36,12 @@ import ca.hojat.smart.gallery.shared.extensions.isVideoSlow
 import ca.hojat.smart.gallery.shared.extensions.md5
 import ca.hojat.smart.gallery.shared.extensions.removeValues
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.helpers.sumByInt
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
 import ca.hojat.smart.gallery.shared.ui.views.MyTextView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase.invoke
 import java.io.File
 
 class PropertiesDialog : BasePropertiesDialog {
@@ -58,7 +58,8 @@ class PropertiesDialog : BasePropertiesDialog {
         activity
     ) {
         if (!activity.getDoesFilePathExist(path) && !path.startsWith("content://")) {
-            activity.toast(
+            ShowToastUseCase(
+                activity,
                 String.format(
                     activity.getString(R.string.source_file_doesnt_exist),
                     path
@@ -237,7 +238,7 @@ class PropertiesDialog : BasePropertiesDialog {
             try {
                 addExifProperties(path, mActivity)
             } catch (e: Exception) {
-                mActivity.showErrorToast(e)
+                ShowToastUseCase(mActivity, "Error : $e")
                 return
             }
 
@@ -382,11 +383,11 @@ class PropertiesDialog : BasePropertiesDialog {
         ConfirmationDialog(mActivity, "", R.string.remove_exif_confirmation) {
             try {
                 ExifInterface(path).removeValues()
-                mActivity.toast(R.string.exif_removed)
+                ShowToastUseCase(mActivity, R.string.exif_removed)
                 mPropertyView.findViewById<LinearLayout>(R.id.properties_holder).removeAllViews()
                 addProperties(path)
             } catch (e: Exception) {
-                mActivity.showErrorToast(e)
+                ShowToastUseCase(mActivity, "Error : $e")
             }
         }
     }
@@ -398,9 +399,9 @@ class PropertiesDialog : BasePropertiesDialog {
                     .forEach {
                         ExifInterface(it).removeValues()
                     }
-                mActivity.toast(R.string.exif_removed)
+                ShowToastUseCase(mActivity, R.string.exif_removed)
             } catch (e: Exception) {
-                mActivity.showErrorToast(e)
+                ShowToastUseCase(mActivity, "Error : $e")
             }
         }
     }

@@ -55,7 +55,6 @@ import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
 import ca.hojat.smart.gallery.shared.extensions.openPath
 import ca.hojat.smart.gallery.shared.extensions.portrait
 import ca.hojat.smart.gallery.shared.extensions.shareMediumPath
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.showSystemUI
 import ca.hojat.smart.gallery.shared.extensions.statusBarHeight
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
@@ -71,6 +70,8 @@ import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_DEVICE_ROTATION
 import ca.hojat.smart.gallery.shared.helpers.ROTATE_BY_SYSTEM_SETTING
 import ca.hojat.smart.gallery.shared.helpers.SHOW_NEXT_ITEM
 import ca.hojat.smart.gallery.shared.helpers.SHOW_PREV_ITEM
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase.invoke
 import kotlin.math.abs
 
 @UnstableApi
@@ -312,7 +313,7 @@ open class VideoPlayerActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener
         try {
             fileDataSource.open(dataSpec)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
 
         val factory = DataSource.Factory { fileDataSource }

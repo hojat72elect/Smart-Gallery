@@ -55,8 +55,6 @@ import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.openPath
 import ca.hojat.smart.gallery.shared.extensions.openRecycleBin
 import ca.hojat.smart.gallery.shared.extensions.recycleBinPath
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.updateWidgets
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.DIRECTORY
@@ -96,6 +94,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -156,7 +155,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
         try {
             mPath = intent.getStringExtra(DIRECTORY) ?: ""
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
             finish()
             return
         }
@@ -469,7 +468,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
                 getMedia()
                 setupLayoutManager()
             } else {
-                toast(R.string.no_storage_permissions)
+                ShowToastUseCase(this, R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -914,7 +913,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
     private fun itemClicked(path: String) {
         hideKeyboard()
         if (isSetWallpaperIntent()) {
-            toast(R.string.setting_wallpaper)
+            ShowToastUseCase(this, R.string.setting_wallpaper)
 
             val wantedWidth = wallpaperDesiredMinimumWidth
             val wantedHeight = wallpaperDesiredMinimumHeight
@@ -1023,13 +1022,13 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
                 filtered.size,
                 filtered.size
             )
-            toast(movingItems)
+            ShowToastUseCase(this, movingItems)
 
             movePathsInRecycleBin(filtered.map { it.path } as ArrayList<String>) {
                 if (it) {
                     deleteFilteredFiles(filtered)
                 } else {
-                    toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(this, R.string.unknown_error_occurred)
                 }
             }
         } else {
@@ -1038,7 +1037,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
                 filtered.size,
                 filtered.size
             )
-            toast(deletingItems)
+            ShowToastUseCase(this, deletingItems)
             deleteFilteredFiles(filtered)
         }
     }
@@ -1048,7 +1047,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
     private fun deleteFilteredFiles(filtered: ArrayList<FileDirItem>) {
         deleteFiles(filtered) {
             if (!it) {
-                toast(R.string.unknown_error_occurred)
+                ShowToastUseCase(this, R.string.unknown_error_occurred)
                 return@deleteFiles
             }
 

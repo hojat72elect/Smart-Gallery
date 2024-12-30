@@ -31,8 +31,6 @@ import ca.hojat.smart.gallery.shared.extensions.baseConfig
 import ca.hojat.smart.gallery.shared.extensions.getStoreUrl
 import ca.hojat.smart.gallery.shared.extensions.launchViewIntent
 import ca.hojat.smart.gallery.shared.extensions.redirectToRateUs
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.APP_FAQ
 import ca.hojat.smart.gallery.shared.helpers.APP_ICON_IDS
 import ca.hojat.smart.gallery.shared.helpers.APP_LAUNCHER_NAME
@@ -41,6 +39,7 @@ import ca.hojat.smart.gallery.shared.helpers.APP_NAME
 import ca.hojat.smart.gallery.shared.helpers.APP_VERSION_NAME
 import ca.hojat.smart.gallery.shared.helpers.SHOW_FAQ_BEFORE_MAIL
 import ca.hojat.smart.gallery.shared.data.domain.FAQItem
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 class AboutActivity : ComponentActivity() {
     private val appName get() = intent.getStringExtra(APP_NAME) ?: ""
@@ -269,10 +268,10 @@ class AboutActivity : ComponentActivity() {
             try {
                 startActivity(chooser)
             } catch (e: Exception) {
-                toast(R.string.no_email_client_found)
+                ShowToastUseCase(this, R.string.no_email_client_found)
             }
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 
@@ -368,7 +367,7 @@ class AboutActivity : ComponentActivity() {
 
         clicksSinceFirstClick++
         if (clicksSinceFirstClick >= EASTER_EGG_REQUIRED_CLICKS) {
-            toast(R.string.hello)
+            ShowToastUseCase(this, R.string.hello)
             firstVersionClickTS = 0L
             clicksSinceFirstClick = 0
         }

@@ -9,11 +9,10 @@ import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getParentPath
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toInt
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -55,7 +54,7 @@ class ResizeMultipleImagesDialog(
                     positiveButton.setOnClickListener {
                         val resizeFactorText = resizeFactorEditText.text?.toString()
                         if (resizeFactorText.isNullOrEmpty() || resizeFactorText.toInt() !in 10..90) {
-                            activity.toast(R.string.resize_factor_error)
+                            ShowToastUseCase(activity, R.string.resize_factor_error)
                             return@setOnClickListener
                         }
 
@@ -108,15 +107,16 @@ class ResizeMultipleImagesDialog(
                                 }
                             }
                         } catch (e: OutOfMemoryError) {
-                            toast(R.string.out_of_memory_error)
+                            ShowToastUseCase(this, R.string.out_of_memory_error)
                         } catch (e: Exception) {
-                            showErrorToast(e)
+                            ShowToastUseCase(this, "Error : $e")
                         }
                     }
 
                     val failureCount = imagePaths.size - pathsToRescan.size
                     if (failureCount > 0) {
-                        toast(
+                        ShowToastUseCase(
+                            this,
                             resources.getQuantityString(
                                 R.plurals.failed_to_resize_images,
                                 failureCount,
@@ -124,7 +124,7 @@ class ResizeMultipleImagesDialog(
                             )
                         )
                     } else {
-                        toast(R.string.images_resized_successfully)
+                        ShowToastUseCase(this, R.string.images_resized_successfully)
                     }
 
                     rescanPathsAndUpdateLastModified(pathsToRescan, pathLastModifiedMap) {

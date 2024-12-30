@@ -25,8 +25,6 @@ import ca.hojat.smart.gallery.shared.extensions.getSharedThemeSync
 import ca.hojat.smart.gallery.shared.extensions.getThemeId
 import ca.hojat.smart.gallery.shared.extensions.isUsingSystemDarkTheme
 import ca.hojat.smart.gallery.shared.extensions.setFillWithStroke
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.DARK_GREY
@@ -38,6 +36,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.ColorPickerDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationAdvancedDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ConfirmationDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import kotlin.math.abs
 
 class CustomizationActivity : BaseActivity() {
@@ -95,7 +94,7 @@ class CustomizationActivity : BaseActivity() {
                     )
                 }
             } catch (e: Exception) {
-                toast(R.string.update_thank_you)
+                ShowToastUseCase(this, R.string.update_thank_you)
                 finish()
             }
         }
@@ -259,7 +258,7 @@ class CustomizationActivity : BaseActivity() {
             updateColorTheme(it as Int, true)
             if (it != THEME_CUSTOM && it != THEME_SHARED && it != THEME_AUTO && it != THEME_SYSTEM && !baseConfig.wasCustomThemeSwitchDescriptionShown) {
                 baseConfig.wasCustomThemeSwitchDescriptionShown = true
-                toast(R.string.changing_color_description)
+                ShowToastUseCase(this, R.string.changing_color_description)
             }
 
             val hideGoogleRelations = resources.getBoolean(R.bool.hide_google_relations)
@@ -758,7 +757,7 @@ class CustomizationActivity : BaseActivity() {
                 null
             )
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 

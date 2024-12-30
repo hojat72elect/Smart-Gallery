@@ -13,10 +13,10 @@ import ca.hojat.smart.gallery.shared.extensions.config
 import ca.hojat.smart.gallery.shared.extensions.navigationBarHeight
 import ca.hojat.smart.gallery.shared.extensions.navigationBarWidth
 import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.PATH
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 open class PanoramaPhotoActivity : BaseActivity() {
 
@@ -37,7 +37,7 @@ open class PanoramaPhotoActivity : BaseActivity() {
         setupButtonMargins()
 
         binding.cardboard.setOnClickListener {
-            toast("This feature is not implemented yet.")
+            ShowToastUseCase(this, "This feature is not implemented yet.")
         }
 
         binding.explore.setOnClickListener {
@@ -80,7 +80,7 @@ open class PanoramaPhotoActivity : BaseActivity() {
     private fun checkIntent() {
         val path = intent.getStringExtra(PATH)
         if (path == null) {
-            toast(R.string.invalid_image_path)
+            ShowToastUseCase(this, R.string.invalid_image_path)
             finish()
             return
         }

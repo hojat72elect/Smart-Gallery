@@ -18,8 +18,8 @@ import ca.hojat.smart.gallery.shared.extensions.onTextChangeListener
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toInt
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 @SuppressLint("SetTextI18n")
 class ResizeWithPathDialog(
@@ -101,7 +101,7 @@ class ResizeWithPathDialog(
                         val width = getViewValue(widthView)
                         val height = getViewValue(heightView)
                         if (width <= 0 || height <= 0) {
-                            activity.toast(R.string.invalid_values)
+                            ShowToastUseCase(activity ,R.string.invalid_values)
                             return@setOnClickListener
                         }
 
@@ -110,19 +110,19 @@ class ResizeWithPathDialog(
                         val filename = binding.filenameValue.value
                         val extension = binding.extensionValue.value
                         if (filename.isEmpty()) {
-                            activity.toast(R.string.filename_cannot_be_empty)
+                            ShowToastUseCase(activity ,R.string.filename_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         if (extension.isEmpty()) {
-                            activity.toast(R.string.extension_cannot_be_empty)
+                            ShowToastUseCase(activity ,R.string.extension_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         val newFilename = "$filename.$extension"
                         val newPath = "${realPath.trimEnd('/')}/$newFilename"
                         if (!newFilename.isAValidFilename()) {
-                            activity.toast(R.string.filename_invalid_characters)
+                            ShowToastUseCase(activity ,R.string.filename_invalid_characters)
                             return@setOnClickListener
                         }
 

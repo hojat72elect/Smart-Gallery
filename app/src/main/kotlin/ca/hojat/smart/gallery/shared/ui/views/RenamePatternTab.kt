@@ -21,13 +21,12 @@ import ca.hojat.smart.gallery.shared.extensions.getUrisPathsFromFileDirItems
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isPathOnSD
 import ca.hojat.smart.gallery.shared.extensions.scanPathsRecursively
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.updateInMediaStore
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
 import ca.hojat.smart.gallery.shared.extensions.value
 import ca.hojat.smart.gallery.shared.ui.adapters.RenameTab
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -76,7 +75,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
         val firstPath = validPaths.firstOrNull()
         val sdFilePath = validPaths.firstOrNull { activity?.isPathOnSD(it) == true } ?: firstPath
         if (firstPath == null || sdFilePath == null) {
-            activity?.toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(activity!!, R.string.unknown_error_occurred)
             return
         }
 
@@ -122,7 +121,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
                             }
                         }
                     } catch (e: Exception) {
-                        activity?.showErrorToast(e)
+                        ShowToastUseCase(activity!!, "Error : $e")
                     }
                 }
                 stopLooping = false
@@ -266,7 +265,7 @@ class RenamePatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(c
                     }
                 } catch (e: Exception) {
                     activity.runOnUiThread {
-                        activity.showErrorToast(e)
+                        ShowToastUseCase(activity, "Error : $e")
                         callback(false)
                     }
                 }

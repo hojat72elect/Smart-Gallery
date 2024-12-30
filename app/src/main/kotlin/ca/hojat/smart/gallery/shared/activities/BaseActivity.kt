@@ -149,12 +149,10 @@ import ca.hojat.smart.gallery.shared.extensions.saveFile
 import ca.hojat.smart.gallery.shared.extensions.saveImageRotation
 import ca.hojat.smart.gallery.shared.extensions.scanPathRecursively
 import ca.hojat.smart.gallery.shared.extensions.scanPathsRecursively
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.showFileCreateError
 import ca.hojat.smart.gallery.shared.extensions.statusBarHeight
 import ca.hojat.smart.gallery.shared.extensions.storeAndroidTreeUri
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.trySAFFileDelete
 import ca.hojat.smart.gallery.shared.extensions.updateDBMediaPath
 import ca.hojat.smart.gallery.shared.extensions.updateDirectoryPath
@@ -219,6 +217,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.ResizeMultipleImagesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ResizeWithPathDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.WhatsNewDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.WritePermissionDialog
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import java.io.File
@@ -811,7 +810,7 @@ open class BaseActivity : AppCompatActivity() {
                 val checkedUri = buildDocumentUriSdk30(checkedDocumentPath)
 
                 if (treeUri != checkedUri) {
-                    toast(getString(R.string.wrong_folder_selected, checkedDocumentPath))
+                    ShowToastUseCase(this, getString(R.string.wrong_folder_selected, checkedDocumentPath))
                     return
                 }
 
@@ -833,7 +832,7 @@ open class BaseActivity : AppCompatActivity() {
                 if (treeUri != checkedUri) {
                     val level = getFirstParentLevel(checkedDocumentPath)
                     val firstParentPath = checkedDocumentPath.getFirstParentPath(this, level)
-                    toast(getString(R.string.wrong_folder_selected, humanizePath(firstParentPath)))
+                    ShowToastUseCase(this, getString(R.string.wrong_folder_selected, humanizePath(firstParentPath)))
                     return
                 }
 
@@ -852,7 +851,7 @@ open class BaseActivity : AppCompatActivity() {
                 if (isProperAndroidRoot(checkedDocumentPath, resultData.data!!)) {
                     if (resultData.dataString == baseConfig.otgTreeUri || resultData.dataString == baseConfig.sdTreeUri) {
                         val pathToSelect = createAndroidDataOrObbPath(checkedDocumentPath)
-                        toast(getString(R.string.wrong_folder_selected, pathToSelect))
+                        ShowToastUseCase(this, getString(R.string.wrong_folder_selected, pathToSelect))
                         return
                     }
 
@@ -868,7 +867,8 @@ open class BaseActivity : AppCompatActivity() {
                     funAfterSAFPermission?.invoke(true)
                     funAfterSAFPermission = null
                 } else {
-                    toast(
+                    ShowToastUseCase(
+                        this,
                         getString(
                             R.string.wrong_folder_selected,
                             createAndroidDataOrObbPath(checkedDocumentPath)
@@ -884,7 +884,7 @@ open class BaseActivity : AppCompatActivity() {
                         try {
                             startActivityForResult(this, requestCode)
                         } catch (e: Exception) {
-                            showErrorToast(e)
+                            ShowToastUseCase(this@BaseActivity, "Error : $e")
                         }
                     }
                 }
@@ -898,7 +898,7 @@ open class BaseActivity : AppCompatActivity() {
                     .matches() && resultData.dataString!!.contains(partition))
                 if (isProperSDRootFolder(resultData.data!!) && isProperPartition) {
                     if (resultData.dataString == baseConfig.otgTreeUri) {
-                        toast(R.string.sd_card_usb_same)
+                        ShowToastUseCase(this, R.string.sd_card_usb_same)
                         return
                     }
 
@@ -906,13 +906,13 @@ open class BaseActivity : AppCompatActivity() {
                     funAfterSAFPermission?.invoke(true)
                     funAfterSAFPermission = null
                 } else {
-                    toast(R.string.wrong_root_selected)
+                    ShowToastUseCase(this, R.string.wrong_root_selected)
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
 
                     try {
                         startActivityForResult(intent, requestCode)
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                     }
                 }
             } else {
@@ -926,7 +926,7 @@ open class BaseActivity : AppCompatActivity() {
                 if (isProperOTGRootFolder(resultData.data!!) && isProperPartition) {
                     if (resultData.dataString == baseConfig.sdTreeUri) {
                         funAfterSAFPermission?.invoke(false)
-                        toast(R.string.sd_card_usb_same)
+                        ShowToastUseCase(this, R.string.sd_card_usb_same)
                         return
                     }
                     baseConfig.otgTreeUri = resultData.dataString!!
@@ -945,13 +945,13 @@ open class BaseActivity : AppCompatActivity() {
                     funAfterSAFPermission?.invoke(true)
                     funAfterSAFPermission = null
                 } else {
-                    toast(R.string.wrong_root_selected_usb)
+                    ShowToastUseCase(this, R.string.wrong_root_selected_usb)
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
 
                     try {
                         startActivityForResult(intent, requestCode)
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                     }
                 }
             } else {
@@ -1062,7 +1062,7 @@ open class BaseActivity : AppCompatActivity() {
 
 
     fun launchChangeAppLanguageIntent() {
-        Toast.makeText(this, "This feature has not yet been added!!!", Toast.LENGTH_SHORT).show()
+        ShowToastUseCase(this, "This feature has not yet been added!!!", Toast.LENGTH_SHORT)
     }
 
     // synchronous return value determines only if we are showing the SAF dialog, callback result tells if the SD or OTG permission has been granted
@@ -1161,9 +1161,9 @@ open class BaseActivity : AppCompatActivity() {
                 try {
                     startActivityForResult(this, OPEN_DOCUMENT_TREE_OTG)
                 } catch (e: ActivityNotFoundException) {
-                    toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                    ShowToastUseCase(this@BaseActivity, R.string.system_service_disabled, Toast.LENGTH_LONG)
                 } catch (e: Exception) {
-                    toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(this@BaseActivity, R.string.unknown_error_occurred)
                 }
             }
         }
@@ -1179,7 +1179,7 @@ open class BaseActivity : AppCompatActivity() {
                 MediaStore.createDeleteRequest(contentResolver, uris).intentSender
             startIntentSenderForResult(deleteRequest, DELETE_FILE_SDK_30_HANDLER, null, 0, 0, 0)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
 
     }
@@ -1193,7 +1193,7 @@ open class BaseActivity : AppCompatActivity() {
                 MediaStore.createTrashRequest(contentResolver, uris, toTrash).intentSender
             startIntentSenderForResult(trashRequest, TRASH_FILE_SDK_30_HANDLER, null, 0, 0, 0)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 
@@ -1205,7 +1205,7 @@ open class BaseActivity : AppCompatActivity() {
             val writeRequest = MediaStore.createWriteRequest(contentResolver, uris).intentSender
             startIntentSenderForResult(writeRequest, UPDATE_FILE_SDK_30_HANDLER, null, 0, 0, 0)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 
@@ -1235,7 +1235,7 @@ open class BaseActivity : AppCompatActivity() {
             try {
                 startActivityForResult(this, MANAGE_MEDIA_RC)
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this@BaseActivity, "Error : $e")
             }
         }
         funAfterManageMediaPermission = callback
@@ -1250,12 +1250,12 @@ open class BaseActivity : AppCompatActivity() {
         callback: (destinationPath: String) -> Unit
     ) {
         if (source == destination) {
-            toast(R.string.source_and_destination_same)
+            ShowToastUseCase(this, R.string.source_and_destination_same)
             return
         }
 
         if (!getDoesFilePathExist(destination)) {
-            toast(R.string.invalid_destination)
+            ShowToastUseCase(this, R.string.invalid_destination)
             return
         }
 
@@ -1331,7 +1331,7 @@ open class BaseActivity : AppCompatActivity() {
                     } else {
                         try {
                             checkConflicts(fileDirItems, destination, 0, LinkedHashMap()) {
-                                toast(R.string.moving)
+                                ShowToastUseCase(this, R.string.moving)
                                 ensureBackgroundThread {
                                     val updatedPaths = ArrayList<String>(fileDirItems.size)
                                     val destinationFolder = File(destination)
@@ -1388,7 +1388,7 @@ open class BaseActivity : AppCompatActivity() {
                                 }
                             }
                         } catch (e: Exception) {
-                            showErrorToast(e)
+                            ShowToastUseCase(this, "Error : $e")
                         }
                     }
                 }
@@ -1419,7 +1419,7 @@ open class BaseActivity : AppCompatActivity() {
         val sumToCopy = files.sumByLong { it.getProperSize(applicationContext, copyHidden) }
         if (availableSpace == -1L || sumToCopy < availableSpace) {
             checkConflicts(files, destinationPath, 0, LinkedHashMap()) {
-                toast(if (isCopyOperation) R.string.copying else R.string.moving)
+                ShowToastUseCase(this, if (isCopyOperation) R.string.copying else R.string.moving)
                 val pair = Pair(files, destinationPath)
                 handleNotificationPermission { granted ->
                     if (granted) {
@@ -1445,7 +1445,7 @@ open class BaseActivity : AppCompatActivity() {
                 sumToCopy.formatSize(),
                 availableSpace.formatSize()
             )
-            toast(text, Toast.LENGTH_LONG)
+            ShowToastUseCase(this, text, Toast.LENGTH_LONG)
         }
     }
 
@@ -1564,7 +1564,8 @@ open class BaseActivity : AppCompatActivity() {
             wasCopyingOneFileOnly: Boolean
         ) {
             if (copyOnly) {
-                toast(
+                ShowToastUseCase(
+                    this@BaseActivity,
                     if (copiedAll) {
                         if (wasCopyingOneFileOnly) {
                             R.string.copying_success_one
@@ -1576,7 +1577,8 @@ open class BaseActivity : AppCompatActivity() {
                     }
                 )
             } else {
-                toast(
+                ShowToastUseCase(
+                    this@BaseActivity,
                     if (copiedAll) {
                         if (wasCopyingOneFileOnly) {
                             R.string.moving_success_one
@@ -1594,7 +1596,7 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         override fun copyFailed() {
-            toast(R.string.copy_move_failed)
+            ShowToastUseCase(this@BaseActivity, R.string.copy_move_failed)
             copyMoveCallback = null
         }
     }
@@ -1618,9 +1620,9 @@ open class BaseActivity : AppCompatActivity() {
                 try {
                     startActivityForResult(this, SELECT_EXPORT_SETTINGS_FILE_INTENT)
                 } catch (e: ActivityNotFoundException) {
-                    toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                    ShowToastUseCase(this@BaseActivity, R.string.system_service_disabled, Toast.LENGTH_LONG)
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this@BaseActivity, "Error : $e")
                 }
             }
         }
@@ -1631,7 +1633,7 @@ open class BaseActivity : AppCompatActivity() {
         configItems: LinkedHashMap<String, Any>
     ) {
         if (outputStream == null) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, R.string.unknown_error_occurred)
             return
         }
 
@@ -1642,7 +1644,7 @@ open class BaseActivity : AppCompatActivity() {
                 }
             }
 
-            toast(R.string.settings_exported_successfully)
+            ShowToastUseCase(this, R.string.settings_exported_successfully)
         }
     }
 
@@ -1714,7 +1716,7 @@ open class BaseActivity : AppCompatActivity() {
             try {
                 startActivity(intent)
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this, "Error : $e")
             }
         }
     }
@@ -1739,7 +1741,7 @@ open class BaseActivity : AppCompatActivity() {
                     addNoMediaIntoMediaStore(file.absolutePath)
                     callback()
                 } else {
-                    toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(this, R.string.unknown_error_occurred)
                     callback()
                 }
             }
@@ -1750,10 +1752,10 @@ open class BaseActivity : AppCompatActivity() {
                         addNoMediaIntoMediaStore(file.absolutePath)
                     }
                 } else {
-                    toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(this, R.string.unknown_error_occurred)
                 }
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this, "Error : $e")
             }
             callback()
         }
@@ -1768,7 +1770,7 @@ open class BaseActivity : AppCompatActivity() {
             }
             contentResolver.insert(Files.getContentUri("external"), content)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 
@@ -1837,7 +1839,7 @@ open class BaseActivity : AppCompatActivity() {
     ) {
 
         if (fileDirItems.isEmpty()) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, R.string.unknown_error_occurred)
             return
         }
 
@@ -1931,7 +1933,7 @@ open class BaseActivity : AppCompatActivity() {
                             pathsCnt--
                         }
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                         return@ensureBackgroundThread
                     } finally {
                         inputStream?.close()
@@ -1955,7 +1957,7 @@ open class BaseActivity : AppCompatActivity() {
                             }
                         }
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                         return@ensureBackgroundThread
                     }
                 }
@@ -1986,7 +1988,7 @@ open class BaseActivity : AppCompatActivity() {
                     val picturesDirectory = getPicturesDirectoryPath(destination)
                     destination = File(picturesDirectory, destination.getFilenameFromPath()).path
                     if (!shownRestoringToPictures) {
-                        toast(getString(R.string.restore_to_path, humanizePath(picturesDirectory)))
+                        ShowToastUseCase(this, getString(R.string.restore_to_path, humanizePath(picturesDirectory)))
                         shownRestoringToPictures = true
                     }
                 }
@@ -2038,7 +2040,7 @@ open class BaseActivity : AppCompatActivity() {
                         File(destination).setLastModified(lastModified)
                     }
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this, "Error : $e")
                 } finally {
                     inputStream?.close()
                     out?.close()
@@ -2061,10 +2063,10 @@ open class BaseActivity : AppCompatActivity() {
                 recycleBin.deleteRecursively()
                 mediaDB.clearRecycleBin()
                 directoryDB.deleteRecycleBin()
-                toast(R.string.recycle_bin_emptied)
+                ShowToastUseCase(this, R.string.recycle_bin_emptied)
                 callback?.invoke()
             } catch (e: Exception) {
-                toast(R.string.unknown_error_occurred)
+                ShowToastUseCase(this, R.string.unknown_error_occurred)
             }
         }
     }
@@ -2127,7 +2129,7 @@ open class BaseActivity : AppCompatActivity() {
             getFileOutputStream(tmpFileDirItem) {
                 if (it == null) {
                     if (showToasts) {
-                        toast(R.string.unknown_error_occurred)
+                        ShowToastUseCase(this, R.string.unknown_error_occurred)
                     }
                     return@getFileOutputStream
                 }
@@ -2152,11 +2154,11 @@ open class BaseActivity : AppCompatActivity() {
             }
         } catch (e: OutOfMemoryError) {
             if (showToasts) {
-                toast(R.string.out_of_memory_error)
+                ShowToastUseCase(this, R.string.out_of_memory_error)
             }
         } catch (e: Exception) {
             if (showToasts) {
-                showErrorToast(e)
+                ShowToastUseCase(this, "Error : $e")
             }
         } finally {
             tryDeleteFileDirItem(
@@ -2176,7 +2178,7 @@ open class BaseActivity : AppCompatActivity() {
             inputStream = getFileInputStreamSync(source)
             inputStream!!.copyTo(out!!)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         } finally {
             inputStream?.close()
             out?.close()
@@ -2253,7 +2255,7 @@ open class BaseActivity : AppCompatActivity() {
                 try {
                     resizeImage(path, newPath, newSize) { success ->
                         if (success) {
-                            toast(R.string.file_saved)
+                            ShowToastUseCase(this, R.string.file_saved)
 
                             val paths = arrayListOf(file.absolutePath)
                             rescanPathsAndUpdateLastModified(paths, pathLastModifiedMap) {
@@ -2262,13 +2264,13 @@ open class BaseActivity : AppCompatActivity() {
                                 }
                             }
                         } else {
-                            toast(R.string.image_editing_failed)
+                            ShowToastUseCase(this, R.string.image_editing_failed)
                         }
                     }
                 } catch (e: OutOfMemoryError) {
-                    toast(R.string.out_of_memory_error)
+                    ShowToastUseCase(this, R.string.out_of_memory_error)
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this, "Error : $e")
                 }
             }
         }
@@ -2479,7 +2481,7 @@ open class BaseActivity : AppCompatActivity() {
                         }
                     }
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this, "Error : $e")
                     runOnUiThread {
                         callback?.invoke(false, Android30RenameFormat.NONE)
                     }
@@ -2515,7 +2517,7 @@ open class BaseActivity : AppCompatActivity() {
                             }
                         }
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                         runOnUiThread {
                             callback?.invoke(false, Android30RenameFormat.NONE)
                         }
@@ -2531,7 +2533,7 @@ open class BaseActivity : AppCompatActivity() {
                 val document = getSomeDocumentFile(oldPath)
                 if (document == null || (File(oldPath).isDirectory != document.isDirectory)) {
                     runOnUiThread {
-                        toast(R.string.unknown_error_occurred)
+                        ShowToastUseCase(this, R.string.unknown_error_occurred)
                         callback?.invoke(false, Android30RenameFormat.NONE)
                     }
                     return@handleSAFDialog
@@ -2548,7 +2550,7 @@ open class BaseActivity : AppCompatActivity() {
                         } catch (ignored: FileNotFoundException) {
                             // FileNotFoundException is thrown in some weird cases, but renaming works just fine
                         } catch (e: Exception) {
-                            showErrorToast(e)
+                            ShowToastUseCase(this, "Error : $e")
                             callback?.invoke(false, Android30RenameFormat.NONE)
                             return@ensureBackgroundThread
                         }
@@ -2565,7 +2567,7 @@ open class BaseActivity : AppCompatActivity() {
                         }
                     }
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this, "Error : $e")
                     runOnUiThread {
                         callback?.invoke(false, Android30RenameFormat.NONE)
                     }
@@ -2602,7 +2604,7 @@ open class BaseActivity : AppCompatActivity() {
                                 contentResolver.update(fileUris.first(), values, null, null)
                                 callback?.invoke(true, Android30RenameFormat.NONE)
                             } catch (e: Exception) {
-                                showErrorToast(e)
+                                ShowToastUseCase(this, "Error : $e")
                                 callback?.invoke(false, Android30RenameFormat.NONE)
                             }
                         } else {
@@ -2615,9 +2617,9 @@ open class BaseActivity : AppCompatActivity() {
                         oldPath
                     )
                 ) {
-                    toast(R.string.cannot_rename_folder)
+                    ShowToastUseCase(this, R.string.cannot_rename_folder)
                 } else {
-                    showErrorToast(exception)
+                    ShowToastUseCase(this, "Error : $exception")
                 }
                 callback?.invoke(false, Android30RenameFormat.NONE)
             }
@@ -2677,7 +2679,7 @@ open class BaseActivity : AppCompatActivity() {
                                     )
                                 ) ?: return@updateSDK30Uris
                             } catch (exception: Exception) {
-                                showErrorToast(exception)
+                                ShowToastUseCase(this, "Error : $exception")
                                 callback?.invoke(false, Android30RenameFormat.NONE)
                                 return@updateSDK30Uris
                             }
@@ -2725,13 +2727,13 @@ open class BaseActivity : AppCompatActivity() {
                                     }
                                 }
                             } else {
-                                toast(R.string.unknown_error_occurred)
+                                ShowToastUseCase(this, R.string.unknown_error_occurred)
                                 callback?.invoke(false, Android30RenameFormat.NONE)
                             }
                         }
 
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                         callback?.invoke(false, Android30RenameFormat.NONE)
                     }
                 }
@@ -2794,7 +2796,7 @@ open class BaseActivity : AppCompatActivity() {
                                 )
                             )
                         } catch (e: FileNotFoundException) {
-                            showErrorToast(e)
+                            ShowToastUseCase(this, "Error : $e")
                             callback(null)
                         }
                     } else {
@@ -2846,7 +2848,7 @@ open class BaseActivity : AppCompatActivity() {
         val directory = destination.getParentPath()
         if (!createDirectorySync(directory)) {
             val error = String.format(getString(R.string.could_not_create_folder), directory)
-            showErrorToast(error)
+            ShowToastUseCase(this, "Error : $error")
             return false
         }
 
@@ -2949,9 +2951,9 @@ open class BaseActivity : AppCompatActivity() {
                                 startActivityForResult(this, OPEN_DOCUMENT_TREE_FOR_SDK_30)
                                 checkedDocumentPath = path
                             } catch (e: ActivityNotFoundException) {
-                                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                                ShowToastUseCase(this@BaseActivity, R.string.system_service_disabled, Toast.LENGTH_LONG)
                             } catch (e: Exception) {
-                                toast(R.string.unknown_error_occurred)
+                                ShowToastUseCase(this@BaseActivity, R.string.unknown_error_occurred)
                             }
                         }
                     }
@@ -2990,9 +2992,9 @@ open class BaseActivity : AppCompatActivity() {
                                 startActivityForResult(this, CREATE_DOCUMENT_SDK_30)
                                 checkedDocumentPath = path
                             } catch (e: ActivityNotFoundException) {
-                                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                                ShowToastUseCase(this@BaseActivity, R.string.system_service_disabled, Toast.LENGTH_LONG)
                             } catch (e: Exception) {
-                                toast(R.string.unknown_error_occurred)
+                                ShowToastUseCase(this@BaseActivity, R.string.unknown_error_occurred)
                             }
                         }
                     }
@@ -3043,9 +3045,9 @@ open class BaseActivity : AppCompatActivity() {
                                     )
                                     checkedDocumentPath = path
                                 } catch (e: ActivityNotFoundException) {
-                                    toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                                    ShowToastUseCase(this@BaseActivity, R.string.system_service_disabled, Toast.LENGTH_LONG)
                                 } catch (e: Exception) {
-                                    toast(R.string.unknown_error_occurred)
+                                    ShowToastUseCase(this@BaseActivity, R.string.unknown_error_occurred)
                                 }
                             }
                         }
@@ -3075,9 +3077,9 @@ open class BaseActivity : AppCompatActivity() {
                             startActivityForResult(this, OPEN_DOCUMENT_TREE_OTG)
                             checkedDocumentPath = path
                         } catch (e: ActivityNotFoundException) {
-                            toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                            ShowToastUseCase(this@BaseActivity, R.string.system_service_disabled, Toast.LENGTH_LONG)
                         } catch (e: Exception) {
-                            toast(R.string.unknown_error_occurred)
+                            ShowToastUseCase(this@BaseActivity, R.string.unknown_error_occurred)
                         }
                     }
                 }
@@ -3153,7 +3155,7 @@ open class BaseActivity : AppCompatActivity() {
         return try {
             FileOutputStream(targetFile)
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
             null
         }
 
@@ -3173,7 +3175,7 @@ open class BaseActivity : AppCompatActivity() {
                 fileRotatedSuccessfully(path, oldLastModified)
                 callback.invoke()
                 if (showToasts) {
-                    toast(R.string.file_saved)
+                    ShowToastUseCase(this, R.string.file_saved)
                 }
                 true
             } else {
@@ -3182,7 +3184,7 @@ open class BaseActivity : AppCompatActivity() {
         } catch (e: Exception) {
             // lets not show IOExceptions, rotating is saved just fine even with them
             if (showToasts && e !is IOException) {
-                showErrorToast(e)
+                ShowToastUseCase(this, "Error : $e")
             }
             false
         }

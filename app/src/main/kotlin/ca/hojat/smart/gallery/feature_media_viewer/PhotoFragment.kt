@@ -47,7 +47,6 @@ import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
 import ca.hojat.smart.gallery.shared.extensions.portrait
 import ca.hojat.smart.gallery.shared.extensions.realScreenSize
 import ca.hojat.smart.gallery.shared.extensions.sendFakeClick
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.HIGH_TILE_DPI
 import ca.hojat.smart.gallery.shared.helpers.LOW_TILE_DPI
 import ca.hojat.smart.gallery.shared.helpers.MEDIUM
@@ -60,6 +59,7 @@ import ca.hojat.smart.gallery.shared.helpers.WEIRD_TILE_DPI
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.svg.SvgSoftwareLayerSetter
 import ca.hojat.smart.gallery.shared.ui.adapters.PortraitPhotosAdapter
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.alexvasilkov.gestures.GestureController
 import com.alexvasilkov.gestures.State
 import com.bumptech.glide.Glide
@@ -233,7 +233,7 @@ class PhotoFragment : ViewPagerFragment() {
                     rotated.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     mMedium.path = file.absolutePath
                 } catch (e: Exception) {
-                    requireActivity().toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(requireActivity(), R.string.unknown_error_occurred)
                     return mView
                 } finally {
                     out?.close()

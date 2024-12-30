@@ -36,10 +36,9 @@ import androidx.media3.exoplayer.SeekParameters
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import com.bumptech.glide.Glide
-import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.PagerVideoItemBinding
+import ca.hojat.smart.gallery.shared.data.domain.Medium
 import ca.hojat.smart.gallery.shared.extensions.beGone
 import ca.hojat.smart.gallery.shared.extensions.beGoneIf
 import ca.hojat.smart.gallery.shared.extensions.beInvisible
@@ -58,15 +57,16 @@ import ca.hojat.smart.gallery.shared.extensions.navigationBarWidth
 import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
 import ca.hojat.smart.gallery.shared.extensions.parseFileChannel
 import ca.hojat.smart.gallery.shared.extensions.realScreenSize
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
 import ca.hojat.smart.gallery.shared.helpers.Config
 import ca.hojat.smart.gallery.shared.helpers.FAST_FORWARD_VIDEO_MS
 import ca.hojat.smart.gallery.shared.helpers.MEDIUM
 import ca.hojat.smart.gallery.shared.helpers.PATH
 import ca.hojat.smart.gallery.shared.helpers.SHOULD_INIT_FRAGMENT
-import ca.hojat.smart.gallery.shared.data.domain.Medium
+import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.views.MediaSideScroll
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
+import com.bumptech.glide.Glide
 import java.io.File
 import java.io.FileInputStream
 
@@ -420,7 +420,7 @@ class VideoFragment : ViewPagerFragment(),
             fileDataSource.open(dataSpec)
         } catch (e: Exception) {
             fileDataSource.close()
-            activity?.showErrorToast(e)
+            ShowToastUseCase(requireActivity(), "Error : $e")
             return
         }
 

@@ -43,11 +43,12 @@ import ca.hojat.smart.gallery.shared.extensions.isRestrictedSAFOnlyRoot
 import ca.hojat.smart.gallery.shared.extensions.isRestrictedWithSAFSdk30
 import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.adapters.FilepickerFavoritesAdapter
 import ca.hojat.smart.gallery.shared.ui.adapters.FilepickerItemsAdapter
 import ca.hojat.smart.gallery.shared.ui.views.Breadcrumbs
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase.invoke
 import java.io.File
 
 /**
@@ -262,7 +263,7 @@ class FilePickerDialog(
                     if (activity.isInDownloadDir(currPath)) {
                         sendSuccessForDirectFile()
                     } else {
-                        activity.toast(R.string.system_folder_restriction, Toast.LENGTH_LONG)
+                        ShowToastUseCase(activity, R.string.system_folder_restriction, Toast.LENGTH_LONG)
                     }
                 } else {
                     sendSuccessForDirectFile()

@@ -56,7 +56,6 @@ import ca.hojat.smart.gallery.shared.extensions.showFileOnMap
 import ca.hojat.smart.gallery.shared.extensions.showSystemUI
 import ca.hojat.smart.gallery.shared.extensions.statusBarHeight
 import ca.hojat.smart.gallery.shared.extensions.toHex
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.BOTTOM_ACTION_EDIT
 import ca.hojat.smart.gallery.shared.helpers.BOTTOM_ACTION_PROPERTIES
@@ -81,6 +80,7 @@ import ca.hojat.smart.gallery.shared.helpers.TYPE_SVGS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_VIDEOS
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 import java.io.FileInputStream
 
@@ -112,7 +112,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
             if (it) {
                 checkIntent(savedInstanceState)
             } else {
-                toast(R.string.no_storage_permissions)
+                ShowToastUseCase(this, R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -187,7 +187,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
                 R.id.menu_set_as -> setAs(mUri!!.toString())
                 R.id.menu_open_with -> openPath(mUri!!.toString(), true)
                 R.id.menu_share -> sharePath(mUri!!.toString())
-                R.id.menu_edit -> toast("This feature is not implemented yet")
+                R.id.menu_edit -> ShowToastUseCase(this, "This feature is not implemented yet")
                 R.id.menu_properties -> showProperties()
                 R.id.menu_show_on_map -> showFileOnMap(mUri!!.toString())
                 else -> return@setOnMenuItemClickListener false
@@ -355,7 +355,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
     private fun launchVideoPlayer() {
         val newUri = getFinalUriFromPath(mUri.toString(), BuildConfig.APPLICATION_ID)
         if (newUri == null) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, R.string.unknown_error_occurred)
             return
         }
 
@@ -488,7 +488,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         val visibleBottomActions = if (config.bottomActions) config.visibleBottomActions else 0
         binding.bottomActions.bottomEdit.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_EDIT != 0 && mMedium?.isImage() == true)
         binding.bottomActions.bottomEdit.setOnClickListener {
-            toast("This feature is not implemented yet")
+            ShowToastUseCase(this, "This feature is not implemented yet")
         }
 
         binding.bottomActions.bottomShare.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHARE != 0)

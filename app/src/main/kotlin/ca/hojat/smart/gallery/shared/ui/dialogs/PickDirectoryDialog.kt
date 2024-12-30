@@ -28,11 +28,11 @@ import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isInDownloadDir
 import ca.hojat.smart.gallery.shared.extensions.isRestrictedWithSAFSdk30
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.helpers.VIEW_TYPE_GRID
 import ca.hojat.smart.gallery.shared.ui.adapters.DirectoryAdapter
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MySearchMenu
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 @UnstableApi
 class PickDirectoryDialog(
@@ -238,13 +238,13 @@ class PickDirectoryDialog(
             val path = clickedDir.path
             if (clickedDir.subfoldersCount == 1 || !activity.config.groupDirectSubfolders) {
                 if (isPickingCopyMoveDestination && path.trimEnd('/') == sourcePath) {
-                    activity.toast(R.string.source_and_destination_same)
+                    ShowToastUseCase(activity, R.string.source_and_destination_same)
                     return@DirectoryAdapter
                 } else if (isPickingCopyMoveDestination && activity.isRestrictedWithSAFSdk30(path) && !activity.isInDownloadDir(
                         path
                     )
                 ) {
-                    activity.toast(
+                    ShowToastUseCase(activity,
                         R.string.system_folder_copy_restriction,
                         Toast.LENGTH_LONG
                     )

@@ -28,7 +28,6 @@ import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.openPath
 import ca.hojat.smart.gallery.shared.extensions.recycleBinPath
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.GridSpacingItemDecoration
 import ca.hojat.smart.gallery.shared.helpers.MediaFetcher
@@ -39,6 +38,7 @@ import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.ui.adapters.MediaAdapter
 import ca.hojat.smart.gallery.shared.ui.adapters.MediaOperationsListener
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 
 @UnstableApi
@@ -305,13 +305,13 @@ class SearchActivity : BaseActivity(), MediaOperationsListener {
                 filtered.size,
                 filtered.size
             )
-            toast(movingItems)
+            ShowToastUseCase(this, movingItems)
 
             movePathsInRecycleBin(filtered.map { it.path } as ArrayList<String>) {
                 if (it) {
                     deleteFilteredFiles(filtered)
                 } else {
-                    toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(this, R.string.unknown_error_occurred)
                 }
             }
         } else {
@@ -320,7 +320,7 @@ class SearchActivity : BaseActivity(), MediaOperationsListener {
                 filtered.size,
                 filtered.size
             )
-            toast(deletingItems)
+            ShowToastUseCase(this, deletingItems)
             deleteFilteredFiles(filtered)
         }
     }
@@ -328,7 +328,7 @@ class SearchActivity : BaseActivity(), MediaOperationsListener {
     private fun deleteFilteredFiles(filtered: ArrayList<FileDirItem>) {
         deleteFiles(filtered) {
             if (!it) {
-                toast(R.string.unknown_error_occurred)
+                ShowToastUseCase(this, R.string.unknown_error_occurred)
                 return@deleteFiles
             }
 

@@ -49,6 +49,7 @@ import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.helpers.isOnMainThread
 import ca.hojat.smart.gallery.shared.ui.dialogs.AppSideloadedDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyTextView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -215,7 +216,7 @@ fun AppCompatActivity.fixDateTaken(
 ) {
     val BATCH_SIZE = 50
     if (showToasts && !hasRescanned) {
-        toast(R.string.fixing)
+        ShowToastUseCase(this, R.string.fixing)
     }
 
     val pathsToRescan = ArrayList<String>()
@@ -278,7 +279,7 @@ fun AppCompatActivity.fixDateTaken(
 
             if (!didUpdateFile) {
                 if (showToasts) {
-                    toast(R.string.no_date_takens_found)
+                    ShowToastUseCase(this, R.string.no_date_takens_found)
                 }
 
                 runOnUiThread {
@@ -299,7 +300,7 @@ fun AppCompatActivity.fixDateTaken(
 
                 runOnUiThread {
                     if (showToasts) {
-                        toast(if (didUpdateFile) R.string.dates_fixed_successfully else R.string.unknown_error_occurred)
+                        ShowToastUseCase(this, if (didUpdateFile) R.string.dates_fixed_successfully else R.string.unknown_error_occurred)
                     }
 
                     callback?.invoke()
@@ -312,7 +313,7 @@ fun AppCompatActivity.fixDateTaken(
         }
     } catch (e: Exception) {
         if (showToasts) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 }
@@ -360,7 +361,7 @@ fun Activity.showFileOnMap(path: String) {
             ExifInterface(path)
         }
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         return
     }
 
@@ -368,7 +369,7 @@ fun Activity.showFileOnMap(path: String) {
     if (exif.getLatLong(latLon)) {
         showLocationOnMap("${latLon[0]}, ${latLon[1]}")
     } else {
-        toast(R.string.unknown_location)
+        ShowToastUseCase(this, R.string.unknown_location)
     }
 }
 
@@ -426,9 +427,9 @@ fun Activity.launchViewIntent(url: String) {
             try {
                 startActivity(this)
             } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_browser_found)
+                ShowToastUseCase(this@launchViewIntent, R.string.no_browser_found)
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this@launchViewIntent, "Error : $e")
             }
         }
     }
@@ -465,15 +466,15 @@ fun Activity.sharePathIntent(path: String, applicationId: String) {
             try {
                 startActivity(Intent.createChooser(this, getString(R.string.share_via)))
             } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_app_found)
+                ShowToastUseCase(this@sharePathIntent, R.string.no_app_found)
             } catch (e: RuntimeException) {
                 if (e.cause is TransactionTooLargeException) {
-                    toast(R.string.maximum_share_reached)
+                    ShowToastUseCase(this@sharePathIntent, R.string.maximum_share_reached)
                 } else {
-                    showErrorToast(e)
+                     ShowToastUseCase(this@sharePathIntent, "Error : $e")
                 }
             } catch (e: Exception) {
-                showErrorToast(e)
+                 ShowToastUseCase(this@sharePathIntent, "Error : $e")
             }
         }
     }
@@ -505,15 +506,15 @@ fun Activity.sharePathsIntent(paths: List<String>, applicationId: String) {
                 try {
                     startActivity(Intent.createChooser(this, getString(R.string.share_via)))
                 } catch (e: ActivityNotFoundException) {
-                    toast(R.string.no_app_found)
+                    ShowToastUseCase(this@sharePathsIntent, R.string.no_app_found)
                 } catch (e: RuntimeException) {
                     if (e.cause is TransactionTooLargeException) {
-                        toast(R.string.maximum_share_reached)
+                        ShowToastUseCase(this@sharePathsIntent, R.string.maximum_share_reached)
                     } else {
-                        showErrorToast(e)
+                        ShowToastUseCase(this@sharePathsIntent, "Error : $e")
                     }
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this@sharePathsIntent, "Error : $e")
                 }
             }
         }
@@ -532,9 +533,9 @@ fun Activity.setAsIntent(path: String, applicationId: String) {
             try {
                 startActivityForResult(chooser, REQUEST_SET_AS)
             } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_app_found)
+                ShowToastUseCase(this@setAsIntent, R.string.no_app_found)
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this@setAsIntent, "Error : $e")
             }
         }
     }
@@ -571,10 +572,10 @@ fun Activity.openPathIntent(
                 startActivity(if (forceChooser) chooser else this)
             } catch (e: ActivityNotFoundException) {
                 if (!tryGenericMimeType(this, mimeType, newUri)) {
-                    toast(R.string.no_app_found)
+                    ShowToastUseCase(this@openPathIntent, R.string.no_app_found)
                 }
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this@openPathIntent, "Error : $e")
             }
         }
     }
@@ -584,12 +585,12 @@ fun Activity.getFinalUriFromPath(path: String, applicationId: String): Uri? {
     val uri = try {
         ensurePublicUri(path, applicationId)
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         return null
     }
 
     if (uri == null) {
-        toast(R.string.unknown_error_occurred)
+        ShowToastUseCase(this, R.string.unknown_error_occurred)
         return null
     }
 

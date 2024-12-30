@@ -20,8 +20,8 @@ import ca.hojat.smart.gallery.shared.extensions.isRestrictedWithSAFSdk30
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.showKeyboard
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 
 @SuppressLint("SetTextI18n")
@@ -88,19 +88,19 @@ class SaveAsDialog(
                         val extension = binding.extensionValue.value
 
                         if (filename.isEmpty()) {
-                            activity.toast(R.string.filename_cannot_be_empty)
+                            ShowToastUseCase(activity ,R.string.filename_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         if (extension.isEmpty()) {
-                            activity.toast(R.string.extension_cannot_be_empty)
+                            ShowToastUseCase(activity ,R.string.extension_cannot_be_empty)
                             return@setOnClickListener
                         }
 
                         val newFilename = "$filename.$extension"
                         val newPath = "${realPath.trimEnd('/')}/$newFilename"
                         if (!newFilename.isAValidFilename()) {
-                            activity.toast(R.string.filename_invalid_characters)
+                            ShowToastUseCase(activity ,R.string.filename_invalid_characters)
                             return@setOnClickListener
                         }
 

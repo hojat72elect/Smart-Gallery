@@ -143,7 +143,6 @@ import ca.hojat.smart.gallery.shared.helpers.TYPE_SVGS
 import ca.hojat.smart.gallery.shared.helpers.TYPE_VIDEOS
 import ca.hojat.smart.gallery.shared.helpers.appIconColorStrings
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
-import ca.hojat.smart.gallery.shared.helpers.isOnMainThread
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
 import ca.hojat.smart.gallery.shared.svg.SvgSoftwareLayerSetter
 import ca.hojat.smart.gallery.shared.ui.views.MyAppCompatCheckbox
@@ -157,6 +156,7 @@ import ca.hojat.smart.gallery.shared.ui.views.MySeekBar
 import ca.hojat.smart.gallery.shared.ui.views.MySquareImageView
 import ca.hojat.smart.gallery.shared.ui.views.MyTextInputLayout
 import ca.hojat.smart.gallery.shared.ui.views.MyTextView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.integration.webp.WebpBitmapFactory
@@ -1156,7 +1156,7 @@ fun Context.updateFavorite(path: String, isFavorite: Boolean) {
             favoritesDB.deleteFavoritePath(path)
         }
     } catch (e: Exception) {
-        toast(R.string.unknown_error_occurred)
+        ShowToastUseCase(this, R.string.unknown_error_occurred)
     }
 }
 
@@ -1547,41 +1547,6 @@ val Context.areSystemAnimationsEnabled: Boolean
         0f
     ) > 0f
 
-fun Context.toast(id: Int, length: Int = Toast.LENGTH_SHORT) {
-    toast(getString(id), length)
-}
-
-fun Context.toast(msg: String, length: Int = Toast.LENGTH_SHORT) {
-    try {
-        if (isOnMainThread()) {
-            doToast(this, msg, length)
-        } else {
-            Handler(Looper.getMainLooper()).post {
-                doToast(this, msg, length)
-            }
-        }
-    } catch (_: Exception) {
-    }
-}
-
-private fun doToast(context: Context, message: String, length: Int) {
-    if (context is Activity) {
-        if (!context.isFinishing && !context.isDestroyed) {
-            Toast.makeText(context, message, length).show()
-        }
-    } else {
-        Toast.makeText(context, message, length).show()
-    }
-}
-
-fun Context.showErrorToast(msg: String, length: Int = Toast.LENGTH_LONG) {
-    toast(String.format(getString(R.string.error), msg), length)
-}
-
-fun Context.showErrorToast(exception: Exception, length: Int = Toast.LENGTH_LONG) {
-    showErrorToast(exception.toString(), length)
-}
-
 val Context.sdCardPath: String get() = baseConfig.sdCardPath
 
 fun Context.getLatestMediaId(uri: Uri = Files.getContentUri("external")): Long {
@@ -1802,7 +1767,7 @@ fun Context.queryCursor(
         }
     } catch (e: Exception) {
         if (showErrors) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
     }
 }
@@ -2618,7 +2583,7 @@ fun Context.getOTGItems(
     var rootUri = try {
         DocumentFile.fromTreeUri(applicationContext, Uri.parse(otgTreeUri))
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         baseConfig.otgPath = ""
         baseConfig.otgTreeUri = ""
         baseConfig.otgPartition = ""
@@ -2692,7 +2657,7 @@ fun Context.getAndroidSAFFileItems(
     val childrenUri = try {
         DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, documentId)
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         storeAndroidTreeUri(path, "")
         null
     }
@@ -2754,7 +2719,7 @@ fun Context.getAndroidSAFFileItems(
             }
         }
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this@getAndroidSAFFileItems, "Error : $e")
     }
     callback(items)
 }
@@ -2898,7 +2863,7 @@ fun Context.createAndroidSAFDirectory(path: String): Boolean {
             path.getFilenameFromPath()
         ) != null
     } catch (e: IllegalStateException) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         false
     }
 }
@@ -2920,7 +2885,7 @@ fun Context.createAndroidSAFFile(path: String): Boolean {
             path.getFilenameFromPath()
         ) != null
     } catch (e: IllegalStateException) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         false
     }
 }
@@ -2936,7 +2901,7 @@ fun Context.renameAndroidSAFDocument(oldPath: String, newPath: String): Boolean 
             newPath.getFilenameFromPath()
         ) != null
     } catch (e: IllegalStateException) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         false
     }
 }
@@ -3004,7 +2969,7 @@ fun Context.deleteAndroidSAFDirectory(
             )
         callback?.invoke(fileDeleted)
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         callback?.invoke(false)
         storeAndroidTreeUri(path, "")
     }
@@ -3290,7 +3255,7 @@ fun Context.getFileOutputStreamSync(
                 }
                 applicationContext.contentResolver.openOutputStream(uri, "wt")
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this, "Error : $e")
                 null
             }
         }
@@ -3315,7 +3280,7 @@ fun Context.showFileCreateError(path: String) {
     val error =
         String.format(getString(R.string.could_not_create_file), path)
     baseConfig.sdTreeUri = ""
-    showErrorToast(error)
+    ShowToastUseCase(this, "Error : $error")
 }
 
 private fun Context.createCasualFileOutputStream(targetFile: File): OutputStream? {
@@ -3326,7 +3291,7 @@ private fun Context.createCasualFileOutputStream(targetFile: File): OutputStream
     return try {
         FileOutputStream(targetFile)
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         null
     }
 }
@@ -3477,7 +3442,7 @@ fun Context.createSAFDirectorySdk30(path: String): Boolean {
             path.getFilenameFromPath()
         ) != null
     } catch (e: IllegalStateException) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         false
     }
 }
@@ -3499,7 +3464,7 @@ fun Context.createSAFFileSdk30(path: String): Boolean {
             path.getFilenameFromPath()
         ) != null
     } catch (e: IllegalStateException) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         false
     }
 }
@@ -3559,7 +3524,7 @@ fun Context.deleteDocumentWithSAFSdk30(
 
     } catch (e: Exception) {
         callback?.invoke(false)
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
     }
 }
 
@@ -3574,7 +3539,7 @@ fun Context.renameDocumentSdk30(oldPath: String, newPath: String): Boolean {
             newPath.getFilenameFromPath()
         ) != null
     } catch (e: IllegalStateException) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
         false
     }
 }
@@ -3752,7 +3717,7 @@ fun Context.copyToClipboard(text: String) {
     val clip = ClipData.newPlainText(getString(R.string.simple_commons), text)
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
     val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
-    toast(toastText)
+    ShowToastUseCase(this, toastText)
 }
 
 val Context.internalStoragePath: String get() = baseConfig.internalStoragePath
@@ -3761,9 +3726,9 @@ fun Context.launchActivityIntent(intent: Intent) {
     try {
         startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-        toast(R.string.no_app_found)
+        ShowToastUseCase(this,R.string.no_app_found)
     } catch (e: Exception) {
-        showErrorToast(e)
+        ShowToastUseCase(this, "Error : $e")
     }
 }
 

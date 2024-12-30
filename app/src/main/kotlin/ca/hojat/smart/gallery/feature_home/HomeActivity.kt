@@ -82,10 +82,8 @@ import ca.hojat.smart.gallery.shared.extensions.openRecycleBin
 import ca.hojat.smart.gallery.shared.extensions.recycleBinPath
 import ca.hojat.smart.gallery.shared.extensions.removeInvalidDBDirectories
 import ca.hojat.smart.gallery.shared.extensions.sdCardPath
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.storeDirectoryItems
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.toggleAppIconColor
 import ca.hojat.smart.gallery.shared.extensions.underlineText
 import ca.hojat.smart.gallery.shared.extensions.updateDBDirectory
@@ -142,6 +140,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -272,7 +271,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
         // just request the permission, tryLoadGallery will then trigger in onResume
         handleMediaPermissions { success ->
             if (!success) {
-                toast(R.string.no_storage_permissions)
+                ShowToastUseCase(this,R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -562,7 +561,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 if (newFolder.getProperSize(true) == 0L && newFolder.getFileCount(true) == 0 && newFolder.list()
                         ?.isEmpty() == true
                 ) {
-                    toast(
+                    ShowToastUseCase(this,
                         String.format(
                             getString(R.string.deleting_folder),
                             config.tempFolderPath
@@ -637,7 +636,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
 
                 setupLayoutManager()
             } else {
-                toast(R.string.no_storage_permissions)
+                ShowToastUseCase(this, R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -752,14 +751,14 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
             fileDirItems.isEmpty() -> return
             fileDirItems.size == 1 -> {
                 try {
-                    toast(
+                    ShowToastUseCase(this,
                         String.format(
                             getString(R.string.deleting_folder),
                             fileDirItems.first().name
                         )
                     )
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this, "Error : $e")
                 }
             }
 
@@ -768,7 +767,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                     if (config.useRecycleBin && !config.tempSkipRecycleBin) R.plurals.moving_items_into_bin else R.plurals.delete_items
                 val deletingItems =
                     resources.getQuantityString(baseString, fileDirItems.size, fileDirItems.size)
-                toast(deletingItems)
+                ShowToastUseCase(this, deletingItems)
             }
         }
 
@@ -795,7 +794,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                 if (it) {
                     deleteFilteredFileDirItems(itemsToDelete, folders)
                 } else {
-                    toast(R.string.unknown_error_occurred)
+                    ShowToastUseCase(this, R.string.unknown_error_occurred)
                 }
             }
         } else {
@@ -1014,7 +1013,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
             outputStream = contentResolver.openOutputStream(output)
             inputStream.copyTo(outputStream!!)
         } catch (e: SecurityException) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         } catch (ignored: FileNotFoundException) {
             return getFilePublicUri(file, BuildConfig.APPLICATION_ID)
         } finally {

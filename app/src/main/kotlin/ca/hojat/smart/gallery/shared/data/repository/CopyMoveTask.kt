@@ -36,11 +36,12 @@ import ca.hojat.smart.gallery.shared.extensions.isRestrictedWithSAFSdk30
 import ca.hojat.smart.gallery.shared.extensions.needsStupidWritePermissions
 import ca.hojat.smart.gallery.shared.extensions.notificationManager
 import ca.hojat.smart.gallery.shared.extensions.rescanPath
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
 import ca.hojat.smart.gallery.shared.helpers.CONFLICT_KEEP_BOTH
 import ca.hojat.smart.gallery.shared.helpers.CONFLICT_SKIP
 import ca.hojat.smart.gallery.shared.helpers.getConflictResolution
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase.invoke
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -136,7 +137,7 @@ class CopyMoveTask(
 
                 copy(file, newFileDirItem)
             } catch (e: Exception) {
-                activity.showErrorToast(e)
+                ShowToastUseCase(activity, "Error : $e")
                 return false
             }
         }
@@ -219,7 +220,7 @@ class CopyMoveTask(
         if (!activity.createDirectorySync(destinationPath)) {
             val error =
                 String.format(activity.getString(R.string.could_not_create_folder), destinationPath)
-            activity.showErrorToast(error)
+            ShowToastUseCase(activity, "Error : $error")
             return
         }
 
@@ -297,7 +298,7 @@ class CopyMoveTask(
         if (!activity.createDirectorySync(directory)) {
             val error =
                 String.format(activity.getString(R.string.could_not_create_folder), directory)
-            activity.showErrorToast(error)
+            ShowToastUseCase(activity, "Error : $error")
             mCurrentProgress += source.size
             return
         }
@@ -354,7 +355,7 @@ class CopyMoveTask(
                 }
             }
         } catch (e: Exception) {
-            activity.showErrorToast(e)
+            ShowToastUseCase(activity, "Error : $e")
         } finally {
             inputStream?.close()
             out?.close()

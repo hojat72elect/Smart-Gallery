@@ -57,7 +57,6 @@ import ca.hojat.smart.gallery.shared.extensions.rescanPaths
 import ca.hojat.smart.gallery.shared.extensions.setAs
 import ca.hojat.smart.gallery.shared.extensions.shareMediumPath
 import ca.hojat.smart.gallery.shared.extensions.sharePathsIntent
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.updateDBMediaPath
 import ca.hojat.smart.gallery.shared.extensions.updateFavorite
 import ca.hojat.smart.gallery.shared.helpers.FAVORITES
@@ -79,6 +78,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 
@@ -291,7 +291,7 @@ class MediaAdapter(
                 activity.internalStoragePath
             )
         if (isSDOrOtgRootFolder && !isExternalStorageManager()) {
-            activity.toast(
+            ShowToastUseCase(activity,
                 R.string.rename_in_sd_card_system_restriction,
                 Toast.LENGTH_LONG
             )
@@ -321,7 +321,7 @@ class MediaAdapter(
     }
 
     private fun editFile() {
-        activity.toast("This feature is not implemented yet")
+        ShowToastUseCase(activity, "This feature is not implemented yet")
     }
 
     private fun openPath() {
@@ -395,7 +395,7 @@ class MediaAdapter(
     private fun handleRotate(paths: List<String>, degrees: Int) {
         var fileCnt = paths.size
         rotatedImagePaths.clear()
-        activity.toast(R.string.saving)
+        ShowToastUseCase(activity, R.string.saving)
         ensureBackgroundThread {
             paths.forEach {
                 rotatedImagePaths.add(it)
@@ -446,7 +446,7 @@ class MediaAdapter(
             }.toMutableList() as ArrayList
 
         if (!isCopyOperation && paths.any { it.startsWith(recycleBinPath) }) {
-            activity.toast(
+            ShowToastUseCase(activity,
                 R.string.moving_recycle_bin_items_disabled,
                 Toast.LENGTH_LONG
             )

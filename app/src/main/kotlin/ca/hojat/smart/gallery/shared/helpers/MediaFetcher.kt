@@ -37,11 +37,11 @@ import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.normalizeString
 import ca.hojat.smart.gallery.shared.extensions.queryCursor
 import ca.hojat.smart.gallery.shared.extensions.shouldFolderBeVisible
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toInt
 import ca.hojat.smart.gallery.shared.data.domain.Medium
 import ca.hojat.smart.gallery.shared.data.domain.ThumbnailItem
 import ca.hojat.smart.gallery.shared.data.domain.ThumbnailSection
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 import java.util.Calendar
 import java.util.Locale
@@ -230,7 +230,7 @@ class MediaFetcher(val context: Context) {
                 } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
-            context.showErrorToast(e)
+            ShowToastUseCase(context, "Error : $e")
         } finally {
             cursor?.close()
         }

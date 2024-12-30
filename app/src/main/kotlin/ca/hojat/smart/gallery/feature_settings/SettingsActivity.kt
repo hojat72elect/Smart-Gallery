@@ -28,11 +28,9 @@ import ca.hojat.smart.gallery.shared.extensions.getProperSize
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.recycleBinPath
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toBoolean
 import ca.hojat.smart.gallery.shared.extensions.toInt
 import ca.hojat.smart.gallery.shared.extensions.toStringSet
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.extensions.writeLn
@@ -140,6 +138,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ManageBottomActionsDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.ManageExtendedDetailsDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
@@ -706,7 +705,7 @@ class SettingsActivity : BaseActivity() {
 
         binding.settingsEmptyRecycleBinHolder.setOnClickListener {
             if (mRecycleBinContentSize == 0L) {
-                toast(R.string.recycle_bin_empty)
+                ShowToastUseCase(this, R.string.recycle_bin_empty)
             } else {
                 showRecycleBinEmptyingDialog {
                     emptyTheRecycleBin()
@@ -747,12 +746,12 @@ class SettingsActivity : BaseActivity() {
                     try {
                         startActivityForResult(this, SELECT_EXPORT_FAVORITES_FILE_INTENT)
                     } catch (e: ActivityNotFoundException) {
-                        toast(
+                        ShowToastUseCase(this@SettingsActivity,
                             R.string.system_service_disabled,
                             Toast.LENGTH_LONG
                         )
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this@SettingsActivity, "Error : $e")
                     }
                 }
             }
@@ -761,7 +760,7 @@ class SettingsActivity : BaseActivity() {
 
     private fun exportFavoritesTo(outputStream: OutputStream?) {
         if (outputStream == null) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, (R.string.unknown_error_occurred))
             return
         }
 
@@ -774,9 +773,9 @@ class SettingsActivity : BaseActivity() {
                     }
                 }
 
-                toast(R.string.exporting_successful)
+                ShowToastUseCase(this, R.string.exporting_successful)
             } else {
-                toast(R.string.no_items_found)
+                ShowToastUseCase(this, R.string.no_items_found)
             }
         }
     }
@@ -799,7 +798,7 @@ class SettingsActivity : BaseActivity() {
 
     private fun importFavorites(inputStream: InputStream?) {
         if (inputStream == null) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, R.string.unknown_error_occurred)
             return
         }
 
@@ -815,12 +814,12 @@ class SettingsActivity : BaseActivity() {
                             importedItems++
                         }
                     } catch (e: Exception) {
-                        showErrorToast(e)
+                        ShowToastUseCase(this, "Error : $e")
                     }
                 }
             }
 
-            toast(if (importedItems > 0) R.string.importing_successful else R.string.no_entries_for_importing)
+            ShowToastUseCase(this, if (importedItems > 0) R.string.importing_successful else R.string.no_entries_for_importing)
         }
     }
 
@@ -930,7 +929,7 @@ class SettingsActivity : BaseActivity() {
 
     private fun parseFile(inputStream: InputStream?) {
         if (inputStream == null) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, R.string.unknown_error_occurred)
             return
         }
 
@@ -946,7 +945,7 @@ class SettingsActivity : BaseActivity() {
                     }
                     importedItems++
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this, "Error : $e")
                 }
             }
         }
@@ -1069,7 +1068,7 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
-        toast(if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing)
+        ShowToastUseCase(this, if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing)
         runOnUiThread {
             setupSettingItems()
         }

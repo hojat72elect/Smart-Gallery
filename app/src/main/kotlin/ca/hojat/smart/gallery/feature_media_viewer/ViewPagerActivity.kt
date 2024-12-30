@@ -86,11 +86,9 @@ import ca.hojat.smart.gallery.shared.extensions.rescanPaths
 import ca.hojat.smart.gallery.shared.extensions.scanPathRecursively
 import ca.hojat.smart.gallery.shared.extensions.setAs
 import ca.hojat.smart.gallery.shared.extensions.shareMediumPath
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.showFileOnMap
 import ca.hojat.smart.gallery.shared.extensions.showSystemUI
 import ca.hojat.smart.gallery.shared.extensions.statusBarHeight
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.tryGenericMimeType
 import ca.hojat.smart.gallery.shared.extensions.updateDBMediaPath
 import ca.hojat.smart.gallery.shared.extensions.updateFavorite
@@ -157,6 +155,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.PropertiesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RenameItemDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.SaveAsDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.SlideshowDialog
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -215,7 +214,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
             if (it) {
                 initViewPager()
             } else {
-                toast(R.string.no_storage_permissions)
+                ShowToastUseCase(this, R.string.no_storage_permissions)
                 finish()
             }
         }
@@ -367,7 +366,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                 R.id.menu_delete -> checkDeleteConfirmation()
                 R.id.menu_rename -> checkMediaManagementAndRename()
                 R.id.menu_print -> printFile()
-                R.id.menu_edit -> toast("This feature is not implemented yet")
+                R.id.menu_edit -> ShowToastUseCase(this, "This feature is not implemented yet")
                 R.id.menu_properties -> showProperties()
                 R.id.menu_show_on_map -> showFileOnMap(getCurrentPath())
                 R.id.menu_rotate_right -> rotateImage(90)
@@ -400,7 +399,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
             mPrevHashcode = 0
             refreshViewPager()
         } else if (requestCode == REQUEST_SET_AS && resultCode == Activity.RESULT_OK) {
-            toast(R.string.wallpaper_set_successfully)
+            ShowToastUseCase(this, R.string.wallpaper_set_successfully)
         } else if (requestCode == REQUEST_VIEW_VIDEO && resultCode == Activity.RESULT_OK && resultData != null) {
             if (resultData.getBooleanExtra(GO_TO_NEXT_ITEM, false)) {
                 goToNextItem()
@@ -439,7 +438,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                 mShowAll =
                     config.showAll && (mPath.isNotEmpty() && !mPath.startsWith(recycleBinPath))
             } catch (e: Exception) {
-                showErrorToast(e)
+                ShowToastUseCase(this, "Error : $e")
                 finish()
                 return
             }
@@ -450,7 +449,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         if (mPath.isEmpty()) {
-            toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(this, R.string.unknown_error_occurred)
             finish()
             return
         }
@@ -732,7 +731,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
             }
         } else {
             stopSlideshow()
-            toast(R.string.slideshow_ended)
+            ShowToastUseCase(this, R.string.slideshow_ended)
         }
     }
 
@@ -788,7 +787,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         return if (mSlideshowMedia.isEmpty()) {
-            toast(R.string.no_media_for_slideshow)
+            ShowToastUseCase(this, R.string.no_media_for_slideshow)
             false
         } else {
             updatePagerItems(mSlideshowMedia)
@@ -810,7 +809,8 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     private fun copyMoveTo(isCopyOperation: Boolean) {
         val currPath = getCurrentPath()
         if (!isCopyOperation && currPath.startsWith(recycleBinPath)) {
-            toast(
+            ShowToastUseCase(
+                this,
                 R.string.moving_recycle_bin_items_disabled,
                 Toast.LENGTH_LONG
             )
@@ -893,7 +893,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                     return@handleSAFDialog
                 }
 
-                toast(R.string.saving)
+                ShowToastUseCase(this, R.string.saving)
                 ensureBackgroundThread {
                     val photoFragment = getCurrentPhotoFragment() ?: return@ensureBackgroundThread
                     saveRotatedImageToFile(
@@ -902,7 +902,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                         photoFragment.mCurrentRotationDegrees,
                         true
                     ) {
-                        toast(R.string.file_saved)
+                        ShowToastUseCase(this, R.string.file_saved)
                         getCurrentPhotoFragment()?.mCurrentRotationDegrees = 0
                         refreshMenuItems()
                     }
@@ -994,44 +994,44 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         val currentMedium = getCurrentMedium()
         val visibleBottomActions = if (config.bottomActions) config.visibleBottomActions else 0
         binding.bottomActions.bottomFavorite.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_TOGGLE_FAVORITE != 0 && currentMedium?.getIsInRecycleBin() == false)
-        binding.bottomActions.bottomFavorite.setOnLongClickListener { toast(R.string.toggle_favorite); true }
+        binding.bottomActions.bottomFavorite.setOnLongClickListener { ShowToastUseCase(this, R.string.toggle_favorite); true }
         binding.bottomActions.bottomFavorite.setOnClickListener {
             toggleFavorite()
         }
 
         binding.bottomActions.bottomEdit.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_EDIT != 0 && currentMedium?.isSVG() == false)
-        binding.bottomActions.bottomEdit.setOnLongClickListener { toast(R.string.edit); true }
+        binding.bottomActions.bottomEdit.setOnLongClickListener { ShowToastUseCase(this, R.string.edit); true }
         binding.bottomActions.bottomEdit.setOnClickListener {
-            toast("This feature is not implemented yet")
+            ShowToastUseCase(this, "This feature is not implemented yet")
         }
 
         binding.bottomActions.bottomShare.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHARE != 0)
-        binding.bottomActions.bottomShare.setOnLongClickListener { toast(R.string.share); true }
+        binding.bottomActions.bottomShare.setOnLongClickListener { ShowToastUseCase(this, R.string.share); true }
         binding.bottomActions.bottomShare.setOnClickListener {
             shareMediumPath(getCurrentPath())
         }
 
         binding.bottomActions.bottomDelete.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_DELETE != 0)
-        binding.bottomActions.bottomDelete.setOnLongClickListener { toast(R.string.delete); true }
+        binding.bottomActions.bottomDelete.setOnLongClickListener { ShowToastUseCase(this, R.string.delete); true }
         binding.bottomActions.bottomDelete.setOnClickListener {
             checkDeleteConfirmation()
         }
 
         binding.bottomActions.bottomRotate.beVisibleIf(config.visibleBottomActions and BOTTOM_ACTION_ROTATE != 0 && getCurrentMedium()?.isImage() == true)
-        binding.bottomActions.bottomRotate.setOnLongClickListener { toast(R.string.rotate); true }
+        binding.bottomActions.bottomRotate.setOnLongClickListener { ShowToastUseCase(this, R.string.rotate); true }
         binding.bottomActions.bottomRotate.setOnClickListener {
             rotateImage(90)
         }
 
         binding.bottomActions.bottomProperties.applyColorFilter(Color.WHITE)
         binding.bottomActions.bottomProperties.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_PROPERTIES != 0)
-        binding.bottomActions.bottomProperties.setOnLongClickListener { toast(R.string.properties); true }
+        binding.bottomActions.bottomProperties.setOnLongClickListener { ShowToastUseCase(this, R.string.properties); true }
         binding.bottomActions.bottomProperties.setOnClickListener {
             showProperties()
         }
 
         binding.bottomActions.bottomChangeOrientation.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_CHANGE_ORIENTATION != 0)
-        binding.bottomActions.bottomChangeOrientation.setOnLongClickListener { toast(R.string.change_orientation); true }
+        binding.bottomActions.bottomChangeOrientation.setOnLongClickListener { ShowToastUseCase(this, R.string.change_orientation); true }
         binding.bottomActions.bottomChangeOrientation.setOnClickListener {
             requestedOrientation = when (requestedOrientation) {
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -1044,13 +1044,13 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         binding.bottomActions.bottomSlideshow.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SLIDESHOW != 0)
-        binding.bottomActions.bottomSlideshow.setOnLongClickListener { toast(R.string.slideshow); true }
+        binding.bottomActions.bottomSlideshow.setOnLongClickListener { ShowToastUseCase(this, R.string.slideshow); true }
         binding.bottomActions.bottomSlideshow.setOnClickListener {
             initSlideshow()
         }
 
         binding.bottomActions.bottomShowOnMap.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SHOW_ON_MAP != 0)
-        binding.bottomActions.bottomShowOnMap.setOnLongClickListener { toast(R.string.show_on_map); true }
+        binding.bottomActions.bottomShowOnMap.setOnLongClickListener { ShowToastUseCase(this, R.string.show_on_map); true }
         binding.bottomActions.bottomShowOnMap.setOnClickListener {
             showFileOnMap(getCurrentPath())
         }
@@ -1066,31 +1066,31 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         }
 
         binding.bottomActions.bottomRename.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_RENAME != 0 && currentMedium?.getIsInRecycleBin() == false)
-        binding.bottomActions.bottomRename.setOnLongClickListener { toast(R.string.rename); true }
+        binding.bottomActions.bottomRename.setOnLongClickListener { ShowToastUseCase(this, R.string.rename); true }
         binding.bottomActions.bottomRename.setOnClickListener {
             checkMediaManagementAndRename()
         }
 
         binding.bottomActions.bottomSetAs.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_SET_AS != 0)
-        binding.bottomActions.bottomSetAs.setOnLongClickListener { toast(R.string.set_as); true }
+        binding.bottomActions.bottomSetAs.setOnLongClickListener { ShowToastUseCase(this, R.string.set_as); true }
         binding.bottomActions.bottomSetAs.setOnClickListener {
             setAs(getCurrentPath())
         }
 
         binding.bottomActions.bottomCopy.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_COPY != 0)
-        binding.bottomActions.bottomCopy.setOnLongClickListener { toast(R.string.copy); true }
+        binding.bottomActions.bottomCopy.setOnLongClickListener { ShowToastUseCase(this, R.string.copy); true }
         binding.bottomActions.bottomCopy.setOnClickListener {
             checkMediaManagementAndCopy(true)
         }
 
         binding.bottomActions.bottomMove.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_MOVE != 0)
-        binding.bottomActions.bottomMove.setOnLongClickListener { toast(R.string.move); true }
+        binding.bottomActions.bottomMove.setOnLongClickListener { ShowToastUseCase(this, R.string.move); true }
         binding.bottomActions.bottomMove.setOnClickListener {
             moveFileTo()
         }
 
         binding.bottomActions.bottomResize.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_RESIZE != 0 && currentMedium?.isImage() == true)
-        binding.bottomActions.bottomResize.setOnLongClickListener { toast(R.string.resize); true }
+        binding.bottomActions.bottomResize.setOnLongClickListener { ShowToastUseCase(this, R.string.resize); true }
         binding.bottomActions.bottomResize.setOnClickListener {
             resizeImage()
         }
@@ -1142,7 +1142,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         try {
             val resolution = path.getImageResolution(this)
             if (resolution == null) {
-                toast(R.string.unknown_error_occurred)
+                ShowToastUseCase(this, R.string.unknown_error_occurred)
                 return
             }
 
@@ -1174,7 +1174,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                         target: Target<Bitmap>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        showErrorToast(e?.localizedMessage ?: "")
+                        ShowToastUseCase(this@ViewPagerActivity, e?.localizedMessage ?: "")
                         return false
                     }
 
@@ -1291,7 +1291,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                             }
                         }
                     } else {
-                        toast(R.string.unknown_error_occurred)
+                        ShowToastUseCase(this, R.string.unknown_error_occurred)
                     }
                 }
             }
@@ -1354,7 +1354,8 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
         val isSDOrOtgRootFolder =
             isAStorageRootFolder(oldPath.getParentPath()) && !oldPath.startsWith(internalStoragePath)
         if (isSDOrOtgRootFolder && !isExternalStorageManager()) {
-            toast(
+            ShowToastUseCase(
+                this,
                 R.string.rename_in_sd_card_system_restriction,
                 Toast.LENGTH_LONG
             )
@@ -1538,10 +1539,10 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
                     startActivityForResult(this, REQUEST_VIEW_VIDEO)
                 } catch (e: ActivityNotFoundException) {
                     if (!tryGenericMimeType(this, mimeType, newUri)) {
-                        toast(R.string.no_app_found)
+                        ShowToastUseCase(this@ViewPagerActivity, R.string.no_app_found)
                     }
                 } catch (e: Exception) {
-                    showErrorToast(e)
+                    ShowToastUseCase(this@ViewPagerActivity, "Error : $e")
                 }
             }
         }

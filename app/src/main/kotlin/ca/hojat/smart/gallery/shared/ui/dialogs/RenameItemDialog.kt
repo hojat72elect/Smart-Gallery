@@ -13,8 +13,8 @@ import ca.hojat.smart.gallery.shared.extensions.getParentPath
 import ca.hojat.smart.gallery.shared.extensions.isAValidFilename
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.showKeyboard
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.value
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 class RenameItemDialog(
     val activity: BaseActivity,
@@ -54,12 +54,12 @@ class RenameItemDialog(
                         val newExtension = view.renameItemExtension.value
 
                         if (newName.isEmpty()) {
-                            activity.toast(R.string.empty_name)
+                            ShowToastUseCase(activity, R.string.empty_name)
                             return@setOnClickListener
                         }
 
                         if (!newName.isAValidFilename()) {
-                            activity.toast(R.string.invalid_name)
+                            ShowToastUseCase(activity, R.string.invalid_name)
                             return@setOnClickListener
                         }
 
@@ -70,7 +70,8 @@ class RenameItemDialog(
                         }
 
                         if (!activity.getDoesFilePathExist(path)) {
-                            activity.toast(
+                            ShowToastUseCase(
+                                activity,
                                 String.format(
                                     activity.getString(R.string.source_file_doesnt_exist),
                                     path
@@ -82,7 +83,7 @@ class RenameItemDialog(
                         val newPath = "${path.getParentPath()}/$newName"
 
                         if (path == newPath) {
-                            activity.toast(R.string.name_taken)
+                            ShowToastUseCase(activity, R.string.name_taken)
                             return@setOnClickListener
                         }
 
@@ -91,7 +92,7 @@ class RenameItemDialog(
                                 ignoreCase = true
                             ) && activity.getDoesFilePathExist(newPath)
                         ) {
-                            activity.toast(R.string.name_taken)
+                            ShowToastUseCase(activity, R.string.name_taken)
                             return@setOnClickListener
                         }
 

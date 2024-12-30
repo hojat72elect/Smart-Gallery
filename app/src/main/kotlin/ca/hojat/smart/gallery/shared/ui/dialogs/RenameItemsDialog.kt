@@ -3,6 +3,7 @@ package ca.hojat.smart.gallery.shared.ui.dialogs
 import androidx.appcompat.app.AlertDialog
 import ca.hojat.smart.gallery.R
 import ca.hojat.smart.gallery.databinding.DialogRenameItemsBinding
+import ca.hojat.smart.gallery.shared.activities.BaseActivity
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
 import ca.hojat.smart.gallery.shared.extensions.getFilenameExtension
@@ -12,8 +13,7 @@ import ca.hojat.smart.gallery.shared.extensions.isAValidFilename
 import ca.hojat.smart.gallery.shared.extensions.isPathOnSD
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.extensions.showKeyboard
-import ca.hojat.smart.gallery.shared.extensions.toast
-import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 // used at renaming folders
 class RenameItemsDialog(
@@ -47,7 +47,7 @@ class RenameItemsDialog(
                         }
 
                         if (!valueToAdd.isAValidFilename()) {
-                            activity.toast(R.string.invalid_name)
+                            ShowToastUseCase(activity, R.string.invalid_name)
                             return@setOnClickListener
                         }
 
@@ -55,7 +55,7 @@ class RenameItemsDialog(
                         val sdFilePath = validPaths.firstOrNull { activity.isPathOnSD(it) }
                             ?: validPaths.firstOrNull()
                         if (sdFilePath == null) {
-                            activity.toast(R.string.unknown_error_occurred)
+                            ShowToastUseCase(activity, R.string.unknown_error_occurred)
                             alertDialog.dismiss()
                             return@setOnClickListener
                         }

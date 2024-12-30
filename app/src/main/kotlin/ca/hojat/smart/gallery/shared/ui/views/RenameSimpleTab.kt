@@ -16,15 +16,14 @@ import ca.hojat.smart.gallery.shared.extensions.getUrisPathsFromFileDirItems
 import ca.hojat.smart.gallery.shared.extensions.isAValidFilename
 import ca.hojat.smart.gallery.shared.extensions.isPathOnSD
 import ca.hojat.smart.gallery.shared.extensions.scanPathsRecursively
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
 import ca.hojat.smart.gallery.shared.extensions.toFileDirItem
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.updateInMediaStore
 import ca.hojat.smart.gallery.shared.extensions.updateTextColors
 import ca.hojat.smart.gallery.shared.ui.adapters.RenameTab
 import ca.hojat.smart.gallery.shared.data.domain.Android30RenameFormat
 import ca.hojat.smart.gallery.shared.data.domain.FileDirItem
 import ca.hojat.smart.gallery.shared.activities.BaseActivity
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 
 class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
@@ -63,7 +62,7 @@ class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(co
         }
 
         if (!valueToAdd.isAValidFilename()) {
-            activity?.toast(R.string.invalid_name)
+            ShowToastUseCase(activity!!, R.string.invalid_name)
             return
         }
 
@@ -71,7 +70,7 @@ class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(co
         val firstPath = validPaths.firstOrNull()
         val sdFilePath = validPaths.firstOrNull { activity?.isPathOnSD(it) == true } ?: firstPath
         if (firstPath == null || sdFilePath == null) {
-            activity?.toast(R.string.unknown_error_occurred)
+            ShowToastUseCase(activity!!, R.string.unknown_error_occurred)
             return
         }
 
@@ -217,7 +216,7 @@ class RenameSimpleTab(context: Context, attrs: AttributeSet) : RelativeLayout(co
                     }
                 } catch (e: Exception) {
                     activity.runOnUiThread {
-                        activity.showErrorToast(e)
+                        ShowToastUseCase(activity, "Error : $e")
                         callback(false)
                     }
                 }

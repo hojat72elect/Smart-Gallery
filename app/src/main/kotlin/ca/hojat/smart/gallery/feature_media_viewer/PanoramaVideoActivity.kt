@@ -20,10 +20,9 @@ import ca.hojat.smart.gallery.shared.extensions.hasNavBar
 import ca.hojat.smart.gallery.shared.extensions.navigationBarHeight
 import ca.hojat.smart.gallery.shared.extensions.navigationBarWidth
 import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
-import ca.hojat.smart.gallery.shared.extensions.showErrorToast
-import ca.hojat.smart.gallery.shared.extensions.toast
 import ca.hojat.smart.gallery.shared.extensions.viewBinding
 import ca.hojat.smart.gallery.shared.helpers.PATH
+import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 
 open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
@@ -88,7 +87,7 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
     private fun checkIntent() {
         val path = intent.getStringExtra(PATH)
         if (path == null) {
-            toast(R.string.invalid_image_path)
+            ShowToastUseCase(this, R.string.invalid_image_path)
             finish()
             return
         }
@@ -104,7 +103,7 @@ open class PanoramaVideoActivity : BaseActivity(), SeekBar.OnSeekBarChangeListen
                 togglePlayPause()
             }
         } catch (e: Exception) {
-            showErrorToast(e)
+            ShowToastUseCase(this, "Error : $e")
         }
 
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
