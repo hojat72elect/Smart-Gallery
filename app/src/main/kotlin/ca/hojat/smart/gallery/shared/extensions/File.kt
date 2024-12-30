@@ -138,4 +138,3 @@ fun File.getDigest(algorithm: String): String? {
     }
 }
 
-fun File.md5() = this.getDigest(MD5)

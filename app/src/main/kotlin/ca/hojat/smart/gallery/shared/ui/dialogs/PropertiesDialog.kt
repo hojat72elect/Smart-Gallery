@@ -19,6 +19,7 @@ import ca.hojat.smart.gallery.shared.extensions.formatDate
 import ca.hojat.smart.gallery.shared.extensions.formatSize
 import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getAndroidSAFUri
+import ca.hojat.smart.gallery.shared.extensions.getDigest
 import ca.hojat.smart.gallery.shared.extensions.getDoesFilePathExist
 import ca.hojat.smart.gallery.shared.extensions.getExifCameraModel
 import ca.hojat.smart.gallery.shared.extensions.getExifDateTaken
@@ -33,9 +34,9 @@ import ca.hojat.smart.gallery.shared.extensions.isPathOnInternalStorage
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRestrictedSAFOnlyRoot
 import ca.hojat.smart.gallery.shared.extensions.isVideoSlow
-import ca.hojat.smart.gallery.shared.extensions.md5
 import ca.hojat.smart.gallery.shared.extensions.removeValues
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
+import ca.hojat.smart.gallery.shared.helpers.MD5
 import ca.hojat.smart.gallery.shared.helpers.ensureBackgroundThread
 import ca.hojat.smart.gallery.shared.helpers.sumByInt
 import ca.hojat.smart.gallery.shared.helpers.sumByLong
@@ -247,9 +248,9 @@ class PropertiesDialog : BasePropertiesDialog {
                 ensureBackgroundThread {
                     val md5 = if (mActivity.isRestrictedSAFOnlyRoot(path)) {
                         mActivity.contentResolver.openInputStream(mActivity.getAndroidSAFUri(path))
-                            ?.md5()
+                            ?.getDigest(MD5)
                     } else {
-                        File(path).md5()
+                        File(path).getDigest(MD5)
                     }
 
                     mActivity.runOnUiThread {

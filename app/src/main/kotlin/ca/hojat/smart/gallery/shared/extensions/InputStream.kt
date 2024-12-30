@@ -1,6 +1,5 @@
 package ca.hojat.smart.gallery.shared.extensions
 
-import ca.hojat.smart.gallery.shared.helpers.MD5
 import java.io.InputStream
 import java.security.MessageDigest
 
@@ -17,5 +16,3 @@ fun InputStream.getDigest(algorithm: String): String {
         md.digest().joinToString("") { "%02x".format(it) }
     }
 }
-
-fun InputStream.md5(): String = this.getDigest(MD5)
