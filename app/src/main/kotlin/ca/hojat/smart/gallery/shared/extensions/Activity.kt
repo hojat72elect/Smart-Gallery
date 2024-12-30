@@ -80,16 +80,6 @@ fun Activity.openPath(
     openPathIntent(path, forceChooser, BuildConfig.APPLICATION_ID, extras = extras)
 }
 
-fun Activity.launchCamera() {
-    try {
-        startActivity( Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA))
-    } catch (e: ActivityNotFoundException) {
-        ShowToastUseCase(this,R.string.no_app_found)
-    } catch (e: Exception) {
-        ShowToastUseCase(this, "Error : $e")
-    }
-}
-
 fun AppCompatActivity.showSystemUI() {
     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or

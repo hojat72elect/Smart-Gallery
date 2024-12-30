@@ -73,7 +73,6 @@ import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
-import ca.hojat.smart.gallery.shared.extensions.launchCamera
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.movePinnedDirectoriesToFront
 import ca.hojat.smart.gallery.shared.extensions.openRecycleBin
@@ -138,6 +137,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import ca.hojat.smart.gallery.shared.usecases.LaunchCameraUseCase
 import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import java.io.File
 import java.io.FileInputStream
@@ -499,7 +499,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
             when (menuItem.itemId) {
                 R.id.sort -> showSortingDialog()
                 R.id.filter -> showFilterMediaDialog()
-                R.id.open_camera -> launchCamera()
+                R.id.open_camera -> LaunchCameraUseCase(this)
                 R.id.show_all -> showAllMedia()
                 R.id.change_view_type -> changeViewType()
                 R.id.temporarily_show_hidden -> tryToggleTemporarilyShowHidden()

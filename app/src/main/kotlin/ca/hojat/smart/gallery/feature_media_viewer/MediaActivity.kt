@@ -50,7 +50,6 @@ import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.isVisible
-import ca.hojat.smart.gallery.shared.extensions.launchCamera
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
 import ca.hojat.smart.gallery.shared.extensions.openPath
 import ca.hojat.smart.gallery.shared.extensions.openRecycleBin
@@ -94,6 +93,7 @@ import ca.hojat.smart.gallery.shared.ui.dialogs.GrantAllFilesDialog
 import ca.hojat.smart.gallery.shared.ui.dialogs.RadioGroupDialog
 import ca.hojat.smart.gallery.shared.ui.views.MyGridLayoutManager
 import ca.hojat.smart.gallery.shared.ui.views.MyRecyclerView
+import ca.hojat.smart.gallery.shared.usecases.LaunchCameraUseCase
 import ca.hojat.smart.gallery.shared.usecases.ShowToastUseCase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -358,7 +358,7 @@ class MediaActivity : BaseActivity(), MediaOperationsListener {
                 R.id.empty_disable_recycle_bin -> emptyAndDisableRecycleBin()
                 R.id.restore_all_files -> restoreAllFiles()
                 R.id.toggle_filename -> toggleFilenameVisibility()
-                R.id.open_camera -> launchCamera()
+                R.id.open_camera -> LaunchCameraUseCase(this)
                 R.id.folder_view -> switchToFolderView()
                 R.id.change_view_type -> changeViewType()
                 R.id.group -> showGroupByDialog()
