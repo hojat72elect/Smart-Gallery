@@ -10,7 +10,6 @@ import com.bumptech.glide.signature.ObjectKey
 import ca.hojat.smart.gallery.shared.extensions.formatDate
 import ca.hojat.smart.gallery.shared.extensions.formatSize
 import ca.hojat.smart.gallery.shared.extensions.getFilenameExtension
-import ca.hojat.smart.gallery.shared.extensions.isApng
 import ca.hojat.smart.gallery.shared.extensions.isWebP
 import ca.hojat.smart.gallery.shared.helpers.SORT_BY_DATE_MODIFIED
 import ca.hojat.smart.gallery.shared.helpers.SORT_BY_NAME
@@ -69,7 +68,7 @@ data class Medium(
 
     fun isPortrait() = type == TYPE_PORTRAITS
 
-    fun isApng() = name.isApng()
+    fun isApng() = name.endsWith(".apng", true)
 
     fun isHidden() = name.startsWith('.')
 

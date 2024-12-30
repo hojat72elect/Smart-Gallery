@@ -150,8 +150,6 @@ fun String?.fromHtml(): Spanned =
         )
     }
 
-fun String.isApng() = endsWith(".apng", true)
-
 fun String.isJpg() = endsWith(".jpg", true) or endsWith(".jpeg", true)
 
 fun String.getCompressionFormat() = when (getFilenameExtension().lowercase()) {
