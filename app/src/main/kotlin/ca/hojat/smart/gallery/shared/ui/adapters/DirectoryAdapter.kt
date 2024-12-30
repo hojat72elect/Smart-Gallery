@@ -44,7 +44,6 @@ import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
-import ca.hojat.smart.gallery.shared.extensions.isSvg
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.isVisible
 import ca.hojat.smart.gallery.shared.extensions.loadImage
@@ -394,7 +393,7 @@ class DirectoryAdapter(
                                 (it.isVideoFast() && filter and TYPE_VIDEOS != 0) ||
                                 (it.isGif() && filter and TYPE_GIFS != 0) ||
                                 (it.isRawFast() && filter and TYPE_RAWS != 0) ||
-                                (it.isSvg() && filter and TYPE_SVGS != 0))
+                                (it.absolutePath.endsWith(".svg", true) && filter and TYPE_SVGS != 0))
             }?.mapTo(paths) { it.absolutePath }
         }
 

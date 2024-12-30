@@ -73,7 +73,6 @@ import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
-import ca.hojat.smart.gallery.shared.extensions.isSvg
 import ca.hojat.smart.gallery.shared.extensions.isVideoFast
 import ca.hojat.smart.gallery.shared.extensions.launchCamera
 import ca.hojat.smart.gallery.shared.extensions.mediaDB
@@ -782,7 +781,7 @@ class HomeActivity : BaseActivity(), DirectoryOperationsListener {
                                 (file.isVideoFast() && filter and TYPE_VIDEOS != 0) ||
                                 (file.isGif() && filter and TYPE_GIFS != 0) ||
                                 (file.isRawFast() && filter and TYPE_RAWS != 0) ||
-                                (file.isSvg() && filter and TYPE_SVGS != 0))
+                                (file.absolutePath.endsWith(".svg", true) && filter and TYPE_SVGS != 0))
             }?.mapTo(itemsToDelete) { it.toFileDirItem(applicationContext) }
         }
 
