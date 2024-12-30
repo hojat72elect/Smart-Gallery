@@ -10,7 +10,6 @@ import com.bumptech.glide.signature.ObjectKey
 import ca.hojat.smart.gallery.shared.extensions.formatDate
 import ca.hojat.smart.gallery.shared.extensions.formatSize
 import ca.hojat.smart.gallery.shared.extensions.getFilenameExtension
-import ca.hojat.smart.gallery.shared.extensions.isWebP
 import ca.hojat.smart.gallery.shared.helpers.SORT_BY_DATE_MODIFIED
 import ca.hojat.smart.gallery.shared.helpers.SORT_BY_NAME
 import ca.hojat.smart.gallery.shared.helpers.SORT_BY_PATH
@@ -54,7 +53,7 @@ data class Medium(
 
     constructor() : this(null, "", "", "", 0L, 0L, 0L, 0, 0, false, 0L, 0L, 0)
 
-    fun isWebP() = name.isWebP()
+    fun isWebP() = name.endsWith(".webp", true)
 
     fun isGIF() = type == TYPE_GIFS
 

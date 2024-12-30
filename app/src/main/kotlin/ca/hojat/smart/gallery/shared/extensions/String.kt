@@ -137,8 +137,6 @@ fun String.isDownloadsFolder() = equals(
     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), true
 )
 
-fun String.isWebP() = endsWith(".webp", true)
-
 fun String?.fromHtml(): Spanned =
     when {
         this == null -> SpannableString("")

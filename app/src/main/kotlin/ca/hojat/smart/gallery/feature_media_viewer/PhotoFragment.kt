@@ -41,7 +41,6 @@ import ca.hojat.smart.gallery.shared.extensions.getRealPathFromURI
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isVisible
-import ca.hojat.smart.gallery.shared.extensions.isWebP
 import ca.hojat.smart.gallery.shared.extensions.navigationBarHeight
 import ca.hojat.smart.gallery.shared.extensions.onGlobalLayout
 import ca.hojat.smart.gallery.shared.extensions.portrait
@@ -475,7 +474,7 @@ class PhotoFragment : ViewPagerFragment() {
         }
 
         val path = getFilePathToShow()
-        if (path.isWebP()) {
+        if (path.endsWith(".webp", true)) {
             val drawable = WebPDrawable.fromFile(path)
             if (drawable.intrinsicWidth == 0) {
                 loadWithGlide(path, addZoomableView)
