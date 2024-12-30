@@ -67,7 +67,6 @@ import ca.hojat.smart.gallery.shared.extensions.internalStoragePath
 import ca.hojat.smart.gallery.shared.extensions.isAStorageRootFolder
 import ca.hojat.smart.gallery.shared.extensions.isDownloadsFolder
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
-import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isMediaFile
 import ca.hojat.smart.gallery.shared.extensions.isPortrait
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
@@ -582,7 +581,7 @@ class ViewPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener,
     private fun getTypeFromPath(path: String): Int {
         return when {
             path.isVideoFast() -> TYPE_VIDEOS
-            path.isGif() -> TYPE_GIFS
+            path.endsWith(".gif", true) -> TYPE_GIFS
             path.isSvg() -> TYPE_SVGS
             path.isRawFast() -> TYPE_RAWS
             path.isPortrait() -> TYPE_PORTRAITS

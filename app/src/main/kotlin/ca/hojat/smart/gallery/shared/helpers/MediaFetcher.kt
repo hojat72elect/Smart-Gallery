@@ -28,7 +28,6 @@ import ca.hojat.smart.gallery.shared.extensions.getUpdatedDeletedMedia
 import ca.hojat.smart.gallery.shared.extensions.hasOTGConnected
 import ca.hojat.smart.gallery.shared.extensions.humanizePath
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
-import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRawFast
@@ -402,7 +401,7 @@ class MediaFetcher(val context: Context) {
             var isPortrait = false
             val isImage = path.isImageFast()
             val isVideo = if (isImage) false else path.isVideoFast()
-            val isGif = if (isImage || isVideo) false else path.isGif()
+            val isGif = if (isImage || isVideo) false else path.endsWith(".gif", true)
             val isRaw = if (isImage || isVideo || isGif) false else path.isRawFast()
             val isSvg = if (isImage || isVideo || isGif || isRaw) false else path.isSvg()
 
@@ -566,7 +565,7 @@ class MediaFetcher(val context: Context) {
                 val isPortrait = false
                 val isImage = path.isImageFast()
                 val isVideo = if (isImage) false else path.isVideoFast()
-                val isGif = if (isImage || isVideo) false else path.isGif()
+                val isGif = if (isImage || isVideo) false else path.endsWith(".gif", true)
                 val isRaw = if (isImage || isVideo || isGif) false else path.isRawFast()
                 val isSvg = if (isImage || isVideo || isGif || isRaw) false else path.isSvg()
 
@@ -672,7 +671,7 @@ class MediaFetcher(val context: Context) {
             val filename = file.name ?: continue
             val isImage = filename.isImageFast()
             val isVideo = if (isImage) false else filename.isVideoFast()
-            val isGif = if (isImage || isVideo) false else filename.isGif()
+            val isGif = if (isImage || isVideo) false else filename.endsWith(".gif", true)
             val isRaw = if (isImage || isVideo || isGif) false else filename.isRawFast()
             val isSvg = if (isImage || isVideo || isGif || isRaw) false else filename.isSvg()
 

@@ -150,8 +150,6 @@ fun String?.fromHtml(): Spanned =
         )
     }
 
-fun String.isGif() = endsWith(".gif", true)
-
 fun String.isApng() = endsWith(".apng", true)
 
 fun String.isJpg() = endsWith(".jpg", true) or endsWith(".jpeg", true)
@@ -226,9 +224,7 @@ fun String.getOTGPublicPath(context: Context) =
     }"
 
 fun String.isMediaFile() =
-    isImageFast() || isVideoFast() || isGif() || isRawFast() || isSvg() || isPortrait()
-
-fun String.isPng() = endsWith(".png", true)
+    isImageFast() || isVideoFast() || endsWith(".gif", true) || isRawFast() || isSvg() || isPortrait()
 
 fun String.isPortrait() = getFilenameFromPath().contains(
     "portrait",

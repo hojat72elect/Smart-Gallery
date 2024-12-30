@@ -35,7 +35,6 @@ import ca.hojat.smart.gallery.shared.extensions.getUriMimeType
 import ca.hojat.smart.gallery.shared.extensions.hideKeyboard
 import ca.hojat.smart.gallery.shared.extensions.hideSystemUI
 import ca.hojat.smart.gallery.shared.extensions.isExternalStorageManager
-import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isGone
 import ca.hojat.smart.gallery.shared.extensions.isImageFast
 import ca.hojat.smart.gallery.shared.extensions.isPortrait
@@ -300,7 +299,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         val intentType = intent.type ?: ""
         val type = when {
             filename.isVideoFast() || intentType.startsWith("video/") -> TYPE_VIDEOS
-            filename.isGif() || intentType.equals("image/gif", true) -> TYPE_GIFS
+            filename.endsWith(".gif", true) || intentType.equals("image/gif", true) -> TYPE_GIFS
             filename.isRawFast() -> TYPE_RAWS
             filename.isSvg() -> TYPE_SVGS
             file.isPortrait() -> TYPE_PORTRAITS
@@ -446,7 +445,7 @@ open class PhotoVideoActivity : BaseActivity(), ViewPagerFragment.FragmentListen
         val filter = config.filterMedia
         return !(path.isImageFast() && filter and TYPE_IMAGES == 0 ||
                 path.isVideoFast() && filter and TYPE_VIDEOS == 0 ||
-                path.isGif() && filter and TYPE_GIFS == 0 ||
+                path.endsWith(".gif", true) && filter and TYPE_GIFS == 0 ||
                 path.isRawFast() && filter and TYPE_RAWS == 0 ||
                 path.isSvg() && filter and TYPE_SVGS == 0 ||
                 path.isPortrait() && filter and TYPE_PORTRAITS == 0)

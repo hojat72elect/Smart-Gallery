@@ -631,7 +631,7 @@ class DirectoryAdapter(
             dirPath?.text = "${directory.path.substringBeforeLast("/")}/"
             val thumbnailType = when {
                 directory.tmb.isVideoFast() -> TYPE_VIDEOS
-                directory.tmb.isGif() -> TYPE_GIFS
+                directory.tmb.endsWith(".gif", true) -> TYPE_GIFS
                 directory.tmb.isRawFast() -> TYPE_RAWS
                 directory.tmb.isSvg() -> TYPE_SVGS
                 else -> TYPE_IMAGES

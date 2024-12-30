@@ -17,7 +17,6 @@ import ca.hojat.smart.gallery.shared.extensions.getOTGPublicPath
 import ca.hojat.smart.gallery.shared.extensions.getTextSize
 import ca.hojat.smart.gallery.shared.extensions.getTimeFormat
 import ca.hojat.smart.gallery.shared.extensions.hasOTGConnected
-import ca.hojat.smart.gallery.shared.extensions.isGif
 import ca.hojat.smart.gallery.shared.extensions.isPathOnOTG
 import ca.hojat.smart.gallery.shared.extensions.isRestrictedSAFOnlyRoot
 import ca.hojat.smart.gallery.shared.helpers.getFilePlaceholderDrawables
@@ -145,7 +144,7 @@ class FilepickerItemsAdapter(
                         itemToLoad = itemToLoad.getOTGPublicPath(activity)
                     }
 
-                    if (itemToLoad.toString().isGif()) {
+                    if (itemToLoad.toString().endsWith(".gif", true)) {
                         Glide.with(activity).asBitmap().load(itemToLoad).apply(options)
                             .into(listItemIcon)
                     } else {

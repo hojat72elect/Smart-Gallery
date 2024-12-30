@@ -711,7 +711,7 @@ fun Context.loadImage(
     if (type == TYPE_SVGS) {
         loadSVG(path, target, cropThumbnails, roundCorners, signature)
     } else {
-        val tryLoadingWithPicasso = type == TYPE_IMAGES && path.isPng()
+        val tryLoadingWithPicasso = type == TYPE_IMAGES && path.endsWith(".png", true)
         loadImageBase(
             path,
             target,
@@ -1273,7 +1273,7 @@ fun Context.addPathToDB(path: String) {
 
         val type = when {
             path.isVideoFast() -> TYPE_VIDEOS
-            path.isGif() -> TYPE_GIFS
+            path.endsWith(".gif", true) -> TYPE_GIFS
             path.isRawFast() -> TYPE_RAWS
             path.isSvg() -> TYPE_SVGS
             path.isPortrait() -> TYPE_PORTRAITS
