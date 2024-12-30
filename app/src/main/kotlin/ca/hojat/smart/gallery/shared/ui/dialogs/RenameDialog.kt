@@ -12,12 +12,12 @@ import ca.hojat.smart.gallery.shared.extensions.getAlertDialogBuilder
 import ca.hojat.smart.gallery.shared.extensions.getProperBackgroundColor
 import ca.hojat.smart.gallery.shared.extensions.getProperPrimaryColor
 import ca.hojat.smart.gallery.shared.extensions.getProperTextColor
-import ca.hojat.smart.gallery.shared.extensions.onTabSelectionChanged
 import ca.hojat.smart.gallery.shared.extensions.setupDialogStuff
 import ca.hojat.smart.gallery.shared.helpers.RENAME_PATTERN
 import ca.hojat.smart.gallery.shared.helpers.RENAME_SIMPLE
 import ca.hojat.smart.gallery.shared.ui.adapters.RenameAdapter
 import ca.hojat.smart.gallery.shared.ui.views.MyViewPager
+import com.google.android.material.tabs.TabLayout
 
 class RenameDialog(
     val activity: BaseActivity,
@@ -60,16 +60,34 @@ class RenameDialog(
                 dialogTabLayout.setBackgroundColor(activity.resources.getColor(R.color.you_dialog_background_color))
             }
 
-            dialogTabLayout.onTabSelectionChanged(tabSelectedAction = {
-                viewPager.currentItem = when {
-                    it.text.toString().equals(
-                        root.context.resources.getString(R.string.simple_renaming),
-                        true
-                    ) -> RENAME_SIMPLE
+            dialogTabLayout.setOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    viewPager.currentItem = when {
+                        tab?.text.toString().equals(
+                            root.context.resources.getString(R.string.simple_renaming),
+                            true
+                        ) -> RENAME_SIMPLE
 
-                    else -> RENAME_PATTERN
+                        else -> RENAME_PATTERN
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    viewPager.currentItem = when {
+                        tab?.text.toString().equals(
+                            root.context.resources.getString(R.string.simple_renaming),
+                            true
+                        ) -> RENAME_SIMPLE
+
+                        else -> RENAME_PATTERN
+                    }
                 }
             })
+
+
+
         }
 
         activity.getAlertDialogBuilder()
