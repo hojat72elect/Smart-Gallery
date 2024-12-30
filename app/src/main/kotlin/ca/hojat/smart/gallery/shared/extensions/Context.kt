@@ -3705,16 +3705,6 @@ fun Context.copyToClipboard(text: String) {
 
 val Context.internalStoragePath: String get() = baseConfig.internalStoragePath
 
-fun Context.launchActivityIntent(intent: Intent) {
-    try {
-        startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
-        ShowToastUseCase(this,R.string.no_app_found)
-    } catch (e: Exception) {
-        ShowToastUseCase(this, "Error : $e")
-    }
-}
-
 fun Context.getActivity(): Activity {
     return when (this) {
         is Activity -> this

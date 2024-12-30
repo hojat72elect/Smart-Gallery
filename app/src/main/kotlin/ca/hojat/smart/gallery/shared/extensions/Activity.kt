@@ -81,8 +81,13 @@ fun Activity.openPath(
 }
 
 fun Activity.launchCamera() {
-    val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-    launchActivityIntent(intent)
+    try {
+        startActivity( Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA))
+    } catch (e: ActivityNotFoundException) {
+        ShowToastUseCase(this,R.string.no_app_found)
+    } catch (e: Exception) {
+        ShowToastUseCase(this, "Error : $e")
+    }
 }
 
 fun AppCompatActivity.showSystemUI() {
@@ -413,11 +418,13 @@ fun Activity.showSideloadingDialog() {
 }
 
 fun Activity.showLocationOnMap(coordinates: String) {
-    val uriBegin = "geo:${coordinates.replace(" ", "")}"
-    val encodedQuery = Uri.encode(coordinates)
-    val uriString = "$uriBegin?q=$encodedQuery&z=16"
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uriString))
-    launchActivityIntent(intent)
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("${"geo:${coordinates.replace(" ", "")}"}?q=${Uri.encode(coordinates)}&z=16")))
+    } catch (e: ActivityNotFoundException) {
+        ShowToastUseCase(this,R.string.no_app_found)
+    } catch (e: Exception) {
+        ShowToastUseCase(this, "Error : $e")
+    }
 }
 
 fun Activity.launchViewIntent(url: String) {
