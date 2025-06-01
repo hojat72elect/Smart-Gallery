@@ -1,7 +1,8 @@
 # Smart Gallery
 
 ```
-This project is simply source available; and not open source. All rights are reserved by hojat72elect.
+This project is simply source available; and not open source.
+All rights are reserved by hojat72elect.
 ```
 
 Smart Gallery brings you all the photo viewing and editing features you have been missing on your
