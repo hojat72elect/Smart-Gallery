@@ -42,7 +42,8 @@
                 android:layout_marginTop="@dimen/small_margin"
                 android:layout_marginBottom="@dimen/normal_margin"
                 android:paddingStart="@dimen/activity_margin"
-                android:text="@string/folder_on_widget" />
+                android:text="@string/folder_on_widget"
+                tools:ignore="RtlSymmetry" />
 
             <ca.hojat.smart.gallery.shared.ui.views.MyTextView
                 android:id="@+id/folder_picker_value"
@@ -90,24 +91,25 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/config_bg_color"
+            android:id="@+id/config_background_color"
             android:layout_width="@dimen/widget_colorpicker_size"
             android:layout_height="@dimen/widget_colorpicker_size"
             android:layout_above="@+id/config_text_color"
-            android:layout_margin="@dimen/tiny_margin" />
+            android:layout_margin="@dimen/tiny_margin"
+            android:contentDescription="@string/background_color_widget" />
 
         <RelativeLayout
-            android:id="@+id/config_bg_seekbar_holder"
+            android:id="@+id/config_background_seekbar_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignTop="@+id/config_bg_color"
-            android:layout_alignBottom="@+id/config_bg_color"
+            android:layout_alignTop="@+id/config_background_color"
+            android:layout_alignBottom="@+id/config_background_color"
             android:layout_marginStart="@dimen/medium_margin"
-            android:layout_toEndOf="@+id/config_bg_color"
+            android:layout_toEndOf="@+id/config_background_color"
             android:background="@drawable/widget_config_seekbar_background">
 
             <ca.hojat.smart.gallery.shared.ui.views.MySeekBar
-                android:id="@+id/config_bg_seekbar"
+                android:id="@+id/config_background_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -121,7 +123,8 @@
             android:layout_width="@dimen/widget_colorpicker_size"
             android:layout_height="@dimen/widget_colorpicker_size"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/tiny_margin" />
+            android:layout_margin="@dimen/tiny_margin"
+            android:contentDescription="@string/config_widget_text_color" />
 
         <Button
             android:id="@+id/config_save"
@@ -130,7 +133,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:text="@string/ok" />
+            android:text="@string/ok"
+            tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

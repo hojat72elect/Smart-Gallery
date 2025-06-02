@@ -205,8 +205,6 @@
     </plurals>
 
 
-
-
     <string name="no_browser_found">No browser found</string>
     <string name="change_orientation">Change orientation</string>
     <string name="force_portrait">Force portrait</string>
@@ -967,22 +965,6 @@
     <string name="print">Print</string>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Release notes -->
     <string name="release_369">Allow temporarily showing excluded folders on Android 11+</string>
     <string name="release_327">
@@ -1166,6 +1148,8 @@
     <string name="filter">Filter</string>
     <string name="add_folder">Add a folder</string>
     <string name="no_media_add_included">No media add was included</string>
+    <string name="background_color_widget">The background color of the widget</string>
+    <string name="config_widget_text_color">The color of the text used in app widget</string>
 
 
 </resources>

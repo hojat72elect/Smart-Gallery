@@ -68,14 +68,14 @@ class WidgetConfigureActivity : BaseActivity() {
 
 
         binding.configSave.setOnClickListener { saveConfig() }
-        binding.configBgColor.setOnClickListener { pickBackgroundColor() }
+        binding.configBackgroundColor.setOnClickListener { pickBackgroundColor() }
         binding.configTextColor.setOnClickListener { pickTextColor() }
         binding.folderPickerValue.setOnClickListener { changeSelectedFolder() }
         binding.configImageHolder.setOnClickListener { changeSelectedFolder() }
 
         updateTextColors(binding.folderPickerHolder)
         val primaryColor = getProperPrimaryColor()
-        binding.configBgSeekbar.setColors(primaryColor)
+        binding.configBackgroundSeekbar.setColors(primaryColor)
         binding.folderPickerHolder.background = getProperBackgroundColor().toDrawable()
 
         binding.folderPickerShowFolderName.isChecked = config.showWidgetFolderName
@@ -100,7 +100,7 @@ class WidgetConfigureActivity : BaseActivity() {
 
         backgroundColorWithoutTransparency =
             Color.rgb(Color.red(backgroundColor), Color.green(backgroundColor), Color.blue(backgroundColor))
-        binding.configBgSeekbar.apply {
+        binding.configBackgroundSeekbar.apply {
             progress = (backgroundAlpha * 100).toInt()
 
             onSeekBarChangeListener { progress ->
@@ -170,7 +170,7 @@ class WidgetConfigureActivity : BaseActivity() {
     private fun updateBackgroundColor() {
         backgroundColor = backgroundColorWithoutTransparency.adjustAlpha(backgroundAlpha)
         binding.configImageHolder.background.applyColorFilter(backgroundColor)
-        binding.configBgColor.setFillWithStroke(backgroundColor, backgroundColor)
+        binding.configBackgroundColor.setFillWithStroke(backgroundColor, backgroundColor)
         binding.configSave.backgroundTintList = ColorStateList.valueOf(getProperPrimaryColor())
     }
 
