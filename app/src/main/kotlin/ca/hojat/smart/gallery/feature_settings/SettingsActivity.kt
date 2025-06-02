@@ -834,7 +834,7 @@ class SettingsActivity : BaseActivity() {
                 put(APP_ICON_COLOR, config.appIconColor)
                 put(USE_ENGLISH, config.useEnglish)
                 put(WAS_USE_ENGLISH_TOGGLED, config.wasUseEnglishToggled)
-                put(WIDGET_BG_COLOR, config.widgetBgColor)
+                put(WIDGET_BG_COLOR, config.widgetBackgroundColor)
                 put(WIDGET_TEXT_COLOR, config.widgetTextColor)
                 put(DATE_FORMAT, config.dateFormat)
                 put(USE_24_HOUR_FORMAT, config.use24HourFormat)
@@ -966,7 +966,7 @@ class SettingsActivity : BaseActivity() {
 
                 USE_ENGLISH -> config.useEnglish = value.toBoolean()
                 WAS_USE_ENGLISH_TOGGLED -> config.wasUseEnglishToggled = value.toBoolean()
-                WIDGET_BG_COLOR -> config.widgetBgColor = value.toInt()
+                WIDGET_BG_COLOR -> config.widgetBackgroundColor = value.toInt()
                 WIDGET_TEXT_COLOR -> config.widgetTextColor = value.toInt()
                 DATE_FORMAT -> config.dateFormat = value.toString()
                 USE_24_HOUR_FORMAT -> config.use24HourFormat = value.toBoolean()

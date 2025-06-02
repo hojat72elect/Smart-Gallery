@@ -917,7 +917,7 @@ fun Context.getCachedDirectories(
 
         val directories = try {
             directoryDB.getAll() as ArrayList<Directory>
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             ArrayList()
         }
 

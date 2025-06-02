@@ -147,7 +147,7 @@ open class BaseConfig(val context: Context) {
         set(customAppIconColor) = prefs.edit().putInt(CUSTOM_APP_ICON_COLOR, customAppIconColor)
             .apply()
 
-    var widgetBgColor: Int
+    var widgetBackgroundColor: Int
         get() = prefs.getInt(
             WIDGET_BG_COLOR,
             ContextCompat.getColor(context, R.color.default_widget_bg_color)

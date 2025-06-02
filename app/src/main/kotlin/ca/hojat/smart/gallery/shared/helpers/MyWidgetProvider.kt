@@ -50,7 +50,7 @@ class MyWidgetProvider : AppWidgetProvider() {
             val config = context.config
             context.widgetsDB.getWidgets().filter { appWidgetIds.contains(it.widgetId) }.forEach {
                 val views = RemoteViews(context.packageName, R.layout.widget).apply {
-                    applyColorFilter(R.id.widget_background, config.widgetBgColor)
+                    applyColorFilter(R.id.widget_background, config.widgetBackgroundColor)
                     setVisibleIf(R.id.widget_folder_name, config.showWidgetFolderName)
                     setTextColor(R.id.widget_folder_name, config.widgetTextColor)
                     setText(R.id.widget_folder_name, context.getFolderNameFromPath(it.folderPath))
